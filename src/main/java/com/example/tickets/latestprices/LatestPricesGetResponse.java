@@ -1,14 +1,14 @@
 package com.example.tickets.latestprices;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 
 import java.util.List;
 
 /**
- * Возвращает список цен, найденных нашими пользователями за последние 48 часов, в соответствии с выставленными фильтрами.
+ * Список цен, найденных нашими пользователями за последние 48 часов, в соответствии с выставленными фильтрами.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class LatestPricesGetResponse {
     public Boolean success;
-    public List<Offer> data;
+    public List<Ticket> data;
 }
