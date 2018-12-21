@@ -63,7 +63,7 @@ public class LatestPriceGetRequest implements GetRequest {
      * route — по популярности маршрута;
      * distance_unit_price — по цене за километр.
      */
-    private String sorting;
+    private Sorting sorting;
     /**
      * Длительность пребывания в неделях.
      */

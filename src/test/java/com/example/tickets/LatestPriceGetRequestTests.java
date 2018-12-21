@@ -3,6 +3,7 @@ package com.example.tickets;
 import com.example.tickets.httpclient.DefaultHttpClient;
 import com.example.tickets.latestprices.LatestPriceGetRequest;
 import com.example.tickets.latestprices.LatestPriceGetResponse;
+import com.example.tickets.latestprices.Sorting;
 import com.example.tickets.latestprices.Ticket;
 import lombok.extern.java.Log;
 import org.junit.Test;
@@ -14,8 +15,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.stream.Collectors;
 
+import static com.example.tickets.latestprices.Sorting.PRICE;
 import static java.lang.String.format;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -37,7 +41,7 @@ public class LatestPriceGetRequestTests {
                 .page(1)
                 .limit(5)
                 .show_to_affiliates(true)
-                .sorting("price")
+                .sorting(PRICE)
                 .trip_duration(1)
                 .build();
         String plrAsString = plr.toString();
@@ -51,7 +55,7 @@ public class LatestPriceGetRequestTests {
         assertEquals(plr.getPage(), Integer.valueOf(1));
         assertEquals(plr.getLimit(), Integer.valueOf(5));
         assertEquals(plr.getShow_to_affiliates(), true);
-        assertEquals(plr.getSorting(), "price");
+        assertEquals(plr.getSorting(), PRICE);
         assertEquals(plr.getTrip_duration(), Integer.valueOf(1));
         assertEquals("http://api.travelpayouts.com/v2/prices/latest?currency=RUB&origin=LED&destination=DME&beginning_of_period=2018-05-01&period_type=month&one_way=false&page=1&limit=5&show_to_affiliates=true&sorting=price&trip_duration=1", plrAsString);
     }
@@ -62,7 +66,7 @@ public class LatestPriceGetRequestTests {
         LatestPriceGetRequest plr = LatestPriceGetRequest.builder()
                 .origin("LED")
                 .destination("DME")
-                .sorting("price")
+                .sorting(PRICE)
                 .show_to_affiliates(true)
                 .limit(5)
                 .build();
@@ -89,6 +93,47 @@ public class LatestPriceGetRequestTests {
     }
 
     @Test
+    public void differentSortingRequestShouldBeImplemented() {
+        LatestPriceGetRequest priceSorting = LatestPriceGetRequest.builder()
+                .origin("LED")
+                .destination("DME")
+                .sorting(PRICE)
+                .show_to_affiliates(false)
+                .limit(5)
+                .build();
+        LatestPriceGetResponse byPrice = defaultHttpClient.get(priceSorting, LatestPriceGetResponse.class);
+        byPrice.getData().forEach(ticket -> log.info("By price: " + ticket));
+        List<Ticket> sortedTickets = byPrice.getData()
+                .stream()
+                .sorted(Comparator.comparing(Ticket::getValue))
+                .collect(Collectors.toList());
+
+        assertEquals("After sorting we're expecting that order remain intact. It means that list was already sorted.", byPrice.getData(), sortedTickets);
+        assertThat(byPrice.getData(), hasSize(5));
+
+        LatestPriceGetRequest routeSorting = LatestPriceGetRequest.builder()
+                .origin("LED")
+                .sorting(Sorting.ROUTE)
+                .show_to_affiliates(false)
+                .limit(5)
+                .build();
+        LatestPriceGetResponse byRoute = defaultHttpClient.get(routeSorting, LatestPriceGetResponse.class);
+        assertThat(byRoute.getData(), hasSize(5));
+        byRoute.getData().forEach(ticket -> log.info("By route: " + ticket));
+
+        LatestPriceGetRequest distanceUnitSorting = LatestPriceGetRequest.builder()
+                .origin("LED")
+                .sorting(Sorting.DISTANCE_UNIT_PRICE)
+                .show_to_affiliates(false)
+                .limit(5)
+                .build();
+        LatestPriceGetResponse byDistanceUnit = defaultHttpClient.get(distanceUnitSorting, LatestPriceGetResponse.class);
+        assertThat(byDistanceUnit.getData(), hasSize(5));
+        byDistanceUnit.getData().forEach(ticket -> log.info("By distance unit: " + ticket));
+
+    }
+
+    @Test
     public void cheapestPriceForNextYearShouldBeFound() {
         Calendar calendar = Calendar.getInstance();
         Date currentDate = calendar.getTime();
@@ -107,7 +152,7 @@ public class LatestPriceGetRequestTests {
             LatestPriceGetRequest request = LatestPriceGetRequest.builder()
                     .origin("LED")
                     .destination("DME")
-                    .sorting("price")
+                    .sorting(PRICE)
                     .show_to_affiliates(false)
                     .period_type("month")
                     .beginning_of_period(format("%d-%d-%d", year, month, firstDayOfMonth))
@@ -140,7 +185,7 @@ public class LatestPriceGetRequestTests {
     public void cheapestOneWayTicketFromDMEToAnywhereShouldBeFound() {
         LatestPriceGetRequest request = LatestPriceGetRequest.builder()
                 .origin("DME")
-                .sorting("price")
+                .sorting(PRICE)
                 .show_to_affiliates(false)
                 .limit(5)
                 .one_way(true)
@@ -165,7 +210,7 @@ public class LatestPriceGetRequestTests {
     public void cheapestReturnTicketFromDMEToAnywhereShouldBeFound() {
         LatestPriceGetRequest request = LatestPriceGetRequest.builder()
                 .origin("DME")
-                .sorting("price")
+                .sorting(PRICE)
                 .show_to_affiliates(false)
                 .limit(5)
                 .one_way(false)
