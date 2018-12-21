@@ -15,7 +15,7 @@ import lombok.Value;
  */
 @Builder
 @Value
-public class LatestPricesGetRequest implements GetRequest {
+public class LatestPriceGetRequest implements GetRequest {
     private final static String BASE_URL = "http://api.travelpayouts.com/v2/prices/latest";
     /**
      * Валюта цен на билеты. Значение по умолчанию — rub.

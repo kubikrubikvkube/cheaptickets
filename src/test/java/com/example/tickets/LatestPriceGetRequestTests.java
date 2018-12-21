@@ -1,17 +1,20 @@
 package com.example.tickets;
 
-import com.example.tickets.httpclient.HttpClient;
-import com.example.tickets.latestprices.LatestPricesGetRequest;
-import com.example.tickets.latestprices.LatestPricesGetResponse;
+import com.example.tickets.httpclient.DefaultHttpClient;
+import com.example.tickets.latestprices.LatestPriceGetRequest;
+import com.example.tickets.latestprices.LatestPriceGetResponse;
 import com.example.tickets.latestprices.Ticket;
 import lombok.extern.java.Log;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 
 import static java.lang.String.format;
 import static org.junit.Assert.*;
@@ -19,11 +22,13 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Log
-public class LatestPricesGetRequestTests {
+public class LatestPriceGetRequestTests {
+    @Autowired
+    DefaultHttpClient defaultHttpClient;
 
     @Test
     public void latestPricesRequestShouldBeBuilded() {
-        LatestPricesGetRequest plr = LatestPricesGetRequest.builder()
+        LatestPriceGetRequest plr = LatestPriceGetRequest.builder()
                 .currency("RUB")
                 .origin("LED")
                 .destination("DME")
@@ -37,7 +42,7 @@ public class LatestPricesGetRequestTests {
                 .trip_duration(1)
                 .build();
         String plrAsString = plr.toString();
-        log.info("LatestPricesGetRequest created:" + plrAsString);
+        log.info("LatestPriceGetRequest created:" + plrAsString);
         assertEquals(plr.getCurrency(), "RUB");
         assertEquals(plr.getOrigin(), "LED");
         assertEquals(plr.getDestination(), "DME");
@@ -55,16 +60,15 @@ public class LatestPricesGetRequestTests {
 
     @Test
     public void latestPricesResponseShouldBeReceived() {
-        LatestPricesGetRequest plr = LatestPricesGetRequest.builder()
+        LatestPriceGetRequest plr = LatestPriceGetRequest.builder()
                 .origin("LED")
                 .destination("DME")
                 .sorting("price")
                 .show_to_affiliates(true)
                 .limit(5)
                 .build();
-        HttpClient httpClient = new HttpClient();
-        ResponseEntity<LatestPricesGetResponse> wrappedResponse = httpClient.get(plr, LatestPricesGetResponse.class);
-        LatestPricesGetResponse response = wrappedResponse.getBody();
+        ResponseEntity<LatestPriceGetResponse> wrappedResponse = defaultHttpClient.get(plr, LatestPriceGetResponse.class);
+        LatestPriceGetResponse response = wrappedResponse.getBody();
         assertNotNull(response);
         assertNotNull(response.getSuccess());
         assertNotNull(response.getData());
@@ -84,5 +88,54 @@ public class LatestPricesGetRequestTests {
             assertNotNull(ticket.getDistance());
             assertTrue(ticket.getActual());
         }
+    }
+
+    @Test
+    public void cheapestPriceForNextYearShouldBeFound() {
+        Calendar calendar = Calendar.getInstance();
+        Date currentDate = calendar.getTime();
+        calendar.setTime(currentDate);
+
+
+        List<LatestPriceGetRequest> requests = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            calendar.add(Calendar.MONTH, 1);
+            Date nextMonth = calendar.getTime();
+            LocalDate localDate = nextMonth.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            int year = localDate.getYear();
+            int month = localDate.getMonthValue();
+            int firstDayOfMonth = 1;
+
+            LatestPriceGetRequest request = LatestPriceGetRequest.builder()
+                    .origin("LED")
+                    .destination("DME")
+                    .sorting("price")
+                    .show_to_affiliates(false)
+                    .period_type("month")
+                    .beginning_of_period(format("%d-%d-%d", year, month, firstDayOfMonth))
+                    .limit(1)
+                    .build();
+
+            requests.add(request);
+        }
+        List<LatestPriceGetResponse> responses = new ArrayList<>();
+        for (LatestPriceGetRequest request : requests) {
+            ResponseEntity<LatestPriceGetResponse> wrappedResponse = defaultHttpClient.get(request, LatestPriceGetResponse.class);
+            LatestPriceGetResponse response = wrappedResponse.getBody();
+            assertNotNull(response);
+            assertNotNull(response.getSuccess());
+            assertNotNull(response.getData());
+            responses.add(response);
+        }
+
+        Ticket cheapestTicket = responses
+                .stream()
+                .map(LatestPriceGetResponse::getData)
+                .flatMap(List::stream)
+                .min(Comparator.comparing(Ticket::getValue))
+                .orElseThrow();
+
+        log.info("Cheapest price for a next year from LED to DME is " + cheapestTicket.getValue());
+        log.info("Cheapest departure date is " + cheapestTicket.getDepart_date());
     }
 }
