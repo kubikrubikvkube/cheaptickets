@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
@@ -24,7 +23,7 @@ import static org.junit.Assert.*;
 @Log
 public class LatestPriceGetRequestTests {
     @Autowired
-    DefaultHttpClient defaultHttpClient;
+    private DefaultHttpClient<LatestPriceGetResponse> defaultHttpClient;
 
     @Test
     public void latestPricesRequestShouldBeBuilded() {
@@ -36,7 +35,7 @@ public class LatestPriceGetRequestTests {
                 .period_type("month")
                 .one_way(false)
                 .page(1)
-                .limit(30)
+                .limit(5)
                 .show_to_affiliates(true)
                 .sorting("price")
                 .trip_duration(1)
@@ -50,11 +49,11 @@ public class LatestPriceGetRequestTests {
         assertEquals(plr.getPeriod_type(), "month");
         assertEquals(plr.getOne_way(), false);
         assertEquals(plr.getPage(), Integer.valueOf(1));
-        assertEquals(plr.getLimit(), Integer.valueOf(30));
+        assertEquals(plr.getLimit(), Integer.valueOf(5));
         assertEquals(plr.getShow_to_affiliates(), true);
         assertEquals(plr.getSorting(), "price");
         assertEquals(plr.getTrip_duration(), Integer.valueOf(1));
-        assertEquals("http://api.travelpayouts.com/v2/prices/latest?currency=RUB&origin=LED&destination=DME&beginning_of_period=2018-05-01&period_type=month&one_way=false&page=1&limit=30&show_to_affiliates=true&sorting=price&trip_duration=1", plrAsString);
+        assertEquals("http://api.travelpayouts.com/v2/prices/latest?currency=RUB&origin=LED&destination=DME&beginning_of_period=2018-05-01&period_type=month&one_way=false&page=1&limit=5&show_to_affiliates=true&sorting=price&trip_duration=1", plrAsString);
     }
 
 
@@ -67,8 +66,7 @@ public class LatestPriceGetRequestTests {
                 .show_to_affiliates(true)
                 .limit(5)
                 .build();
-        ResponseEntity<LatestPriceGetResponse> wrappedResponse = defaultHttpClient.get(plr, LatestPriceGetResponse.class);
-        LatestPriceGetResponse response = wrappedResponse.getBody();
+        LatestPriceGetResponse response = defaultHttpClient.get(plr, LatestPriceGetResponse.class);
         assertNotNull(response);
         assertNotNull(response.getSuccess());
         assertNotNull(response.getData());
@@ -120,8 +118,7 @@ public class LatestPriceGetRequestTests {
         }
         List<LatestPriceGetResponse> responses = new ArrayList<>();
         for (LatestPriceGetRequest request : requests) {
-            ResponseEntity<LatestPriceGetResponse> wrappedResponse = defaultHttpClient.get(request, LatestPriceGetResponse.class);
-            LatestPriceGetResponse response = wrappedResponse.getBody();
+            LatestPriceGetResponse response = defaultHttpClient.get(request, LatestPriceGetResponse.class);
             assertNotNull(response);
             assertNotNull(response.getSuccess());
             assertNotNull(response.getData());
@@ -137,5 +134,55 @@ public class LatestPriceGetRequestTests {
 
         log.info("Cheapest price for a next year from LED to DME is " + cheapestTicket.getValue());
         log.info("Cheapest departure date is " + cheapestTicket.getDepart_date());
+    }
+
+    @Test
+    public void cheapestOneWayTicketFromDMEToAnywhereShouldBeFound() {
+        LatestPriceGetRequest request = LatestPriceGetRequest.builder()
+                .origin("DME")
+                .sorting("price")
+                .show_to_affiliates(false)
+                .limit(5)
+                .one_way(true)
+                .build();
+
+        LatestPriceGetResponse ticketsResponse = defaultHttpClient.get(request, LatestPriceGetResponse.class);
+        assertTrue(ticketsResponse.getSuccess());
+        List<Ticket> tickets = ticketsResponse.getData();
+
+        tickets.forEach(ticket -> log.info("Found ticket: " + ticket));
+        Ticket cheapestTicket = tickets
+                .stream()
+                .min(Comparator.comparing(Ticket::getValue))
+                .orElseThrow();
+
+        log.info("Cheapest DME one-way ticket destination is " + cheapestTicket.getDestination());
+        log.info("Price is " + cheapestTicket.getValue());
+        log.info("Departure date is " + cheapestTicket.getDepart_date());
+    }
+
+    @Test
+    public void cheapestReturnTicketFromDMEToAnywhereShouldBeFound() {
+        LatestPriceGetRequest request = LatestPriceGetRequest.builder()
+                .origin("DME")
+                .sorting("price")
+                .show_to_affiliates(false)
+                .limit(5)
+                .one_way(false)
+                .build();
+
+        LatestPriceGetResponse ticketsResponse = defaultHttpClient.get(request, LatestPriceGetResponse.class);
+        assertTrue(ticketsResponse.getSuccess());
+        List<Ticket> tickets = ticketsResponse.getData();
+
+        tickets.forEach(ticket -> log.info("Found ticket: " + ticket));
+        Ticket cheapestTicket = tickets
+                .stream()
+                .min(Comparator.comparing(Ticket::getValue))
+                .orElseThrow();
+
+        log.info("Cheapest DME return ticket destination is " + cheapestTicket.getDestination());
+        log.info("Price is " + cheapestTicket.getValue());
+        log.info("Departure date is " + cheapestTicket.getDepart_date());
     }
 }

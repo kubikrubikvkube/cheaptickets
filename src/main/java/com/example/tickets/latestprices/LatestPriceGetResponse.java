@@ -9,6 +9,6 @@ import java.util.List;
  */
 @Data
 public class LatestPriceGetResponse {
-    public Boolean success;
-    public List<Ticket> data;
+    private Boolean success;
+    private List<Ticket> data;
 }
