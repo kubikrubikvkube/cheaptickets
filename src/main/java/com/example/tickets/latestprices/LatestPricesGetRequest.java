@@ -1,4 +1,4 @@
-package com.example.tickets.prices;
+package com.example.tickets.latestprices;
 
 import lombok.Builder;
 import lombok.Value;
@@ -14,7 +14,7 @@ import lombok.Value;
  */
 @Builder
 @Value
-public class PricesLatestGetRequest {
+public class LatestPricesGetRequest {
     private final static String BASE_URL = "http://api.travelpayouts.com/v2/prices/latest";
     /**
      * Валюта цен на билеты. Значение по умолчанию — rub.
