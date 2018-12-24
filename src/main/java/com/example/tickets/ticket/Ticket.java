@@ -1,21 +1,33 @@
 package com.example.tickets.ticket;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
+import java.util.Date;
 
 @Data
+@Entity
+@Table
 public class Ticket {
 
     /**
      * Класс перелёта (только 0 — Эконом);
      */
+
     private final int trip_class = 0;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     /**
      * False — все цены, true — только цены, найденные с партнёрским маркером (рекомендовано). Значение по умолчанию — true.
      */
+
     private Boolean show_to_affiliates;
     /**
      * Пункт отправления.
      */
+
     private String origin;
     /**
      * Пункт назначения.
@@ -24,11 +36,14 @@ public class Ticket {
     /**
      * Дата отправления.
      */
-    private String depart_date;
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date depart_date;
     /**
      * Дата возвращения.
      */
-    private String return_date;
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private Date return_date;
     /**
      * Количество пересадок.
      */
@@ -40,7 +55,8 @@ public class Ticket {
     /**
      * Время и дата, когда был найден билет.
      */
-    private String found_at;
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private Date found_at;
     /**
      * Расстояние между пунктом вылета и назначения.
      */
