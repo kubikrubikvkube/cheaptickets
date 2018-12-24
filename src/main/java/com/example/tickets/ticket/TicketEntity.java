@@ -22,6 +22,7 @@ public class TicketEntity {
      */
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private Date catchedOn;
 
     /**
