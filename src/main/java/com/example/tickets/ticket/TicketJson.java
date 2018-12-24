@@ -70,22 +70,5 @@ public class TicketJson {
 
     private final int trip_class = 0;
 
-    public TicketEntity toTicketEntity() {
-        //TODO Отдельный статический метод EntityManager'а?
-        TicketEntity entity = new TicketEntity();
-        entity.setShowToAffiliates(show_to_affiliates);
-        entity.setOrigin(origin);
-        entity.setDestination(destination);
-        entity.setDepartDate(depart_date);
-        entity.setReturnDate(return_date);
-        entity.setNumberOfChanges(number_of_changes);
-        entity.setValue(value);
-        entity.setFoundAt(found_at);
-        entity.setDistance(distance);
-        entity.setActual(actual);
-        entity.setGate(gate);
-        entity.setAirline(airline);
-        entity.setTransfers(transfers);
-        return entity;
-    }
+
 }

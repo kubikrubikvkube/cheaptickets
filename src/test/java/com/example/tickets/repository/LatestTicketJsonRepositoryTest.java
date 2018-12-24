@@ -1,7 +1,6 @@
-package com.example.tickets;
+package com.example.tickets.repository;
 
 import com.example.tickets.exception.TicketServiceException;
-import com.example.tickets.repository.TicketRepository;
 import com.example.tickets.service.TicketService;
 import com.example.tickets.service.request.LatestRequest;
 import com.example.tickets.service.request.Sorting;
@@ -44,7 +43,8 @@ public class LatestTicketJsonRepositoryTest {
                 .limit(5)
                 .build();
         List<TicketJson> byPrice = ticketService.getLatest(priceSorting);
-        List<TicketEntity> byPriceEntity = byPrice.stream().map(TicketJson::toTicketEntity).collect(Collectors.toList());
+
+        List<TicketEntity> byPriceEntity = byPrice.stream().map(EntityManager::toEntity).collect(Collectors.toList());
         log.info("Got sorted tickets: " + byPrice);
         Iterable<TicketEntity> savedTickets = ticketRepository.saveAll(byPriceEntity);
         log.info("Saved tickets: " + savedTickets);
@@ -76,7 +76,7 @@ public class LatestTicketJsonRepositoryTest {
 
 
         List<TicketJson> byPrice = ticketService.getLatest(priceSorting);
-        List<TicketEntity> byPriceEntity = byPrice.stream().map(TicketJson::toTicketEntity).collect(Collectors.toList());
+        List<TicketEntity> byPriceEntity = byPrice.stream().map(EntityManager::toEntity).collect(Collectors.toList());
         log.info("Got sorted tickets: " + byPrice);
         Iterable<TicketEntity> savedTickets = ticketRepository.saveAll(byPriceEntity);
         log.info("Saved tickets: " + savedTickets);

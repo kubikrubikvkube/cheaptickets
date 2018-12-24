@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "tickets")
+@Table(name = "ticket")
 public class TicketEntity {
     /**
      * PK айдишник базы

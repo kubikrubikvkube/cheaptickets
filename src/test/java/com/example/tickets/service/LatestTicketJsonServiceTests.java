@@ -1,7 +1,6 @@
-package com.example.tickets;
+package com.example.tickets.service;
 
 import com.example.tickets.exception.TicketServiceException;
-import com.example.tickets.service.TicketService;
 import com.example.tickets.service.request.LatestRequest;
 import com.example.tickets.service.request.Sorting;
 import com.example.tickets.ticket.TicketJson;

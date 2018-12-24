@@ -1,0 +1,14 @@
+package com.example.tickets.repository;
+
+import com.example.tickets.subscription.SubscriptionEntity;
+import org.springframework.data.repository.CrudRepository;
+
+import java.util.List;
+
+public interface SubscriptionRepository extends CrudRepository<SubscriptionEntity, Long> {
+    List<SubscriptionEntity> findByOwner(String owner);
+
+    List<SubscriptionEntity> findByOrigin(String origin);
+
+    List<SubscriptionEntity> findByDestination(String destination);
+}
