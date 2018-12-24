@@ -1,22 +1,35 @@
 package com.example.tickets.ticket;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity
-@Table
 @Data
+@Entity
+@Table(name = "tickets")
 public class TicketEntity {
+    /**
+     * PK айдишник базы
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    /**
+     * Метка даты записи в БД, когда был "пойман" билет.
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    private Date catchedOn;
+
     /**
      * Класс перелёта (только 0 — Эконом);
      */
 
     private final int tripClass = 0;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+
     /**
      * False — все цены, true — только цены, найденные с партнёрским маркером (рекомендовано). Значение по умолчанию — true.
      */

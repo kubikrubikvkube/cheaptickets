@@ -1,4 +1,4 @@
-package com.example.tickets.request;
+package com.example.tickets.service.request;
 
 /**
  * Билет без пересадок

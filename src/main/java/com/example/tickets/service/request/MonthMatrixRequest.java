@@ -1,4 +1,4 @@
-package com.example.tickets.request;
+package com.example.tickets.service.request;
 
 import lombok.Builder;
 import lombok.Value;

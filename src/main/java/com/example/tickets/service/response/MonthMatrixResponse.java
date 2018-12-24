@@ -1,6 +1,6 @@
-package com.example.tickets.response;
+package com.example.tickets.service.response;
 
-import com.example.tickets.ticket.Ticket;
+import com.example.tickets.ticket.TicketJson;
 import lombok.Data;
 
 import java.util.List;
@@ -11,6 +11,6 @@ import java.util.List;
 @Data
 public class MonthMatrixResponse {
     private Boolean success;
-    private List<Ticket> data;
+    private List<TicketJson> data;
     private String error;
 }

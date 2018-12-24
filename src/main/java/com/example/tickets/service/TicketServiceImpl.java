@@ -1,8 +1,10 @@
-package com.example.tickets.ticket;
+package com.example.tickets.service;
 
+import com.example.tickets.exception.TicketServiceException;
 import com.example.tickets.httpclient.DefaultHttpClient;
-import com.example.tickets.request.*;
-import com.example.tickets.response.LatestResponse;
+import com.example.tickets.service.request.*;
+import com.example.tickets.service.response.LatestResponse;
+import com.example.tickets.ticket.TicketJson;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ public class TicketServiceImpl implements TicketService {
     DefaultHttpClient<LatestResponse> httpClient;
 
     @Override
-    public List<Ticket> getLatest(LatestRequest request) throws TicketServiceException {
+    public List<TicketJson> getLatest(LatestRequest request) throws TicketServiceException {
         String stringRequest = request.toString();
         log.info("Sent request: " + stringRequest);
         LatestResponse response = httpClient.get(stringRequest, LatestResponse.class);
@@ -28,32 +30,32 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public List<Ticket> getMonthMatrix(MonthMatrixRequest request) {
+    public List<TicketJson> getMonthMatrix(MonthMatrixRequest request) {
         return null;
     }
 
     @Override
-    public List<Ticket> getNearestPlacesMatrix(NearestPlacesMatrixRequest request) {
+    public List<TicketJson> getNearestPlacesMatrix(NearestPlacesMatrixRequest request) {
         return null;
     }
 
     @Override
-    public List<Ticket> getCheap(CheapRequest request) {
+    public List<TicketJson> getCheap(CheapRequest request) {
         return null;
     }
 
     @Override
-    public List<Ticket> getDirect(DirectRequest request) {
+    public List<TicketJson> getDirect(DirectRequest request) {
         return null;
     }
 
     @Override
-    public List<Ticket> getCalendar(CalendarRequest request) {
+    public List<TicketJson> getCalendar(CalendarRequest request) {
         return null;
     }
 
     @Override
-    public List<Ticket> getWeekMatrix(WeekMatrixRequest request) {
+    public List<TicketJson> getWeekMatrix(WeekMatrixRequest request) {
         return null;
     }
 }

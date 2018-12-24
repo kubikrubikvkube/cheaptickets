@@ -1,4 +1,4 @@
-package com.example.tickets.ticket;
+package com.example.tickets.exception;
 
 public class TicketServiceException extends Exception {
     public TicketServiceException() {

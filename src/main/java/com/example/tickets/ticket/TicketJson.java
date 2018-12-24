@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class Ticket {
+public class TicketJson {
     /**
      * False — все цены, true — только цены, найденные с партнёрским маркером (рекомендовано). Значение по умолчанию — true.
      */
@@ -71,6 +71,7 @@ public class Ticket {
     private final int trip_class = 0;
 
     public TicketEntity toTicketEntity() {
+        //TODO Отдельный статический метод EntityManager'а?
         TicketEntity entity = new TicketEntity();
         entity.setShowToAffiliates(show_to_affiliates);
         entity.setOrigin(origin);
