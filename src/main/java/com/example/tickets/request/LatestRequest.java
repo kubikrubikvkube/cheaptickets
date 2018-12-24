@@ -79,7 +79,7 @@ public class LatestRequest {
         if (one_way != null) sb.append("one_way=").append(one_way).append("&");
         if (page != null) sb.append("page=").append(page).append("&");
         if (limit != null) sb.append("limit=").append(limit).append("&");
-        if (show_to_affiliates != null) sb.append("showToAffiliates=").append(show_to_affiliates).append("&");
+        if (show_to_affiliates != null) sb.append("show_to_affiliates=").append(show_to_affiliates).append("&");
         if (sorting != null) sb.append("sorting=").append(sorting).append("&");
         if (trip_duration != null) sb.append("trip_duration=").append(trip_duration).append("&");
         sb.deleteCharAt(sb.lastIndexOf("&"));
