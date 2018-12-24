@@ -1,5 +1,6 @@
-package com.example.tickets.ticket;
+package com.example.tickets.response;
 
+import com.example.tickets.ticket.Ticket;
 import lombok.Data;
 
 import java.util.List;

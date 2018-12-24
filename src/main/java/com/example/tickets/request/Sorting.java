@@ -1,4 +1,4 @@
-package com.example.tickets.ticket;
+package com.example.tickets.request;
 
 import lombok.RequiredArgsConstructor;
 

@@ -1,22 +1,19 @@
 package com.example.tickets.request;
 
-import com.example.tickets.GetRequest;
-import com.example.tickets.ticket.Sorting;
 import lombok.Builder;
 import lombok.Value;
 
 
 /**
  * Цены на авиабилеты
- * <p>
+ *
  * Возвращает список цен, найденных нашими пользователями за последние 48 часов, в соответствии с выставленными фильтрами.
- * <p>
  * Если не указывать пункт отправления и назначения, то API вернет 30 самых дешевых билетов, которые были найдены за последние 48 часов.
  * При этом нельзя использовать period_type=month.
  */
 @Builder
 @Value
-public class LatestRequest implements GetRequest {
+public class LatestRequest {
     private final static String BASE_URL = "http://api.travelpayouts.com/v2/prices/latest";
     /**
      * Валюта цен на билеты. Значение по умолчанию — rub.

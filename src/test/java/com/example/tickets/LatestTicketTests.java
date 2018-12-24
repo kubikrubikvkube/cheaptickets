@@ -1,8 +1,10 @@
 package com.example.tickets;
 
-import com.example.tickets.httpclient.DefaultHttpClient;
 import com.example.tickets.request.LatestRequest;
-import com.example.tickets.ticket.*;
+import com.example.tickets.request.Sorting;
+import com.example.tickets.ticket.Ticket;
+import com.example.tickets.ticket.TicketService;
+import com.example.tickets.ticket.TicketServiceException;
 import lombok.extern.java.Log;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +17,7 @@ import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.example.tickets.ticket.Sorting.PRICE;
+import static com.example.tickets.request.Sorting.PRICE;
 import static java.lang.String.format;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
@@ -23,10 +25,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Log
-public class LatestRequestTests {
-    @Autowired
-    private DefaultHttpClient<LatestResponse> defaultHttpClient;
-
+public class LatestTicketTests {
     @Autowired
     private TicketService ticketService;
 
