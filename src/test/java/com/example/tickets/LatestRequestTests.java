@@ -1,10 +1,8 @@
 package com.example.tickets;
 
 import com.example.tickets.httpclient.DefaultHttpClient;
-import com.example.tickets.latestprices.LatestPriceGetRequest;
-import com.example.tickets.latestprices.LatestPriceGetResponse;
-import com.example.tickets.latestprices.Sorting;
-import com.example.tickets.latestprices.Ticket;
+import com.example.tickets.request.LatestRequest;
+import com.example.tickets.ticket.*;
 import lombok.extern.java.Log;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +15,7 @@ import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.example.tickets.latestprices.Sorting.PRICE;
+import static com.example.tickets.ticket.Sorting.PRICE;
 import static java.lang.String.format;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
@@ -25,13 +23,16 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Log
-public class LatestPriceGetRequestTests {
+public class LatestRequestTests {
     @Autowired
-    private DefaultHttpClient<LatestPriceGetResponse> defaultHttpClient;
+    private DefaultHttpClient<LatestResponse> defaultHttpClient;
+
+    @Autowired
+    private TicketService ticketService;
 
     @Test
     public void latestPricesRequestShouldBeBuilded() {
-        LatestPriceGetRequest plr = LatestPriceGetRequest.builder()
+        LatestRequest plr = LatestRequest.builder()
                 .currency("RUB")
                 .origin("LED")
                 .destination("DME")
@@ -45,7 +46,7 @@ public class LatestPriceGetRequestTests {
                 .trip_duration(1)
                 .build();
         String plrAsString = plr.toString();
-        log.info("LatestPriceGetRequest created:" + plrAsString);
+        log.info("LatestRequest created:" + plrAsString);
         assertEquals(plr.getCurrency(), "RUB");
         assertEquals(plr.getOrigin(), "LED");
         assertEquals(plr.getDestination(), "DME");
@@ -62,21 +63,16 @@ public class LatestPriceGetRequestTests {
 
 
     @Test
-    public void latestPricesResponseShouldBeReceived() {
-        LatestPriceGetRequest plr = LatestPriceGetRequest.builder()
+    public void latestPricesResponseShouldBeReceived() throws TicketServiceException {
+        LatestRequest plr = LatestRequest.builder()
                 .origin("LED")
                 .destination("DME")
                 .sorting(PRICE)
                 .show_to_affiliates(true)
                 .limit(5)
                 .build();
-        LatestPriceGetResponse response = defaultHttpClient.get(plr, LatestPriceGetResponse.class);
-        assertNotNull(response);
-        assertNotNull(response.getSuccess());
-        assertNotNull(response.getData());
-        assertTrue("Response should be successfull", response.getSuccess());
-        List<Ticket> tickets = response.getData();
-        assertEquals("Limit should work as expected and there should be 5 tickets", 5, tickets.size());
+        List<Ticket> tickets = ticketService.getLatest(plr);
+        assertEquals("Limit should work as expected and there should be 5 ticket", 5, tickets.size());
         for (Ticket ticket : tickets) {
             log.info(format("Found %s", ticket.toString()));
             assertTrue(ticket.getShow_to_affiliates());
@@ -93,54 +89,55 @@ public class LatestPriceGetRequestTests {
     }
 
     @Test
-    public void differentSortingRequestShouldBeImplemented() {
-        LatestPriceGetRequest priceSorting = LatestPriceGetRequest.builder()
+    public void differentSortingRequestShouldBeImplemented() throws TicketServiceException {
+        LatestRequest priceSorting = LatestRequest.builder()
                 .origin("LED")
                 .destination("DME")
                 .sorting(PRICE)
                 .show_to_affiliates(false)
                 .limit(5)
                 .build();
-        LatestPriceGetResponse byPrice = defaultHttpClient.get(priceSorting, LatestPriceGetResponse.class);
-        byPrice.getData().forEach(ticket -> log.info("By price: " + ticket));
-        List<Ticket> sortedTickets = byPrice.getData()
+        List<Ticket> byPrice = ticketService.getLatest(priceSorting);
+        byPrice.forEach(ticket -> log.info("By price: " + ticket));
+        List<Ticket> sortedTickets = byPrice
                 .stream()
                 .sorted(Comparator.comparing(Ticket::getValue))
                 .collect(Collectors.toList());
 
-        assertEquals("After sorting we're expecting that order remain intact. It means that list was already sorted.", byPrice.getData(), sortedTickets);
-        assertThat(byPrice.getData(), hasSize(5));
+        assertEquals("After sorting we're expecting that order remain intact. It means that list was already sorted.", byPrice, sortedTickets);
+        assertThat(byPrice, hasSize(5));
 
-        LatestPriceGetRequest routeSorting = LatestPriceGetRequest.builder()
+        LatestRequest routeSorting = LatestRequest.builder()
                 .origin("LED")
                 .sorting(Sorting.ROUTE)
                 .show_to_affiliates(false)
                 .limit(5)
                 .build();
-        LatestPriceGetResponse byRoute = defaultHttpClient.get(routeSorting, LatestPriceGetResponse.class);
-        assertThat(byRoute.getData(), hasSize(5));
-        byRoute.getData().forEach(ticket -> log.info("By route: " + ticket));
+        List<Ticket> byRoute = ticketService.getLatest(routeSorting);
+        assertThat(byRoute, hasSize(5));
+        byRoute.forEach(ticket -> log.info("By route: " + ticket));
 
-        LatestPriceGetRequest distanceUnitSorting = LatestPriceGetRequest.builder()
+        LatestRequest distanceUnitSorting = LatestRequest.builder()
                 .origin("LED")
                 .sorting(Sorting.DISTANCE_UNIT_PRICE)
                 .show_to_affiliates(false)
                 .limit(5)
                 .build();
-        LatestPriceGetResponse byDistanceUnit = defaultHttpClient.get(distanceUnitSorting, LatestPriceGetResponse.class);
-        assertThat(byDistanceUnit.getData(), hasSize(5));
-        byDistanceUnit.getData().forEach(ticket -> log.info("By distance unit: " + ticket));
+
+        List<Ticket> byDistanceUnit = ticketService.getLatest(distanceUnitSorting);
+        assertThat(byDistanceUnit, hasSize(5));
+        byDistanceUnit.forEach(ticket -> log.info("By distance unit: " + ticket));
 
     }
 
     @Test
-    public void cheapestPriceForNextYearShouldBeFound() {
+    public void cheapestPriceForNextYearShouldBeFound() throws TicketServiceException {
         Calendar calendar = Calendar.getInstance();
         Date currentDate = calendar.getTime();
         calendar.setTime(currentDate);
 
 
-        List<LatestPriceGetRequest> requests = new ArrayList<>();
+        List<LatestRequest> requests = new ArrayList<>();
         for (int i = 0; i < 12; i++) {
             calendar.add(Calendar.MONTH, 1);
             Date nextMonth = calendar.getTime();
@@ -149,7 +146,7 @@ public class LatestPriceGetRequestTests {
             int month = localDate.getMonthValue();
             int firstDayOfMonth = 1;
 
-            LatestPriceGetRequest request = LatestPriceGetRequest.builder()
+            LatestRequest request = LatestRequest.builder()
                     .origin("LED")
                     .destination("DME")
                     .sorting(PRICE)
@@ -161,19 +158,16 @@ public class LatestPriceGetRequestTests {
 
             requests.add(request);
         }
-        List<LatestPriceGetResponse> responses = new ArrayList<>();
-        for (LatestPriceGetRequest request : requests) {
-            LatestPriceGetResponse response = defaultHttpClient.get(request, LatestPriceGetResponse.class);
-            assertNotNull(response);
-            assertNotNull(response.getSuccess());
-            assertNotNull(response.getData());
-            responses.add(response);
+
+
+        List<Ticket> responses = new ArrayList<>();
+        for (LatestRequest request : requests) {
+            List<Ticket> latest = ticketService.getLatest(request);
+            responses.addAll(latest);
         }
 
         Ticket cheapestTicket = responses
                 .stream()
-                .map(LatestPriceGetResponse::getData)
-                .flatMap(List::stream)
                 .min(Comparator.comparing(Ticket::getValue))
                 .orElseThrow();
 
@@ -182,8 +176,8 @@ public class LatestPriceGetRequestTests {
     }
 
     @Test
-    public void cheapestOneWayTicketFromDMEToAnywhereShouldBeFound() {
-        LatestPriceGetRequest request = LatestPriceGetRequest.builder()
+    public void cheapestOneWayTicketFromDMEToAnywhereShouldBeFound() throws TicketServiceException {
+        LatestRequest request = LatestRequest.builder()
                 .origin("DME")
                 .sorting(PRICE)
                 .show_to_affiliates(false)
@@ -191,9 +185,7 @@ public class LatestPriceGetRequestTests {
                 .one_way(true)
                 .build();
 
-        LatestPriceGetResponse ticketsResponse = defaultHttpClient.get(request, LatestPriceGetResponse.class);
-        assertTrue(ticketsResponse.getSuccess());
-        List<Ticket> tickets = ticketsResponse.getData();
+        List<Ticket> tickets = ticketService.getLatest(request);
 
         tickets.forEach(ticket -> log.info("Found ticket: " + ticket));
         Ticket cheapestTicket = tickets
@@ -207,8 +199,8 @@ public class LatestPriceGetRequestTests {
     }
 
     @Test
-    public void cheapestReturnTicketFromDMEToAnywhereShouldBeFound() {
-        LatestPriceGetRequest request = LatestPriceGetRequest.builder()
+    public void cheapestReturnTicketFromDMEToAnywhereShouldBeFound() throws TicketServiceException {
+        LatestRequest request = LatestRequest.builder()
                 .origin("DME")
                 .sorting(PRICE)
                 .show_to_affiliates(false)
@@ -216,9 +208,7 @@ public class LatestPriceGetRequestTests {
                 .one_way(false)
                 .build();
 
-        LatestPriceGetResponse ticketsResponse = defaultHttpClient.get(request, LatestPriceGetResponse.class);
-        assertTrue(ticketsResponse.getSuccess());
-        List<Ticket> tickets = ticketsResponse.getData();
+        List<Ticket> tickets = ticketService.getLatest(request);
 
         tickets.forEach(ticket -> log.info("Found ticket: " + ticket));
         Ticket cheapestTicket = tickets

@@ -1,4 +1,4 @@
-package com.example.tickets.latestprices;
+package com.example.tickets.ticket;
 
 import lombok.RequiredArgsConstructor;
 
