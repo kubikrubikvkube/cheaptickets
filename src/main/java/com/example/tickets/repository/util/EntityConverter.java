@@ -1,11 +1,11 @@
-package com.example.tickets.repository;
+package com.example.tickets.repository.util;
 
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionEntity;
 import com.example.tickets.ticket.TicketEntity;
 import com.example.tickets.ticket.TicketJson;
 
-public class EntityManager {
+public class EntityConverter {
     public static TicketEntity toEntity(TicketJson ticket) {
         TicketEntity entity = new TicketEntity();
         entity.setShowToAffiliates(ticket.getShow_to_affiliates());

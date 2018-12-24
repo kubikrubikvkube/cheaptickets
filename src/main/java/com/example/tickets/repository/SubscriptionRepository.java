@@ -11,4 +11,6 @@ public interface SubscriptionRepository extends CrudRepository<SubscriptionEntit
     List<SubscriptionEntity> findByOrigin(String origin);
 
     List<SubscriptionEntity> findByDestination(String destination);
+
+    List<SubscriptionEntity> findByOriginAndDestination(String origin, String destination);
 }

@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.tickets.repository.EntityManager.toEntity;
+import static com.example.tickets.repository.util.EntityConverter.toEntity;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
 
@@ -67,6 +67,12 @@ public class SubscriptionRepositoryTest {
         assertEquals(byDestination.get(0).getOwner(), "root");
         assertEquals(byDestination.get(0).getOrigin(), "LED");
         assertEquals(byDestination.get(0).getDestination(), "DME");
+        List<SubscriptionEntity> byOriginAndDestination = subscriptionRepository.findByOriginAndDestination("LED", "DME");
+        assertNotNull(byOriginAndDestination);
+        assertThat(byOriginAndDestination, hasSize(1));
+        assertEquals(byOriginAndDestination.get(0).getOwner(), "root");
+        assertEquals(byOriginAndDestination.get(0).getOrigin(), "LED");
+        assertEquals(byOriginAndDestination.get(0).getDestination(), "DME");
     }
 
 
