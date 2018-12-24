@@ -2,10 +2,7 @@ package com.example.tickets;
 
 import com.example.tickets.request.LatestRequest;
 import com.example.tickets.request.Sorting;
-import com.example.tickets.ticket.Ticket;
-import com.example.tickets.ticket.TicketRepository;
-import com.example.tickets.ticket.TicketService;
-import com.example.tickets.ticket.TicketServiceException;
+import com.example.tickets.ticket.*;
 import lombok.extern.java.Log;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.example.tickets.request.Sorting.PRICE;
 import static org.junit.Assert.assertEquals;
@@ -40,13 +38,14 @@ public class LatestTicketRepositoryTest {
                 .limit(5)
                 .build();
         List<Ticket> byPrice = ticketService.getLatest(priceSorting);
+        List<TicketEntity> byPriceEntity = byPrice.stream().map(Ticket::toTicketEntity).collect(Collectors.toList());
         log.info("Got sorted tickets: " + byPrice);
-        Iterable<Ticket> savedTickets = ticketRepository.saveAll(byPrice);
+        Iterable<TicketEntity> savedTickets = ticketRepository.saveAll(byPriceEntity);
         log.info("Saved tickets: " + savedTickets);
         List<Long> ids = new ArrayList<>();
         savedTickets.forEach(ticket -> ids.add(ticket.getId()));
 
-        Iterable<Ticket> allById = ticketRepository.findAllById(ids);
+        Iterable<TicketEntity> allById = ticketRepository.findAllById(ids);
         assertEquals(savedTickets, allById);
         ticketRepository.deleteAll(allById);
     }
@@ -70,14 +69,14 @@ public class LatestTicketRepositoryTest {
                 .build();
 
         List<Ticket> byPrice = ticketService.getLatest(priceSorting);
-
+        List<TicketEntity> byPriceEntity = byPrice.stream().map(Ticket::toTicketEntity).collect(Collectors.toList());
         log.info("Got sorted tickets: " + byPrice);
-        Iterable<Ticket> savedTickets = ticketRepository.saveAll(byPrice);
+        Iterable<TicketEntity> savedTickets = ticketRepository.saveAll(byPriceEntity);
         log.info("Saved tickets: " + savedTickets);
         List<Long> ids = new ArrayList<>();
         savedTickets.forEach(ticket -> ids.add(ticket.getId()));
 
-        Iterable<Ticket> allById = ticketRepository.findAllById(ids);
+        Iterable<TicketEntity> allById = ticketRepository.findAllById(ids);
         assertEquals(savedTickets, allById);
         ticketRepository.deleteAll(allById);
     }

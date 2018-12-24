@@ -57,7 +57,7 @@ public class LatestTicketServiceTests {
         assertEquals(plr.getShow_to_affiliates(), true);
         assertEquals(plr.getSorting(), PRICE);
         assertEquals(plr.getTrip_duration(), Integer.valueOf(1));
-        assertEquals("http://api.travelpayouts.com/v2/prices/latest?currency=RUB&origin=LED&destination=DME&beginning_of_period=2018-05-01&period_type=month&one_way=false&page=1&limit=5&show_to_affiliates=true&sorting=price&trip_duration=1", plrAsString);
+        assertEquals("http://api.travelpayouts.com/v2/prices/latest?currency=RUB&origin=LED&destination=DME&beginning_of_period=2018-05-01&period_type=month&one_way=false&page=1&limit=5&showToAffiliates=true&sorting=price&trip_duration=1", plrAsString);
     }
 
 

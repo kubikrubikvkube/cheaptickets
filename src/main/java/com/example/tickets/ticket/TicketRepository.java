@@ -7,5 +7,5 @@ import javax.transaction.Transactional;
 
 @Repository
 @Transactional
-public interface TicketRepository extends CrudRepository<Ticket, Long> {
+public interface TicketRepository extends CrudRepository<TicketEntity, Long> {
 }
