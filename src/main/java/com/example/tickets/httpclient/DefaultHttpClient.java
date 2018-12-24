@@ -28,11 +28,12 @@ public class DefaultHttpClient<T> {
         headers.add("Accept-Encoding", "gzip, deflate");
         headers.add("X-Access-Token", token);
         HttpEntity<String> httpEntity = new HttpEntity<>("parameters", headers);
-        log.fine("Send request: " + getRequest);
+        log.info("Send request: " + getRequest);
         ResponseEntity<T> exchange = restTemplate.exchange(getRequest, HttpMethod.GET, httpEntity, clazz);
         if (!exchange.getStatusCode().is2xxSuccessful()) {
             log.severe(String.format("Request failed. Error code %s : %s", exchange.getStatusCode(), getRequest));
         }
+        log.info("Got response: " + exchange);
         return exchange.getBody();
     }
 }
