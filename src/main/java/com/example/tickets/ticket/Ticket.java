@@ -1,7 +1,6 @@
 package com.example.tickets.ticket;
 
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -37,7 +36,6 @@ public class Ticket {
      * Дата отправления.
      */
     @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date depart_date;
     /**
      * Дата возвращения.
