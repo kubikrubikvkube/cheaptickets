@@ -4,6 +4,7 @@ import com.example.tickets.exception.ServiceException;
 import com.example.tickets.httpclient.DefaultHttpClient;
 import com.example.tickets.service.response.AviasalesResponse;
 import com.example.tickets.ticket.TicketJson;
+import com.example.tickets.util.DateConverter;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class AviasalesServiceImpl implements AviasalesService {
 
     @Override
     public List<TicketJson> getOneWayTicket(String originIAT, String destinationIAT, LocalDate date, int range) throws ServiceException {
+
         StringBuilder sb = new StringBuilder();
         sb.append("https://lyssa.aviasales.ru/price_matrix?");
         sb.append("origin_iata=").append(originIAT).append("&");
@@ -28,7 +30,14 @@ public class AviasalesServiceImpl implements AviasalesService {
         sb.append("affiliate=false");
         var request = sb.toString();
         AviasalesResponse response = httpClient.getWithoutToken(request, AviasalesResponse.class);
-        return response.getPrices();
+        List<TicketJson> tickerPrices = response.getPrices();
+        tickerPrices.forEach(rawTicket -> {
+            rawTicket.setOrigin(originIAT);
+            rawTicket.setDestination(destinationIAT);
+            rawTicket.setDepart_date(DateConverter.toDate(date));
+
+        });
+        return tickerPrices;
     }
 
     @Override

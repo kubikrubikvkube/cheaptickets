@@ -6,6 +6,9 @@ import com.example.tickets.ticket.TicketJson;
 
 import java.util.List;
 
+/**
+ * TravelPayouts API
+ */
 public interface TicketService {
 
     List<TicketJson> getLatest(LatestRequest request) throws ServiceException;
