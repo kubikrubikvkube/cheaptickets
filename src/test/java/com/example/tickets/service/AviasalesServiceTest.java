@@ -1,6 +1,9 @@
 package com.example.tickets.service;
 
 import com.example.tickets.exception.ServiceException;
+import com.example.tickets.repository.TicketRepository;
+import com.example.tickets.repository.util.EntityConverter;
+import com.example.tickets.ticket.TicketEntity;
 import com.example.tickets.ticket.TicketJson;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.TreeMultimap;
@@ -31,6 +34,9 @@ import static org.junit.Assert.*;
 public class AviasalesServiceTest {
     @Autowired
     AviasalesService aviasalesService;
+
+    @Autowired
+    TicketRepository ticketRepository;
 
     @Before
     public void setUp() throws Exception {
@@ -152,6 +158,48 @@ public class AviasalesServiceTest {
         log.info("Cheapest friday ticket is cheaper than 25 percentile price by " + fridayCheapest25PercentileDiff + "%");
         double sundayCheapest25PercentileDiff = Math.round(100 - (cheapestSundayTicket.getValue() / sundayTickets25Percentile * 100));
         log.info("Cheapest sunday ticket is cheaper than 25 percentile price by " + sundayCheapest25PercentileDiff + "%");
+    }
+
+
+    @Test
+    public void findCheapestTicketWithinAWeekAndSaveItToDB() throws ServiceException {
+        var today = LocalDate.now();
+        var inAMonth = today.plusMonths(1);
+        var from = "LED";
+        var to = "MOW";
+        List<TicketJson> oneWayTickets = aviasalesService.getOneWayTicket(from, to, today, 1);
+        List<TicketJson> returnTickets = aviasalesService.getReturnTicket(from, to, today, inAMonth, 7, 7);
+        List<TicketEntity> oneWayTicketEntities = oneWayTickets.stream().map(EntityConverter::toEntity).collect(Collectors.toList());
+        List<TicketEntity> returnTicketsEntities = returnTickets.stream().map(EntityConverter::toEntity).collect(Collectors.toList());
+        Iterable<TicketEntity> oneWayTicketsSaved = ticketRepository.saveAll(oneWayTicketEntities);
+        Iterable<TicketEntity> returnTicketsSaved = ticketRepository.saveAll(returnTicketsEntities);
+        oneWayTicketsSaved.forEach(ticket -> {
+            log.info("One way ticket from DB: " + ticket);
+            Optional<TicketEntity> ticketFromDBOpt = ticketRepository.findById(ticket.getId());
+            assertTrue(ticketFromDBOpt.isPresent());
+            TicketEntity ticketFromDB = ticketFromDBOpt.get();
+            assertNotNull(ticketFromDB);
+        });
+
+        returnTicketsSaved.forEach(ticket -> {
+            log.info("Return ticket from DB: " + ticket);
+            Optional<TicketEntity> ticketFromDBOpt = ticketRepository.findById(ticket.getId());
+            assertTrue(ticketFromDBOpt.isPresent());
+            TicketEntity ticketFromDB = ticketFromDBOpt.get();
+            assertNotNull(ticketFromDB);
+        });
+
+        List<Long> oneWayIds = new ArrayList<>();
+        oneWayTicketsSaved.forEach(e -> oneWayIds.add(e.getId()));
+
+        List<Long> returnIds = new ArrayList<>();
+        returnTicketsEntities.forEach(e -> returnIds.add(e.getId()));
+
+        ticketRepository.deleteAll(oneWayTicketsSaved);
+        ticketRepository.deleteAll(returnTicketsSaved);
+
+        assertFalse(ticketRepository.findAllById(oneWayIds).iterator().hasNext());
+        assertFalse(ticketRepository.findAllById(returnIds).iterator().hasNext());
     }
 
 

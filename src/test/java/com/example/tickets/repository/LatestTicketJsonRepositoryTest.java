@@ -16,14 +16,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.tickets.service.request.Sorting.PRICE;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -49,12 +49,7 @@ public class LatestTicketJsonRepositoryTest {
         log.info("Got sorted tickets: " + byPrice);
         Iterable<TicketEntity> savedTickets = ticketRepository.saveAll(byPriceEntity);
         log.info("Saved tickets: " + savedTickets);
-        List<Long> ids = new ArrayList<>();
-        savedTickets.forEach(ticket -> ids.add(ticket.getId()));
-
-        Iterable<TicketEntity> allById = ticketRepository.findAllById(ids);
-        assertEquals(savedTickets, allById);
-        ticketRepository.deleteAll(allById);
+        ticketRepository.deleteAll(savedTickets);
     }
 
     @Test
@@ -89,5 +84,6 @@ public class LatestTicketJsonRepositoryTest {
         assertNotNull(byDepartDate);
         assertThat(byDepartDate, not(empty()));
         log.info("Found by date: " + byDepartDate);
+        ticketRepository.deleteAll(savedTickets);
     }
 }
