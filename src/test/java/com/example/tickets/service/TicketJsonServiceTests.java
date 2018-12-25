@@ -24,9 +24,10 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Log
-public class LatestTicketJsonServiceTests {
+public class TicketJsonServiceTests {
     @Autowired
     private TicketService ticketService;
+
 
     @Test
     public void latestPricesRequestShouldBeBuilded() {

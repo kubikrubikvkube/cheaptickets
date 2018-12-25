@@ -20,15 +20,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.tickets.service.request.Sorting.PRICE;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Log
-public class LatestTicketJsonRepositoryTest {
+public class TicketJsonRepositoryTest {
     @Autowired
     private TicketService ticketService;
     @Autowired
@@ -85,5 +83,24 @@ public class LatestTicketJsonRepositoryTest {
         assertThat(byDepartDate, not(empty()));
         log.info("Found by date: " + byDepartDate);
         ticketRepository.deleteAll(savedTickets);
+    }
+
+    @Test
+    public void equalEntitiesShouldBeEqualToEachOther() {
+        LatestRequest plr = LatestRequest.builder()
+                .origin("LED")
+                .destination("DME")
+                .sorting(PRICE)
+                .show_to_affiliates(true)
+                .limit(5)
+                .build();
+        List<TicketJson> tickets = ticketService.getLatest(plr);
+        assertThat(tickets, hasSize(greaterThanOrEqualTo(1)));
+        TicketJson ticketJson = tickets.get(0);
+        TicketEntity ticketEntity = EntityConverter.toEntity(ticketJson);
+        TicketEntity savedEntity = ticketRepository.save(ticketEntity);
+        assertEquals(ticketEntity, savedEntity);
+        ticketRepository.delete(savedEntity);
+
     }
 }
