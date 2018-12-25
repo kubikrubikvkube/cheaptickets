@@ -132,6 +132,7 @@ public class AviasalesServiceTest {
 
         log.info("Cheapest friday price: " + cheapestFridayTicket.getValue());
         log.info("Cheapest sunday price: " + cheapestSundayTicket.getValue());
+        log.info("Cheapest total price: " + (cheapestFridayTicket.getValue() + cheapestSundayTicket.getValue()));
 
         double fridayTicketsMean = fridayDS.getMean();
         log.info("Friday mean value: " + fridayTicketsMean);
