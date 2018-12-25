@@ -4,7 +4,7 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.Calendar;
 
 @Data
 @Entity
@@ -23,7 +23,7 @@ public class SubscriptionEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private Date createdOn;
+    private Calendar creationDate;
 
     /**
      * Кто создал подписку

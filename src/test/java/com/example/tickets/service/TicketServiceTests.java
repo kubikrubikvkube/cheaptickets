@@ -27,7 +27,6 @@ public class TicketServiceTests {
     @Autowired
     private TicketService ticketService;
 
-
     @Test
     public void latestPricesRequestShouldBeBuilded() {
         var firstJanuary = LocalDate.of(2019, 1, 1);

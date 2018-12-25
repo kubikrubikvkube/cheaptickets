@@ -7,13 +7,13 @@ public class Subscription {
     /**
      * Кто создал подписку
      */
-    private String owner;
+    private final String owner;
     /**
      * IAT отправления
      */
-    private String origin;
+    private final String origin;
     /**
      * IAT назначения
      */
-    private String destination;
+    private final String destination;
 }
