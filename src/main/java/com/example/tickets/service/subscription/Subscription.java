@@ -1,4 +1,4 @@
-package com.example.tickets.subscription;
+package com.example.tickets.service.subscription;
 
 import lombok.Data;
 
@@ -9,11 +9,11 @@ public class Subscription {
      */
     private String owner;
     /**
-     * Откуда
+     * IAT отправления
      */
     private String origin;
     /**
-     * Куда
+     * IAT назначения
      */
     private String destination;
 }

@@ -1,9 +1,9 @@
-package com.example.tickets.service;
+package com.example.tickets.service.aviasales;
 
 import com.example.tickets.exception.ServiceException;
 import com.example.tickets.httpclient.DefaultHttpClient;
-import com.example.tickets.service.response.AviasalesResponse;
-import com.example.tickets.ticket.TicketJson;
+import com.example.tickets.service.TicketJson;
+import com.example.tickets.service.aviasales.response.AviasalesResponse;
 import com.example.tickets.util.DateConverter;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class AviasalesServiceImpl implements AviasalesService {
         sb.append("depart_range=").append(range).append("&");
         sb.append("affiliate=false");
         var request = sb.toString();
-        AviasalesResponse response = httpClient.getWithoutToken(request, AviasalesResponse.class);
+        AviasalesResponse response = httpClient.getWithoutHeaders(request, AviasalesResponse.class);
         List<TicketJson> tickerPrices = response.getPrices();
         tickerPrices.forEach(rawTicket -> {
             rawTicket.setOrigin(originIAT);
@@ -53,7 +53,7 @@ public class AviasalesServiceImpl implements AviasalesService {
         sb.append("return_range=").append(returnRange).append("&");
         sb.append("affiliate=false");
         var request = sb.toString();
-        AviasalesResponse response = httpClient.getWithoutToken(request, AviasalesResponse.class);
+        AviasalesResponse response = httpClient.getWithoutHeaders(request, AviasalesResponse.class);
         return response.getPrices();
     }
 }

@@ -2,9 +2,8 @@ package com.example.tickets.service;
 
 import com.example.tickets.exception.ServiceException;
 import com.example.tickets.httpclient.DefaultHttpClient;
-import com.example.tickets.service.request.*;
-import com.example.tickets.service.response.LatestResponse;
-import com.example.tickets.ticket.TicketJson;
+import com.example.tickets.service.travelpayouts.request.*;
+import com.example.tickets.service.travelpayouts.response.LatestResponse;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,7 @@ public class TicketServiceImpl implements TicketService {
     public List<TicketJson> getLatest(LatestRequest request) throws ServiceException {
         String stringRequest = request.toString();
         log.info("Sent request: " + stringRequest);
-        LatestResponse response = httpClient.getWithToken(stringRequest, LatestResponse.class);
+        LatestResponse response = httpClient.getWithHeaders(stringRequest, LatestResponse.class);
         log.info("Got response: " + response);
         if (!response.getSuccess()) {
             throw new ServiceException(response.getError());

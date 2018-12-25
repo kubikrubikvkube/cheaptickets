@@ -1,4 +1,4 @@
-package com.example.tickets.ticket;
+package com.example.tickets.repository;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -11,12 +11,16 @@ import java.util.Date;
 @Table(name = "ticket")
 public class TicketEntity {
     /**
+     * Класс перелёта (только 0 — Эконом);
+     */
+
+    private final int tripClass = 0;
+    /**
      * PK айдишник базы
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     /**
      * Метка даты записи в БД, когда был "пойман" билет.
      */
@@ -24,13 +28,6 @@ public class TicketEntity {
     @CreationTimestamp
     @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private Date catchedOn;
-
-    /**
-     * Класс перелёта (только 0 — Эконом);
-     */
-
-    private final int tripClass = 0;
-
     /**
      * False — все цены, true — только цены, найденные с партнёрским маркером (рекомендовано). Значение по умолчанию — true.
      */

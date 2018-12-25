@@ -1,4 +1,4 @@
-package com.example.tickets.service.request;
+package com.example.tickets.service.travelpayouts.request;
 
 /**
  * Цены по альтернативным направлениям

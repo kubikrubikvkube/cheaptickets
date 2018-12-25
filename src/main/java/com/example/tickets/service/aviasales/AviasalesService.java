@@ -1,7 +1,7 @@
-package com.example.tickets.service;
+package com.example.tickets.service.aviasales;
 
 import com.example.tickets.exception.ServiceException;
-import com.example.tickets.ticket.TicketJson;
+import com.example.tickets.service.TicketJson;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,12 +24,13 @@ public interface AviasalesService {
 
     /**
      * Получение списка билетов туда-обратно
-     * @param originIAT IAT код места отправления
+     *
+     * @param originIAT      IAT код места отправления
      * @param destinationIAT IAT код места назначения
-     * @param departure дата отправления
-     * @param returnDate дата возращения
-     * @param departRange ближайший период отправления, в течении которого также ищутся билеты (в днях)
-     * @param returnRange ближайший период возвращения , в течении которого также ищутся билеты (в днях)
+     * @param departure      дата отправления
+     * @param returnDate     дата возращения
+     * @param departRange    ближайший период отправления, в течении которого также ищутся билеты (в днях)
+     * @param returnRange    ближайший период возвращения , в течении которого также ищутся билеты (в днях)
      * @return список найденных билетов
      * @throws ServiceException исключение во время выполнения
      */

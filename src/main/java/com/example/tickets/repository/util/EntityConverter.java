@@ -1,9 +1,9 @@
 package com.example.tickets.repository.util;
 
-import com.example.tickets.subscription.Subscription;
-import com.example.tickets.subscription.SubscriptionEntity;
-import com.example.tickets.ticket.TicketEntity;
-import com.example.tickets.ticket.TicketJson;
+import com.example.tickets.repository.TicketEntity;
+import com.example.tickets.repository.subscription.SubscriptionEntity;
+import com.example.tickets.service.TicketJson;
+import com.example.tickets.service.subscription.Subscription;
 
 public class EntityConverter {
     public static TicketEntity toEntity(TicketJson ticket) {

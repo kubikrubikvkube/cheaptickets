@@ -1,6 +1,5 @@
 package com.example.tickets.repository;
 
-import com.example.tickets.ticket.TicketEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

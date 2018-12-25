@@ -1,4 +1,4 @@
-package com.example.tickets.service.request;
+package com.example.tickets.service.travelpayouts.request;
 
 /**
  * Билеты из города на любое число месяца

@@ -1,6 +1,5 @@
-package com.example.tickets.repository;
+package com.example.tickets.repository.subscription;
 
-import com.example.tickets.subscription.SubscriptionEntity;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

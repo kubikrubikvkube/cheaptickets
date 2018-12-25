@@ -2,11 +2,9 @@ package com.example.tickets.repository;
 
 import com.example.tickets.exception.ServiceException;
 import com.example.tickets.repository.util.EntityConverter;
+import com.example.tickets.service.TicketJson;
 import com.example.tickets.service.TicketService;
-import com.example.tickets.service.request.LatestRequest;
-import com.example.tickets.service.request.Sorting;
-import com.example.tickets.ticket.TicketEntity;
-import com.example.tickets.ticket.TicketJson;
+import com.example.tickets.service.travelpayouts.request.LatestRequest;
 import lombok.extern.java.Log;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,14 +17,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.tickets.service.request.Sorting.PRICE;
+import static com.example.tickets.service.travelpayouts.request.Sorting.DISTANCE_UNIT_PRICE;
+import static com.example.tickets.service.travelpayouts.request.Sorting.PRICE;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Log
-public class TicketJsonRepositoryTest {
+public class TicketRepositoryTest {
     @Autowired
     private TicketService ticketService;
     @Autowired
@@ -63,7 +62,7 @@ public class TicketJsonRepositoryTest {
                 .destination("DME")
                 .period_type("month")
                 .beginning_of_period(firstDayOfNextMonth)
-                .sorting(Sorting.DISTANCE_UNIT_PRICE)
+                .sorting(DISTANCE_UNIT_PRICE)
                 .show_to_affiliates(false)
                 .limit(5)
                 .build();

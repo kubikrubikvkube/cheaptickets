@@ -1,7 +1,7 @@
 package com.example.tickets.service;
 
 import com.example.tickets.exception.ServiceException;
-import com.example.tickets.ticket.TicketJson;
+import com.example.tickets.service.aviasales.AviasalesService;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.TreeMultimap;
 import lombok.extern.java.Log;

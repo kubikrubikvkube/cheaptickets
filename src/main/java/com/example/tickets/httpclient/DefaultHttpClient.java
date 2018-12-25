@@ -20,7 +20,7 @@ public class DefaultHttpClient<T> {
     @Value("${developer.token}")
     private String token;
 
-    public T getWithToken(String getRequest, Class<T> clazz) {
+    public T getWithHeaders(String getRequest, Class<T> clazz) {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
@@ -37,7 +37,7 @@ public class DefaultHttpClient<T> {
         return exchange.getBody();
     }
 
-    public T getWithoutToken(String getRequest, Class<T> clazz) {
+    public T getWithoutHeaders(String getRequest, Class<T> clazz) {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);

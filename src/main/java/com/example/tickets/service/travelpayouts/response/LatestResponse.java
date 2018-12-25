@@ -1,6 +1,6 @@
-package com.example.tickets.service.response;
+package com.example.tickets.service.travelpayouts.response;
 
-import com.example.tickets.ticket.TicketJson;
+import com.example.tickets.service.TicketJson;
 import lombok.Data;
 
 import java.util.List;

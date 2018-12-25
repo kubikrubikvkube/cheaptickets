@@ -1,4 +1,4 @@
-package com.example.tickets.subscription;
+package com.example.tickets.repository.subscription;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;

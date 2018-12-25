@@ -1,4 +1,4 @@
-package com.example.tickets.service.request;
+package com.example.tickets.service.travelpayouts.request;
 
 import lombok.Builder;
 import lombok.Value;
@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 /**
  * Цены на авиабилеты
- *
+ * <p>
  * Возвращает список цен, найденных нашими пользователями за последние 48 часов, в соответствии с выставленными фильтрами.
  * Если не указывать пункт отправления и назначения, то API вернет 30 самых дешевых билетов, которые были найдены за последние 48 часов.
  * При этом нельзя использовать period_type=month.

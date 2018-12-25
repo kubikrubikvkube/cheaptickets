@@ -1,7 +1,8 @@
 package com.example.tickets.repository;
 
-import com.example.tickets.subscription.Subscription;
-import com.example.tickets.subscription.SubscriptionEntity;
+import com.example.tickets.repository.subscription.SubscriptionEntity;
+import com.example.tickets.repository.subscription.SubscriptionRepository;
+import com.example.tickets.service.subscription.Subscription;
 import lombok.extern.java.Log;
 import org.junit.After;
 import org.junit.Before;

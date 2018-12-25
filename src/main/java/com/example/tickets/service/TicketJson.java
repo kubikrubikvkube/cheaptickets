@@ -1,4 +1,4 @@
-package com.example.tickets.ticket;
+package com.example.tickets.service;
 
 import lombok.Data;
 
@@ -6,6 +6,11 @@ import java.util.Date;
 
 @Data
 public class TicketJson {
+    /**
+     * Класс перелёта (только 0 — Эконом);
+     */
+
+    private final int trip_class = 0;
     /**
      * False — все цены, true — только цены, найденные с партнёрским маркером (рекомендовано). Значение по умолчанию — true.
      */
@@ -52,23 +57,14 @@ public class TicketJson {
      * Агентство, в котором был найден билет.
      */
     private String gate;
-
     /**
      * IATA код авиакомпании, выполняющей перелет.
      */
     private String airline;
-
     /**
      * Количество пересадок.
      */
     private Integer transfers;
-
-
-    /**
-     * Класс перелёта (только 0 — Эконом);
-     */
-
-    private final int trip_class = 0;
 
 
 }

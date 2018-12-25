@@ -1,9 +1,8 @@
 package com.example.tickets.service;
 
 import com.example.tickets.exception.ServiceException;
-import com.example.tickets.service.request.LatestRequest;
-import com.example.tickets.service.request.Sorting;
-import com.example.tickets.ticket.TicketJson;
+import com.example.tickets.service.travelpayouts.request.LatestRequest;
+import com.example.tickets.service.travelpayouts.request.Sorting;
 import lombok.extern.java.Log;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +15,7 @@ import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.example.tickets.service.request.Sorting.PRICE;
+import static com.example.tickets.service.travelpayouts.request.Sorting.PRICE;
 import static java.lang.String.format;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
@@ -24,7 +23,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Log
-public class TicketJsonServiceTests {
+public class TicketServiceTests {
     @Autowired
     private TicketService ticketService;
 
