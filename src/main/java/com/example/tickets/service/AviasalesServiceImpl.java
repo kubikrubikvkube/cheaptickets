@@ -32,7 +32,19 @@ public class AviasalesServiceImpl implements AviasalesService {
     }
 
     @Override
-    public List<TicketJson> getReturnTicket(String originIAT, String destinationIAT, LocalDate departure, LocalDate returnDate, int range) throws ServiceException {
-        return null;
+    public List<TicketJson> getReturnTicket(String originIAT, String destinationIAT, LocalDate departure, LocalDate returnDate, int departRange, int returnRange) throws ServiceException {
+        //https://lyssa.aviasales.ru/price_matrix?origin_iata=LED&destination_iata=MOW&depart_start=2018-12-21&return_start=2018-12-28&depart_range=6&return_range=6&affiliate=false
+        StringBuilder sb = new StringBuilder();
+        sb.append("https://lyssa.aviasales.ru/price_matrix?");
+        sb.append("origin_iata=").append(originIAT).append("&");
+        sb.append("destination_iata=").append(destinationIAT).append("&");
+        sb.append("depart_start=").append(departure).append("&");
+        sb.append("return_start=").append(returnDate).append("&");
+        sb.append("depart_range=").append(departRange).append("&");
+        sb.append("return_range=").append(returnRange).append("&");
+        sb.append("affiliate=false");
+        var request = sb.toString();
+        AviasalesResponse response = httpClient.getWithoutToken(request, AviasalesResponse.class);
+        return response.getPrices();
     }
 }

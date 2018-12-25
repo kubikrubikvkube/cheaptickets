@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +37,7 @@ public class AviasalesServiceTest {
     }
 
     @Test
-    public void oneWayPricesCanBeReceived() throws ServiceException {
+    public void oneWayTicketPricesCanBeReceived() throws ServiceException {
         List<TicketJson> ticketsForNextWeek = aviasalesService.getOneWayTicket("LED", "MOW", LocalDate.now(), 7);
         assertNotNull(ticketsForNextWeek);
         assertThat(ticketsForNextWeek, hasSize(greaterThanOrEqualTo(1)));
@@ -47,7 +48,22 @@ public class AviasalesServiceTest {
         Optional<TicketJson> firstOptional = ticketsForNextWeek.stream().findFirst();
         assertTrue(firstOptional.isPresent());
         log.info(firstOptional.get().toString());
+    }
 
+    @Test
+    public void returnTicketPricesCanBeReceived() throws ServiceException {
+        var today = LocalDate.now();
+        var nextMonth = today.plus(Period.ofWeeks(3));
+        List<TicketJson> ticketsForNextWeek = aviasalesService.getReturnTicket("LED", "MOW", today, nextMonth, 7, 7);
+        assertNotNull(ticketsForNextWeek);
+        assertThat(ticketsForNextWeek, hasSize(greaterThanOrEqualTo(1)));
+        log.info("Found tickets: ");
+        ticketsForNextWeek.forEach(ticket -> log.info(ticket.toString()));
+        log.info("Cheapest return tickets from LED to MOW in a 3 weeks: ");
+        ticketsForNextWeek.sort(Comparator.comparing(TicketJson::getValue));
+        Optional<TicketJson> firstOptional = ticketsForNextWeek.stream().findFirst();
+        assertTrue(firstOptional.isPresent());
+        log.info(firstOptional.get().toString());
     }
 
 
