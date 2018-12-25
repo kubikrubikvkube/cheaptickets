@@ -14,7 +14,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.example.tickets.service.travelpayouts.request.Sorting.DISTANCE_UNIT_PRICE;
@@ -82,6 +84,46 @@ public class TicketRepositoryTest {
         assertThat(byDepartDate, not(empty()));
         log.info("Found by date: " + byDepartDate);
         ticketRepository.deleteAll(savedTickets);
+    }
+
+    @Test
+    public void shouldBeRequestByBasicData() throws ServiceException {
+        LocalDate now = LocalDateTime.now().toLocalDate();
+        LocalDate nextMonth = now.plusMonths(1);
+        int dayOfMonth = nextMonth.getDayOfMonth();
+        LocalDate firstDayOfNextMonth = nextMonth.minusDays(dayOfMonth).plusDays(1);
+
+
+        LatestRequest someTicketRequest = LatestRequest.builder()
+                .origin("LED")
+                .destination("DME")
+                .period_type("month")
+                .beginning_of_period(firstDayOfNextMonth)
+                .sorting(DISTANCE_UNIT_PRICE)
+                .show_to_affiliates(false)
+                .limit(1)
+                .build();
+
+
+        List<TicketJson> byPrice = ticketService.getLatest(someTicketRequest);
+        Optional<TicketEntity> byPriceEntityOpt = byPrice.stream().map(EntityConverter::toEntity).findFirst();
+        assertTrue(byPriceEntityOpt.isPresent());
+        TicketEntity ticketEntity = byPriceEntityOpt.get();
+        log.info("Got ticket: " + ticketEntity);
+
+        ticketRepository.save(ticketEntity);
+
+        String origin = ticketEntity.getOrigin();
+        String destination = ticketEntity.getDestination();
+        Date departDate = ticketEntity.getDepartDate();
+        Integer value = ticketEntity.getValue();
+
+        List<TicketEntity> byBasicData = ticketRepository.findByBasicData(origin, destination, departDate, value);
+        assertNotNull(byBasicData);
+        assertThat(byBasicData, hasSize(1));
+        TicketEntity fetchedTicketEntity = byBasicData.get(0);
+        assertEquals(ticketEntity, fetchedTicketEntity);
+        ticketRepository.delete(ticketEntity);
     }
 
     @Test
