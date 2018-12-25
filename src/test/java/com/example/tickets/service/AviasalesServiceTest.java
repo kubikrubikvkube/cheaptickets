@@ -16,10 +16,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.example.tickets.util.DateConverter.toLocalDate;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
@@ -73,19 +73,14 @@ public class AviasalesServiceTest {
     public void findCheapestFridayToSundayTicketsInAThreeMonths() throws ServiceException {
         var today = LocalDate.now();
         var inAThreeMonths = today.plusMonths(3);
+        var from = "LED";
+        var to = "MOW";
 
         List<LocalDate> departureFridays = today
                 .datesUntil(inAThreeMonths)
                 .filter(e -> e.getDayOfWeek() == DayOfWeek.FRIDAY)
                 .collect(Collectors.toList());
 
-        List<LocalDate> returnSundays = today
-                .datesUntil(inAThreeMonths)
-                .filter(e -> e.getDayOfWeek() == DayOfWeek.SUNDAY)
-                .collect(Collectors.toList());
-
-        var from = "LED";
-        var to = "MOW";
         List<TicketJson> fridayTickets = Collections.synchronizedList(new ArrayList<>());
         departureFridays
                 .parallelStream()
@@ -93,6 +88,11 @@ public class AviasalesServiceTest {
                     List<TicketJson> foundFridayTickets = aviasalesService.getOneWayTicket(from, to, friday, 1);
                     fridayTickets.addAll(foundFridayTickets);
                 });
+
+        List<LocalDate> returnSundays = today
+                .datesUntil(inAThreeMonths)
+                .filter(e -> e.getDayOfWeek() == DayOfWeek.SUNDAY)
+                .collect(Collectors.toList());
 
         List<TicketJson> sundayTickets = Collections.synchronizedList(new ArrayList<>());
         returnSundays
@@ -102,15 +102,11 @@ public class AviasalesServiceTest {
                     sundayTickets.addAll(foundSundayTickets);
                 });
 
-        fridayTickets.sort(Comparator.comparing(TicketJson::getValue));
-        sundayTickets.sort(Comparator.comparing(TicketJson::getValue));
-
-
         Multimap<TicketJson, TicketJson> ticketPairs = TreeMultimap.create(Comparator.comparing(TicketJson::getValue), Comparator.comparing(TicketJson::getValue));
         for (TicketJson fridayTicket : fridayTickets) {
             for (TicketJson sundayTicket : sundayTickets) {
-                var departDate = LocalDate.ofInstant(fridayTicket.getDepart_date().toInstant(), ZoneId.systemDefault());
-                var returnDate = LocalDate.ofInstant(sundayTicket.getDepart_date().toInstant(), ZoneId.systemDefault());
+                var departDate = toLocalDate(fridayTicket.getDepart_date());
+                var returnDate = toLocalDate(sundayTicket.getDepart_date());
                 if (returnDate.isAfter(departDate) && departDate.until(returnDate).getDays() == 2) {
                     ticketPairs.put(fridayTicket, sundayTicket);
                 }
@@ -121,9 +117,11 @@ public class AviasalesServiceTest {
         Optional<TicketJson> cheapestFridayTicketOpt = ticketPairs.keySet().stream().findFirst();
         assertTrue(cheapestFridayTicketOpt.isPresent());
         TicketJson cheapestFridayTicket = cheapestFridayTicketOpt.get();
+
         Optional<TicketJson> cheapestSundayTicketOpt = ticketPairs.get(cheapestFridayTicket).stream().findFirst();
         assertTrue(cheapestSundayTicketOpt.isPresent());
         TicketJson cheapestSundayTicket = cheapestSundayTicketOpt.get();
+
         log.info("Cheapest friday ticket: " + cheapestFridayTicket);
         log.warning("Cheapest sunday ticket: " + cheapestSundayTicket);
         int debug = 0;
