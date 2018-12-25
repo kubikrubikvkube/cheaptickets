@@ -1,6 +1,6 @@
 package com.example.tickets.service;
 
-import com.example.tickets.exception.TicketServiceException;
+import com.example.tickets.exception.ServiceException;
 import com.example.tickets.httpclient.DefaultHttpClient;
 import com.example.tickets.service.request.*;
 import com.example.tickets.service.response.LatestResponse;
@@ -18,13 +18,13 @@ public class TicketServiceImpl implements TicketService {
     DefaultHttpClient<LatestResponse> httpClient;
 
     @Override
-    public List<TicketJson> getLatest(LatestRequest request) throws TicketServiceException {
+    public List<TicketJson> getLatest(LatestRequest request) throws ServiceException {
         String stringRequest = request.toString();
         log.info("Sent request: " + stringRequest);
-        LatestResponse response = httpClient.get(stringRequest, LatestResponse.class);
+        LatestResponse response = httpClient.getWithToken(stringRequest, LatestResponse.class);
         log.info("Got response: " + response);
         if (!response.getSuccess()) {
-            throw new TicketServiceException(response.getError());
+            throw new ServiceException(response.getError());
         }
         return response.getData();
     }

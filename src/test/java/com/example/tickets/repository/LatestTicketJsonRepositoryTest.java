@@ -1,6 +1,6 @@
 package com.example.tickets.repository;
 
-import com.example.tickets.exception.TicketServiceException;
+import com.example.tickets.exception.ServiceException;
 import com.example.tickets.repository.util.EntityConverter;
 import com.example.tickets.service.TicketService;
 import com.example.tickets.service.request.LatestRequest;
@@ -35,7 +35,7 @@ public class LatestTicketJsonRepositoryTest {
     private TicketRepository ticketRepository;
 
     @Test
-    public void shouldGetTicketsAndSaveThemToDB() throws TicketServiceException {
+    public void shouldGetTicketsAndSaveThemToDB() throws ServiceException {
         LatestRequest priceSorting = LatestRequest.builder()
                 .origin("LED")
                 .destination("DME")
@@ -58,7 +58,7 @@ public class LatestTicketJsonRepositoryTest {
     }
 
     @Test
-    public void shouldGetTicketsByDateAndSaveThemToDB() throws TicketServiceException {
+    public void shouldGetTicketsByDateAndSaveThemToDB() throws ServiceException {
         LocalDate now = LocalDateTime.now().toLocalDate();
         LocalDate nextMonth = now.plusMonths(1);
         int dayOfMonth = nextMonth.getDayOfMonth();
@@ -69,7 +69,7 @@ public class LatestTicketJsonRepositoryTest {
                 .origin("LED")
                 .destination("DME")
                 .period_type("month")
-                .beginning_of_period(firstDayOfNextMonth.toString())
+                .beginning_of_period(firstDayOfNextMonth)
                 .sorting(Sorting.DISTANCE_UNIT_PRICE)
                 .show_to_affiliates(false)
                 .limit(5)

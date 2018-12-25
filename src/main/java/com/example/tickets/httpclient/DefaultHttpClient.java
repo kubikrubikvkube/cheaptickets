@@ -20,7 +20,7 @@ public class DefaultHttpClient<T> {
     @Value("${developer.token}")
     private String token;
 
-    public T get(String getRequest, Class<T> clazz) {
+    public T getWithToken(String getRequest, Class<T> clazz) {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
@@ -30,6 +30,19 @@ public class DefaultHttpClient<T> {
         HttpEntity<String> httpEntity = new HttpEntity<>("parameters", headers);
         log.info("Send request: " + getRequest);
         ResponseEntity<T> exchange = restTemplate.exchange(getRequest, HttpMethod.GET, httpEntity, clazz);
+        if (!exchange.getStatusCode().is2xxSuccessful()) {
+            log.severe(String.format("Request failed. Error code %s : %s", exchange.getStatusCode(), getRequest));
+        }
+        log.info("Got response: " + exchange);
+        return exchange.getBody();
+    }
+
+    public T getWithoutToken(String getRequest, Class<T> clazz) {
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+        RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
+        log.info("Send request: " + getRequest);
+        ResponseEntity<T> exchange = restTemplate.exchange(getRequest, HttpMethod.GET, null, clazz);
         if (!exchange.getStatusCode().is2xxSuccessful()) {
             log.severe(String.format("Request failed. Error code %s : %s", exchange.getStatusCode(), getRequest));
         }

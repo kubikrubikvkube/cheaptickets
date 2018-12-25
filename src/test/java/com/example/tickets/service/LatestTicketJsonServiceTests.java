@@ -1,6 +1,6 @@
 package com.example.tickets.service;
 
-import com.example.tickets.exception.TicketServiceException;
+import com.example.tickets.exception.ServiceException;
 import com.example.tickets.service.request.LatestRequest;
 import com.example.tickets.service.request.Sorting;
 import com.example.tickets.ticket.TicketJson;
@@ -34,7 +34,7 @@ public class LatestTicketJsonServiceTests {
                 .currency("RUB")
                 .origin("LED")
                 .destination("DME")
-                .beginning_of_period("2018-05-01")
+                .beginning_of_period(LocalDate.of(2019, 1, 1))
                 .period_type("month")
                 .one_way(false)
                 .page(1)
@@ -60,7 +60,7 @@ public class LatestTicketJsonServiceTests {
 
 
     @Test
-    public void latestPricesResponseShouldBeReceived() throws TicketServiceException {
+    public void latestPricesResponseShouldBeReceived() throws ServiceException {
         LatestRequest plr = LatestRequest.builder()
                 .origin("LED")
                 .destination("DME")
@@ -86,7 +86,7 @@ public class LatestTicketJsonServiceTests {
     }
 
     @Test
-    public void differentSortingRequestShouldBeImplemented() throws TicketServiceException {
+    public void differentSortingRequestShouldBeImplemented() throws ServiceException {
         LatestRequest priceSorting = LatestRequest.builder()
                 .origin("LED")
                 .destination("DME")
@@ -128,7 +128,7 @@ public class LatestTicketJsonServiceTests {
     }
 
     @Test
-    public void cheapestPriceForNextYearShouldBeFound() throws TicketServiceException {
+    public void cheapestPriceForNextYearShouldBeFound() throws ServiceException {
         Calendar calendar = Calendar.getInstance();
         Date currentDate = calendar.getTime();
         calendar.setTime(currentDate);
@@ -149,7 +149,7 @@ public class LatestTicketJsonServiceTests {
                     .sorting(PRICE)
                     .show_to_affiliates(false)
                     .period_type("month")
-                    .beginning_of_period(format("%d-%d-%d", year, month, firstDayOfMonth))
+                    .beginning_of_period(LocalDate.of(year, month, firstDayOfMonth))
                     .limit(1)
                     .build();
 
@@ -173,7 +173,7 @@ public class LatestTicketJsonServiceTests {
     }
 
     @Test
-    public void cheapestOneWayTicketFromDMEToAnywhereShouldBeFound() throws TicketServiceException {
+    public void cheapestOneWayTicketFromDMEToAnywhereShouldBeFound() throws ServiceException {
         LatestRequest request = LatestRequest.builder()
                 .origin("DME")
                 .sorting(PRICE)
@@ -196,7 +196,7 @@ public class LatestTicketJsonServiceTests {
     }
 
     @Test
-    public void cheapestReturnTicketFromDMEToAnywhereShouldBeFound() throws TicketServiceException {
+    public void cheapestReturnTicketFromDMEToAnywhereShouldBeFound() throws ServiceException {
         LatestRequest request = LatestRequest.builder()
                 .origin("DME")
                 .sorting(PRICE)

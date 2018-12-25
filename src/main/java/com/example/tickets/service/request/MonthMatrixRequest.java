@@ -3,6 +3,8 @@ package com.example.tickets.service.request;
 import lombok.Builder;
 import lombok.Value;
 
+import java.time.LocalDate;
+
 /**
  * Календарь цен на месяц
  * <p>
@@ -37,7 +39,7 @@ public class MonthMatrixRequest {
     /**
      * Первый день месяца, в формате «YYYY-MM-DD». По умолчанию используется месяц, следующий за текущим.
      */
-    private String month;
+    private LocalDate month;
 
     /**
      * Длительность пребывания в неделях. Если не указано, то в результате будут билеты в одну сторону.

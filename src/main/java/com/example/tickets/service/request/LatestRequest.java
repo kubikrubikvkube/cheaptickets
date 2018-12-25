@@ -3,6 +3,8 @@ package com.example.tickets.service.request;
 import lombok.Builder;
 import lombok.Value;
 
+import java.time.LocalDate;
+
 
 /**
  * Цены на авиабилеты
@@ -31,7 +33,7 @@ public class LatestRequest {
      * Первое число месяца, в который попадают даты отправления (в формате YYYY-MM-DD, например 2018-05-01).
      * Обязательно указывать при period_type равном month. Если указать только beginning_of_period, то period_type можно не указывать.
      */
-    private String beginning_of_period;
+    private LocalDate beginning_of_period;
     /**
      * период, в котором искали билеты. Если период не указан, то отображаются билеты для перелётов в текущем месяце.
      * year — билеты, найденные в текущем году;
