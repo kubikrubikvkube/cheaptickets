@@ -1,6 +1,7 @@
 package com.example.tickets.ticket;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,6 +16,14 @@ public class TicketEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    /**
+     * Метка даты записи в БД, когда был "пойман" билет.
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private Date catchedOn;
 
     /**
      * Класс перелёта (только 0 — Эконом);
