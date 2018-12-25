@@ -30,11 +30,12 @@ public class LatestTicketJsonServiceTests {
 
     @Test
     public void latestPricesRequestShouldBeBuilded() {
+        var firstJanuary = LocalDate.of(2019, 1, 1);
         LatestRequest plr = LatestRequest.builder()
                 .currency("RUB")
                 .origin("LED")
                 .destination("DME")
-                .beginning_of_period(LocalDate.of(2019, 1, 1))
+                .beginning_of_period(firstJanuary)
                 .period_type("month")
                 .one_way(false)
                 .page(1)
@@ -48,7 +49,7 @@ public class LatestTicketJsonServiceTests {
         assertEquals(plr.getCurrency(), "RUB");
         assertEquals(plr.getOrigin(), "LED");
         assertEquals(plr.getDestination(), "DME");
-        assertEquals(plr.getBeginning_of_period(), "2018-05-01");
+        assertEquals(plr.getBeginning_of_period(), firstJanuary);
         assertEquals(plr.getPeriod_type(), "month");
         assertEquals(plr.getOne_way(), false);
         assertEquals(plr.getPage(), Integer.valueOf(1));
