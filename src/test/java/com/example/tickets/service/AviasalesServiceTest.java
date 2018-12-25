@@ -5,6 +5,7 @@ import com.example.tickets.ticket.TicketJson;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.TreeMultimap;
 import lombok.extern.java.Log;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -88,6 +89,8 @@ public class AviasalesServiceTest {
                     List<TicketJson> foundFridayTickets = aviasalesService.getOneWayTicket(from, to, friday, 1);
                     fridayTickets.addAll(foundFridayTickets);
                 });
+        DescriptiveStatistics fridayDS = new DescriptiveStatistics();
+        fridayTickets.forEach(t -> fridayDS.addValue(t.getValue()));
 
         List<LocalDate> returnSundays = today
                 .datesUntil(inAThreeMonths)
@@ -101,6 +104,8 @@ public class AviasalesServiceTest {
                     List<TicketJson> foundSundayTickets = aviasalesService.getOneWayTicket(to, from, sunday, 1);
                     sundayTickets.addAll(foundSundayTickets);
                 });
+        DescriptiveStatistics sundayDS = new DescriptiveStatistics();
+        sundayTickets.forEach(t -> sundayDS.addValue(t.getValue()));
 
         Multimap<TicketJson, TicketJson> ticketPairs = TreeMultimap.create(Comparator.comparing(TicketJson::getValue), Comparator.comparing(TicketJson::getValue));
         for (TicketJson fridayTicket : fridayTickets) {
@@ -123,9 +128,29 @@ public class AviasalesServiceTest {
         TicketJson cheapestSundayTicket = cheapestSundayTicketOpt.get();
 
         log.info("Cheapest friday ticket: " + cheapestFridayTicket);
-        log.warning("Cheapest sunday ticket: " + cheapestSundayTicket);
-        int debug = 0;
+        log.info("Cheapest sunday ticket: " + cheapestSundayTicket);
 
+        log.info("Cheapest friday price: " + cheapestFridayTicket.getValue());
+        log.info("Cheapest sunday price: " + cheapestSundayTicket.getValue());
+
+        double fridayTicketsMean = fridayDS.getMean();
+        log.info("Friday mean value: " + fridayTicketsMean);
+        double fridayTickets25Percentile = fridayDS.getPercentile(25);
+        log.info("Friday 25 percentile value: " + fridayTickets25Percentile);
+        double sundayTicketsMean = fridayDS.getMean();
+        log.info("Sunday mean value: " + sundayTicketsMean);
+        double sundayTickets25Percentile = sundayDS.getPercentile(25);
+        log.info("Sunday 25 percentile value: " + sundayTickets25Percentile);
+
+        double fridayCheapestMeanDiff = Math.round(100 - (cheapestFridayTicket.getValue() / fridayTicketsMean * 100));
+        log.info("Cheapest friday ticket is cheaper than mean price by " + fridayCheapestMeanDiff + "%");
+        double sundayCheapestMeanDiff = Math.round(100 - (cheapestSundayTicket.getValue() / sundayTicketsMean * 100));
+        log.info("Cheapest sunday ticket is cheaper than mean price by " + sundayCheapestMeanDiff + "%");
+
+        double fridayCheapest25PercentileDiff = Math.round(100 - (cheapestFridayTicket.getValue() / fridayTickets25Percentile * 100));
+        log.info("Cheapest friday ticket is cheaper than 25 percentile price by " + fridayCheapest25PercentileDiff + "%");
+        double sundayCheapest25PercentileDiff = Math.round(100 - (cheapestSundayTicket.getValue() / sundayTickets25Percentile * 100));
+        log.info("Cheapest sunday ticket is cheaper than 25 percentile price by " + sundayCheapest25PercentileDiff + "%");
     }
 
 
