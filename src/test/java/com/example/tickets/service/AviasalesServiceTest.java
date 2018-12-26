@@ -49,21 +49,21 @@ public class AviasalesServiceTest {
 
     @Test
     public void ticketsMapShouldWork() {
-        List<Ticket> directFromMOW = aviasalesService.getTicketsMap("MOW", LocalDate.now(), true);
+        List<Ticket> directFromMOW = aviasalesService.getTicketsMap("LED", LocalDate.now(), true);
         assertNotNull(directFromMOW);
         assertThat(directFromMOW, hasSize(Matchers.greaterThanOrEqualTo(1)));
-        log.info(format("Found %d direct tickets from MOW", directFromMOW.size()));
+        log.info(format("Found %d direct tickets from LED", directFromMOW.size()));
         directFromMOW.sort(Comparator.comparing(Ticket::getValue));
-        log.info("Top 3 cheapest direct tickets from MOW: ");
+        log.info("Top 3 cheapest direct tickets from LED: ");
         log.info(directFromMOW.get(0).toString());
         log.info(directFromMOW.get(1).toString());
         log.info(directFromMOW.get(2).toString());
 
-        List<Ticket> inDirectFromMOW = aviasalesService.getTicketsMap("MOW", LocalDate.now(), false);
+        List<Ticket> inDirectFromMOW = aviasalesService.getTicketsMap("LED", LocalDate.now(), false);
         assertNotNull(inDirectFromMOW);
-        log.info(format("Found %d indirect tickets from MOW", inDirectFromMOW.size()));
+        log.info(format("Found %d indirect tickets from LED", inDirectFromMOW.size()));
         inDirectFromMOW.sort(Comparator.comparing(Ticket::getValue));
-        log.info("Top 3 cheapest indirect tickets from MOW: ");
+        log.info("Top 3 cheapest indirect tickets from LED: ");
         log.info(inDirectFromMOW.get(0).toString());
         log.info(inDirectFromMOW.get(1).toString());
         log.info(inDirectFromMOW.get(2).toString());
