@@ -1,7 +1,7 @@
 package com.example.tickets.service.aviasales;
 
 import com.example.tickets.exception.ServiceException;
-import com.example.tickets.service.TicketDTO;
+import com.example.tickets.repository.Ticket;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,7 +20,7 @@ public interface AviasalesService {
      * @return список найденных билетов
      * @throws ServiceException исключение во время выполнения
      */
-    List<TicketDTO> getOneWayTicket(String originIAT, String destinationIAT, LocalDate date, int range) throws ServiceException;
+    List<Ticket> getOneWayTicket(String originIAT, String destinationIAT, LocalDate date, int range) throws ServiceException;
 
     /**
      * Получение списка билетов туда-обратно
@@ -34,5 +34,5 @@ public interface AviasalesService {
      * @return список найденных билетов
      * @throws ServiceException исключение во время выполнения
      */
-    List<TicketDTO> getReturnTicket(String originIAT, String destinationIAT, LocalDate departure, LocalDate returnDate, int departRange, int returnRange) throws ServiceException;
+    List<Ticket> getReturnTicket(String originIAT, String destinationIAT, LocalDate departure, LocalDate returnDate, int departRange, int returnRange) throws ServiceException;
 }

@@ -2,15 +2,18 @@ package com.example.tickets.service.aviasales;
 
 import com.example.tickets.exception.ServiceException;
 import com.example.tickets.httpclient.DefaultHttpClient;
+import com.example.tickets.repository.Ticket;
 import com.example.tickets.service.TicketDTO;
 import com.example.tickets.service.aviasales.response.AviasalesResponse;
 import com.example.tickets.util.DateConverter;
 import lombok.extern.java.Log;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Log
 @Service
@@ -18,8 +21,11 @@ public class AviasalesServiceImpl implements AviasalesService {
     @Autowired
     private DefaultHttpClient<AviasalesResponse> httpClient;
 
+    @Autowired
+    private ModelMapper mapper;
+
     @Override
-    public List<TicketDTO> getOneWayTicket(String originIAT, String destinationIAT, LocalDate date, int range) throws ServiceException {
+    public List<Ticket> getOneWayTicket(String originIAT, String destinationIAT, LocalDate date, int range) throws ServiceException {
 
         StringBuilder sb = new StringBuilder();
         sb.append("https://lyssa.aviasales.ru/price_matrix?");
@@ -37,11 +43,14 @@ public class AviasalesServiceImpl implements AviasalesService {
             rawTicket.setDepart_date(DateConverter.toDate(date));
 
         });
-        return tickerPrices;
+        return tickerPrices
+                .stream()
+                .map(dto -> mapper.map(dto, Ticket.class))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<TicketDTO> getReturnTicket(String originIAT, String destinationIAT, LocalDate departure, LocalDate returnDate, int departRange, int returnRange) throws ServiceException {
+    public List<Ticket> getReturnTicket(String originIAT, String destinationIAT, LocalDate departure, LocalDate returnDate, int departRange, int returnRange) throws ServiceException {
         StringBuilder sb = new StringBuilder();
         sb.append("https://lyssa.aviasales.ru/price_matrix?");
         sb.append("origin_iata=").append(originIAT).append("&");
@@ -53,6 +62,17 @@ public class AviasalesServiceImpl implements AviasalesService {
         sb.append("affiliate=false");
         var request = sb.toString();
         AviasalesResponse response = httpClient.getWithoutHeaders(request, AviasalesResponse.class);
-        return response.getPrices();
+        List<TicketDTO> tickerPrices = response.getPrices();
+        tickerPrices.forEach(rawTicket -> {
+            rawTicket.setOrigin(originIAT);
+            rawTicket.setDestination(destinationIAT);
+            rawTicket.setDepart_date(DateConverter.toDate(departure));
+            rawTicket.setReturn_date(DateConverter.toDate(returnDate));
+
+        });
+        return tickerPrices
+                .stream()
+                .map(dto -> mapper.map(dto, Ticket.class))
+                .collect(Collectors.toList());
     }
 }

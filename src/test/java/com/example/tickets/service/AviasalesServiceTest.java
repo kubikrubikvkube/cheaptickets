@@ -1,6 +1,7 @@
 package com.example.tickets.service;
 
 import com.example.tickets.exception.ServiceException;
+import com.example.tickets.repository.Ticket;
 import com.example.tickets.service.aviasales.AviasalesService;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.TreeMultimap;
@@ -46,14 +47,14 @@ public class AviasalesServiceTest {
 
     @Test
     public void oneWayTicketPricesCanBeReceived() throws ServiceException {
-        List<TicketDTO> ticketsForNextWeek = aviasalesService.getOneWayTicket("LED", "MOW", LocalDate.now(), 7);
+        List<Ticket> ticketsForNextWeek = aviasalesService.getOneWayTicket("LED", "MOW", LocalDate.now(), 7);
         assertNotNull(ticketsForNextWeek);
         assertThat(ticketsForNextWeek, hasSize(greaterThanOrEqualTo(1)));
         log.info("Found tickets: ");
         ticketsForNextWeek.forEach(ticket -> log.info(ticket.toString()));
         log.info("Cheapest ticket from LED to MOW for a next week: ");
-        ticketsForNextWeek.sort(Comparator.comparing(TicketDTO::getValue));
-        Optional<TicketDTO> firstOptional = ticketsForNextWeek.stream().findFirst();
+        ticketsForNextWeek.sort(Comparator.comparing(Ticket::getValue));
+        Optional<Ticket> firstOptional = ticketsForNextWeek.stream().findFirst();
         assertTrue(firstOptional.isPresent());
         log.info(firstOptional.get().toString());
     }
@@ -62,14 +63,14 @@ public class AviasalesServiceTest {
     public void returnTicketPricesCanBeReceived() throws ServiceException {
         var today = LocalDate.now();
         var threeWeeksLater = today.plus(Period.ofWeeks(3));
-        List<TicketDTO> ticketsForNextWeek = aviasalesService.getReturnTicket("LED", "MOW", today, threeWeeksLater, 7, 7);
+        List<Ticket> ticketsForNextWeek = aviasalesService.getReturnTicket("LED", "MOW", today, threeWeeksLater, 7, 7);
         assertNotNull(ticketsForNextWeek);
         assertThat(ticketsForNextWeek, hasSize(greaterThanOrEqualTo(1)));
         log.info("Found tickets: ");
         ticketsForNextWeek.forEach(ticket -> log.info(ticket.toString()));
         log.info("Cheapest return tickets from LED to MOW in a 3 weeks: ");
-        ticketsForNextWeek.sort(Comparator.comparing(TicketDTO::getValue));
-        Optional<TicketDTO> firstOptional = ticketsForNextWeek.stream().findFirst();
+        ticketsForNextWeek.sort(Comparator.comparing(Ticket::getValue));
+        Optional<Ticket> firstOptional = ticketsForNextWeek.stream().findFirst();
         assertTrue(firstOptional.isPresent());
         log.info(firstOptional.get().toString());
     }
@@ -86,11 +87,11 @@ public class AviasalesServiceTest {
                 .filter(e -> e.getDayOfWeek() == DayOfWeek.FRIDAY)
                 .collect(Collectors.toList());
 
-        List<TicketDTO> fridayTickets = Collections.synchronizedList(new ArrayList<>());
+        List<Ticket> fridayTickets = Collections.synchronizedList(new ArrayList<>());
         departureFridays
                 .parallelStream()
                 .forEach(friday -> {
-                    List<TicketDTO> foundFridayTickets = aviasalesService.getOneWayTicket(from, to, friday, 1);
+                    List<Ticket> foundFridayTickets = aviasalesService.getOneWayTicket(from, to, friday, 1);
                     fridayTickets.addAll(foundFridayTickets);
                 });
         DescriptiveStatistics fridayDS = new DescriptiveStatistics();
@@ -101,21 +102,21 @@ public class AviasalesServiceTest {
                 .filter(e -> e.getDayOfWeek() == DayOfWeek.SUNDAY)
                 .collect(Collectors.toList());
 
-        List<TicketDTO> sundayTickets = Collections.synchronizedList(new ArrayList<>());
+        List<Ticket> sundayTickets = Collections.synchronizedList(new ArrayList<>());
         returnSundays
                 .parallelStream()
                 .forEach(sunday -> {
-                    List<TicketDTO> foundSundayTickets = aviasalesService.getOneWayTicket(to, from, sunday, 1);
+                    List<Ticket> foundSundayTickets = aviasalesService.getOneWayTicket(to, from, sunday, 1);
                     sundayTickets.addAll(foundSundayTickets);
                 });
         DescriptiveStatistics sundayDS = new DescriptiveStatistics();
         sundayTickets.forEach(t -> sundayDS.addValue(t.getValue()));
 
-        Multimap<TicketDTO, TicketDTO> ticketPairs = TreeMultimap.create(Comparator.comparing(TicketDTO::getValue), Comparator.comparing(TicketDTO::getValue));
-        for (TicketDTO fridayTicket : fridayTickets) {
-            for (TicketDTO sundayTicket : sundayTickets) {
-                var departDate = toLocalDate(fridayTicket.getDepart_date());
-                var returnDate = toLocalDate(sundayTicket.getDepart_date());
+        Multimap<Ticket, Ticket> ticketPairs = TreeMultimap.create(Comparator.comparing(Ticket::getValue), Comparator.comparing(Ticket::getValue));
+        for (Ticket fridayTicket : fridayTickets) {
+            for (Ticket sundayTicket : sundayTickets) {
+                var departDate = toLocalDate(fridayTicket.getDepartDate());
+                var returnDate = toLocalDate(sundayTicket.getDepartDate());
                 if (returnDate.isAfter(departDate) && departDate.until(returnDate).getDays() == 2) {
                     ticketPairs.put(fridayTicket, sundayTicket);
                 }
@@ -123,13 +124,13 @@ public class AviasalesServiceTest {
             }
         }
 
-        Optional<TicketDTO> cheapestFridayTicketOpt = ticketPairs.keySet().stream().findFirst();
+        Optional<Ticket> cheapestFridayTicketOpt = ticketPairs.keySet().stream().findFirst();
         assertTrue(cheapestFridayTicketOpt.isPresent());
-        TicketDTO cheapestFridayTicket = cheapestFridayTicketOpt.get();
+        Ticket cheapestFridayTicket = cheapestFridayTicketOpt.get();
 
-        Optional<TicketDTO> cheapestSundayTicketOpt = ticketPairs.get(cheapestFridayTicket).stream().findFirst();
+        Optional<Ticket> cheapestSundayTicketOpt = ticketPairs.get(cheapestFridayTicket).stream().findFirst();
         assertTrue(cheapestSundayTicketOpt.isPresent());
-        TicketDTO cheapestSundayTicket = cheapestSundayTicketOpt.get();
+        Ticket cheapestSundayTicket = cheapestSundayTicketOpt.get();
 
         log.info("Cheapest friday ticket: " + cheapestFridayTicket);
         log.info("Cheapest sunday ticket: " + cheapestSundayTicket);
