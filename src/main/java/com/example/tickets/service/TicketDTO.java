@@ -1,39 +1,21 @@
-package com.example.tickets.repository;
+package com.example.tickets.service;
 
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
-import java.util.Calendar;
 import java.util.Date;
 
 @Data
-@Entity
-@Table(name = "ticket")
-public class TicketEntity {
+public class TicketDTO {
     /**
      * Класс перелёта (только 0 — Эконом);
      */
 
-    private final int tripClass = 0;
-    /**
-     * PK айдишник базы
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    /**
-     * Метка даты записи в БД, когда был "пойман" билет.
-     */
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreationTimestamp
-    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private Calendar catchedOn;
+    private Integer trip_class;
     /**
      * False — все цены, true — только цены, найденные с партнёрским маркером (рекомендовано). Значение по умолчанию — true.
      */
 
-    private Boolean showToAffiliates;
+    private Boolean show_to_affiliates;
     /**
      * Пункт отправления.
      */
@@ -46,17 +28,15 @@ public class TicketEntity {
     /**
      * Дата отправления.
      */
-    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private Date departDate;
+    private Date depart_date;
     /**
      * Дата возвращения.
      */
-    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private Date returnDate;
+    private Date return_date;
     /**
      * Количество пересадок.
      */
-    private Integer numberOfChanges;
+    private Integer number_of_changes;
     /**
      * Стоимость перелета, в указанной валюте.
      */
@@ -64,8 +44,7 @@ public class TicketEntity {
     /**
      * Время и дата, когда был найден билет.
      */
-    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private Date foundAt;
+    private Date found_at;
     /**
      * Расстояние между пунктом вылета и назначения.
      */
@@ -86,4 +65,6 @@ public class TicketEntity {
      * Количество пересадок.
      */
     private Integer transfers;
+
+
 }

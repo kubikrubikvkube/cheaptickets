@@ -10,6 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -30,7 +31,10 @@ import static org.junit.Assert.*;
 @Log
 public class AviasalesServiceTest {
     @Autowired
-    AviasalesService aviasalesService;
+    private AviasalesService aviasalesService;
+
+    @Autowired
+    private ModelMapper mapper;
 
     @Before
     public void setUp() throws Exception {
@@ -42,14 +46,14 @@ public class AviasalesServiceTest {
 
     @Test
     public void oneWayTicketPricesCanBeReceived() throws ServiceException {
-        List<TicketJson> ticketsForNextWeek = aviasalesService.getOneWayTicket("LED", "MOW", LocalDate.now(), 7);
+        List<TicketDTO> ticketsForNextWeek = aviasalesService.getOneWayTicket("LED", "MOW", LocalDate.now(), 7);
         assertNotNull(ticketsForNextWeek);
         assertThat(ticketsForNextWeek, hasSize(greaterThanOrEqualTo(1)));
         log.info("Found tickets: ");
         ticketsForNextWeek.forEach(ticket -> log.info(ticket.toString()));
         log.info("Cheapest ticket from LED to MOW for a next week: ");
-        ticketsForNextWeek.sort(Comparator.comparing(TicketJson::getValue));
-        Optional<TicketJson> firstOptional = ticketsForNextWeek.stream().findFirst();
+        ticketsForNextWeek.sort(Comparator.comparing(TicketDTO::getValue));
+        Optional<TicketDTO> firstOptional = ticketsForNextWeek.stream().findFirst();
         assertTrue(firstOptional.isPresent());
         log.info(firstOptional.get().toString());
     }
@@ -58,14 +62,14 @@ public class AviasalesServiceTest {
     public void returnTicketPricesCanBeReceived() throws ServiceException {
         var today = LocalDate.now();
         var threeWeeksLater = today.plus(Period.ofWeeks(3));
-        List<TicketJson> ticketsForNextWeek = aviasalesService.getReturnTicket("LED", "MOW", today, threeWeeksLater, 7, 7);
+        List<TicketDTO> ticketsForNextWeek = aviasalesService.getReturnTicket("LED", "MOW", today, threeWeeksLater, 7, 7);
         assertNotNull(ticketsForNextWeek);
         assertThat(ticketsForNextWeek, hasSize(greaterThanOrEqualTo(1)));
         log.info("Found tickets: ");
         ticketsForNextWeek.forEach(ticket -> log.info(ticket.toString()));
         log.info("Cheapest return tickets from LED to MOW in a 3 weeks: ");
-        ticketsForNextWeek.sort(Comparator.comparing(TicketJson::getValue));
-        Optional<TicketJson> firstOptional = ticketsForNextWeek.stream().findFirst();
+        ticketsForNextWeek.sort(Comparator.comparing(TicketDTO::getValue));
+        Optional<TicketDTO> firstOptional = ticketsForNextWeek.stream().findFirst();
         assertTrue(firstOptional.isPresent());
         log.info(firstOptional.get().toString());
     }
@@ -82,11 +86,11 @@ public class AviasalesServiceTest {
                 .filter(e -> e.getDayOfWeek() == DayOfWeek.FRIDAY)
                 .collect(Collectors.toList());
 
-        List<TicketJson> fridayTickets = Collections.synchronizedList(new ArrayList<>());
+        List<TicketDTO> fridayTickets = Collections.synchronizedList(new ArrayList<>());
         departureFridays
                 .parallelStream()
                 .forEach(friday -> {
-                    List<TicketJson> foundFridayTickets = aviasalesService.getOneWayTicket(from, to, friday, 1);
+                    List<TicketDTO> foundFridayTickets = aviasalesService.getOneWayTicket(from, to, friday, 1);
                     fridayTickets.addAll(foundFridayTickets);
                 });
         DescriptiveStatistics fridayDS = new DescriptiveStatistics();
@@ -97,19 +101,19 @@ public class AviasalesServiceTest {
                 .filter(e -> e.getDayOfWeek() == DayOfWeek.SUNDAY)
                 .collect(Collectors.toList());
 
-        List<TicketJson> sundayTickets = Collections.synchronizedList(new ArrayList<>());
+        List<TicketDTO> sundayTickets = Collections.synchronizedList(new ArrayList<>());
         returnSundays
                 .parallelStream()
                 .forEach(sunday -> {
-                    List<TicketJson> foundSundayTickets = aviasalesService.getOneWayTicket(to, from, sunday, 1);
+                    List<TicketDTO> foundSundayTickets = aviasalesService.getOneWayTicket(to, from, sunday, 1);
                     sundayTickets.addAll(foundSundayTickets);
                 });
         DescriptiveStatistics sundayDS = new DescriptiveStatistics();
         sundayTickets.forEach(t -> sundayDS.addValue(t.getValue()));
 
-        Multimap<TicketJson, TicketJson> ticketPairs = TreeMultimap.create(Comparator.comparing(TicketJson::getValue), Comparator.comparing(TicketJson::getValue));
-        for (TicketJson fridayTicket : fridayTickets) {
-            for (TicketJson sundayTicket : sundayTickets) {
+        Multimap<TicketDTO, TicketDTO> ticketPairs = TreeMultimap.create(Comparator.comparing(TicketDTO::getValue), Comparator.comparing(TicketDTO::getValue));
+        for (TicketDTO fridayTicket : fridayTickets) {
+            for (TicketDTO sundayTicket : sundayTickets) {
                 var departDate = toLocalDate(fridayTicket.getDepart_date());
                 var returnDate = toLocalDate(sundayTicket.getDepart_date());
                 if (returnDate.isAfter(departDate) && departDate.until(returnDate).getDays() == 2) {
@@ -119,13 +123,13 @@ public class AviasalesServiceTest {
             }
         }
 
-        Optional<TicketJson> cheapestFridayTicketOpt = ticketPairs.keySet().stream().findFirst();
+        Optional<TicketDTO> cheapestFridayTicketOpt = ticketPairs.keySet().stream().findFirst();
         assertTrue(cheapestFridayTicketOpt.isPresent());
-        TicketJson cheapestFridayTicket = cheapestFridayTicketOpt.get();
+        TicketDTO cheapestFridayTicket = cheapestFridayTicketOpt.get();
 
-        Optional<TicketJson> cheapestSundayTicketOpt = ticketPairs.get(cheapestFridayTicket).stream().findFirst();
+        Optional<TicketDTO> cheapestSundayTicketOpt = ticketPairs.get(cheapestFridayTicket).stream().findFirst();
         assertTrue(cheapestSundayTicketOpt.isPresent());
-        TicketJson cheapestSundayTicket = cheapestSundayTicketOpt.get();
+        TicketDTO cheapestSundayTicket = cheapestSundayTicketOpt.get();
 
         log.info("Cheapest friday ticket: " + cheapestFridayTicket);
         log.info("Cheapest sunday ticket: " + cheapestSundayTicket);

@@ -2,7 +2,7 @@ package com.example.tickets.service.aviasales;
 
 import com.example.tickets.exception.ServiceException;
 import com.example.tickets.httpclient.DefaultHttpClient;
-import com.example.tickets.service.TicketJson;
+import com.example.tickets.service.TicketDTO;
 import com.example.tickets.service.aviasales.response.AviasalesResponse;
 import com.example.tickets.util.DateConverter;
 import lombok.extern.java.Log;
@@ -19,7 +19,7 @@ public class AviasalesServiceImpl implements AviasalesService {
     private DefaultHttpClient<AviasalesResponse> httpClient;
 
     @Override
-    public List<TicketJson> getOneWayTicket(String originIAT, String destinationIAT, LocalDate date, int range) throws ServiceException {
+    public List<TicketDTO> getOneWayTicket(String originIAT, String destinationIAT, LocalDate date, int range) throws ServiceException {
 
         StringBuilder sb = new StringBuilder();
         sb.append("https://lyssa.aviasales.ru/price_matrix?");
@@ -30,7 +30,7 @@ public class AviasalesServiceImpl implements AviasalesService {
         sb.append("affiliate=false");
         var request = sb.toString();
         AviasalesResponse response = httpClient.getWithoutHeaders(request, AviasalesResponse.class);
-        List<TicketJson> tickerPrices = response.getPrices();
+        List<TicketDTO> tickerPrices = response.getPrices();
         tickerPrices.forEach(rawTicket -> {
             rawTicket.setOrigin(originIAT);
             rawTicket.setDestination(destinationIAT);
@@ -41,8 +41,7 @@ public class AviasalesServiceImpl implements AviasalesService {
     }
 
     @Override
-    public List<TicketJson> getReturnTicket(String originIAT, String destinationIAT, LocalDate departure, LocalDate returnDate, int departRange, int returnRange) throws ServiceException {
-        //https://lyssa.aviasales.ru/price_matrix?origin_iata=LED&destination_iata=MOW&depart_start=2018-12-21&return_start=2018-12-28&depart_range=6&return_range=6&affiliate=false
+    public List<TicketDTO> getReturnTicket(String originIAT, String destinationIAT, LocalDate departure, LocalDate returnDate, int departRange, int returnRange) throws ServiceException {
         StringBuilder sb = new StringBuilder();
         sb.append("https://lyssa.aviasales.ru/price_matrix?");
         sb.append("origin_iata=").append(originIAT).append("&");

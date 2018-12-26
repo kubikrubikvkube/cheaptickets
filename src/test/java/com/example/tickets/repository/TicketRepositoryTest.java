@@ -1,8 +1,6 @@
 package com.example.tickets.repository;
 
 import com.example.tickets.exception.ServiceException;
-import com.example.tickets.repository.util.EntityConverter;
-import com.example.tickets.service.TicketJson;
 import com.example.tickets.service.TicketService;
 import com.example.tickets.service.travelpayouts.request.LatestRequest;
 import lombok.extern.java.Log;
@@ -17,7 +15,6 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.example.tickets.service.travelpayouts.request.Sorting.DISTANCE_UNIT_PRICE;
 import static com.example.tickets.service.travelpayouts.request.Sorting.PRICE;
@@ -42,11 +39,10 @@ public class TicketRepositoryTest {
                 .show_to_affiliates(false)
                 .limit(5)
                 .build();
-        List<TicketJson> byPrice = ticketService.getLatest(priceSorting);
+        List<Ticket> byPrice = ticketService.getLatest(priceSorting);
 
-        List<TicketEntity> byPriceEntity = byPrice.stream().map(EntityConverter::toEntity).collect(Collectors.toList());
         log.info("Got sorted tickets: " + byPrice);
-        Iterable<TicketEntity> savedTickets = ticketRepository.saveAll(byPriceEntity);
+        Iterable<Ticket> savedTickets = ticketRepository.saveAll(byPrice);
         log.info("Saved tickets: " + savedTickets);
         ticketRepository.deleteAll(savedTickets);
     }
@@ -70,12 +66,11 @@ public class TicketRepositoryTest {
                 .build();
 
 
-        List<TicketJson> byPrice = ticketService.getLatest(priceSorting);
-        List<TicketEntity> byPriceEntity = byPrice.stream().map(EntityConverter::toEntity).collect(Collectors.toList());
+        List<Ticket> byPrice = ticketService.getLatest(priceSorting);
         log.info("Got sorted tickets: " + byPrice);
-        Iterable<TicketEntity> savedTickets = ticketRepository.saveAll(byPriceEntity);
+        Iterable<Ticket> savedTickets = ticketRepository.saveAll(byPrice);
         log.info("Saved tickets: " + savedTickets);
-        List<TicketEntity> byDepartDate = ticketRepository.findByDepartDate(byPrice.get(0).getDepart_date());
+        List<Ticket> byDepartDate = ticketRepository.findByDepartDate(byPrice.get(0).getDepartDate());
         //нужно проверить что мы сохранили больше одного билета
         //взять его дату, найти в базе, узнать что найдено большое одной записи
         //сверить что этот билет есть среди тех, которые мы сохраняли
@@ -104,26 +99,25 @@ public class TicketRepositoryTest {
                 .limit(1)
                 .build();
 
-
-        List<TicketJson> byPrice = ticketService.getLatest(someTicketRequest);
-        Optional<TicketEntity> byPriceEntityOpt = byPrice.stream().map(EntityConverter::toEntity).findFirst();
+        List<Ticket> byPrice = ticketService.getLatest(someTicketRequest);
+        Optional<Ticket> byPriceEntityOpt = byPrice.stream().findFirst();
         assertTrue(byPriceEntityOpt.isPresent());
-        TicketEntity ticketEntity = byPriceEntityOpt.get();
-        log.info("Got ticket: " + ticketEntity);
+        Ticket ticket = byPriceEntityOpt.get();
+        log.info("Got ticket: " + ticket);
 
-        ticketRepository.save(ticketEntity);
+        ticketRepository.save(ticket);
 
-        String origin = ticketEntity.getOrigin();
-        String destination = ticketEntity.getDestination();
-        Date departDate = ticketEntity.getDepartDate();
-        Integer value = ticketEntity.getValue();
+        String origin = ticket.getOrigin();
+        String destination = ticket.getDestination();
+        Date departDate = ticket.getDepartDate();
+        Integer value = ticket.getValue();
 
-        List<TicketEntity> byBasicData = ticketRepository.findByBasicData(origin, destination, departDate, value);
+        List<Ticket> byBasicData = ticketRepository.findByBasicData(origin, destination, departDate, value);
         assertNotNull(byBasicData);
         assertThat(byBasicData, hasSize(1));
-        TicketEntity fetchedTicketEntity = byBasicData.get(0);
-        assertEquals(ticketEntity, fetchedTicketEntity);
-        ticketRepository.delete(ticketEntity);
+        Ticket fetchedTicket = byBasicData.get(0);
+        assertEquals(ticket, fetchedTicket);
+        ticketRepository.delete(ticket);
     }
 
     @Test
@@ -135,12 +129,11 @@ public class TicketRepositoryTest {
                 .show_to_affiliates(true)
                 .limit(5)
                 .build();
-        List<TicketJson> tickets = ticketService.getLatest(plr);
+        List<Ticket> tickets = ticketService.getLatest(plr);
         assertThat(tickets, hasSize(greaterThanOrEqualTo(1)));
-        TicketJson ticketJson = tickets.get(0);
-        TicketEntity ticketEntity = EntityConverter.toEntity(ticketJson);
-        TicketEntity savedEntity = ticketRepository.save(ticketEntity);
-        assertEquals(ticketEntity, savedEntity);
+        Ticket ticket = tickets.get(0);
+        Ticket savedEntity = ticketRepository.save(ticket);
+        assertEquals(ticket, savedEntity);
         ticketRepository.delete(savedEntity);
 
     }

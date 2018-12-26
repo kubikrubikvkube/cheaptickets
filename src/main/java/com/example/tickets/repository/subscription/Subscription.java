@@ -8,8 +8,8 @@ import java.util.Calendar;
 
 @Data
 @Entity
-@Table(name = "subscription")
-public class SubscriptionEntity {
+@Table(indexes = {@Index(name = "idx_subscription", columnList = "id,owner,origin,destination")})
+public class Subscription {
     /**
      * PK айдишник базы
      */

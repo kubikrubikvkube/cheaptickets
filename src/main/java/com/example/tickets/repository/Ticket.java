@@ -1,21 +1,39 @@
-package com.example.tickets.service;
+package com.example.tickets.repository;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
+import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 
 @Data
-public class TicketJson {
+@Entity
+@Table(indexes = {@Index(name = "idx_ticket", columnList = "id,origin,destination,departDate,returnDate")})
+public class Ticket {
     /**
      * Класс перелёта (только 0 — Эконом);
      */
 
-    private final int trip_class = 0;
+    private Integer tripClass;
+    /**
+     * PK айдишник базы
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    /**
+     * Метка даты записи в БД, когда был "пойман" билет.
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private Calendar catchedOn;
     /**
      * False — все цены, true — только цены, найденные с партнёрским маркером (рекомендовано). Значение по умолчанию — true.
      */
 
-    private Boolean show_to_affiliates;
+    private Boolean showToAffiliates;
     /**
      * Пункт отправления.
      */
@@ -28,15 +46,17 @@ public class TicketJson {
     /**
      * Дата отправления.
      */
-    private Date depart_date;
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private Date departDate;
     /**
      * Дата возвращения.
      */
-    private Date return_date;
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private Date returnDate;
     /**
      * Количество пересадок.
      */
-    private Integer number_of_changes;
+    private Integer numberOfChanges;
     /**
      * Стоимость перелета, в указанной валюте.
      */
@@ -44,7 +64,8 @@ public class TicketJson {
     /**
      * Время и дата, когда был найден билет.
      */
-    private Date found_at;
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private Date foundAt;
     /**
      * Расстояние между пунктом вылета и назначения.
      */
@@ -65,6 +86,4 @@ public class TicketJson {
      * Количество пересадок.
      */
     private Integer transfers;
-
-
 }

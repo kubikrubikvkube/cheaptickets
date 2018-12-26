@@ -1,6 +1,6 @@
 package com.example.tickets.repository;
 
-import com.example.tickets.service.subscription.Subscription;
+import com.example.tickets.service.subscription.SubscriptionDTO;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -11,12 +11,12 @@ import java.util.List;
 
 @Repository
 @Transactional
-public interface TicketRepository extends CrudRepository<TicketEntity, Long> {
-    List<TicketEntity> findByDepartDate(Date date);
+public interface TicketRepository extends CrudRepository<Ticket, Long> {
+    List<Ticket> findByDepartDate(Date date);
 
-    @Query("select t from TicketEntity t where t.origin = :origin and t.destination = :destination and t.departDate = :departDate and t.value = :value")
-    List<TicketEntity> findByBasicData(String origin, String destination, Date departDate, Integer value);
+    @Query("select t from Ticket t where t.origin = :origin and t.destination = :destination and t.departDate = :departDate and t.value = :value")
+    List<Ticket> findByBasicData(String origin, String destination, Date departDate, Integer value);
 
-    @Query("select t from TicketEntity t where t.origin = :#{#subscription.origin} and t.destination = :#{#subscription.destination}")
-    List<TicketEntity> findBySubscription(Subscription subscription);
+    @Query("select t from Ticket t where t.origin = :#{#subscriptionDTO.origin} and t.destination = :#{#subscriptionDTO.destination}")
+    List<Ticket> findBySubscription(SubscriptionDTO subscriptionDTO);
 }

@@ -1,6 +1,7 @@
 package com.example.tickets.service;
 
 import com.example.tickets.exception.ServiceException;
+import com.example.tickets.repository.Ticket;
 import com.example.tickets.service.travelpayouts.request.LatestRequest;
 import com.example.tickets.service.travelpayouts.request.Sorting;
 import lombok.extern.java.Log;
@@ -68,18 +69,18 @@ public class TicketServiceTests {
                 .show_to_affiliates(true)
                 .limit(5)
                 .build();
-        List<TicketJson> tickets = ticketService.getLatest(plr);
+        List<Ticket> tickets = ticketService.getLatest(plr);
         assertEquals("Limit should work as expected and there should be 5 ticket", 5, tickets.size());
-        for (TicketJson ticket : tickets) {
+        for (Ticket ticket : tickets) {
             log.info(format("Found %s", ticket.toString()));
-            assertTrue(ticket.getShow_to_affiliates());
+            assertTrue(ticket.getShowToAffiliates());
             assertEquals(ticket.getOrigin(), "LED");
             assertEquals(ticket.getDestination(), "MOW");
-            assertNotNull(ticket.getDepart_date());
-            assertNotNull(ticket.getReturn_date());
-            assertNotNull(ticket.getNumber_of_changes());
+            assertNotNull(ticket.getDepartDate());
+            assertNotNull(ticket.getReturnDate());
+            assertNotNull(ticket.getNumberOfChanges());
             assertNotNull(ticket.getValue());
-            assertNotNull(ticket.getFound_at());
+            assertNotNull(ticket.getFoundAt());
             assertNotNull(ticket.getDistance());
             assertTrue(ticket.getActual());
         }
@@ -94,11 +95,11 @@ public class TicketServiceTests {
                 .show_to_affiliates(false)
                 .limit(5)
                 .build();
-        List<TicketJson> byPrice = ticketService.getLatest(priceSorting);
+        List<Ticket> byPrice = ticketService.getLatest(priceSorting);
         byPrice.forEach(ticket -> log.info("By price: " + ticket));
-        List<TicketJson> sortedTickets = byPrice
+        List<Ticket> sortedTickets = byPrice
                 .stream()
-                .sorted(Comparator.comparing(TicketJson::getValue))
+                .sorted(Comparator.comparing(Ticket::getValue))
                 .collect(Collectors.toList());
 
         assertEquals("After sorting we're expecting that order remain intact. It means that list was already sorted.", byPrice, sortedTickets);
@@ -110,7 +111,7 @@ public class TicketServiceTests {
                 .show_to_affiliates(false)
                 .limit(5)
                 .build();
-        List<TicketJson> byRoute = ticketService.getLatest(routeSorting);
+        List<Ticket> byRoute = ticketService.getLatest(routeSorting);
         assertThat(byRoute, hasSize(5));
         byRoute.forEach(ticket -> log.info("By route: " + ticket));
 
@@ -121,7 +122,7 @@ public class TicketServiceTests {
                 .limit(5)
                 .build();
 
-        List<TicketJson> byDistanceUnit = ticketService.getLatest(distanceUnitSorting);
+        List<Ticket> byDistanceUnit = ticketService.getLatest(distanceUnitSorting);
         assertThat(byDistanceUnit, hasSize(5));
         byDistanceUnit.forEach(ticket -> log.info("By distance unit: " + ticket));
 
@@ -157,19 +158,19 @@ public class TicketServiceTests {
         }
 
 
-        List<TicketJson> responses = new ArrayList<>();
+        List<Ticket> responses = new ArrayList<>();
         for (LatestRequest request : requests) {
-            List<TicketJson> latest = ticketService.getLatest(request);
+            List<Ticket> latest = ticketService.getLatest(request);
             responses.addAll(latest);
         }
 
-        TicketJson cheapestTicket = responses
+        Ticket cheapestTicket = responses
                 .stream()
-                .min(Comparator.comparing(TicketJson::getValue))
+                .min(Comparator.comparing(Ticket::getValue))
                 .orElseThrow();
 
         log.info("Cheapest price for a next year from LED to DME is " + cheapestTicket.getValue());
-        log.info("Cheapest departure date is " + cheapestTicket.getDepart_date());
+        log.info("Cheapest departure date is " + cheapestTicket.getDepartDate());
     }
 
     @Test
@@ -182,17 +183,17 @@ public class TicketServiceTests {
                 .one_way(true)
                 .build();
 
-        List<TicketJson> tickets = ticketService.getLatest(request);
+        List<Ticket> tickets = ticketService.getLatest(request);
 
         tickets.forEach(ticket -> log.info("Found ticket: " + ticket));
-        TicketJson cheapestTicket = tickets
+        Ticket cheapestTicket = tickets
                 .stream()
-                .min(Comparator.comparing(TicketJson::getValue))
+                .min(Comparator.comparing(Ticket::getValue))
                 .orElseThrow();
 
         log.info("Cheapest DME one-way ticket destination is " + cheapestTicket.getDestination());
         log.info("Price is " + cheapestTicket.getValue());
-        log.info("Departure date is " + cheapestTicket.getDepart_date());
+        log.info("Departure date is " + cheapestTicket.getDepartDate());
     }
 
     @Test
@@ -205,16 +206,16 @@ public class TicketServiceTests {
                 .one_way(false)
                 .build();
 
-        List<TicketJson> tickets = ticketService.getLatest(request);
+        List<Ticket> tickets = ticketService.getLatest(request);
 
         tickets.forEach(ticket -> log.info("Found ticket: " + ticket));
-        TicketJson cheapestTicket = tickets
+        Ticket cheapestTicket = tickets
                 .stream()
-                .min(Comparator.comparing(TicketJson::getValue))
+                .min(Comparator.comparing(Ticket::getValue))
                 .orElseThrow();
 
         log.info("Cheapest DME return ticket destination is " + cheapestTicket.getDestination());
         log.info("Price is " + cheapestTicket.getValue());
-        log.info("Departure date is " + cheapestTicket.getDepart_date());
+        log.info("Departure date is " + cheapestTicket.getDepartDate());
     }
 }

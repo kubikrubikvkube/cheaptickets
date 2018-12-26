@@ -1,6 +1,6 @@
 package com.example.tickets.service.travelpayouts.response;
 
-import com.example.tickets.service.TicketJson;
+import com.example.tickets.service.TicketDTO;
 import lombok.Data;
 
 import java.util.List;
@@ -11,6 +11,6 @@ import java.util.List;
 @Data
 public class LatestResponse {
     private Boolean success;
-    private List<TicketJson> data;
+    private List<TicketDTO> data;
     private String error;
 }

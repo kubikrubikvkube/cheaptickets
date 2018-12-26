@@ -1,17 +1,16 @@
 package com.example.tickets.repository.subscription;
 
-import com.example.tickets.repository.TicketEntity;
+import com.example.tickets.repository.Ticket;
 import com.example.tickets.repository.TicketRepository;
-import com.example.tickets.repository.util.EntityConverter;
-import com.example.tickets.service.TicketJson;
 import com.example.tickets.service.TicketService;
-import com.example.tickets.service.subscription.Subscription;
+import com.example.tickets.service.subscription.SubscriptionDTO;
 import com.example.tickets.service.travelpayouts.request.LatestRequest;
 import lombok.extern.java.Log;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -19,7 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.tickets.repository.util.EntityConverter.toEntity;
 import static com.example.tickets.service.travelpayouts.request.Sorting.DISTANCE_UNIT_PRICE;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
@@ -41,50 +39,50 @@ public class SubscriptionRepositoryTest {
     private TicketService ticketService;
 
     @Autowired
+    private ModelMapper mapper;
+
+    @Autowired
     private TicketRepository ticketRepository;
+    private SubscriptionDTO subscriptionDTO;
     private Subscription subscription;
-    private SubscriptionEntity subscriptionEntity;
-    private SubscriptionEntity save;
 
     @Before
     public void setUp() throws Exception {
-        subscription = new Subscription(owner, origin, destination);
-        subscriptionEntity = toEntity(subscription);
-        save = subscriptionRepository.save(subscriptionEntity);
+        subscriptionDTO = new SubscriptionDTO(owner, origin, destination);
+        var mapped = mapper.map(subscriptionDTO, Subscription.class);
+        subscription = subscriptionRepository.save(mapped);
     }
 
     @After
     public void tearDown() throws Exception {
-        subscriptionRepository.delete(subscriptionEntity);
+        subscriptionRepository.delete(subscription);
     }
 
     @Test
     public void subscriptionCanBeFoundByDifferentWays() {
-        assertEquals(subscriptionEntity, save);
-        Optional<SubscriptionEntity> byId = subscriptionRepository.findById(subscriptionEntity.getId());
+        Optional<Subscription> byId = subscriptionRepository.findById(subscription.getId());
         assertTrue(byId.isPresent());
-        assertEquals(byId.get(), subscriptionEntity);
+        assertEquals(byId.get(), subscription);
 
-        List<SubscriptionEntity> byOwner = subscriptionRepository.findByOwner(owner);
+        List<Subscription> byOwner = subscriptionRepository.findByOwner(owner);
         assertNotNull(byOwner);
         assertThat(byOwner, hasSize(1));
-        assertEquals(byOwner.get(0), subscriptionEntity);
+        assertEquals(byOwner.get(0), subscription);
 
-        List<SubscriptionEntity> byOrigin = subscriptionRepository.findByOrigin(origin);
+        List<Subscription> byOrigin = subscriptionRepository.findByOrigin(origin);
         assertNotNull(byOrigin);
         assertThat(byOrigin, hasSize(1));
-        assertEquals(byOrigin.get(0), subscriptionEntity);
+        assertEquals(byOrigin.get(0), subscription);
 
-        List<SubscriptionEntity> byDestination = subscriptionRepository.findByDestination(destination);
+        List<Subscription> byDestination = subscriptionRepository.findByDestination(destination);
         assertNotNull(byDestination);
         assertThat(byDestination, hasSize(1));
-        assertEquals(byDestination.get(0), subscriptionEntity);
+        assertEquals(byDestination.get(0), subscription);
 
-        List<SubscriptionEntity> byOriginAndDestination = subscriptionRepository.findByOriginAndDestination(origin, destination);
+        List<Subscription> byOriginAndDestination = subscriptionRepository.findByOriginAndDestination(origin, destination);
         assertNotNull(byOriginAndDestination);
         assertThat(byOriginAndDestination, hasSize(1));
-        assertEquals(byOriginAndDestination.get(0), subscriptionEntity);
-
+        assertEquals(byOriginAndDestination.get(0), subscription);
     }
 
     @Test
@@ -98,16 +96,16 @@ public class SubscriptionRepositoryTest {
                 .limit(1)
                 .build();
 
-        List<TicketJson> byPrice = ticketService.getLatest(someTicketRequest);
-        Optional<TicketEntity> byPriceEntityOpt = byPrice.stream().map(EntityConverter::toEntity).findFirst();
+        List<Ticket> byPrice = ticketService.getLatest(someTicketRequest);
+        Optional<Ticket> byPriceEntityOpt = byPrice.stream().findFirst();
         assertTrue(byPriceEntityOpt.isPresent());
-        TicketEntity ticketEntity = byPriceEntityOpt.get();
-        log.info("Got ticket: " + ticketEntity);
-        ticketRepository.save(ticketEntity);
-        List<TicketEntity> bySubscription = ticketRepository.findBySubscription(subscription);
+        Ticket ticket = byPriceEntityOpt.get();
+        log.info("Got ticket: " + ticket);
+        ticketRepository.save(ticket);
+        List<Ticket> bySubscription = ticketRepository.findBySubscription(subscriptionDTO);
         assertNotNull(bySubscription);
         assertThat(bySubscription, hasSize(greaterThanOrEqualTo(1)));
-        log.info(String.format("Found %d tickets for subscription %s", bySubscription.size(), subscription));
-        ticketRepository.delete(ticketEntity);
+        log.info(String.format("Found %d tickets for subscriptionDTO %s", bySubscription.size(), subscriptionDTO));
+        ticketRepository.delete(ticket);
     }
 }

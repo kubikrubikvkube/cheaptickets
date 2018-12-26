@@ -8,12 +8,12 @@ import java.util.List;
 
 @Repository
 @Transactional
-public interface SubscriptionRepository extends CrudRepository<SubscriptionEntity, Long> {
-    List<SubscriptionEntity> findByOwner(String owner);
+public interface SubscriptionRepository extends CrudRepository<Subscription, Long> {
+    List<Subscription> findByOwner(String owner);
 
-    List<SubscriptionEntity> findByOrigin(String origin);
+    List<Subscription> findByOrigin(String origin);
 
-    List<SubscriptionEntity> findByDestination(String destination);
+    List<Subscription> findByDestination(String destination);
 
-    List<SubscriptionEntity> findByOriginAndDestination(String origin, String destination);
+    List<Subscription> findByOriginAndDestination(String origin, String destination);
 }

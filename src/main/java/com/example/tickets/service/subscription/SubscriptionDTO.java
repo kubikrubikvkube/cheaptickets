@@ -3,7 +3,7 @@ package com.example.tickets.service.subscription;
 import lombok.Data;
 
 @Data
-public class Subscription {
+public class SubscriptionDTO {
     /**
      * Кто создал подписку
      */
