@@ -3,7 +3,9 @@ package com.example.tickets.repository;
 import com.example.tickets.exception.ServiceException;
 import com.example.tickets.service.TicketService;
 import com.example.tickets.service.travelpayouts.request.LatestRequest;
+import com.example.tickets.util.DateConverter;
 import lombok.extern.java.Log;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.example.tickets.service.travelpayouts.request.Sorting.DISTANCE_UNIT_PRICE;
-import static com.example.tickets.service.travelpayouts.request.Sorting.PRICE;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
@@ -30,32 +31,17 @@ public class TicketRepositoryTest {
     @Autowired
     private TicketRepository ticketRepository;
 
-    @Test
-    public void shouldGetTicketsAndSaveThemToDB() throws ServiceException {
-        LatestRequest priceSorting = LatestRequest.builder()
-                .origin("LED")
-                .destination("DME")
-                .sorting(PRICE)
-                .show_to_affiliates(false)
-                .limit(5)
-                .build();
-        List<Ticket> byPrice = ticketService.getLatest(priceSorting);
+    private LatestRequest someRequest;
 
-        log.info("Got sorted tickets: " + byPrice);
-        Iterable<Ticket> savedTickets = ticketRepository.saveAll(byPrice);
-        log.info("Saved tickets: " + savedTickets);
-        ticketRepository.deleteAll(savedTickets);
-    }
-
-    @Test
-    public void shouldGetTicketsByDateAndSaveThemToDB() throws ServiceException {
+    @Before
+    public void setUp() throws Exception {
         LocalDate now = LocalDateTime.now().toLocalDate();
         LocalDate nextMonth = now.plusMonths(1);
         int dayOfMonth = nextMonth.getDayOfMonth();
         LocalDate firstDayOfNextMonth = nextMonth.minusDays(dayOfMonth).plusDays(1);
 
 
-        LatestRequest priceSorting = LatestRequest.builder()
+        someRequest = LatestRequest.builder()
                 .origin("LED")
                 .destination("DME")
                 .period_type("month")
@@ -64,9 +50,33 @@ public class TicketRepositoryTest {
                 .show_to_affiliates(false)
                 .limit(5)
                 .build();
+    }
 
+    @Test
+    public void existsByBasicData() {
+        boolean shouldNotExist = ticketRepository.existsByBasicData("MOW", "LED", DateConverter.toDate(LocalDate.now()), 1);
+        assertFalse(shouldNotExist);
+        List<Ticket> latest = ticketService.getLatest(someRequest);
+        assertThat(latest, hasSize(greaterThanOrEqualTo(1)));
+        Ticket ticket = latest.get(0);
+        ticketRepository.save(ticket);
+        boolean shouldExist = ticketRepository.existsByBasicData(ticket.getOrigin(), ticket.getDestination(), ticket.getDepartDate(), ticket.getValue());
+        assertTrue(shouldExist);
+        ticketRepository.delete(ticket);
+    }
 
-        List<Ticket> byPrice = ticketService.getLatest(priceSorting);
+    @Test
+    public void shouldGetTicketsAndSaveThemToDB() throws ServiceException {
+        List<Ticket> byPrice = ticketService.getLatest(someRequest);
+        log.info("Got tickets: " + byPrice);
+        Iterable<Ticket> savedTickets = ticketRepository.saveAll(byPrice);
+        log.info("Saved tickets: " + savedTickets);
+        ticketRepository.deleteAll(savedTickets);
+    }
+
+    @Test
+    public void shouldGetTicketsByDateAndSaveThemToDB() throws ServiceException {
+        List<Ticket> byPrice = ticketService.getLatest(someRequest);
         log.info("Got sorted tickets: " + byPrice);
         Iterable<Ticket> savedTickets = ticketRepository.saveAll(byPrice);
         log.info("Saved tickets: " + savedTickets);
@@ -83,23 +93,7 @@ public class TicketRepositoryTest {
 
     @Test
     public void shouldBeRequestByBasicData() throws ServiceException {
-        LocalDate now = LocalDateTime.now().toLocalDate();
-        LocalDate nextMonth = now.plusMonths(1);
-        int dayOfMonth = nextMonth.getDayOfMonth();
-        LocalDate firstDayOfNextMonth = nextMonth.minusDays(dayOfMonth).plusDays(1);
-
-
-        LatestRequest someTicketRequest = LatestRequest.builder()
-                .origin("LED")
-                .destination("DME")
-                .period_type("month")
-                .beginning_of_period(firstDayOfNextMonth)
-                .sorting(DISTANCE_UNIT_PRICE)
-                .show_to_affiliates(false)
-                .limit(1)
-                .build();
-
-        List<Ticket> byPrice = ticketService.getLatest(someTicketRequest);
+        List<Ticket> byPrice = ticketService.getLatest(someRequest);
         Optional<Ticket> byPriceEntityOpt = byPrice.stream().findFirst();
         assertTrue(byPriceEntityOpt.isPresent());
         Ticket ticket = byPriceEntityOpt.get();
@@ -122,14 +116,7 @@ public class TicketRepositoryTest {
 
     @Test
     public void equalEntitiesShouldBeEqualToEachOther() {
-        LatestRequest plr = LatestRequest.builder()
-                .origin("LED")
-                .destination("DME")
-                .sorting(PRICE)
-                .show_to_affiliates(true)
-                .limit(5)
-                .build();
-        List<Ticket> tickets = ticketService.getLatest(plr);
+        List<Ticket> tickets = ticketService.getLatest(someRequest);
         assertThat(tickets, hasSize(greaterThanOrEqualTo(1)));
         Ticket ticket = tickets.get(0);
         Ticket savedEntity = ticketRepository.save(ticket);

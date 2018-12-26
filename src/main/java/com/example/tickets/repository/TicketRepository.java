@@ -19,4 +19,7 @@ public interface TicketRepository extends CrudRepository<Ticket, Long> {
 
     @Query("select t from Ticket t where t.origin = :#{#subscriptionDTO.origin} and t.destination = :#{#subscriptionDTO.destination}")
     List<Ticket> findBySubscription(SubscriptionDTO subscriptionDTO);
+
+    @Query("select count(t)>0 from Ticket t where t.origin = :origin and t.destination = :destination and t.departDate = :departDate and t.value = :value")
+    boolean existsByBasicData(String origin, String destination, Date departDate, Integer value);
 }

@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(indexes = {@Index(name = "idx_ticket", columnList = "id,origin,destination,departDate,returnDate")})
+@Table(indexes = {@Index(name = "idx_ticket", columnList = "origin,destination,departDate,value,returnDate")})
 public class Ticket {
     /**
      * Класс перелёта (только 0 — Эконом);
