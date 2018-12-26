@@ -12,6 +12,5 @@ public class BasicJob implements Job {
         log.info("Setting isBasicJobExecuted to TRUE");
         BasicJobTest.isBasicJobExecuted.set(true);
         log.info("isBasicJobExecuted is set to " + BasicJobTest.isBasicJobExecuted.get());
-
     }
 }

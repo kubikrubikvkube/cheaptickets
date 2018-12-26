@@ -1,0 +1,61 @@
+package com.example.tickets.repository.constant;
+
+import com.example.tickets.exception.ServiceException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
+import lombok.extern.java.Log;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import java.io.IOException;
+import java.util.Optional;
+
+import static org.junit.Assert.assertTrue;
+
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@Log
+public class CityRepositoryTest {
+    @Autowired
+    private CityRepository cityRepository;
+
+    @Autowired
+    private ModelMapper mapper;
+
+    @Test
+    public void shouldSaveCityToDB() throws ServiceException, IOException {
+        String json = "  {\n" +
+                "    \"code\": \"MOW\",\n" +
+                "    \"name\": \"Москва\",\n" +
+                "    \"coordinates\": {\n" +
+                "      \"lon\": 37.617633,\n" +
+                "      \"lat\": 55.755786\n" +
+                "    },\n" +
+                "    \"cases\": {\n" +
+                "      \"ro\": \"Москвы\",\n" +
+                "      \"da\": \"Москве\",\n" +
+                "      \"vi\": \"в Москву\",\n" +
+                "      \"tv\": \"Москвой\",\n" +
+                "      \"pr\": \"Москве\"\n" +
+                "    },\n" +
+                "    \"time_zone\": \"Europe/Moscow\",\n" +
+                "    \"name_translations\": {\n" +
+                "      \"en\": \"Moscow\"\n" +
+                "    },\n" +
+                "    \"country_code\": \"RU\"\n" +
+                "  }";
+
+        ObjectReader reader = new ObjectMapper().readerFor(CityDTO.class);
+        CityDTO dto = reader.readValue(json);
+        City city = mapper.map(dto, City.class);
+        cityRepository.save(city);
+        Optional<City> byId = cityRepository.findById(city.getId());
+        assertTrue(byId.isPresent());
+        cityRepository.delete(city);
+    }
+}

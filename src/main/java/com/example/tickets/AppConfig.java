@@ -39,7 +39,6 @@ public class AppConfig {
         typeMap.addMapping(TicketDTO::getAirline, Ticket::setAirline);
         typeMap.addMapping(TicketDTO::getTransfers, Ticket::setTransfers);
         modelMapper.validate();
-
         return modelMapper;
     }
 
