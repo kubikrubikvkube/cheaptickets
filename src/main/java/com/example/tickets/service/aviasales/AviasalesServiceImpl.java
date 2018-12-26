@@ -6,8 +6,10 @@ import com.example.tickets.repository.Ticket;
 import com.example.tickets.service.TicketDTO;
 import com.example.tickets.service.aviasales.response.AviasalesResponse;
 import com.example.tickets.util.DateConverter;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import lombok.extern.java.Log;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -82,7 +83,7 @@ public class AviasalesServiceImpl implements AviasalesService {
     }
 
     @Override
-    public List<Ticket> getTicketsMap(String originIAT, LocalDate departDate, boolean onlyDirect) {
+    public List<Ticket> getTicketsMap(String originIAT, LocalDate departDate, boolean onlyDirect) throws ServiceException {
         StringBuilder sb = new StringBuilder();
         sb.append("https://lyssa.aviasales.ru/map?");
         sb.append("origin_iata=").append(originIAT).append("&");
@@ -93,23 +94,18 @@ public class AviasalesServiceImpl implements AviasalesService {
         var stringRequest = sb.toString();
 
         JsonNode response = defaultHttpClient.getJsonResponse(stringRequest);
-
-        List<JsonNode> allNodes = new ArrayList<>();
-        response.elements().forEachRemaining(allNodes::add);
-        List<TicketDTO> ticketDTOS = new ArrayList<>();
-        ObjectMapper jsonMapper = new ObjectMapper();
+        ObjectReader reader2 = new ObjectMapper().readerFor(new TypeReference<List<TicketDTO>>() {
+        });
+        List<TicketDTO> allNodes;
         try {
-            for (JsonNode node : allNodes) {
-                TicketDTO ticketDTO = jsonMapper.readValue(node.toString(), TicketDTO.class);
-                ticketDTOS.add(ticketDTO);
-            }
+            allNodes = reader2.readValue(response);
         } catch (IOException ioe) {
             throw new ServiceException(ioe);
         }
 
-        return ticketDTOS
+        return allNodes
                 .stream()
-                .map(ticketDTO -> mapper.map(ticketDTO, Ticket.class))
+                .map(dto -> mapper.map(dto, Ticket.class))
                 .collect(Collectors.toList());
     }
 }

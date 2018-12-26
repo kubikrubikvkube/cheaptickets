@@ -7,6 +7,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.TreeMultimap;
 import lombok.extern.java.Log;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +24,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.example.tickets.util.DateConverter.toLocalDate;
+import static java.lang.String.format;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
@@ -48,8 +50,12 @@ public class AviasalesServiceTest {
     @Test
     public void ticketsMapShouldWork() {
         List<Ticket> directFromMOW = aviasalesService.getTicketsMap("MOW", LocalDate.now(), true);
+        assertNotNull(directFromMOW);
+        assertThat(directFromMOW, hasSize(Matchers.greaterThanOrEqualTo(1)));
+        log.info(format("Found %d direct tickets from MOW", directFromMOW.size()));
         List<Ticket> inDirectFromMOW = aviasalesService.getTicketsMap("MOW", LocalDate.now(), false);
-        int debug = 0;
+        assertNotNull(inDirectFromMOW);
+        log.info(format("Found %d indirect tickets from MOW", inDirectFromMOW.size()));
     }
 
     @Test
