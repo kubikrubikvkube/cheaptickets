@@ -13,7 +13,7 @@ import java.util.Calendar;
 @Entity
 @Table(indexes = {@Index(name = "idx_city", columnList = "code")})
 @TypeDefs({
-        @TypeDef(name = "jsonb", typeClass = JsonStringType.class)
+        @TypeDef(name = "json", typeClass = JsonStringType.class)
 })
 public class City {
 
