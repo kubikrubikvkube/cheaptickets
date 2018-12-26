@@ -53,9 +53,20 @@ public class AviasalesServiceTest {
         assertNotNull(directFromMOW);
         assertThat(directFromMOW, hasSize(Matchers.greaterThanOrEqualTo(1)));
         log.info(format("Found %d direct tickets from MOW", directFromMOW.size()));
+        directFromMOW.sort(Comparator.comparing(Ticket::getValue));
+        log.info("Top 3 cheapest direct tickets from MOW: ");
+        log.info(directFromMOW.get(0).toString());
+        log.info(directFromMOW.get(1).toString());
+        log.info(directFromMOW.get(2).toString());
+
         List<Ticket> inDirectFromMOW = aviasalesService.getTicketsMap("MOW", LocalDate.now(), false);
         assertNotNull(inDirectFromMOW);
         log.info(format("Found %d indirect tickets from MOW", inDirectFromMOW.size()));
+        inDirectFromMOW.sort(Comparator.comparing(Ticket::getValue));
+        log.info("Top 3 cheapest indirect tickets from MOW: ");
+        log.info(inDirectFromMOW.get(0).toString());
+        log.info(inDirectFromMOW.get(1).toString());
+        log.info(inDirectFromMOW.get(2).toString());
     }
 
     @Test
