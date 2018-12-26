@@ -66,5 +66,13 @@ public class TicketDTO {
      */
     private Integer transfers;
 
+    /**
+     * TimeToLive in milliseconds
+     */
+    private Long ttl;
 
+    /**
+     * Время, когда билет был отдан пользователю через API (?)
+     */
+    private Long created_at;
 }

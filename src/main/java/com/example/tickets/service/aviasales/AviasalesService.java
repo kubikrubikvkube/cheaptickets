@@ -35,4 +35,14 @@ public interface AviasalesService {
      * @throws ServiceException исключение во время выполнения
      */
     List<Ticket> getReturnTicket(String originIAT, String destinationIAT, LocalDate departure, LocalDate returnDate, int departRange, int returnRange) throws ServiceException;
+
+    /**
+     * Возвращает список билетов "Карта низких цен"
+     *
+     * @param originIAT  IAT код места отправления
+     * @param departDate дата отправления
+     * @param onlyDirect только билеты без пересадок
+     * @return список найденных билетов
+     */
+    List<Ticket> getTicketsMap(String originIAT, LocalDate departDate, boolean onlyDirect);
 }

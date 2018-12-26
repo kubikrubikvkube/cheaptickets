@@ -6,12 +6,16 @@ import com.example.tickets.repository.Ticket;
 import com.example.tickets.service.TicketDTO;
 import com.example.tickets.service.aviasales.response.AviasalesResponse;
 import com.example.tickets.util.DateConverter;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.java.Log;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +23,8 @@ import java.util.stream.Collectors;
 @Service
 public class AviasalesServiceImpl implements AviasalesService {
     @Autowired
-    private DefaultHttpClient<AviasalesResponse> httpClient;
+    private DefaultHttpClient<AviasalesResponse> defaultHttpClient;
+
 
     @Autowired
     private ModelMapper mapper;
@@ -35,7 +40,7 @@ public class AviasalesServiceImpl implements AviasalesService {
         sb.append("depart_range=").append(range).append("&");
         sb.append("affiliate=false");
         var request = sb.toString();
-        AviasalesResponse response = httpClient.getWithoutHeaders(request, AviasalesResponse.class);
+        AviasalesResponse response = defaultHttpClient.getWithoutHeaders(request, AviasalesResponse.class);
         List<TicketDTO> tickerPrices = response.getPrices();
         tickerPrices.forEach(rawTicket -> {
             rawTicket.setOrigin(originIAT);
@@ -61,7 +66,7 @@ public class AviasalesServiceImpl implements AviasalesService {
         sb.append("return_range=").append(returnRange).append("&");
         sb.append("affiliate=false");
         var request = sb.toString();
-        AviasalesResponse response = httpClient.getWithoutHeaders(request, AviasalesResponse.class);
+        AviasalesResponse response = defaultHttpClient.getWithoutHeaders(request, AviasalesResponse.class);
         List<TicketDTO> tickerPrices = response.getPrices();
         tickerPrices.forEach(rawTicket -> {
             rawTicket.setOrigin(originIAT);
@@ -73,6 +78,38 @@ public class AviasalesServiceImpl implements AviasalesService {
         return tickerPrices
                 .stream()
                 .map(dto -> mapper.map(dto, Ticket.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Ticket> getTicketsMap(String originIAT, LocalDate departDate, boolean onlyDirect) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("https://lyssa.aviasales.ru/map?");
+        sb.append("origin_iata=").append(originIAT).append("&");
+        sb.append("only_direct=").append(onlyDirect).append("&");
+        sb.append("depart_dates[]=").append(departDate).append("&");
+        sb.append("one_way=").append(true).append("&");
+        sb.append("show_to_affiliates=false");
+        var stringRequest = sb.toString();
+
+        JsonNode response = defaultHttpClient.getJsonResponse(stringRequest);
+
+        List<JsonNode> allNodes = new ArrayList<>();
+        response.elements().forEachRemaining(allNodes::add);
+        List<TicketDTO> ticketDTOS = new ArrayList<>();
+        ObjectMapper jsonMapper = new ObjectMapper();
+        try {
+            for (JsonNode node : allNodes) {
+                TicketDTO ticketDTO = jsonMapper.readValue(node.toString(), TicketDTO.class);
+                ticketDTOS.add(ticketDTO);
+            }
+        } catch (IOException ioe) {
+            throw new ServiceException(ioe);
+        }
+
+        return ticketDTOS
+                .stream()
+                .map(ticketDTO -> mapper.map(ticketDTO, Ticket.class))
                 .collect(Collectors.toList());
     }
 }

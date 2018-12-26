@@ -1,5 +1,6 @@
 package com.example.tickets.httpclient;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.java.Log;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -48,5 +49,15 @@ public class DefaultHttpClient<T> {
         }
         log.info("Got response: " + exchange);
         return exchange.getBody();
+    }
+
+    public JsonNode getJsonResponse(String getRequest) {
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+        RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
+        log.info("Send request: " + getRequest);
+        JsonNode node = restTemplate.getForObject(getRequest, JsonNode.class);
+        log.info("Got response: " + node);
+        return node;
     }
 }

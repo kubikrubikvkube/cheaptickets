@@ -86,4 +86,9 @@ public class Ticket {
      * Количество пересадок.
      */
     private Integer transfers;
+
+    /**
+     * Время жизни билета в миллисекундах
+     */
+    private Long ttl;
 }

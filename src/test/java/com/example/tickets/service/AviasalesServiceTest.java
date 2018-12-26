@@ -46,6 +46,13 @@ public class AviasalesServiceTest {
     }
 
     @Test
+    public void ticketsMapShouldWork() {
+        List<Ticket> directFromMOW = aviasalesService.getTicketsMap("MOW", LocalDate.now(), true);
+        List<Ticket> inDirectFromMOW = aviasalesService.getTicketsMap("MOW", LocalDate.now(), false);
+        int debug = 0;
+    }
+
+    @Test
     public void oneWayTicketPricesCanBeReceived() throws ServiceException {
         List<Ticket> ticketsForNextWeek = aviasalesService.getOneWayTicket("LED", "MOW", LocalDate.now(), 7);
         assertNotNull(ticketsForNextWeek);

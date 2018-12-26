@@ -16,6 +16,7 @@ public class AppConfig {
     public ModelMapper defaultMapper() {
         ModelMapper modelMapper = new ModelMapper();
         TypeMap<TicketDTO, Ticket> typeMap = modelMapper.typeMap(TicketDTO.class, Ticket.class);
+        //TicketDTO <-> Ticket
         typeMap.addMappings(mapper -> mapper.skip(Ticket::setId));
         typeMap.addMappings(mapper -> mapper.skip(Ticket::setCatchedOn));
         typeMap.addMapping(TicketDTO::getTrip_class, Ticket::setTripClass);
@@ -33,6 +34,7 @@ public class AppConfig {
         typeMap.addMapping(TicketDTO::getAirline, Ticket::setAirline);
         typeMap.addMapping(TicketDTO::getTransfers, Ticket::setTransfers);
         modelMapper.validate();
+
         return modelMapper;
     }
 }
