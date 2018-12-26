@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 import java.util.Optional;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
@@ -56,6 +57,10 @@ public class CityRepositoryTest {
         cityRepository.save(city);
         Optional<City> byId = cityRepository.findById(city.getId());
         assertTrue(byId.isPresent());
+        City savedCity = byId.get();
+        assertEquals(city.getCases(), savedCity.getCases());
+        assertEquals(city.getCoordinates(), savedCity.getCoordinates());
+        assertEquals(city.getName_translations(), savedCity.getName_translations());
         cityRepository.delete(city);
     }
 }

@@ -1,6 +1,6 @@
 package com.example.tickets.repository.constant;
 
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.TypeDef;
@@ -13,7 +13,7 @@ import java.util.Calendar;
 @Entity
 @Table(indexes = {@Index(name = "idx_city", columnList = "code")})
 @TypeDefs({
-        @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+        @TypeDef(name = "jsonb", typeClass = JsonStringType.class)
 })
 public class City {
 
@@ -33,13 +33,13 @@ public class City {
 
     private String code;
     private String name;
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "json")
     private String coordinates;
 
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "json")
     private String cases;
     private String time_zone;
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "json")
     private String name_translations;
     private String country_code;
 }
