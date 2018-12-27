@@ -2,6 +2,8 @@ package com.example.tickets.rest;
 
 import com.example.tickets.repository.Ticket;
 import com.example.tickets.repository.TicketRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +19,7 @@ import java.time.LocalDate;
 import static com.example.tickets.util.DateConverter.toDate;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -49,10 +52,13 @@ public class CheapestTicketControllerTest {
     @Test
     public void cheapest() throws Exception {
         String request = "/cheapest?origin=LED&destination=MOW&departureDate=" + date;
-
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        String ticketJsonString = mapper.writerFor(Ticket.class).writeValueAsString(t);
         this.mockMvc
                 .perform(get(request))
-                .andDo(print()).andExpect(status().isOk());
-        //TODO сравнить json'ы
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json(ticketJsonString));
     }
 }

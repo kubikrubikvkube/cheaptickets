@@ -4,7 +4,6 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.util.Calendar;
 import java.util.Date;
 
 @Data
@@ -24,7 +23,7 @@ public class Ticket {
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private Calendar catchedOn;
+    private Date catchedOn;
     /**
      * Класс перелёта (только 0 — Эконом);
      */
