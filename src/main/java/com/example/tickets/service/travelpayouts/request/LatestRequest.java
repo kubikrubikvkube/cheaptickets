@@ -13,8 +13,10 @@ import java.time.LocalDate;
  * Если не указывать пункт отправления и назначения, то API вернет 30 самых дешевых билетов, которые были найдены за последние 48 часов.
  * При этом нельзя использовать period_type=month.
  */
-@Builder
+
+
 @Value
+@Builder
 public class LatestRequest {
     private final static String BASE_URL = "http://api.travelpayouts.com/v2/prices/latest";
     /**

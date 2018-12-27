@@ -1,7 +1,7 @@
 package com.example.tickets.repository;
 
 import com.example.tickets.exception.ServiceException;
-import com.example.tickets.service.TicketService;
+import com.example.tickets.service.TravelPayoutsService;
 import com.example.tickets.service.travelpayouts.request.LatestRequest;
 import com.example.tickets.util.DateConverter;
 import lombok.extern.java.Log;
@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
 @Log
 public class TicketRepositoryTest {
     @Autowired
-    private TicketService ticketService;
+    private TravelPayoutsService travelPayoutsService;
     @Autowired
     private TicketRepository ticketRepository;
 
@@ -56,7 +56,7 @@ public class TicketRepositoryTest {
     public void existsByBasicData() {
         boolean shouldNotExist = ticketRepository.existsByOriginAndDestinationAndDepartDateAndValue("MOW", "LED", DateConverter.toDate(LocalDate.now()), 1);
         assertFalse(shouldNotExist);
-        List<Ticket> latest = ticketService.getLatest(someRequest);
+        List<Ticket> latest = travelPayoutsService.getLatest(someRequest);
         assertThat(latest, hasSize(greaterThanOrEqualTo(1)));
         Ticket ticket = latest.get(0);
         ticketRepository.save(ticket);
@@ -67,7 +67,7 @@ public class TicketRepositoryTest {
 
     @Test
     public void shouldGetTicketsAndSaveThemToDB() throws ServiceException {
-        List<Ticket> byPrice = ticketService.getLatest(someRequest);
+        List<Ticket> byPrice = travelPayoutsService.getLatest(someRequest);
         log.info("Got tickets: " + byPrice);
         Iterable<Ticket> savedTickets = ticketRepository.saveAll(byPrice);
         log.info("Saved tickets: " + savedTickets);
@@ -76,7 +76,7 @@ public class TicketRepositoryTest {
 
     @Test
     public void shouldGetTicketsByDateAndSaveThemToDB() throws ServiceException {
-        List<Ticket> byPrice = ticketService.getLatest(someRequest);
+        List<Ticket> byPrice = travelPayoutsService.getLatest(someRequest);
         log.info("Got sorted tickets: " + byPrice);
         Iterable<Ticket> savedTickets = ticketRepository.saveAll(byPrice);
         log.info("Saved tickets: " + savedTickets);
@@ -93,7 +93,7 @@ public class TicketRepositoryTest {
 
     @Test
     public void shouldBeRequestByBasicData() throws ServiceException {
-        List<Ticket> byPrice = ticketService.getLatest(someRequest);
+        List<Ticket> byPrice = travelPayoutsService.getLatest(someRequest);
         Optional<Ticket> byPriceEntityOpt = byPrice.stream().findFirst();
         assertTrue(byPriceEntityOpt.isPresent());
         Ticket ticket = byPriceEntityOpt.get();
@@ -116,7 +116,7 @@ public class TicketRepositoryTest {
 
     @Test
     public void equalEntitiesShouldBeEqualToEachOther() {
-        List<Ticket> tickets = ticketService.getLatest(someRequest);
+        List<Ticket> tickets = travelPayoutsService.getLatest(someRequest);
         assertThat(tickets, hasSize(greaterThanOrEqualTo(1)));
         Ticket ticket = tickets.get(0);
         Ticket savedEntity = ticketRepository.save(ticket);

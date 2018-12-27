@@ -2,7 +2,7 @@ package com.example.tickets.rest;
 
 import com.example.tickets.repository.Ticket;
 import com.example.tickets.repository.TicketRepository;
-import com.example.tickets.service.TicketService;
+import com.example.tickets.service.TravelPayoutsService;
 import com.example.tickets.service.aviasales.AviasalesService;
 import com.example.tickets.util.DateConverter;
 import lombok.extern.java.Log;
@@ -20,7 +20,7 @@ import java.util.List;
 @Log
 public class CheapestTicketController {
     @Autowired
-    TicketService ticketService;
+    TravelPayoutsService travelPayoutsService;
     @Autowired
     TicketRepository ticketRepository;
     @Autowired

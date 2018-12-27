@@ -4,12 +4,13 @@ import com.example.tickets.exception.ServiceException;
 import com.example.tickets.repository.Ticket;
 import com.example.tickets.service.travelpayouts.request.*;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
  * TravelPayouts API
  */
-public interface TicketService {
+public interface TravelPayoutsService {
 
     List<Ticket> getLatest(LatestRequest request) throws ServiceException;
 
@@ -19,7 +20,7 @@ public interface TicketService {
 
     List<Ticket> getCheap(CheapRequest request) throws ServiceException;
 
-    List<Ticket> getDirect(DirectRequest request) throws ServiceException;
+    List<Ticket> getDirect(DirectRequest request) throws ServiceException, IOException;
 
     List<Ticket> getCalendar(CalendarRequest request) throws ServiceException;
 

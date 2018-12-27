@@ -21,7 +21,7 @@ public class DefaultHttpClient<T> {
     @Value("${developer.token}")
     private String token;
 
-    public T getWithHeaders(String getRequest, Class<T> clazz) {
+    public <T> T getWithHeaders(String getRequest, Class<T> clazz) {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
@@ -38,7 +38,7 @@ public class DefaultHttpClient<T> {
         return exchange.getBody();
     }
 
-    public T getWithoutHeaders(String getRequest, Class<T> clazz) {
+    public <T> T getWithoutHeaders(String getRequest, Class<T> clazz) {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
@@ -51,7 +51,7 @@ public class DefaultHttpClient<T> {
         return exchange.getBody();
     }
 
-    public JsonNode getJsonResponse(String getRequest) {
+    public JsonNode getJsonResponseWithoutHeaders(String getRequest) {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
@@ -59,5 +59,22 @@ public class DefaultHttpClient<T> {
         JsonNode node = restTemplate.getForObject(getRequest, JsonNode.class);
         log.info("Got response: " + node);
         return node;
+    }
+
+    public JsonNode getJsonResponseWithHeaders(String getRequest) {
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+        RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Accept-Encoding", "gzip, deflate");
+        headers.add("X-Access-Token", token);
+        HttpEntity<String> httpEntity = new HttpEntity<>("parameters", headers);
+        log.info("Send request: " + getRequest);
+        ResponseEntity<JsonNode> exchange = restTemplate.exchange(getRequest, HttpMethod.GET, httpEntity, JsonNode.class);
+        if (!exchange.getStatusCode().is2xxSuccessful()) {
+            log.severe(String.format("Request failed. Error code %s : %s", exchange.getStatusCode(), getRequest));
+        }
+        log.info("Got response: " + exchange);
+        return exchange.getBody();
     }
 }

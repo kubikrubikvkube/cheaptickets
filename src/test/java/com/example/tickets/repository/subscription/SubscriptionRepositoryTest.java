@@ -2,7 +2,7 @@ package com.example.tickets.repository.subscription;
 
 import com.example.tickets.repository.Ticket;
 import com.example.tickets.repository.TicketRepository;
-import com.example.tickets.service.TicketService;
+import com.example.tickets.service.TravelPayoutsService;
 import com.example.tickets.service.subscription.SubscriptionDTO;
 import com.example.tickets.service.travelpayouts.request.LatestRequest;
 import lombok.extern.java.Log;
@@ -36,7 +36,7 @@ public class SubscriptionRepositoryTest {
     @Autowired
     private SubscriptionRepository subscriptionRepository;
     @Autowired
-    private TicketService ticketService;
+    private TravelPayoutsService travelPayoutsService;
 
     @Autowired
     private ModelMapper mapper;
@@ -96,7 +96,7 @@ public class SubscriptionRepositoryTest {
                 .limit(1)
                 .build();
 
-        List<Ticket> byPrice = ticketService.getLatest(someTicketRequest);
+        List<Ticket> byPrice = travelPayoutsService.getLatest(someTicketRequest);
         Optional<Ticket> byPriceEntityOpt = byPrice.stream().findFirst();
         assertTrue(byPriceEntityOpt.isPresent());
         Ticket ticket = byPriceEntityOpt.get();

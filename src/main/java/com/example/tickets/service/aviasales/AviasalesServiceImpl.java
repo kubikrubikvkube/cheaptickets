@@ -97,7 +97,7 @@ public class AviasalesServiceImpl implements AviasalesService {
         sb.append("show_to_affiliates=false");
         var stringRequest = sb.toString();
 
-        JsonNode response = defaultHttpClient.getJsonResponse(stringRequest);
+        JsonNode response = defaultHttpClient.getJsonResponseWithoutHeaders(stringRequest);
         ObjectReader reader2 = new ObjectMapper().readerFor(new TypeReference<List<TicketDTO>>() {
         });
         List<TicketDTO> allNodes;

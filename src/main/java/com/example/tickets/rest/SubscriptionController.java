@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @RestController
 @Log
 public class SubscriptionController {
+    private final AtomicBoolean isStarted = new AtomicBoolean(false);
     @Autowired
     SubscriptionRepository repository;
     @Autowired
@@ -55,6 +58,12 @@ public class SubscriptionController {
         return repository.findByOwnerAndOriginAndDestination(owner, origin, destination);
     }
 
+    @RequestMapping(value = "/subscription/start")
+    public void start() {
+        if (isStarted.get()) return;
+        log.info("Started at " + LocalDateTime.now());
+        isStarted.set(true);
+    }
 
 
 }

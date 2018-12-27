@@ -2,15 +2,18 @@ package com.example.tickets.service;
 
 import com.example.tickets.exception.ServiceException;
 import com.example.tickets.repository.Ticket;
+import com.example.tickets.service.travelpayouts.request.DirectRequest;
 import com.example.tickets.service.travelpayouts.request.LatestRequest;
 import com.example.tickets.service.travelpayouts.request.Sorting;
 import lombok.extern.java.Log;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
@@ -24,9 +27,23 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Log
-public class TicketServiceTests {
+public class TravelPayoutsServiceTests {
     @Autowired
-    private TicketService ticketService;
+    private TravelPayoutsService travelPayoutsService;
+
+    @Test
+    @Ignore
+    public void direct() throws IOException {
+        DirectRequest request = DirectRequest
+                .builder()
+                .origin("LED")
+                .destination("MOW")
+                .depart_date(LocalDate.now().plusDays(14))
+                .build();
+
+        List<Ticket> directTickets = travelPayoutsService.getDirect(request);
+        int debug = 0;
+    }
 
     @Test
     public void latestPricesRequestShouldBeBuilded() {
@@ -69,7 +86,7 @@ public class TicketServiceTests {
                 .show_to_affiliates(true)
                 .limit(5)
                 .build();
-        List<Ticket> tickets = ticketService.getLatest(plr);
+        List<Ticket> tickets = travelPayoutsService.getLatest(plr);
         assertEquals("Limit should work as expected and there should be 5 ticket", 5, tickets.size());
         for (Ticket ticket : tickets) {
             log.info(format("Found %s", ticket.toString()));
@@ -95,7 +112,7 @@ public class TicketServiceTests {
                 .show_to_affiliates(false)
                 .limit(5)
                 .build();
-        List<Ticket> byPrice = ticketService.getLatest(priceSorting);
+        List<Ticket> byPrice = travelPayoutsService.getLatest(priceSorting);
         byPrice.forEach(ticket -> log.info("By price: " + ticket));
         List<Ticket> sortedTickets = byPrice
                 .stream()
@@ -111,7 +128,7 @@ public class TicketServiceTests {
                 .show_to_affiliates(false)
                 .limit(5)
                 .build();
-        List<Ticket> byRoute = ticketService.getLatest(routeSorting);
+        List<Ticket> byRoute = travelPayoutsService.getLatest(routeSorting);
         assertThat(byRoute, hasSize(5));
         byRoute.forEach(ticket -> log.info("By route: " + ticket));
 
@@ -122,7 +139,7 @@ public class TicketServiceTests {
                 .limit(5)
                 .build();
 
-        List<Ticket> byDistanceUnit = ticketService.getLatest(distanceUnitSorting);
+        List<Ticket> byDistanceUnit = travelPayoutsService.getLatest(distanceUnitSorting);
         assertThat(byDistanceUnit, hasSize(5));
         byDistanceUnit.forEach(ticket -> log.info("By distance unit: " + ticket));
 
@@ -160,7 +177,7 @@ public class TicketServiceTests {
 
         List<Ticket> responses = new ArrayList<>();
         for (LatestRequest request : requests) {
-            List<Ticket> latest = ticketService.getLatest(request);
+            List<Ticket> latest = travelPayoutsService.getLatest(request);
             responses.addAll(latest);
         }
 
@@ -183,7 +200,7 @@ public class TicketServiceTests {
                 .one_way(true)
                 .build();
 
-        List<Ticket> tickets = ticketService.getLatest(request);
+        List<Ticket> tickets = travelPayoutsService.getLatest(request);
 
         tickets.forEach(ticket -> log.info("Found ticket: " + ticket));
         Ticket cheapestTicket = tickets
@@ -206,7 +223,7 @@ public class TicketServiceTests {
                 .one_way(false)
                 .build();
 
-        List<Ticket> tickets = ticketService.getLatest(request);
+        List<Ticket> tickets = travelPayoutsService.getLatest(request);
 
         tickets.forEach(ticket -> log.info("Found ticket: " + ticket));
         Ticket cheapestTicket = tickets

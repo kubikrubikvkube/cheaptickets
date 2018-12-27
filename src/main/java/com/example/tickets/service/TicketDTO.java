@@ -66,10 +66,21 @@ public class TicketDTO {
      */
     private Integer transfers;
 
+
+    /**
+     * Номер рейса
+     */
+    private String flightNumber;
+
     /**
      * TimeToLive in milliseconds
      */
     private Long ttl;
+
+    /**
+     * Время истекания срока действия билета
+     */
+    private Date expiresAt;
 
     /**
      * Время, когда билет был отдан пользователю через API (?)
