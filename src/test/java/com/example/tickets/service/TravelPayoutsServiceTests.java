@@ -6,7 +6,6 @@ import com.example.tickets.service.travelpayouts.request.DirectRequest;
 import com.example.tickets.service.travelpayouts.request.LatestRequest;
 import com.example.tickets.service.travelpayouts.request.Sorting;
 import lombok.extern.java.Log;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import java.util.stream.Collectors;
 
 import static com.example.tickets.service.travelpayouts.request.Sorting.PRICE;
 import static java.lang.String.format;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
 
@@ -32,7 +32,6 @@ public class TravelPayoutsServiceTests {
     private TravelPayoutsService travelPayoutsService;
 
     @Test
-    @Ignore
     public void direct() throws IOException {
         DirectRequest request = DirectRequest
                 .builder()
@@ -42,7 +41,9 @@ public class TravelPayoutsServiceTests {
                 .build();
 
         List<Ticket> directTickets = travelPayoutsService.getDirect(request);
-        int debug = 0;
+        log.info("Found direct tickets: " + directTickets);
+        assertNotNull(directTickets);
+        assertThat(directTickets, hasSize(greaterThanOrEqualTo(1)));
     }
 
     @Test

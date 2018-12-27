@@ -11,8 +11,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
-import java.util.Iterator;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,12 +68,9 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
         JsonNode response = httpClient.getJsonResponseWithHeaders(stringRequest);
 
         List<JsonNode> values = response.findValues(request.getDestination());
-
+        List<Ticket> tickets = new ArrayList<>();
         values.forEach(rootNode -> {
-
-            Iterator<JsonNode> iterator = rootNode.iterator();
-            while (iterator.hasNext()) {
-                JsonNode rawTicket = iterator.next();
+            for (JsonNode rawTicket : rootNode) {
                 TicketDTO ticketDTO = new TicketDTO();
                 String price = rawTicket.get("price").toString();
                 String airLine = rawTicket.get("airline").toString();
@@ -79,17 +78,25 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
                 String departureAt = rawTicket.get("departure_at").toString().replaceAll("\"", "");
                 String returnAt = rawTicket.get("return_at").toString().replaceAll("\"", "");
                 String expiresAt = rawTicket.get("expires_at").textValue().replaceAll("\"", "");
+                ticketDTO.setOrigin(request.getOrigin());
+                ticketDTO.setDestination(request.getDestination());
+                ticketDTO.setDepart_date(toDate(request.getDepart_date()));
+                ticketDTO.setReturn_date(toDate(request.getReturn_date()));
                 ticketDTO.setValue(Integer.valueOf(price));
                 ticketDTO.setAirline(airLine);
                 ticketDTO.setFlightNumber(flightNumber);
-                ticketDTO.setDepart_date(toDate(departureAt));
-                ticketDTO.setReturn_date(toDate(returnAt));
-                ticketDTO.setExpiresAt(toDate(expiresAt));
-                int h = 0;
+                var departureDateTime = Date.from(DatatypeConverter.parseDateTime(departureAt).toInstant());
+                var returnDateTime = Date.from(DatatypeConverter.parseDateTime(returnAt).toInstant());
+                var expiresDateTime = Date.from(DatatypeConverter.parseDateTime(expiresAt).toInstant());
+                ticketDTO.setDepart_date(departureDateTime);
+                ticketDTO.setReturn_date(returnDateTime);
+                ticketDTO.setExpiresAt(expiresDateTime);
+                Ticket ticket = mapper.map(ticketDTO, Ticket.class);
+                tickets.add(ticket);
             }
 
         });
-        return null;
+        return tickets;
     }
 
     @Override

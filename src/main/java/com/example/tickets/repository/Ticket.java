@@ -12,16 +12,12 @@ import java.util.Date;
 @Table(indexes = {@Index(name = "idx_ticket", columnList = "origin,destination,departDate,value,returnDate")})
 public class Ticket {
     /**
-     * Класс перелёта (только 0 — Эконом);
-     */
-
-    private Integer tripClass;
-    /**
      * PK айдишник базы
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     /**
      * Метка даты записи в БД, когда был "пойман" билет.
      */
@@ -29,6 +25,11 @@ public class Ticket {
     @CreationTimestamp
     @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private Calendar catchedOn;
+    /**
+     * Класс перелёта (только 0 — Эконом);
+     */
+    private Integer tripClass;
+
     /**
      * False — все цены, true — только цены, найденные с партнёрским маркером (рекомендовано). Значение по умолчанию — true.
      */
@@ -88,7 +89,22 @@ public class Ticket {
     private Integer transfers;
 
     /**
+     * Номер рейса
+     */
+    private String flightNumber;
+
+    /**
      * Время жизни билета в миллисекундах
      */
     private Long ttl;
+
+    /**
+     * Время истекания срока действия билета
+     */
+    private Date expiresAt;
+
+    /**
+     * Время, когда билет был отдан пользователю через API (?)
+     */
+    private Long created_at;
 }
