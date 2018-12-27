@@ -6,14 +6,13 @@ import com.example.tickets.service.subscription.SubscriptionDTO;
 import lombok.extern.java.Log;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.List;
-
-import static com.example.tickets.util.DateConverter.toDate;
 
 @RestController
 @Log
@@ -24,16 +23,15 @@ public class SubscriptionController {
     ModelMapper modelMapper;
 
     @RequestMapping("/subscription/add")
-    public List<Subscription> add(@RequestParam(value = "owner") String owner,
-                                  @RequestParam(value = "origin") String origin,
-                                  @RequestParam(value = "destination") String destination,
-                                  @RequestParam(value = "departDate", required = false) String departDateString,
-                                  @RequestParam(value = "returnDate", required = false) String returnDateString,
-                                  @RequestParam(value = "expirationDate", required = false) String expirationDateString) {
-
-        Date departDate = toDate(departDateString);
-        Date returnDate = toDate(returnDateString);
-        Date expirationDate = toDate(expirationDateString);
+    public List<Subscription> add(@RequestParam String owner,
+                                  @RequestParam String origin,
+                                  @RequestParam String destination,
+                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                  @RequestParam(required = false) Date departDate,
+                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                  @RequestParam(required = false) Date returnDate,
+                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                  @RequestParam(required = false) Date expirationDate) {
 
         boolean exists = repository.existsByOwnerAndOriginAndDestinationAndDepartDateAndReturnDateAndExpirationDate(owner, origin, destination, departDate, returnDate, expirationDate);
 
@@ -48,4 +46,15 @@ public class SubscriptionController {
         }
         return repository.findByOwnerAndOriginAndDestinationAndDepartDateAndReturnDateAndExpirationDate(owner, origin, destination, departDate, returnDate, expirationDate);
     }
+
+    @RequestMapping(value = "/subscription/get")
+    public List<Subscription> get(@RequestParam String owner,
+                                  @RequestParam String origin,
+                                  @RequestParam String destination) {
+
+        return repository.findByOwnerAndOriginAndDestination(owner, origin, destination);
+    }
+
+
+
 }
