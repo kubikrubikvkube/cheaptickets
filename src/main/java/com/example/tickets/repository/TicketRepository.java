@@ -14,12 +14,18 @@ import java.util.List;
 public interface TicketRepository extends CrudRepository<Ticket, Long> {
     List<Ticket> findByDepartDate(Date date);
 
-    @Query("select t from Ticket t where t.origin = :origin and t.destination = :destination and t.departDate = :departDate and t.value = :value")
-    List<Ticket> findByBasicData(String origin, String destination, Date departDate, Integer value);
+    List<Ticket> findByOriginAndDestinationAndDepartDateAndValue(String origin, String destination, Date departDate, Integer value);
+
+    List<Ticket> findByOriginAndDestinationAndDepartDate(String origin, String destination, Date departDate);
+
+    List<Ticket> findByOriginAndDestination(String origin, String destination);
 
     @Query("select t from Ticket t where t.origin = :#{#subscriptionDTO.origin} and t.destination = :#{#subscriptionDTO.destination}")
     List<Ticket> findBySubscription(SubscriptionDTO subscriptionDTO);
 
-    @Query("select count(t)>0 from Ticket t where t.origin = :origin and t.destination = :destination and t.departDate = :departDate and t.value = :value")
-    boolean existsByBasicData(String origin, String destination, Date departDate, Integer value);
+    boolean existsByOriginAndDestinationAndDepartDateAndValue(String origin, String destination, Date departDate, Integer value);
+
+    boolean existsByOriginAndDestinationAndDepartDate(String origin, String destination, Date departDate);
+
+    boolean existsByOriginAndDestination(String origin, String destination);
 }

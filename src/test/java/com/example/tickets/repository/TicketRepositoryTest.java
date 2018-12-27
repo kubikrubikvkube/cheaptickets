@@ -54,13 +54,13 @@ public class TicketRepositoryTest {
 
     @Test
     public void existsByBasicData() {
-        boolean shouldNotExist = ticketRepository.existsByBasicData("MOW", "LED", DateConverter.toDate(LocalDate.now()), 1);
+        boolean shouldNotExist = ticketRepository.existsByOriginAndDestinationAndDepartDateAndValue("MOW", "LED", DateConverter.toDate(LocalDate.now()), 1);
         assertFalse(shouldNotExist);
         List<Ticket> latest = ticketService.getLatest(someRequest);
         assertThat(latest, hasSize(greaterThanOrEqualTo(1)));
         Ticket ticket = latest.get(0);
         ticketRepository.save(ticket);
-        boolean shouldExist = ticketRepository.existsByBasicData(ticket.getOrigin(), ticket.getDestination(), ticket.getDepartDate(), ticket.getValue());
+        boolean shouldExist = ticketRepository.existsByOriginAndDestinationAndDepartDateAndValue(ticket.getOrigin(), ticket.getDestination(), ticket.getDepartDate(), ticket.getValue());
         assertTrue(shouldExist);
         ticketRepository.delete(ticket);
     }
@@ -106,7 +106,7 @@ public class TicketRepositoryTest {
         Date departDate = ticket.getDepartDate();
         Integer value = ticket.getValue();
 
-        List<Ticket> byBasicData = ticketRepository.findByBasicData(origin, destination, departDate, value);
+        List<Ticket> byBasicData = ticketRepository.findByOriginAndDestinationAndDepartDateAndValue(origin, destination, departDate, value);
         assertNotNull(byBasicData);
         assertThat(byBasicData, hasSize(1));
         Ticket fetchedTicket = byBasicData.get(0);

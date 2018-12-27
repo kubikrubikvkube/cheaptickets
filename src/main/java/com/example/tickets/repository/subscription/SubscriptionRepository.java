@@ -16,4 +16,8 @@ public interface SubscriptionRepository extends CrudRepository<Subscription, Lon
     List<Subscription> findByDestination(String destination);
 
     List<Subscription> findByOriginAndDestination(String origin, String destination);
+
+    Subscription findByOwnerAndOriginAndDestination(String owner, String origin, String destination);
+
+    boolean existsByOwnerAndOriginAndDestination(String owner, String origin, String destination);
 }

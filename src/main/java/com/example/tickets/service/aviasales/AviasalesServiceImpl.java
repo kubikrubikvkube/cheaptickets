@@ -26,13 +26,11 @@ public class AviasalesServiceImpl implements AviasalesService {
     @Autowired
     private DefaultHttpClient<AviasalesResponse> defaultHttpClient;
 
-
     @Autowired
     private ModelMapper mapper;
 
     @Override
     public List<Ticket> getOneWayTicket(String originIAT, String destinationIAT, LocalDate date, int range) throws ServiceException {
-
         StringBuilder sb = new StringBuilder();
         sb.append("https://lyssa.aviasales.ru/price_matrix?");
         sb.append("origin_iata=").append(originIAT).append("&");
@@ -41,8 +39,11 @@ public class AviasalesServiceImpl implements AviasalesService {
         sb.append("depart_range=").append(range).append("&");
         sb.append("affiliate=false");
         var request = sb.toString();
+        log.info("Aviasales one-way ticket request: " + request);
         AviasalesResponse response = defaultHttpClient.getWithoutHeaders(request, AviasalesResponse.class);
+        log.info("Aviasales one-way ticket response: " + response);
         List<TicketDTO> tickerPrices = response.getPrices();
+        log.info("Aviasales one-way ticket response size: " + tickerPrices.size());
         tickerPrices.forEach(rawTicket -> {
             rawTicket.setOrigin(originIAT);
             rawTicket.setDestination(destinationIAT);
@@ -67,8 +68,11 @@ public class AviasalesServiceImpl implements AviasalesService {
         sb.append("return_range=").append(returnRange).append("&");
         sb.append("affiliate=false");
         var request = sb.toString();
+        log.info("Aviasales return ticiket request: " + request);
         AviasalesResponse response = defaultHttpClient.getWithoutHeaders(request, AviasalesResponse.class);
+        log.info("Aviasales return ticiket response: " + response);
         List<TicketDTO> tickerPrices = response.getPrices();
+        log.info("Aviasales return ticket response size: " + tickerPrices.size());
         tickerPrices.forEach(rawTicket -> {
             rawTicket.setOrigin(originIAT);
             rawTicket.setDestination(destinationIAT);
