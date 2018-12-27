@@ -25,6 +25,9 @@ public interface TicketRepository extends CrudRepository<Ticket, Long> {
 
     boolean existsByOriginAndDestinationAndDepartDateAndValue(String origin, String destination, Date departDate, Integer value);
 
+    @Query("select t from Ticket t where t.origin = ?1 and t.destination = ?2 and t.departDate = ?3")
+    Ticket findCheapestForDate(String origin, String destination, Date departDate);
+
     boolean existsByOriginAndDestinationAndDepartDate(String origin, String destination, Date departDate);
 
     boolean existsByOriginAndDestination(String origin, String destination);
