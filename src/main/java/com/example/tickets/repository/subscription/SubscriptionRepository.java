@@ -4,6 +4,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -17,7 +18,15 @@ public interface SubscriptionRepository extends CrudRepository<Subscription, Lon
 
     List<Subscription> findByOriginAndDestination(String origin, String destination);
 
-    Subscription findByOwnerAndOriginAndDestination(String owner, String origin, String destination);
+    List<Subscription> findByOwnerAndOriginAndDestination(String owner, String origin, String destination);
+
+    List<Subscription> findByOwnerAndOriginAndDestinationAndDepartDateAndReturnDate(String owner, String origin, String destination, Date departDate, Date returnDate);
+
+    List<Subscription> findByOwnerAndOriginAndDestinationAndDepartDateAndReturnDateAndExpirationDate(String owner, String origin, String destination, Date departDate, Date returnDate, Date expirationDate);
 
     boolean existsByOwnerAndOriginAndDestination(String owner, String origin, String destination);
+
+    boolean existsByOwnerAndOriginAndDestinationAndDepartDateAndReturnDate(String owner, String origin, String destination, Date departDate, Date returnDate);
+
+    boolean existsByOwnerAndOriginAndDestinationAndDepartDateAndReturnDateAndExpirationDate(String owner, String origin, String destination, Date departDate, Date returnDate, Date expirationDate);
 }

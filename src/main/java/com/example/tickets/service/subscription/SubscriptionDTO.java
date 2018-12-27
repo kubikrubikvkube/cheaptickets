@@ -2,6 +2,8 @@ package com.example.tickets.service.subscription;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class SubscriptionDTO {
     /**
@@ -16,4 +18,19 @@ public class SubscriptionDTO {
      * IAT назначения
      */
     private final String destination;
+    /**
+     * Дата отправления
+     */
+    private Date departDate;
+
+    /**
+     * Дата возвращения
+     */
+    private Date returnDate;
+
+    /**
+     * Дата истечения подписки
+     */
+    private Date expirationDate;
+
 }

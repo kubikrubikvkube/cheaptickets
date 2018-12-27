@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Calendar;
+import java.util.Date;
 
 @Data
 @Entity
@@ -30,11 +31,31 @@ public class Subscription {
      */
     private String owner;
     /**
-     * Откуда
+     * IAT отправления
      */
     private String origin;
     /**
-     * Куда
+     * IAT назначения
      */
     private String destination;
+
+    /**
+     * Дата отправления
+     */
+    private Date departDate;
+
+    /**
+     * Дата возвращения
+     */
+    private Date returnDate;
+
+    /**
+     * Дата истечения подписки
+     */
+    private Date expirationDate;
+
+    /**
+     * Истекла ли подписка
+     */
+    private Boolean isExpired;
 }
