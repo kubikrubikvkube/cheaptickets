@@ -2,9 +2,9 @@ package com.example.tickets.httpclient;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.java.Log;
-import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +24,7 @@ public class DefaultHttpClient<T> {
     private String token;
 
     @Autowired
-    private HttpClientConnectionManager connectionManager;
+    private PoolingHttpClientConnectionManager connectionManager;
 
 
     public <T> T getWithHeaders(String getRequest, Class<T> clazz) {

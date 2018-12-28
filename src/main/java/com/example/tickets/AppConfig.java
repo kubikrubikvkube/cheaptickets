@@ -3,7 +3,6 @@ package com.example.tickets;
 
 import com.example.tickets.repository.Ticket;
 import com.example.tickets.service.TicketDTO;
-import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
@@ -45,7 +44,7 @@ public class AppConfig {
     }
 
     @Bean
-    HttpClientConnectionManager poolingConnManager() {
+    PoolingHttpClientConnectionManager poolingConnManager() {
         return new PoolingHttpClientConnectionManager();
     }
 
