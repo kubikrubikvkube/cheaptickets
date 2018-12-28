@@ -36,7 +36,7 @@ public class SubscriptionController {
                                   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                                   @RequestParam(required = false) Date expirationDate) {
 
-        boolean exists = repository.existsByOwnerAndOriginAndDestinationAndDepartDateAndReturnDateAndExpirationDate(owner, origin, destination, departDate, returnDate, expirationDate);
+        boolean exists = repository.exists(owner, origin, destination, departDate, returnDate, expirationDate);
 
         if (!exists) {
             SubscriptionDTO dto = new SubscriptionDTO(owner, origin, destination);
