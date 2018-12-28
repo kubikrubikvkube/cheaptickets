@@ -79,7 +79,7 @@ public class SubscriptionRepositoryTest {
         assertThat(byDestination, hasSize(1));
         assertEquals(byDestination.get(0), subscription);
 
-        List<Subscription> byOriginAndDestination = subscriptionRepository.find(origin, destination);
+        List<Subscription> byOriginAndDestination = subscriptionRepository.findBy(origin, destination);
         assertNotNull(byOriginAndDestination);
         assertThat(byOriginAndDestination, hasSize(1));
         assertEquals(byOriginAndDestination.get(0), subscription);
