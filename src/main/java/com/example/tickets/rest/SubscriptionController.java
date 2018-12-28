@@ -47,7 +47,7 @@ public class SubscriptionController {
             Subscription subscription = modelMapper.map(dto, Subscription.class);
             repository.save(subscription);
         }
-        return repository.findByOwnerAndOriginAndDestinationAndDepartDateAndReturnDateAndExpirationDate(owner, origin, destination, departDate, returnDate, expirationDate);
+        return repository.find(owner, origin, destination, departDate, returnDate, expirationDate);
     }
 
     @RequestMapping(value = "/subscription/get")
@@ -55,7 +55,7 @@ public class SubscriptionController {
                                   @RequestParam String origin,
                                   @RequestParam String destination) {
 
-        return repository.findByOwnerAndOriginAndDestination(owner, origin, destination);
+        return repository.find(owner, origin, destination);
     }
 
     @RequestMapping(value = "/subscription/start")
