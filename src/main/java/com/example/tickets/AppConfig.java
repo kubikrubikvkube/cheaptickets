@@ -3,6 +3,8 @@ package com.example.tickets;
 
 import com.example.tickets.repository.Ticket;
 import com.example.tickets.service.TicketDTO;
+import org.apache.http.conn.HttpClientConnectionManager;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.boot.autoconfigure.quartz.SchedulerFactoryBeanCustomizer;
@@ -40,6 +42,11 @@ public class AppConfig {
         typeMap.addMapping(TicketDTO::getTransfers, Ticket::setTransfers);
         modelMapper.validate();
         return modelMapper;
+    }
+
+    @Bean
+    HttpClientConnectionManager poolingConnManager() {
+        return new PoolingHttpClientConnectionManager();
     }
 
     @Bean

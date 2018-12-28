@@ -2,8 +2,10 @@ package com.example.tickets.httpclient;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.java.Log;
+import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -21,9 +23,17 @@ public class DefaultHttpClient<T> {
     @Value("${developer.token}")
     private String token;
 
+    @Autowired
+    private HttpClientConnectionManager connectionManager;
+
+
     public <T> T getWithHeaders(String getRequest, Class<T> clazz) {
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+        CloseableHttpClient client = HttpClients
+                .custom()
+                //default headers can be set in here with .setDefaultHeaders
+                .setConnectionManager(connectionManager)
+                .build();
+        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(client);
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Accept-Encoding", "gzip, deflate");
@@ -38,9 +48,13 @@ public class DefaultHttpClient<T> {
         return exchange.getBody();
     }
 
+
     public <T> T getWithoutHeaders(String getRequest, Class<T> clazz) {
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+        CloseableHttpClient client = HttpClients
+                .custom()
+                .setConnectionManager(connectionManager)
+                .build();
+        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(client);
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
         log.info("Send request: " + getRequest);
         ResponseEntity<T> exchange = restTemplate.exchange(getRequest, HttpMethod.GET, null, clazz);
@@ -48,12 +62,16 @@ public class DefaultHttpClient<T> {
             log.severe(String.format("Request failed. Error code %s : %s", exchange.getStatusCode(), getRequest));
         }
         log.info("Got response: " + exchange);
+
         return exchange.getBody();
     }
 
     public JsonNode getJsonResponseWithoutHeaders(String getRequest) {
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+        CloseableHttpClient client = HttpClients
+                .custom()
+                .setConnectionManager(connectionManager)
+                .build();
+        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(client);
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
         log.info("Send request: " + getRequest);
         JsonNode node = restTemplate.getForObject(getRequest, JsonNode.class);
@@ -62,8 +80,11 @@ public class DefaultHttpClient<T> {
     }
 
     public JsonNode getJsonResponseWithHeaders(String getRequest) {
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+        CloseableHttpClient client = HttpClients
+                .custom()
+                .setConnectionManager(connectionManager)
+                .build();
+        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(client);
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Accept-Encoding", "gzip, deflate");
