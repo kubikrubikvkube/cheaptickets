@@ -1,8 +1,8 @@
 package com.example.tickets;
 
 
-import com.example.tickets.repository.Ticket;
-import com.example.tickets.service.TicketDTO;
+import com.example.tickets.ticket.Ticket;
+import com.example.tickets.ticket.TicketDTO;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;

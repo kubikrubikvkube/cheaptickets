@@ -1,9 +1,11 @@
 package com.example.tickets.repository;
 
-import com.example.tickets.exception.ServiceException;
-import com.example.tickets.service.TravelPayoutsService;
-import com.example.tickets.service.travelpayouts.request.LatestRequest;
+import com.example.tickets.ticket.Ticket;
+import com.example.tickets.ticket.TicketRepository;
+import com.example.tickets.travelpayouts.TravelPayoutsService;
+import com.example.tickets.travelpayouts.request.LatestRequest;
 import com.example.tickets.util.DateConverter;
+import com.example.tickets.util.ServiceException;
 import lombok.extern.java.Log;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.tickets.service.travelpayouts.request.Sorting.DISTANCE_UNIT_PRICE;
+import static com.example.tickets.travelpayouts.request.Sorting.DISTANCE_UNIT_PRICE;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 

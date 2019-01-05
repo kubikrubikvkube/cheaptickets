@@ -1,10 +1,11 @@
 package com.example.tickets.service;
 
-import com.example.tickets.exception.ServiceException;
-import com.example.tickets.repository.Ticket;
-import com.example.tickets.service.travelpayouts.request.DirectRequest;
-import com.example.tickets.service.travelpayouts.request.LatestRequest;
-import com.example.tickets.service.travelpayouts.request.Sorting;
+import com.example.tickets.ticket.Ticket;
+import com.example.tickets.travelpayouts.TravelPayoutsService;
+import com.example.tickets.travelpayouts.request.DirectRequest;
+import com.example.tickets.travelpayouts.request.LatestRequest;
+import com.example.tickets.travelpayouts.request.Sorting;
+import com.example.tickets.util.ServiceException;
 import lombok.extern.java.Log;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +19,7 @@ import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.example.tickets.service.travelpayouts.request.Sorting.PRICE;
+import static com.example.tickets.travelpayouts.request.Sorting.PRICE;
 import static java.lang.String.format;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;

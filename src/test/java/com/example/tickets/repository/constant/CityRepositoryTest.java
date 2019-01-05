@@ -1,6 +1,9 @@
 package com.example.tickets.repository.constant;
 
-import com.example.tickets.exception.ServiceException;
+import com.example.tickets.city.City;
+import com.example.tickets.city.CityDTO;
+import com.example.tickets.city.CityRepository;
+import com.example.tickets.util.ServiceException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import lombok.extern.java.Log;

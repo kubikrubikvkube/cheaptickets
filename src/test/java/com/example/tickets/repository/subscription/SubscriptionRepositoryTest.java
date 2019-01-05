@@ -1,10 +1,12 @@
 package com.example.tickets.repository.subscription;
 
-import com.example.tickets.repository.Ticket;
-import com.example.tickets.repository.TicketRepository;
-import com.example.tickets.service.TravelPayoutsService;
-import com.example.tickets.service.subscription.SubscriptionDTO;
-import com.example.tickets.service.travelpayouts.request.LatestRequest;
+import com.example.tickets.subscription.Subscription;
+import com.example.tickets.subscription.SubscriptionDTO;
+import com.example.tickets.subscription.SubscriptionRepository;
+import com.example.tickets.ticket.Ticket;
+import com.example.tickets.ticket.TicketRepository;
+import com.example.tickets.travelpayouts.TravelPayoutsService;
+import com.example.tickets.travelpayouts.request.LatestRequest;
 import lombok.extern.java.Log;
 import org.junit.After;
 import org.junit.Before;
@@ -18,7 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.tickets.service.travelpayouts.request.Sorting.DISTANCE_UNIT_PRICE;
+import static com.example.tickets.travelpayouts.request.Sorting.DISTANCE_UNIT_PRICE;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
