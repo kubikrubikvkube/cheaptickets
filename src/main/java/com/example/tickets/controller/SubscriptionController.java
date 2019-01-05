@@ -3,8 +3,9 @@ package com.example.tickets.controller;
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionDTO;
 import com.example.tickets.subscription.SubscriptionRepository;
-import lombok.extern.java.Log;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,12 +18,14 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @RestController
-@Log
 public class SubscriptionController {
+    private final Logger log = LoggerFactory.getLogger(SubscriptionController.class);
     private final AtomicBoolean isStarted = new AtomicBoolean(false);
     @Autowired
+    private
     SubscriptionRepository repository;
     @Autowired
+    private
     ModelMapper modelMapper;
 
     @RequestMapping("/subscription/add")

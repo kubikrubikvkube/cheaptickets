@@ -3,22 +3,15 @@ package com.example.tickets;
 
 import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketDTO;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
-import org.springframework.boot.autoconfigure.quartz.SchedulerFactoryBeanCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
-
-import java.util.Properties;
 
 @Configuration
 public class AppConfig {
 
     @Bean
-    @Lazy
     public ModelMapper defaultMapper() {
         ModelMapper modelMapper = new ModelMapper();
         TypeMap<TicketDTO, Ticket> typeMap = modelMapper.typeMap(TicketDTO.class, Ticket.class);
@@ -41,27 +34,5 @@ public class AppConfig {
         typeMap.addMapping(TicketDTO::getTransfers, Ticket::setTransfers);
         modelMapper.validate();
         return modelMapper;
-    }
-
-    @Bean
-    PoolingHttpClientConnectionManager poolingConnManager() {
-        return new PoolingHttpClientConnectionManager();
-    }
-
-    @Bean
-    public SchedulerFactoryBeanCustomizer schedulerFactoryBeanCustomizer() {
-        return new SchedulerFactoryBeanCustomizer() {
-            @Override
-            public void customize(SchedulerFactoryBean bean) {
-                bean.setQuartzProperties(createQuartzProperties());
-            }
-        };
-    }
-
-    private Properties createQuartzProperties() {
-        // Could also load from a file
-        Properties props = new Properties();
-        props.put("org.quartz.jobStore.driverDelegateClass", "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate");
-        return props;
     }
 }

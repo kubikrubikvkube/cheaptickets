@@ -5,7 +5,6 @@ import com.example.tickets.ticket.Ticket;
 import com.example.tickets.util.ServiceException;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.TreeMultimap;
-import lombok.extern.java.Log;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.hamcrest.Matchers;
 import org.junit.After;
@@ -13,6 +12,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -31,8 +32,8 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Log
 public class AviasalesServiceTest {
+    private final Logger log = LoggerFactory.getLogger(AviasalesServiceTest.class);
     @Autowired
     private AviasalesService aviasalesService;
 
@@ -40,11 +41,11 @@ public class AviasalesServiceTest {
     private ModelMapper mapper;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
     }
 
     @Test

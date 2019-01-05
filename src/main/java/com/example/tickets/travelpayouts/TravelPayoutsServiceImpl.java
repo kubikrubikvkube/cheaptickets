@@ -7,13 +7,13 @@ import com.example.tickets.travelpayouts.response.LatestResponse;
 import com.example.tickets.util.DefaultHttpClient;
 import com.example.tickets.util.ServiceException;
 import com.fasterxml.jackson.databind.JsonNode;
-import lombok.extern.java.Log;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.DatatypeConverter;
-import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +21,10 @@ import java.util.stream.Collectors;
 
 import static com.example.tickets.util.DateConverter.toDate;
 
-@Log
+
 @Service
 public class TravelPayoutsServiceImpl implements TravelPayoutsService {
+    private final Logger log = LoggerFactory.getLogger(TravelPayoutsServiceImpl.class);
     @Autowired
     private DefaultHttpClient httpClient;
 
@@ -62,7 +63,7 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
     }
 
     @Override
-    public List<Ticket> getDirect(DirectRequest request) throws IOException {
+    public List<Ticket> getDirect(DirectRequest request) {
 
         var stringRequest = request.toString();
         log.info("Sent request: " + stringRequest);

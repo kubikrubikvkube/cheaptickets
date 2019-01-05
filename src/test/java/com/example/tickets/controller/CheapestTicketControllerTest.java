@@ -33,10 +33,10 @@ public class CheapestTicketControllerTest {
     @Autowired
     private CheapestTicketController controller;
     private Ticket t;
-    private LocalDate date = LocalDate.now().plusDays(3);
+    private final LocalDate date = LocalDate.now().plusDays(3);
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         t = new Ticket();
         t.setOrigin("LED");
         t.setDestination("MOW");
@@ -45,7 +45,7 @@ public class CheapestTicketControllerTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         ticketRepository.delete(t);
     }
 

@@ -3,8 +3,9 @@ package com.example.tickets.controller;
 import com.example.tickets.aviasales.AviasalesService;
 import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketRepository;
-import lombok.extern.java.Log;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,8 +15,8 @@ import javax.xml.bind.DatatypeConverter;
 import java.util.Date;
 
 @RestController
-@Log
 public class CheapestTicketController {
+    private final Logger log = LoggerFactory.getLogger(CheapestTicketController.class);
     @Autowired
     private TicketRepository ticketRepository;
     @Autowired

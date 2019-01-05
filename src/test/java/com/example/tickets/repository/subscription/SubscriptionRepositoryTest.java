@@ -7,12 +7,13 @@ import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketRepository;
 import com.example.tickets.travelpayouts.TravelPayoutsService;
 import com.example.tickets.travelpayouts.request.LatestRequest;
-import lombok.extern.java.Log;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -30,9 +31,10 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Log
 public class SubscriptionRepositoryTest {
+    private final Logger log = LoggerFactory.getLogger(SubscriptionRepositoryTest.class);
     private final String owner = "root";
+
     private final String origin = "LED";
     private final String destination = "MOW";
     @Autowired
@@ -49,14 +51,14 @@ public class SubscriptionRepositoryTest {
     private Subscription subscription;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         subscriptionDTO = new SubscriptionDTO(owner, origin, destination);
         var mapped = mapper.map(subscriptionDTO, Subscription.class);
         subscription = subscriptionRepository.save(mapped);
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         subscriptionRepository.delete(subscription);
     }
 

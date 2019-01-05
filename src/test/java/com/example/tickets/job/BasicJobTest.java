@@ -1,11 +1,12 @@
 package com.example.tickets.job;
 
-import lombok.extern.java.Log;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.quartz.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -17,19 +18,20 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Log
 public class BasicJobTest {
-    public static AtomicBoolean isBasicJobExecuted = new AtomicBoolean(false);
+    public static final AtomicBoolean isBasicJobExecuted = new AtomicBoolean(false);
+    Logger log = LoggerFactory.getLogger(BasicJobTest.class);
+
     @Autowired
     private Scheduler scheduler;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         if (isBasicJobExecuted.get()) isBasicJobExecuted.set(false);
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         if (isBasicJobExecuted.get()) isBasicJobExecuted.set(false);
     }
 

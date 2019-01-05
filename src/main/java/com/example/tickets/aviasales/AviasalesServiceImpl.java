@@ -10,8 +10,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import lombok.extern.java.Log;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +21,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Log
+
 @Service
 public class AviasalesServiceImpl implements AviasalesService {
+    private final Logger log = LoggerFactory.getLogger(AviasalesServiceImpl.class);
     @Autowired
     private DefaultHttpClient<AviasalesResponse> defaultHttpClient;
 

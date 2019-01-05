@@ -6,9 +6,10 @@ import com.example.tickets.travelpayouts.request.DirectRequest;
 import com.example.tickets.travelpayouts.request.LatestRequest;
 import com.example.tickets.travelpayouts.request.Sorting;
 import com.example.tickets.util.ServiceException;
-import lombok.extern.java.Log;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -27,8 +28,8 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Log
 public class TravelPayoutsServiceTests {
+    private final Logger log = LoggerFactory.getLogger(TravelPayoutsServiceTests.class);
     @Autowired
     private TravelPayoutsService travelPayoutsService;
 

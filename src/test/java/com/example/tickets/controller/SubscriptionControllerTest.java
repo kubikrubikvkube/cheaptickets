@@ -16,7 +16,7 @@ public class SubscriptionControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    public void add() throws Exception {
+    public void add() {
         //TODO
     }
 }

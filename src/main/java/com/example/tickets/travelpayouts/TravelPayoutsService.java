@@ -4,7 +4,6 @@ import com.example.tickets.ticket.Ticket;
 import com.example.tickets.travelpayouts.request.*;
 import com.example.tickets.util.ServiceException;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -20,7 +19,7 @@ public interface TravelPayoutsService {
 
     List<Ticket> getCheap(CheapRequest request) throws ServiceException;
 
-    List<Ticket> getDirect(DirectRequest request) throws ServiceException, IOException;
+    List<Ticket> getDirect(DirectRequest request) throws ServiceException;
 
     List<Ticket> getCalendar(CalendarRequest request) throws ServiceException;
 

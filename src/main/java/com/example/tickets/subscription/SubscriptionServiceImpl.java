@@ -1,9 +1,11 @@
 package com.example.tickets.subscription;
 
-import lombok.extern.java.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-@Log
+
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
+    Logger log = LoggerFactory.getLogger(SubscriptionServiceImpl.class);
 }

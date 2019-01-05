@@ -1,11 +1,11 @@
 package com.example.tickets.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import lombok.extern.java.Log;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -18,14 +18,12 @@ import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @PropertySource("classpath:ticket.properties")
-@Log
 public class DefaultHttpClient<T> {
+    private final Logger log = LoggerFactory.getLogger(DefaultHttpClient.class);
     @Value("${developer.token}")
     private String token;
 
-    @Autowired
-    private PoolingHttpClientConnectionManager connectionManager;
-
+    private final PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
 
     public <T> T getWithHeaders(String getRequest, Class<T> clazz) {
         CloseableHttpClient client = HttpClients
@@ -42,7 +40,7 @@ public class DefaultHttpClient<T> {
         log.info("Send request: " + getRequest);
         ResponseEntity<T> exchange = restTemplate.exchange(getRequest, HttpMethod.GET, httpEntity, clazz);
         if (!exchange.getStatusCode().is2xxSuccessful()) {
-            log.severe(String.format("Request failed. Error code %s : %s", exchange.getStatusCode(), getRequest));
+            log.error(String.format("Request failed. Error code %s : %s", exchange.getStatusCode(), getRequest));
         }
         log.info("Got response: " + exchange);
         return exchange.getBody();
@@ -59,7 +57,7 @@ public class DefaultHttpClient<T> {
         log.info("Send request: " + getRequest);
         ResponseEntity<T> exchange = restTemplate.exchange(getRequest, HttpMethod.GET, null, clazz);
         if (!exchange.getStatusCode().is2xxSuccessful()) {
-            log.severe(String.format("Request failed. Error code %s : %s", exchange.getStatusCode(), getRequest));
+            log.error(String.format("Request failed. Error code %s : %s", exchange.getStatusCode(), getRequest));
         }
         log.info("Got response: " + exchange);
 
@@ -93,7 +91,7 @@ public class DefaultHttpClient<T> {
         log.info("Send request: " + getRequest);
         ResponseEntity<JsonNode> exchange = restTemplate.exchange(getRequest, HttpMethod.GET, httpEntity, JsonNode.class);
         if (!exchange.getStatusCode().is2xxSuccessful()) {
-            log.severe(String.format("Request failed. Error code %s : %s", exchange.getStatusCode(), getRequest));
+            log.error(String.format("Request failed. Error code %s : %s", exchange.getStatusCode(), getRequest));
         }
         log.info("Got response: " + exchange);
         return exchange.getBody();

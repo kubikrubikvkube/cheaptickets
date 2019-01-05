@@ -6,10 +6,11 @@ import com.example.tickets.city.CityRepository;
 import com.example.tickets.util.ServiceException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import lombok.extern.java.Log;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -23,8 +24,9 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Log
+
 public class CityRepositoryTest {
+    Logger log = LoggerFactory.getLogger(CityRepositoryTest.class);
     @Autowired
     private CityRepository cityRepository;
 
