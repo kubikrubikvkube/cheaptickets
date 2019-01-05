@@ -26,10 +26,8 @@ public class JobConfig {
                 .withIdentity("ticketInvalidationTrigger", "trigger")
                 .withDescription("basic trigger for test purpose")
                 .withSchedule(
-                        SimpleScheduleBuilder.simpleSchedule()
-//                                .withIntervalInMinutes(30)
-                                .withIntervalInSeconds(5)
-                                .repeatForever())
+//                        SimpleScheduleBuilder.repeatHourlyForever())
+                        SimpleScheduleBuilder.repeatMinutelyForever())
                 .build();
         scheduler.scheduleJob(jobDetail, trigger);
     }
