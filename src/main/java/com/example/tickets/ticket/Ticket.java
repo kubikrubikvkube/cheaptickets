@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 @Data
@@ -47,7 +48,7 @@ public class Ticket {
      * Дата отправления.
      */
     @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private Date departDate;
+    private OffsetDateTime departDate;
     /**
      * Дата возвращения.
      */
@@ -100,10 +101,16 @@ public class Ticket {
     /**
      * Время истекания срока действия билета
      */
-    private Date expiresAt;
+    private OffsetDateTime expiresAt;
 
     /**
      * Время, когда билет был отдан пользователю через API (?)
      */
     private Long created_at;
+
+    /**
+     * Время, когда билет был отдан пользователю через API (?)
+     */
+    private Boolean isExpired;
+
 }

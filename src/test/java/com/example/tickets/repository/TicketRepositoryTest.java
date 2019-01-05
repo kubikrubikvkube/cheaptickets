@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -106,7 +106,7 @@ public class TicketRepositoryTest {
 
         String origin = ticket.getOrigin();
         String destination = ticket.getDestination();
-        Date departDate = ticket.getDepartDate();
+        OffsetDateTime departDate = ticket.getDepartDate();
         Integer value = ticket.getValue();
 
         List<Ticket> byBasicData = ticketRepository.findByOriginAndDestinationAndDepartDateAndValue(origin, destination, departDate, value);

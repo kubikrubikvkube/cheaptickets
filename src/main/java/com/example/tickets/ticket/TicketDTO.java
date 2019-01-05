@@ -2,7 +2,7 @@ package com.example.tickets.ticket;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 @Data
 public class TicketDTO {
@@ -28,11 +28,11 @@ public class TicketDTO {
     /**
      * Дата отправления.
      */
-    private Date depart_date;
+    private OffsetDateTime depart_date;
     /**
      * Дата возвращения.
      */
-    private Date return_date;
+    private OffsetDateTime return_date;
     /**
      * Количество пересадок.
      */
@@ -44,7 +44,7 @@ public class TicketDTO {
     /**
      * Время и дата, когда был найден билет.
      */
-    private Date found_at;
+    private OffsetDateTime found_at;
     /**
      * Расстояние между пунктом вылета и назначения.
      */
@@ -80,10 +80,15 @@ public class TicketDTO {
     /**
      * Время истекания срока действия билета
      */
-    private Date expiresAt;
+    private OffsetDateTime expiresAt;
 
     /**
      * Время, когда билет был отдан пользователю через API (?)
      */
     private Long created_at;
+
+    /**
+     * Помечен ли билет как expires
+     */
+    private Boolean isExpired;
 }

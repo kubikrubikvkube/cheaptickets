@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.DatatypeConverter;
-import java.sql.Date;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -87,9 +87,9 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
                 ticketDTO.setValue(Integer.valueOf(price));
                 ticketDTO.setAirline(airLine);
                 ticketDTO.setFlightNumber(flightNumber);
-                var departureDateTime = Date.from(DatatypeConverter.parseDateTime(departureAt).toInstant());
-                var returnDateTime = Date.from(DatatypeConverter.parseDateTime(returnAt).toInstant());
-                var expiresDateTime = Date.from(DatatypeConverter.parseDateTime(expiresAt).toInstant());
+                var departureDateTime = OffsetDateTime.from(DatatypeConverter.parseDateTime(departureAt).toInstant());
+                var returnDateTime = OffsetDateTime.from(DatatypeConverter.parseDateTime(returnAt).toInstant());
+                var expiresDateTime = OffsetDateTime.from(DatatypeConverter.parseDateTime(expiresAt).toInstant());
                 ticketDTO.setDepart_date(departureDateTime);
                 ticketDTO.setReturn_date(returnDateTime);
                 ticketDTO.setExpiresAt(expiresDateTime);

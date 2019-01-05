@@ -32,6 +32,7 @@ public class AppConfig {
         typeMap.addMapping(TicketDTO::getGate, Ticket::setGate);
         typeMap.addMapping(TicketDTO::getAirline, Ticket::setAirline);
         typeMap.addMapping(TicketDTO::getTransfers, Ticket::setTransfers);
+        typeMap.addMapping(TicketDTO::getIsExpired, Ticket::setIsExpired);
         modelMapper.validate();
         return modelMapper;
     }
