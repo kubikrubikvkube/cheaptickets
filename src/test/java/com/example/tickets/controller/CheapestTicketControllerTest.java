@@ -14,9 +14,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
-import static com.example.tickets.util.DateConverter.toDate;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -33,14 +35,15 @@ public class CheapestTicketControllerTest {
     @Autowired
     private CheapestTicketController controller;
     private Ticket t;
-    private final LocalDate date = LocalDate.now().plusDays(3);
+    private final LocalDateTime date = LocalDate.now().plusDays(3).atStartOfDay();
 
     @Before
     public void setUp() {
+        ZoneOffset localOffset = ZoneOffset.systemDefault().getRules().getOffset(Instant.now());
         t = new Ticket();
         t.setOrigin("LED");
         t.setDestination("MOW");
-        t.setDepartDate(toDate(date));
+        t.setDepartDate(date.atOffset(localOffset));
         ticketRepository.save(t);
     }
 

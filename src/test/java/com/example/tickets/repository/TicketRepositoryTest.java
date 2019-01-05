@@ -4,7 +4,6 @@ import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketRepository;
 import com.example.tickets.travelpayouts.TravelPayoutsService;
 import com.example.tickets.travelpayouts.request.LatestRequest;
-import com.example.tickets.util.DateConverter;
 import com.example.tickets.util.ServiceException;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,7 +56,7 @@ public class TicketRepositoryTest {
 
     @Test
     public void existsByBasicData() {
-        boolean shouldNotExist = ticketRepository.existsByOriginAndDestinationAndDepartDateAndValue("MOW", "LED", DateConverter.toDate(LocalDate.now()), 1);
+        boolean shouldNotExist = ticketRepository.existsByOriginAndDestinationAndDepartDateAndValue("MOW", "LED", OffsetDateTime.now(), 1);
         assertFalse(shouldNotExist);
         List<Ticket> latest = travelPayoutsService.getLatest(someRequest);
         assertThat(latest, hasSize(greaterThanOrEqualTo(1)));

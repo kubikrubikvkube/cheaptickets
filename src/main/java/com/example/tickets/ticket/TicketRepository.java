@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Transactional
@@ -26,7 +27,7 @@ public interface TicketRepository extends CrudRepository<Ticket, Long> {
     boolean existsByOriginAndDestinationAndDepartDateAndValue(String origin, String destination, OffsetDateTime departDate, Integer value);
 
     @Query("select t from Ticket t where t.origin = ?1 and t.destination = ?2 and t.departDate = ?3")
-    Ticket findCheapestForDate(String origin, String destination, OffsetDateTime departDate);
+    Optional<Ticket> findCheapestForDate(String origin, String destination, OffsetDateTime departDate);
 
     boolean existsByOriginAndDestinationAndDepartDate(String origin, String destination, OffsetDateTime departDate);
 

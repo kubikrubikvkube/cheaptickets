@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.tickets.util.DateConverter.toDate;
+import static com.example.tickets.util.DateConverter.midnight;
 
 
 @Service
@@ -82,8 +82,8 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
                 String expiresAt = rawTicket.get("expires_at").textValue().replaceAll("\"", "");
                 ticketDTO.setOrigin(request.getOrigin());
                 ticketDTO.setDestination(request.getDestination());
-                ticketDTO.setDepart_date(toDate(request.getDepart_date()));
-                ticketDTO.setReturn_date(toDate(request.getReturn_date()));
+                ticketDTO.setDepart_date(midnight(request.getDepart_date()));
+                ticketDTO.setReturn_date(midnight(request.getReturn_date()));
                 ticketDTO.setValue(Integer.valueOf(price));
                 ticketDTO.setAirline(airLine);
                 ticketDTO.setFlightNumber(flightNumber);

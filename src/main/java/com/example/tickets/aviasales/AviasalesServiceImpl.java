@@ -3,7 +3,6 @@ package com.example.tickets.aviasales;
 import com.example.tickets.aviasales.response.AviasalesResponse;
 import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketDTO;
-import com.example.tickets.util.DateConverter;
 import com.example.tickets.util.DefaultHttpClient;
 import com.example.tickets.util.ServiceException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -20,6 +19,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.example.tickets.util.DateConverter.midnight;
 
 
 @Service
@@ -49,7 +50,7 @@ public class AviasalesServiceImpl implements AviasalesService {
         tickerPrices.forEach(rawTicket -> {
             rawTicket.setOrigin(originIAT);
             rawTicket.setDestination(destinationIAT);
-            rawTicket.setDepart_date(DateConverter.toDate(date));
+            rawTicket.setDepart_date(midnight(date));
 
         });
         return tickerPrices
@@ -78,8 +79,8 @@ public class AviasalesServiceImpl implements AviasalesService {
         tickerPrices.forEach(rawTicket -> {
             rawTicket.setOrigin(originIAT);
             rawTicket.setDestination(destinationIAT);
-            rawTicket.setDepart_date(DateConverter.toDate(departure));
-            rawTicket.setReturn_date(DateConverter.toDate(returnDate));
+            rawTicket.setDepart_date(midnight(departure));
+            rawTicket.setReturn_date(midnight(returnDate));
 
         });
         return tickerPrices

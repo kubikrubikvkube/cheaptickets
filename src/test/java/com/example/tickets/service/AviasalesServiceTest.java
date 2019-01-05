@@ -24,7 +24,6 @@ import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.example.tickets.util.DateConverter.toLocalDate;
 import static java.lang.String.format;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -140,8 +139,8 @@ public class AviasalesServiceTest {
         Multimap<Ticket, Ticket> ticketPairs = TreeMultimap.create(Comparator.comparing(Ticket::getValue), Comparator.comparing(Ticket::getValue));
         for (Ticket fridayTicket : fridayTickets) {
             for (Ticket sundayTicket : sundayTickets) {
-                var departDate = toLocalDate(fridayTicket.getDepartDate());
-                var returnDate = toLocalDate(sundayTicket.getDepartDate());
+                var departDate = fridayTicket.getDepartDate().toLocalDate();
+                var returnDate = sundayTicket.getDepartDate().toLocalDate();
                 if (returnDate.isAfter(departDate) && departDate.until(returnDate).getDays() == 2) {
                     ticketPairs.put(fridayTicket, sundayTicket);
                 }

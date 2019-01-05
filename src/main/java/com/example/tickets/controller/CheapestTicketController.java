@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.xml.bind.DatatypeConverter;
-import java.time.Instant;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.Optional;
 
 @RestController
 public class CheapestTicketController {
@@ -26,18 +27,12 @@ public class CheapestTicketController {
     private AviasalesService aviasalesService;
 
     @RequestMapping("/cheapest")
-    public Ticket cheapest(@RequestParam(value = "origin") String origin,
-                           @RequestParam(value = "destination") String destination,
-                           @RequestParam(value = "departureDate") String departureDate) {
+    public Optional<Ticket> cheapest(@RequestParam(value = "origin") String origin,
+                                     @RequestParam(value = "destination") String destination,
+                                     @RequestParam(value = "departureDate") String departureDate) {
 
-        Instant departureDateInstant = DatatypeConverter.parseDateTime(departureDate).toInstant();
-        OffsetDateTime departureDateTime = OffsetDateTime.from(departureDateInstant);
+        OffsetDateTime departureDateTime = DatatypeConverter.parseDateTime(departureDate).toInstant().atOffset(ZoneOffset.UTC);
+        return ticketRepository.findCheapestForDate(origin, destination, departureDateTime);
 
-
-        boolean isExists = ticketRepository.existsByOriginAndDestinationAndDepartDate(origin, destination, departureDateTime);
-        if (isExists) {
-            return ticketRepository.findCheapestForDate(origin, destination, departureDateTime);
-        }
-        return null;
     }
 }
