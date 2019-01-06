@@ -5,18 +5,15 @@ import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketDTO;
 import com.example.tickets.util.DefaultHttpClient;
 import com.example.tickets.util.ServiceException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -99,18 +96,14 @@ public class AviasalesServiceImpl implements AviasalesService {
         var stringRequest = sb.toString();
 
         JsonNode response = defaultHttpClient.getJsonResponseWithoutHeaders(stringRequest);
-        ObjectReader reader2 = new ObjectMapper().readerFor(new TypeReference<List<TicketDTO>>() {
+        List<Ticket> tickets = new ArrayList<>();
+        response.elements().forEachRemaining(jsonNode -> {
+            TicketDTO dto = mapper.map(jsonNode, TicketDTO.class);
+            Ticket ticket = mapper.map(dto, Ticket.class);
+            tickets.add(ticket);
         });
-        List<TicketDTO> allNodes;
-        try {
-            allNodes = reader2.readValue(response);
-        } catch (IOException ioe) {
-            throw new ServiceException(ioe);
-        }
 
-        return allNodes
-                .stream()
-                .map(dto -> mapper.map(dto, Ticket.class))
-                .collect(Collectors.toList());
+        return tickets;
+
     }
 }
