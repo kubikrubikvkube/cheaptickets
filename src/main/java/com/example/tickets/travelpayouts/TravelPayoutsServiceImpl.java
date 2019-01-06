@@ -13,9 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.bind.DatatypeConverter;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -86,9 +87,9 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
                 ticketDTO.setValue(Integer.valueOf(price));
                 ticketDTO.setAirline(airLine);
                 ticketDTO.setFlightNumber(flightNumber);
-                var departureDateTime = LocalDate.from(DatatypeConverter.parseDateTime(departureAt).toInstant());
-                var returnDateTime = LocalDate.from(DatatypeConverter.parseDateTime(returnAt).toInstant());
-                var expiresDateTime = LocalDateTime.from(DatatypeConverter.parseDateTime(expiresAt).toInstant());
+                var departureDateTime = LocalDate.from(Instant.parse(departureAt).atZone(ZoneId.systemDefault()));
+                var returnDateTime = LocalDate.from(Instant.parse(returnAt).atZone(ZoneId.systemDefault()));
+                var expiresDateTime = LocalDateTime.from(Instant.parse(expiresAt).atZone(ZoneId.systemDefault()));
                 ticketDTO.setDepart_date(departureDateTime);
                 ticketDTO.setReturn_date(returnDateTime);
                 ticketDTO.setExpiresAt(expiresDateTime);
