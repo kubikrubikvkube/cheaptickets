@@ -9,8 +9,9 @@ import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
+import java.time.LocalTime;
 
 @Component
 @Endpoint(id = "statistics")
@@ -37,9 +38,9 @@ public class StatisticsEndpoint {
     private ObjectNode prepareTicketsMetric() {
         ObjectNode tickets = mapper.createObjectNode();
         tickets.put("total tickets", ticketRep.count());
-        int unaccountedExpiredTicketsSize = ticketRep.findExpiredTickets(OffsetDateTime.now(), false).size();
+        int unaccountedExpiredTicketsSize = ticketRep.findExpiredTickets(LocalDate.now(), LocalTime.now(), false).size();
         tickets.put("unaccounted expired tickets", unaccountedExpiredTicketsSize);
-        int accountedExpiredTicketsSize = ticketRep.findExpiredTickets(OffsetDateTime.now(), true).size();
+        int accountedExpiredTicketsSize = ticketRep.findExpiredTickets(LocalDate.now(), LocalTime.now(), true).size();
         tickets.put("accounted expired tickets", accountedExpiredTicketsSize);
         return tickets;
     }

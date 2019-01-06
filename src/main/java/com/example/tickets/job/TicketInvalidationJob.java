@@ -7,8 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Random;
 
 @PersistJobDataAfterExecution
 @DisallowConcurrentExecution
@@ -19,7 +21,16 @@ public class TicketInvalidationJob implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        List<Ticket> expiredTickets = ticketRepository.findExpiredTickets(OffsetDateTime.now(), false);
+        //
+        var t = new Ticket();
+        t.setOrigin("LED");
+        t.setDestination("MOW");
+        t.setDepartDate(LocalDate.now());
+        t.setDepartTime(LocalTime.now().plusHours(12));
+        t.setValue(new Random().nextInt());
+        ticketRepository.save(t);
+        //
+        List<Ticket> expiredTickets = ticketRepository.findExpiredTickets(LocalDate.now(), LocalTime.now(), false);
         log.info(String.format("Found %d actually expired, but not marked 'asExpired'", expiredTickets.size()));
     }
 }

@@ -14,12 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.DatatypeConverter;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.example.tickets.util.DateConverter.midnight;
 
 
 @Service
@@ -82,14 +81,14 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
                 String expiresAt = rawTicket.get("expires_at").textValue().replaceAll("\"", "");
                 ticketDTO.setOrigin(request.getOrigin());
                 ticketDTO.setDestination(request.getDestination());
-                ticketDTO.setDepart_date(midnight(request.getDepart_date()));
-                ticketDTO.setReturn_date(midnight(request.getReturn_date()));
+                ticketDTO.setDepart_date(request.getDepart_date());
+                ticketDTO.setReturn_date(request.getReturn_date());
                 ticketDTO.setValue(Integer.valueOf(price));
                 ticketDTO.setAirline(airLine);
                 ticketDTO.setFlightNumber(flightNumber);
-                var departureDateTime = OffsetDateTime.from(DatatypeConverter.parseDateTime(departureAt).toInstant());
-                var returnDateTime = OffsetDateTime.from(DatatypeConverter.parseDateTime(returnAt).toInstant());
-                var expiresDateTime = OffsetDateTime.from(DatatypeConverter.parseDateTime(expiresAt).toInstant());
+                var departureDateTime = LocalDate.from(DatatypeConverter.parseDateTime(departureAt).toInstant());
+                var returnDateTime = LocalDate.from(DatatypeConverter.parseDateTime(returnAt).toInstant());
+                var expiresDateTime = LocalDateTime.from(DatatypeConverter.parseDateTime(expiresAt).toInstant());
                 ticketDTO.setDepart_date(departureDateTime);
                 ticketDTO.setReturn_date(returnDateTime);
                 ticketDTO.setExpiresAt(expiresDateTime);

@@ -20,8 +20,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.tickets.util.DateConverter.midnight;
-
 
 @Service
 public class AviasalesServiceImpl implements AviasalesService {
@@ -50,7 +48,7 @@ public class AviasalesServiceImpl implements AviasalesService {
         tickerPrices.forEach(rawTicket -> {
             rawTicket.setOrigin(originIAT);
             rawTicket.setDestination(destinationIAT);
-            rawTicket.setDepart_date(midnight(date));
+            rawTicket.setDepart_date(date);
 
         });
         return tickerPrices
@@ -79,8 +77,8 @@ public class AviasalesServiceImpl implements AviasalesService {
         tickerPrices.forEach(rawTicket -> {
             rawTicket.setOrigin(originIAT);
             rawTicket.setDestination(destinationIAT);
-            rawTicket.setDepart_date(midnight(departure));
-            rawTicket.setReturn_date(midnight(returnDate));
+            rawTicket.setDepart_date(departure);
+            rawTicket.setReturn_date(returnDate);
 
         });
         return tickerPrices

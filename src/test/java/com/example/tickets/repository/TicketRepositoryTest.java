@@ -16,7 +16,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,7 +55,7 @@ public class TicketRepositoryTest {
 
     @Test
     public void existsByBasicData() {
-        boolean shouldNotExist = ticketRepository.existsByOriginAndDestinationAndDepartDateAndValue("MOW", "LED", OffsetDateTime.now(), 1);
+        boolean shouldNotExist = ticketRepository.existsByOriginAndDestinationAndDepartDateAndValue("MOW", "LED", LocalDate.now(), 1);
         assertFalse(shouldNotExist);
         List<Ticket> latest = travelPayoutsService.getLatest(someRequest);
         assertThat(latest, hasSize(greaterThanOrEqualTo(1)));
@@ -105,7 +104,7 @@ public class TicketRepositoryTest {
 
         String origin = ticket.getOrigin();
         String destination = ticket.getDestination();
-        OffsetDateTime departDate = ticket.getDepartDate();
+        LocalDate departDate = ticket.getDepartDate();
         Integer value = ticket.getValue();
 
         List<Ticket> byBasicData = ticketRepository.findByOriginAndDestinationAndDepartDateAndValue(origin, destination, departDate, value);

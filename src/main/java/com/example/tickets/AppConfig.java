@@ -23,7 +23,7 @@ public class AppConfig {
         typeMap.addMapping(TicketDTO::getOrigin, Ticket::setOrigin);
         typeMap.addMapping(TicketDTO::getDestination, Ticket::setDestination);
         typeMap.addMapping(TicketDTO::getDepart_date, Ticket::setDepartDate);
-        typeMap.addMapping(TicketDTO::getReturn_date, Ticket::setReturnDate);
+        typeMap.addMapping(TicketDTO::getDepartTime, Ticket::setDepartTime);
         typeMap.addMapping(TicketDTO::getNumber_of_changes, Ticket::setNumberOfChanges);
         typeMap.addMapping(TicketDTO::getValue, Ticket::setValue);
         typeMap.addMapping(TicketDTO::getFound_at, Ticket::setFoundAt);
@@ -33,6 +33,7 @@ public class AppConfig {
         typeMap.addMapping(TicketDTO::getAirline, Ticket::setAirline);
         typeMap.addMapping(TicketDTO::getTransfers, Ticket::setTransfers);
         typeMap.addMapping(TicketDTO::getIsExpired, Ticket::setIsExpired);
+        typeMap.addMapping(TicketDTO::getExpiresAt, Ticket::setExpiresAt);
         modelMapper.validate();
         return modelMapper;
     }

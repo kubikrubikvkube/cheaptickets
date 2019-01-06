@@ -139,8 +139,8 @@ public class AviasalesServiceTest {
         Multimap<Ticket, Ticket> ticketPairs = TreeMultimap.create(Comparator.comparing(Ticket::getValue), Comparator.comparing(Ticket::getValue));
         for (Ticket fridayTicket : fridayTickets) {
             for (Ticket sundayTicket : sundayTickets) {
-                var departDate = fridayTicket.getDepartDate().toLocalDate();
-                var returnDate = sundayTicket.getDepartDate().toLocalDate();
+                var departDate = fridayTicket.getDepartDate();
+                var returnDate = sundayTicket.getDepartDate();
                 if (returnDate.isAfter(departDate) && departDate.until(returnDate).getDays() == 2) {
                     ticketPairs.put(fridayTicket, sundayTicket);
                 }

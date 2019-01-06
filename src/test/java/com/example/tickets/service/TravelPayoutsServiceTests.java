@@ -97,7 +97,7 @@ public class TravelPayoutsServiceTests {
             assertEquals(ticket.getOrigin(), "LED");
             assertEquals(ticket.getDestination(), "MOW");
             assertNotNull(ticket.getDepartDate());
-            assertNotNull(ticket.getReturnDate());
+            assertNotNull(ticket.getDepartTime());
             assertNotNull(ticket.getNumberOfChanges());
             assertNotNull(ticket.getValue());
             assertNotNull(ticket.getFoundAt());

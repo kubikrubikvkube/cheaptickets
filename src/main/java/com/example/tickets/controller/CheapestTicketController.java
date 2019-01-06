@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.xml.bind.DatatypeConverter;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+
+import static java.util.Comparator.comparing;
 
 @RestController
 public class CheapestTicketController {
@@ -31,8 +32,11 @@ public class CheapestTicketController {
                                      @RequestParam(value = "destination") String destination,
                                      @RequestParam(value = "departureDate") String departureDate) {
 
-        OffsetDateTime departureDateTime = DatatypeConverter.parseDateTime(departureDate).toInstant().atOffset(ZoneOffset.UTC);
-        return ticketRepository.findCheapestForDate(origin, destination, departureDateTime);
 
+        List<Ticket> foundTickets = ticketRepository.findByOriginAndDestinationAndDepartDate(origin, destination, LocalDate.parse(departureDate));
+        return foundTickets
+                .stream()
+                .filter(ticket -> ticket.getValue() != null)
+                .min(comparing(Ticket::getValue));
     }
 }

@@ -4,12 +4,13 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.OffsetDateTime;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @Entity
-@Table(indexes = {@Index(name = "idx_ticket", columnList = "origin,destination,departDate,value,returnDate")})
+@Table(indexes = {@Index(name = "idx_ticket", columnList = "origin,destination,departDate,value,departTime")})
 public class Ticket {
     /**
      * PK айдишник базы
@@ -21,10 +22,8 @@ public class Ticket {
     /**
      * Метка даты записи в БД, когда был "пойман" билет.
      */
-    @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
-    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private Date catchedOn;
+    private LocalDateTime catchedOn;
     /**
      * Класс перелёта (только 0 — Эконом);
      */
@@ -47,13 +46,11 @@ public class Ticket {
     /**
      * Дата отправления.
      */
-    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private OffsetDateTime departDate;
+    private LocalDate departDate;
     /**
-     * Дата возвращения.
+     * Время отправления.
      */
-    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private Date returnDate;
+    private LocalTime departTime;
     /**
      * Количество пересадок.
      */
@@ -65,8 +62,7 @@ public class Ticket {
     /**
      * Время и дата, когда был найден билет.
      */
-    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private Date foundAt;
+    private LocalDateTime foundAt;
     /**
      * Расстояние между пунктом вылета и назначения.
      */
@@ -101,7 +97,7 @@ public class Ticket {
     /**
      * Время истекания срока действия билета
      */
-    private OffsetDateTime expiresAt;
+    private LocalDateTime expiresAt;
 
     /**
      * Время, когда билет был отдан пользователю через API (?)
