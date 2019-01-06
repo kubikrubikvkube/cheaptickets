@@ -3,7 +3,6 @@ package com.example.tickets.controller;
 import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketDTO;
 import com.example.tickets.ticket.TicketRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,18 +29,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class CheapestTicketControllerTest {
     @Autowired
+    private
     TicketRepository ticketRepository;
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    private CheapestTicketController controller;
-    private final LocalDate date = LocalDate.now().plusDays(3);
+    private ModelMapper mapper;
 
     private Ticket t;
+    private final LocalDate date = LocalDate.now().plusDays(3);
     private final LocalTime time = LocalTime.now();
     private final Integer value = 12345;
-    @Autowired
-    private ModelMapper mapper;
+
 
     @Before
     public void setUp() {
@@ -63,8 +62,6 @@ public class CheapestTicketControllerTest {
     @Test
     public void cheapest() throws Exception {
         String request = "/cheapest?origin=LED&destination=MOW&departureDate=" + date;
-        ObjectMapper mapper = new ObjectMapper();
-//        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         String expectedDate = date.toString();
         String expectedTime = time.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
         this.mockMvc
