@@ -10,10 +10,13 @@ import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static java.lang.String.format;
 
 @PersistJobDataAfterExecution
 @DisallowConcurrentExecution
@@ -34,27 +37,33 @@ public class TicketPopulationJob implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
+        logger.info("Starting TicketPopulationJob at " + LocalDateTime.now());
         Map<String, String> directions = new HashMap<>();
         subscriptionRepository
                 .findNonExpired()
                 .forEach(s -> directions.put(s.getOrigin(), s.getDestination()));
+        logger.info(format("Found %d subscription directions", directions.size()));
 
-        List<Ticket> nonSavedTickets = new ArrayList<>();
+        List<Ticket> travelPayoutsTickets = new ArrayList<>();
         directions.forEach((origin, destination) -> {
             LatestRequest latestRequest = LatestRequest.builder()
                     .origin(origin)
                     .destination(destination)
+                    .limit(1000)
                     .one_way(true)
                     .build();
 
             List<Ticket> latest = travelPayoutsService.getLatest(latestRequest);
-            nonSavedTickets.addAll(latest);
+            travelPayoutsTickets.addAll(latest);
         });
+        var unsavedTicketsSize = travelPayoutsTickets.size();
+        logger.info(format("Found %d tickets from TravelPayout", unsavedTicketsSize));
 
-        nonSavedTickets
+        travelPayoutsTickets
                 .parallelStream()
                 .filter(ticket -> !ticketRepository.existsByOriginAndDestinationAndDepartDateAndValue(ticket.getOrigin(), ticket.getDestination(), ticket.getDepartDate(), ticket.getValue()))
                 .forEach(ticketRepository::save);
+        logger.info("TicketPopulationJob finished");
 
     }
 

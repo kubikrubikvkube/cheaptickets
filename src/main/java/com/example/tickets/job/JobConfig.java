@@ -47,8 +47,8 @@ public class JobConfig {
                 .withIdentity("ticketPopulationTrigger", "trigger")
                 .withDescription("Hourly")
                 .withSchedule(
-//                        SimpleScheduleBuilder.repeatHourlyForever())
-                        SimpleScheduleBuilder.repeatMinutelyForever())
+                        SimpleScheduleBuilder.repeatHourlyForever())
+//                        SimpleScheduleBuilder.repeatMinutelyForever())
                 .build();
         scheduler.scheduleJob(jobDetail, trigger);
     }
