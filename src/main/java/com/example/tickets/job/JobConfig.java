@@ -26,29 +26,46 @@ public class JobConfig {
                 .withIdentity("ticketInvalidationTrigger", "trigger")
                 .withDescription("basic trigger for test purpose")
                 .withSchedule(
-                        SimpleScheduleBuilder.repeatHourlyForever())
-// TODO fix                        SimpleScheduleBuilder.repeatMinutelyForever())
+//                        SimpleScheduleBuilder.repeatHourlyForever())
+                        SimpleScheduleBuilder.repeatMinutelyForever())
                 .build();
         scheduler.scheduleJob(jobDetail, trigger);
     }
 
-    @Bean(name = "ticketPopulationJob")
-    void ticketPopulationJob() throws SchedulerException {
+    @Bean(name = "LatestTicketsTravelPayoutsPopulationJob")
+    void latestTicketsTravelPayoutsPopulationJob() throws SchedulerException {
         JobDetail jobDetail = JobBuilder
-                .newJob(TicketPopulationJob.class)
-                .withIdentity("ticketPopulationJob")
-                .withDescription("Job for population tickets according subscriptions")
+                .newJob(LatestTicketsTravelPayoutsPopulationJob.class)
+                .withIdentity("LatestTicketsTravelPayoutsPopulationJob")
                 .storeDurably(true)
                 .requestRecovery(true)
                 .build();
 
         Trigger trigger = TriggerBuilder
                 .newTrigger()
-                .withIdentity("ticketPopulationTrigger", "trigger")
-                .withDescription("Hourly")
+                .withIdentity("LatestTicketsTravelPayoutsPopulationTrigger", "trigger")
                 .withSchedule(
                         SimpleScheduleBuilder.repeatHourlyForever())
 //                        SimpleScheduleBuilder.repeatMinutelyForever())
+                .build();
+        scheduler.scheduleJob(jobDetail, trigger);
+    }
+
+    @Bean(name = "OnewayTicketsForAYearAviasalesJob")
+    void oneWayTicketsForAYearAviasalesJob() throws SchedulerException {
+        JobDetail jobDetail = JobBuilder
+                .newJob(OnewayTicketsForAYearAviasalesJob.class)
+                .withIdentity("OnewayTicketsForAYearAviasalesJob")
+                .storeDurably(true)
+                .requestRecovery(true)
+                .build();
+
+        Trigger trigger = TriggerBuilder
+                .newTrigger()
+                .withIdentity("newayTicketsForAYearAviasalesTrigger", "trigger")
+                .withSchedule(
+                        SimpleScheduleBuilder.repeatHourlyForever())
+//                        SimpleScheduleBuilder.repeatMinutelyForever(15))
                 .build();
         scheduler.scheduleJob(jobDetail, trigger);
     }

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 @Repository
@@ -30,6 +29,9 @@ public interface TicketRepository extends CrudRepository<Ticket, Long> {
 
     boolean existsByOriginAndDestination(String origin, String destination);
 
-    @Query("select t from Ticket t where (t.departDate < ?1 and t.departTime < ?2 or t.expiresAt < ?1) and (t.isExpired = ?3 or t.isExpired is null)")
-    List<Ticket> findExpiredTickets(LocalDate departDate, LocalTime departTime, boolean markedAsExpired);
+    @Query("select t from Ticket t where (t.departDate < ?1 or t.expiresAt < ?1) and t.isExpired = ?2")
+    List<Ticket> findExpiredTickets(LocalDate departDate, boolean markedAsExpired);
+
+    @Query("select t from Ticket t where t.isExpired is null")
+    List<Ticket> findTicketsWithUnknownExpirationStatus();
 }

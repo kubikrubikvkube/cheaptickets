@@ -19,14 +19,14 @@ import static java.lang.String.format;
 
 @PersistJobDataAfterExecution
 @DisallowConcurrentExecution
-public class TicketPopulationJob implements Job {
-    private final Logger logger = LoggerFactory.getLogger(TicketPopulationJob.class);
+public class LatestTicketsTravelPayoutsPopulationJob implements Job {
+    private final Logger logger = LoggerFactory.getLogger(LatestTicketsTravelPayoutsPopulationJob.class);
     private final TicketRepository ticketRepository;
     private final SubscriptionRepository subscriptionRepository;
     private final TravelPayoutsService travelPayoutsService;
     private final AviasalesService aviasalesService;
 
-    public TicketPopulationJob(TicketRepository ticketRepository, SubscriptionRepository subscriptionRepository, TravelPayoutsService travelPayoutsService, AviasalesService aviasalesService) {
+    public LatestTicketsTravelPayoutsPopulationJob(TicketRepository ticketRepository, SubscriptionRepository subscriptionRepository, TravelPayoutsService travelPayoutsService, AviasalesService aviasalesService) {
         this.ticketRepository = ticketRepository;
         this.subscriptionRepository = subscriptionRepository;
         this.travelPayoutsService = travelPayoutsService;
@@ -36,7 +36,7 @@ public class TicketPopulationJob implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        logger.info("Starting TicketPopulationJob at " + LocalDateTime.now());
+        logger.info("Starting LatestTicketsTravelPayoutsPopulationJob at " + LocalDateTime.now());
         List<Subscription> nonExpired = subscriptionRepository.findNonExpired();
         logger.info(format("Found %d non-expired subscriptions", nonExpired.size()));
 
@@ -54,13 +54,15 @@ public class TicketPopulationJob implements Job {
             travelPayoutsTickets.addAll(latest);
         });
         var unsavedTicketsSize = travelPayoutsTickets.size();
-        logger.info(format("Found %d tickets from TravelPayout", unsavedTicketsSize));
+        logger.info(format("Found %d latest tickets from TravelPayout", unsavedTicketsSize));
 
         travelPayoutsTickets
                 .parallelStream()
                 .filter(ticket -> !ticketRepository.existsByOriginAndDestinationAndDepartDateAndValue(ticket.getOrigin(), ticket.getDestination(), ticket.getDepartDate(), ticket.getValue()))
                 .forEach(ticketRepository::save);
-        logger.info("TicketPopulationJob finished");
+        logger.info("LatestTicketsTravelPayoutsPopulationJob finished");
+
+
 
     }
 

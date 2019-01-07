@@ -104,9 +104,6 @@ public class Ticket {
      */
     private Long created_at;
 
-    /**
-     * Время, когда билет был отдан пользователю через API (?)
-     */
     private Boolean isExpired;
 
 }

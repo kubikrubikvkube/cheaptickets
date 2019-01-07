@@ -34,9 +34,9 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
     @Override
     public List<Ticket> getLatest(LatestRequest request) throws ServiceException {
         String stringRequest = request.toString();
-        log.info("Sent request: " + stringRequest);
+        log.trace("Sent request: " + stringRequest);
         LatestResponse response = (LatestResponse) httpClient.getWithHeaders(stringRequest, LatestResponse.class);
-        log.info("Got response: " + response);
+        log.trace("Got response: " + response);
         if (!response.getSuccess()) {
             throw new ServiceException(response.getError());
         }
@@ -66,7 +66,7 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
     public List<Ticket> getDirect(DirectRequest request) {
 
         var stringRequest = request.toString();
-        log.info("Sent request: " + stringRequest);
+        log.trace("Sent request: " + stringRequest);
         JsonNode response = httpClient.getJsonResponseWithHeaders(stringRequest);
 
         List<JsonNode> values = response.findValues(request.getDestination());
