@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,11 +20,14 @@ import java.util.stream.Collectors;
 @Service
 public class AviasalesServiceImpl implements AviasalesService {
     private final Logger log = LoggerFactory.getLogger(AviasalesServiceImpl.class);
-    @Autowired
-    private DefaultHttpClient<AviasalesResponse> defaultHttpClient;
 
-    @Autowired
-    private ModelMapper mapper;
+    private final DefaultHttpClient<AviasalesResponse> defaultHttpClient;
+    private final ModelMapper mapper;
+
+    public AviasalesServiceImpl(DefaultHttpClient<AviasalesResponse> defaultHttpClient, ModelMapper mapper) {
+        this.defaultHttpClient = defaultHttpClient;
+        this.mapper = mapper;
+    }
 
     @Override
     public List<Ticket> getOneWayTicket(String originIAT, String destinationIAT, LocalDate date, int range) throws ServiceException {

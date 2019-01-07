@@ -20,8 +20,11 @@ import org.springframework.web.client.RestTemplate;
 @PropertySource("classpath:ticket.properties")
 public class DefaultHttpClient<T> {
     private final Logger log = LoggerFactory.getLogger(DefaultHttpClient.class);
-    @Value("${developer.token}")
-    private String token;
+    private final String token;
+
+    public DefaultHttpClient(@Value("${developer.token}") String token) {
+        this.token = token;
+    }
 
     private final PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
 

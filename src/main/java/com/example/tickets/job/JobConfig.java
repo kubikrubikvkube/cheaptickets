@@ -1,15 +1,16 @@
 package com.example.tickets.job;
 
 import org.quartz.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class JobConfig {
-    @Autowired
-    private Scheduler scheduler;
+    private final Scheduler scheduler;
 
+    public JobConfig(Scheduler scheduler) {
+        this.scheduler = scheduler;
+    }
 
     @Bean(name = "ticketInvalidationJob")
     void ticketInvalidationJob() throws SchedulerException {

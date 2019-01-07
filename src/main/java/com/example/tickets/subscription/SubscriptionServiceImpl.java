@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
-    Logger log = LoggerFactory.getLogger(SubscriptionServiceImpl.class);
+    Logger logger = LoggerFactory.getLogger(SubscriptionServiceImpl.class);
 }

@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -25,11 +24,13 @@ import java.util.stream.Collectors;
 @Service
 public class TravelPayoutsServiceImpl implements TravelPayoutsService {
     private final Logger log = LoggerFactory.getLogger(TravelPayoutsServiceImpl.class);
-    @Autowired
-    private DefaultHttpClient httpClient;
+    private final DefaultHttpClient httpClient;
+    private final ModelMapper mapper;
 
-    @Autowired
-    private ModelMapper mapper;
+    public TravelPayoutsServiceImpl(DefaultHttpClient httpClient, ModelMapper mapper) {
+        this.httpClient = httpClient;
+        this.mapper = mapper;
+    }
 
     @Override
     public List<Ticket> getLatest(LatestRequest request) throws ServiceException {

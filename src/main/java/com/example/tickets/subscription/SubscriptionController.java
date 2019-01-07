@@ -8,12 +8,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @RestController
 public class SubscriptionController {
-    private final Logger log = LoggerFactory.getLogger(SubscriptionController.class);
-    private final AtomicBoolean isStarted = new AtomicBoolean(false);
+    private final Logger logger = LoggerFactory.getLogger(SubscriptionController.class);
     private final SubscriptionRepository repository;
     private final ModelMapper modelMapper;
 
