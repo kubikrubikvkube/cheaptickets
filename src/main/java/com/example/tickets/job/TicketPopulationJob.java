@@ -1,6 +1,7 @@
 package com.example.tickets.job;
 
 import com.example.tickets.aviasales.AviasalesService;
+import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionRepository;
 import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketRepository;
@@ -12,9 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static java.lang.String.format;
 
@@ -38,17 +37,15 @@ public class TicketPopulationJob implements Job {
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
         logger.info("Starting TicketPopulationJob at " + LocalDateTime.now());
-        Map<String, String> directions = new HashMap<>();
-        subscriptionRepository
-                .findNonExpired()
-                .forEach(s -> directions.put(s.getOrigin(), s.getDestination()));
-        logger.info(format("Found %d subscription directions", directions.size()));
+        List<Subscription> nonExpired = subscriptionRepository.findNonExpired();
+        logger.info(format("Found %d non-expired subscriptions", nonExpired.size()));
 
         List<Ticket> travelPayoutsTickets = new ArrayList<>();
-        directions.forEach((origin, destination) -> {
+        nonExpired.forEach(subscription -> {
+            //TODO одну и ту же подписку от разных юзеров он будет молоть херову тучу раз, исправить
             LatestRequest latestRequest = LatestRequest.builder()
-                    .origin(origin)
-                    .destination(destination)
+                    .origin(subscription.getOrigin())
+                    .destination(subscription.getDestination())
                     .limit(1000)
                     .one_way(true)
                     .build();
