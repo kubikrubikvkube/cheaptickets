@@ -26,6 +26,27 @@ public class JobConfig {
                 .withIdentity("ticketInvalidationTrigger", "trigger")
                 .withDescription("basic trigger for test purpose")
                 .withSchedule(
+                        SimpleScheduleBuilder.repeatHourlyForever())
+// TODO fix                        SimpleScheduleBuilder.repeatMinutelyForever())
+                .build();
+        scheduler.scheduleJob(jobDetail, trigger);
+    }
+
+    @Bean(name = "ticketPopulationJob")
+    void ticketPopulationJob() throws SchedulerException {
+        JobDetail jobDetail = JobBuilder
+                .newJob(TicketPopulationJob.class)
+                .withIdentity("ticketPopulationJob")
+                .withDescription("Job for population tickets according subscriptions")
+                .storeDurably(true)
+                .requestRecovery(true)
+                .build();
+
+        Trigger trigger = TriggerBuilder
+                .newTrigger()
+                .withIdentity("ticketPopulationTrigger", "trigger")
+                .withDescription("Hourly")
+                .withSchedule(
 //                        SimpleScheduleBuilder.repeatHourlyForever())
                         SimpleScheduleBuilder.repeatMinutelyForever())
                 .build();

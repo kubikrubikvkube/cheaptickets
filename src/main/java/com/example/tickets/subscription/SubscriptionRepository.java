@@ -15,6 +15,9 @@ public interface SubscriptionRepository extends CrudRepository<Subscription, Lon
     @Query("select s from Subscription s where s.owner = ?1")
     List<Subscription> findByOwner(String owner);
 
+    @Query("select s from Subscription s where (s.isExpired = false or s.isExpired is null)")
+    List<Subscription> findNonExpired();
+
     @Query("select s from Subscription s where s.origin = ?1")
     List<Subscription> findByOrigin(String origin);
 
