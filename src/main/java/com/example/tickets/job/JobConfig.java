@@ -16,19 +16,16 @@ public class JobConfig {
     void ticketInvalidationJob() throws SchedulerException {
         JobDetail jobDetail = JobBuilder
                 .newJob(TicketInvalidationJob.class)
-                .withIdentity("ticketInvalidationJob")
-                .withDescription("Job for invalidation tickets which expiresAt and departureDate is in past")
+                .withIdentity("TicketInvalidationJob")
                 .storeDurably(true)
                 .requestRecovery(true)
                 .build();
 
         Trigger trigger = TriggerBuilder
                 .newTrigger()
-                .withIdentity("ticketInvalidationTrigger", "trigger")
-                .withDescription("basic trigger for test purpose")
+                .withIdentity("TicketInvalidationTrigger", "trigger")
                 .withSchedule(
-//                        SimpleScheduleBuilder.repeatHourlyForever())
-                        SimpleScheduleBuilder.repeatMinutelyForever())
+                        SimpleScheduleBuilder.repeatHourlyForever())
                 .build();
         scheduler.scheduleJob(jobDetail, trigger);
     }
@@ -47,7 +44,6 @@ public class JobConfig {
                 .withIdentity("LatestTicketsTravelPayoutsPopulationTrigger", "trigger")
                 .withSchedule(
                         SimpleScheduleBuilder.repeatHourlyForever())
-//                        SimpleScheduleBuilder.repeatMinutelyForever())
                 .build();
         scheduler.scheduleJob(jobDetail, trigger);
     }
@@ -63,10 +59,27 @@ public class JobConfig {
 
         Trigger trigger = TriggerBuilder
                 .newTrigger()
-                .withIdentity("newayTicketsForAYearAviasalesTrigger", "trigger")
+                .withIdentity("OnewayTicketsForAYearAviasalesTrigger", "trigger")
                 .withSchedule(
                         SimpleScheduleBuilder.repeatHourlyForever())
-//                        SimpleScheduleBuilder.repeatMinutelyForever(15))
+                .build();
+        scheduler.scheduleJob(jobDetail, trigger);
+    }
+
+    @Bean(name = "PopulateUnknownExpirationStatusJob")
+    void populateUnknownExpirationStatusJob() throws SchedulerException {
+        JobDetail jobDetail = JobBuilder
+                .newJob(PopulateUnknownExpirationStatusJob.class)
+                .withIdentity("PopulateUnknownExpirationStatusJob")
+                .storeDurably(true)
+                .requestRecovery(true)
+                .build();
+
+        Trigger trigger = TriggerBuilder
+                .newTrigger()
+                .withIdentity("PopulateUnknownExpirationStatusTrigger", "trigger")
+                .withSchedule(
+                        SimpleScheduleBuilder.repeatMinutelyForever())
                 .build();
         scheduler.scheduleJob(jobDetail, trigger);
     }

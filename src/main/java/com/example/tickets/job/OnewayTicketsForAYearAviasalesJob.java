@@ -6,12 +6,15 @@ import com.example.tickets.subscription.SubscriptionRepository;
 import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketRepository;
 import com.example.tickets.travelpayouts.TravelPayoutsService;
-import org.quartz.*;
+import org.quartz.DisallowConcurrentExecution;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.PersistJobDataAfterExecution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -19,7 +22,7 @@ import static java.lang.String.format;
 @PersistJobDataAfterExecution
 @DisallowConcurrentExecution
 public class OnewayTicketsForAYearAviasalesJob implements Job {
-    private final Logger logger = LoggerFactory.getLogger(OnewayTicketsForAYearAviasalesJob.class);
+    private final Logger log = LoggerFactory.getLogger(OnewayTicketsForAYearAviasalesJob.class);
     private final TicketRepository ticketRepository;
     private final SubscriptionRepository subscriptionRepository;
     private final AviasalesService aviasalesService;
@@ -31,11 +34,12 @@ public class OnewayTicketsForAYearAviasalesJob implements Job {
     }
 
     @Override
-    public void execute(JobExecutionContext context) throws JobExecutionException {
+    public void execute(JobExecutionContext context) {
         //TODO code duplication
-        logger.info("Starting OnewayTicketsForAYearAviasalesJob at " + LocalDateTime.now());
+        var startTime = Instant.now().toEpochMilli();
+        log.info("OnewayTicketsForAYearAviasalesJob started");
         List<Subscription> nonExpired = subscriptionRepository.findNonExpired();
-        logger.info(format("Found %d non-expired subscriptions", nonExpired.size()));
+        log.info(format("Found %d non-expired subscriptions", nonExpired.size()));
 
         nonExpired
                 .forEach(subscription -> LocalDate.now().datesUntil(LocalDate.now().plusMonths(12))
@@ -47,6 +51,7 @@ public class OnewayTicketsForAYearAviasalesJob implements Job {
                                     .forEach(ticketRepository::save);
                         }));
 
-        logger.info("OnewayTicketsForAYearAviasalesJob finished");
+        var endTime = Instant.now().toEpochMilli();
+        log.info(format("OnewayTicketsForAYearAviasalesJob finished in %d ms", endTime - startTime));
     }
 }
