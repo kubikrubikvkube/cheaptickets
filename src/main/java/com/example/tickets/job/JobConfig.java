@@ -83,4 +83,22 @@ public class JobConfig {
                 .build();
         scheduler.scheduleJob(jobDetail, trigger);
     }
+
+    @Bean(name = "SubscriptionStatisticsUpdaterJob")
+    void subscriptionStatisticsUpdaterJob() throws SchedulerException {
+        JobDetail jobDetail = JobBuilder
+                .newJob(SubscriptionStatisticsUpdaterJob.class)
+                .withIdentity("SubscriptionStatisticsUpdaterJob")
+                .storeDurably(true)
+                .requestRecovery(true)
+                .build();
+
+        Trigger trigger = TriggerBuilder
+                .newTrigger()
+                .withIdentity("SubscriptionStatisticsUpdaterTrigger", "trigger")
+                .withSchedule(
+                        SimpleScheduleBuilder.repeatMinutelyForever())
+                .build();
+        scheduler.scheduleJob(jobDetail, trigger);
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.tickets.ticket;
 
+import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionDTO;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -22,6 +23,9 @@ public interface TicketRepository extends CrudRepository<Ticket, Long> {
 
     @Query("select t from Ticket t where t.origin = :#{#subscriptionDTO.origin} and t.destination = :#{#subscriptionDTO.destination}")
     List<Ticket> findBySubscription(SubscriptionDTO subscriptionDTO);
+
+    @Query("select t from Ticket t where t.origin = :#{#subscription.origin} and t.destination = :#{#subscription.destination}")
+    List<Ticket> findBySubscription(Subscription subscription);
 
     boolean existsByOriginAndDestinationAndDepartDateAndValue(String origin, String destination, LocalDate departDate, Integer value);
 

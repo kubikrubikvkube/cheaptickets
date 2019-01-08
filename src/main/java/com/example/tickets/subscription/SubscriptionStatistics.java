@@ -16,10 +16,10 @@ public class SubscriptionStatistics {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne(targetEntity = Subscription.class, fetch = FetchType.LAZY)
+    @OneToOne(targetEntity = Subscription.class)
     @PrimaryKeyJoinColumn
     private Long subscriptionId;
 
-    @OneToMany(targetEntity = SubscriptionStatisticsByDate.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = SubscriptionStatisticsByDate.class, cascade = CascadeType.ALL)
     private List<SubscriptionStatisticsByDate> subscriptionStatisticsByDate;
 }

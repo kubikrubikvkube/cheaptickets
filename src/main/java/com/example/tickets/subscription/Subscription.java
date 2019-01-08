@@ -26,7 +26,7 @@ public class Subscription {
     @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private Calendar creationDate;
 
-    @OneToOne(targetEntity = SubscriptionStatistics.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(targetEntity = SubscriptionStatistics.class, cascade = CascadeType.ALL)
     private SubscriptionStatistics subscriptionStatistics;
 
     /**
