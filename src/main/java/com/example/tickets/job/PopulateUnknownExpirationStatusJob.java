@@ -13,6 +13,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static java.lang.String.format;
 
@@ -26,25 +27,44 @@ public class PopulateUnknownExpirationStatusJob implements Job {
         this.ticketRepository = ticketRepository;
     }
 
+    private final Consumer<? super Ticket> setCorrectExpirationStatus = new Consumer<>() {
+        @Override
+        public void accept(Ticket ticket) {
+            var dateNow = LocalDate.now();
+            var dateTimeNow = LocalDateTime.now();
+            var expiresAt = ticket.getExpiresAt();
+            var departDate = ticket.getDepartDate();
+            if ((expiresAt != null && expiresAt.isBefore(dateTimeNow)) || (departDate != null && departDate.isBefore(dateNow))) {
+                ticket.setIsExpired(true);
+            } else {
+                ticket.setIsExpired(false);
+            }
+            ticketRepository.save(ticket);
+        }
+    };
 
     @Override
     public void execute(JobExecutionContext context) {
         var startTime = Instant.now().toEpochMilli();
         log.info("PopulateUnknownExpirationStatusJob started");
         List<Ticket> ticketsWithUnknownExpirationStatus = ticketRepository.findTicketsWithUnknownExpirationStatus();
-        log.info(format("Found %d tickets with unknown expiration status", ticketsWithUnknownExpirationStatus.size()));
-        ticketsWithUnknownExpirationStatus.forEach(ticket -> {
-            var expiresAt = ticket.getExpiresAt();
-            var departDate = ticket.getDepartDate();
-            if ((expiresAt != null && expiresAt.isBefore(LocalDateTime.now())) || (departDate != null && departDate.isBefore(LocalDate.now()))) {
-                ticket.setIsExpired(true);
-            } else {
-                ticket.setIsExpired(false);
-            }
-            ticketRepository.save(ticket);
-        });
+        var size = ticketsWithUnknownExpirationStatus.size();
+        log.info(format("Found %d tickets with unknown expiration status", size));
+
+        if (size > 1000) {
+            log.trace("Using parallel stream");
+            ticketsWithUnknownExpirationStatus
+                    .parallelStream()
+                    .forEach(setCorrectExpirationStatus);
+        } else {
+            log.trace("Using default stream");
+            ticketsWithUnknownExpirationStatus
+                    .forEach(setCorrectExpirationStatus);
+        }
+
         var endTime = Instant.now().toEpochMilli();
         log.info(format("PopulateUnknownExpirationStatusJob finished in %d ms", endTime - startTime));
 
     }
+
 }
