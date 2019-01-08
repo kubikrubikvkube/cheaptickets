@@ -19,5 +19,6 @@ public class SubscriptionStatistics {
     @PrimaryKeyJoinColumn
     private Long subscriptionId;
 
-    private String smth;
+    @OneToOne(targetEntity = SubscriptionStatisticsByDate.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private SubscriptionStatisticsByDate subscriptionStatisticsByDate;
 }
