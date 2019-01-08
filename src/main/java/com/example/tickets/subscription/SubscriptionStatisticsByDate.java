@@ -16,7 +16,7 @@ public class SubscriptionStatisticsByDate {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne(targetEntity = SubscriptionStatistics.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = SubscriptionStatistics.class, fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private Long subscriptionStatisticsId;
 

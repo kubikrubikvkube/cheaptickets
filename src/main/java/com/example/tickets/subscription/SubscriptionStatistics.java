@@ -3,6 +3,7 @@ package com.example.tickets.subscription;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -19,6 +20,6 @@ public class SubscriptionStatistics {
     @PrimaryKeyJoinColumn
     private Long subscriptionId;
 
-    @OneToOne(targetEntity = SubscriptionStatisticsByDate.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private SubscriptionStatisticsByDate subscriptionStatisticsByDate;
+    @OneToMany(targetEntity = SubscriptionStatisticsByDate.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<SubscriptionStatisticsByDate> subscriptionStatisticsByDate;
 }
