@@ -62,6 +62,7 @@ public class LatestTicketsTravelPayoutsPopulationJob implements Job {
 
         travelPayoutsTickets
                 .parallelStream()
+                .filter(ticket -> ticket.getNumberOfChanges() < 2)
                 .filter(ticket -> !ticketRepository.existsByOriginAndDestinationAndDepartDateAndValue(ticket.getOrigin(), ticket.getDestination(), ticket.getDepartDate(), ticket.getValue()))
                 .forEach(ticketRepository::save);
         var endTime = Instant.now().toEpochMilli();

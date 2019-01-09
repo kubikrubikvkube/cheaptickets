@@ -47,6 +47,7 @@ public class OnewayTicketsForAYearAviasalesJob implements Job {
                         .forEach(date -> {
                             List<Ticket> latest = aviasalesService.getOneWayTicket(subscription.getOrigin(), subscription.getDestination(), date, 1);
                             latest.stream()
+                                    .filter(ticket -> ticket.getNumberOfChanges() < 2)
                                     .filter(ticket -> !ticketRepository.existsByOriginAndDestinationAndDepartDateAndValue(ticket.getOrigin(), ticket.getDestination(), ticket.getDepartDate(), ticket.getValue()))
                                     .forEach(ticketRepository::save);
                         }));
