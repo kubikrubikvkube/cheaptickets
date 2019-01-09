@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class TicketControllerTest {
+public class ExampleTicketControllerTest {
     private final LocalDate date = LocalDate.now().plusDays(3);
     private final LocalTime time = LocalTime.now();
     private final Integer value = 12345;

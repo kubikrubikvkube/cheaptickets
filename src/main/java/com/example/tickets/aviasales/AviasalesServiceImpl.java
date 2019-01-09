@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @Service
 public class AviasalesServiceImpl implements AviasalesService {
     private final Logger log = LoggerFactory.getLogger(AviasalesServiceImpl.class);
-
     private final DefaultHttpClient<AviasalesResponse> defaultHttpClient;
     private final ModelMapper mapper;
 

@@ -8,7 +8,6 @@ import java.util.Optional;
 
 @RestController
 public class TicketStatisticsController {
-
     private final TicketStatisticsRepository repository;
 
     public TicketStatisticsController(TicketStatisticsRepository repository) {

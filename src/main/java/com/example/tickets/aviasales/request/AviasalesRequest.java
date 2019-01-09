@@ -1,5 +1,7 @@
 package com.example.tickets.aviasales.request;
 
-//TODO
+import lombok.Data;
+
+@Data
 public class AviasalesRequest {
 }

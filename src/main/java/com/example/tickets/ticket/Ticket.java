@@ -10,11 +10,8 @@ import java.time.LocalTime;
 
 @Data
 @Entity
-@Table(indexes = {@Index(name = "idx_ticket", columnList = "origin,destination,departDate,numberOfChanges,value,actual,isExpired,departTime")})
+@Table(indexes = {@Index(name = "idx_ticket", columnList = "origin,destination,departDate,numberOfChanges,value,actual,isExpired")})
 public class Ticket {
-    /**
-     * PK айдишник базы
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

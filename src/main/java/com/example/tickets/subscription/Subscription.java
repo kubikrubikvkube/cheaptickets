@@ -11,9 +11,6 @@ import java.util.Date;
 @Entity
 @Table(indexes = {@Index(name = "idx_subscription", columnList = "id,owner,origin,destination,departDate,returnDate,isExpired")})
 public class Subscription {
-    /**
-     * PK айдишник базы
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
