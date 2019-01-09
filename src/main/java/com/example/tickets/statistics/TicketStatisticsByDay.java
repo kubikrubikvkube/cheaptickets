@@ -13,10 +13,6 @@ public class TicketStatisticsByDay {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-//    @ManyToOne(targetEntity = TicketStatistics.class)
-//    @PrimaryKeyJoinColumn
-//    private Long ticketStatisticsId;
-
     private LocalDate date;
 
     private Long ticketsCount;
