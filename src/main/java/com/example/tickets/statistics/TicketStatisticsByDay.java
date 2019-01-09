@@ -1,4 +1,4 @@
-package com.example.tickets.subscription;
+package com.example.tickets.statistics;
 
 import lombok.Data;
 
@@ -7,22 +7,24 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-@Table
-public class SubscriptionStatisticsByDate {
-    /**
-     * PK айдишник базы
-     */
+public class TicketStatisticsByDay {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(targetEntity = SubscriptionStatistics.class)
+    @ManyToOne(targetEntity = TicketStatistics.class)
     @PrimaryKeyJoinColumn
     private Long subscriptionStatisticsId;
 
-    @Column
     private LocalDate date;
 
-    @Column
     private double minTicketPrice;
+
+    private double avgTicketPrice;
+
+    private double percentile25;
+
+    private double percentile10;
+
+    private double percentile5;
 }
