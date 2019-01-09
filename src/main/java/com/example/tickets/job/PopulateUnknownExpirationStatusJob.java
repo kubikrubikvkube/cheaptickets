@@ -22,11 +22,6 @@ import static java.lang.String.format;
 public class PopulateUnknownExpirationStatusJob implements Job {
     private final Logger log = LoggerFactory.getLogger(PopulateUnknownExpirationStatusJob.class);
     private final TicketRepository ticketRepository;
-
-    public PopulateUnknownExpirationStatusJob(TicketRepository ticketRepository) {
-        this.ticketRepository = ticketRepository;
-    }
-
     private final Consumer<? super Ticket> setCorrectExpirationStatus = new Consumer<>() {
         @Override
         public void accept(Ticket ticket) {
@@ -42,6 +37,10 @@ public class PopulateUnknownExpirationStatusJob implements Job {
             ticketRepository.save(ticket);
         }
     };
+
+    public PopulateUnknownExpirationStatusJob(TicketRepository ticketRepository) {
+        this.ticketRepository = ticketRepository;
+    }
 
     @Override
     public void execute(JobExecutionContext context) {

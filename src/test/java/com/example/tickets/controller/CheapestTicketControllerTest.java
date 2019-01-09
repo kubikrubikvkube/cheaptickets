@@ -28,6 +28,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class CheapestTicketControllerTest {
+    private final LocalDate date = LocalDate.now().plusDays(3);
+    private final LocalTime time = LocalTime.now();
+    private final Integer value = 12345;
     @Autowired
     private
     TicketRepository ticketRepository;
@@ -35,12 +38,7 @@ public class CheapestTicketControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private ModelMapper mapper;
-
     private Ticket t;
-    private final LocalDate date = LocalDate.now().plusDays(3);
-    private final LocalTime time = LocalTime.now();
-    private final Integer value = 12345;
-
 
     @Before
     public void setUp() {

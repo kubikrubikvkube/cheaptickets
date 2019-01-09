@@ -15,6 +15,8 @@ import java.util.List;
 public interface TicketRepository extends CrudRepository<Ticket, Long> {
     List<Ticket> findByDepartDate(LocalDate date);
 
+    Long countByOriginAndDestinationAndDepartDate(String origin, String destination, LocalDate departDate);
+
     List<Ticket> findByOriginAndDestinationAndDepartDateAndValue(String origin, String destination, LocalDate departDate, Integer value);
 
     List<Ticket> findByOriginAndDestinationAndDepartDate(String origin, String destination, LocalDate departDate);

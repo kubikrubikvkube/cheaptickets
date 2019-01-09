@@ -18,7 +18,7 @@ public class TicketStatisticsByDay {
 
     private LocalDate date;
 
-    private Integer ticketsCount;
+    private Long ticketsCount;
 
     private Double minTicketPrice;
 

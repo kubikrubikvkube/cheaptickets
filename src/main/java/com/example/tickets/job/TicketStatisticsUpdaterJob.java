@@ -2,20 +2,17 @@ package com.example.tickets.job;
 
 import com.example.tickets.statistics.TicketStatistics;
 import com.example.tickets.statistics.TicketStatisticsByDay;
-import com.example.tickets.statistics.TicketStatisticsByMonth;
 import com.example.tickets.statistics.TicketStatisticsRepository;
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionRepository;
 import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketRepository;
-import com.google.common.collect.Lists;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.Period;
 import java.util.*;
 import java.util.stream.Stream;
@@ -48,22 +45,11 @@ public class TicketStatisticsUpdaterJob implements Job {
             TicketStatistics statistics = subscriptionStatistics.orElseGet(TicketStatistics::new);
             statistics.setOrigin(origin);
             statistics.setDestination(destination);
-            statistics.setTicketStatisticsByMonth(byMonth(subscription));
             statistics.setTicketStatisticsByDay(byDay(subscription));
             statisticsRepository.save(statistics);
         }
         var endTime = Instant.now().toEpochMilli();
         log.info(format("TicketStatisticsUpdaterJob finished in %d ms", endTime - startTime));
-    }
-
-    private List<TicketStatisticsByMonth> byMonth(Subscription s) {
-        List<Month> monthsInAYear = Arrays.asList(Month.values());
-
-        List<TicketStatisticsByMonth> result = new ArrayList<>();
-        for (Month month : monthsInAYear) {
-
-        }
-        return Lists.newArrayList();
     }
 
     private List<TicketStatisticsByDay> byDay(Subscription s) {
@@ -76,20 +62,20 @@ public class TicketStatisticsUpdaterJob implements Job {
                 .stream()
                 .max(Comparator.comparing(Ticket::getDepartDate));
 
-        if (earliestTicketForSubscriptionOpt.isEmpty() || latestTicketOpt.isEmpty()) return Lists.newArrayList();
+        if (earliestTicketForSubscriptionOpt.isEmpty() || latestTicketOpt.isEmpty()) return Collections.emptyList();
         LocalDate earliestDepartDate = earliestTicketForSubscriptionOpt.get().getDepartDate();
         LocalDate latestDepartDate = latestTicketOpt.get().getDepartDate();
         Stream<LocalDate> observableDays = earliestDepartDate.datesUntil(latestDepartDate, Period.ofDays(1));
-        List<TicketStatisticsByDay> byDayList = new ArrayList<>();
+        List<TicketStatisticsByDay> byDayStatistics = new ArrayList<>();
         observableDays.forEach(date -> {
             TicketStatisticsByDay day = new TicketStatisticsByDay();
             day.setDate(date);
-            day.setTicketsCount(ticketRepository.findByOriginAndDestinationAndDepartDate(origin, destination, date).size());
+            day.setTicketsCount(ticketRepository.countByOriginAndDestinationAndDepartDate(origin, destination, date));
             day.setAvgTicketPrice(statisticsRepository.calculateAvgTicketPriceForDate(origin, destination, date));
             day.setMinTicketPrice(statisticsRepository.calculateMinTicketPriceForDate(origin, destination, date));
             day.setPercentile5(statisticsRepository.calculate5PercentileTicketPriceForDate(origin, destination, date));
-            byDayList.add(day);
+            byDayStatistics.add(day);
         });
-        return byDayList;
+        return byDayStatistics;
     }
 }

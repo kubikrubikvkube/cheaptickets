@@ -21,12 +21,11 @@ import org.springframework.web.client.RestTemplate;
 public class DefaultHttpClient<T> {
     private final Logger log = LoggerFactory.getLogger(DefaultHttpClient.class);
     private final String token;
+    private final PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
 
     public DefaultHttpClient(@Value("${developer.token}") String token) {
         this.token = token;
     }
-
-    private final PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
 
     public <T> T getWithHeaders(String getRequest, Class<T> clazz) {
         CloseableHttpClient client = HttpClients
