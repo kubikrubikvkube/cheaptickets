@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Optional;
-
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -29,26 +27,28 @@ public class TicketStatisticsRepositoryTest {
 
     @Test
     public void crud() throws Exception {
-        TicketStatistics ticketStatistics = new TicketStatistics();
-        ticketStatistics.setOrigin("LED");
-        ticketStatistics.setDestination("MOW");
-        ticketStatistics.setTicketStatisticsByDay(Lists.emptyList());
-        ticketStatistics.setTicketStatisticsByMonth(Lists.emptyList());
-        TicketStatistics save = repository.save(ticketStatistics);
-        var id = save.getId();
-        Optional<TicketStatistics> byId = repository.findById(id);
-        assertTrue(byId.isPresent());
-        var fromDB = byId.get();
-        assertEquals(ticketStatistics.getOrigin(), fromDB.getOrigin());
-        assertEquals(ticketStatistics.getDestination(), fromDB.getDestination());
-        fromDB.setOrigin("ROM");
-        fromDB.setOrigin("PAR");
-        repository.save(fromDB);
-        var fromDBUpdated = repository.findById(fromDB.getId());
-        assertTrue(fromDBUpdated.isPresent());
-        repository.delete(fromDBUpdated.get());
-        var fromDBEmpty = repository.findById(fromDB.getId());
-        assertFalse(fromDBEmpty.isPresent());
+        TicketStatistics ts = new TicketStatistics();
+        ts.setOrigin("LED");
+        ts.setDestination("MOW");
+        ts.setTicketStatisticsByDay(Lists.emptyList());
+        ts.setTicketStatisticsByMonth(Lists.emptyList());
+        var saved = repository.save(ts);
+        var byIdOpt = repository.findById(saved.getId());
+        assertTrue(byIdOpt.isPresent());
+        var byId = byIdOpt.get();
+        assertEquals("LED", byId.getOrigin());
+        assertEquals("MOW", byId.getDestination());
+        byId.setOrigin("ROM");
+        byId.setDestination("PAR");
+        repository.save(byId);
+        var updatedOpt = repository.findById(byId.getId());
+        assertTrue(updatedOpt.isPresent());
+        var updated = updatedOpt.get();
+        assertEquals("ROM", updated.getOrigin());
+        assertEquals("PAR", updated.getDestination());
+        repository.delete(updated);
+        var empty = repository.findById(updated.getId());
+        assertFalse(empty.isPresent());
 
     }
 }
