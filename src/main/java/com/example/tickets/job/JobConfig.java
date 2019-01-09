@@ -84,11 +84,11 @@ public class JobConfig {
         scheduler.scheduleJob(jobDetail, trigger);
     }
 
-    @Bean(name = "StatisticsUpdaterJob")
+    @Bean(name = "TicketStatisticsUpdaterJob")
     void subscriptionStatisticsUpdaterJob() throws SchedulerException {
         JobDetail jobDetail = JobBuilder
-                .newJob(StatisticsUpdaterJob.class)
-                .withIdentity("StatisticsUpdaterJob")
+                .newJob(TicketStatisticsUpdaterJob.class)
+                .withIdentity("TicketStatisticsUpdaterJob")
                 .storeDurably(true)
                 .requestRecovery(true)
                 .build();

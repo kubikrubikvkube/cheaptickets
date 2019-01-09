@@ -15,17 +15,13 @@ public class TicketStatisticsByMonth {
 
     @ManyToOne(targetEntity = TicketStatistics.class)
     @PrimaryKeyJoinColumn
-    private Long subscriptionStatisticsId;
+    private Long ticketStatisticsId;
 
     private Month date;
 
-    private double minTicketPrice;
+    private Double minTicketPrice;
 
-    private double avgTicketPrice;
+    private Double avgTicketPrice;
 
-    private double percentile25;
-
-    private double percentile10;
-
-    private double percentile5;
+    private Double percentile5;
 }
