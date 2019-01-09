@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(indexes = {@Index(name = "idx_subscription", columnList = "id,owner,origin,destination")})
+@Table(indexes = {@Index(name = "idx_subscription", columnList = "id,owner,origin,destination,departDate,returnDate,isExpired")})
 public class Subscription {
     /**
      * PK айдишник базы

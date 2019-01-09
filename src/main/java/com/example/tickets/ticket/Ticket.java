@@ -10,7 +10,7 @@ import java.time.LocalTime;
 
 @Data
 @Entity
-@Table(indexes = {@Index(name = "idx_ticket", columnList = "origin,destination,departDate,value,departTime")})
+@Table(indexes = {@Index(name = "idx_ticket", columnList = "origin,destination,departDate,numberOfChanges,value,actual,isExpired,departTime")})
 public class Ticket {
     /**
      * PK айдишник базы
