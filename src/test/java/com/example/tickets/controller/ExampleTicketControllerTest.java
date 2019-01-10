@@ -3,15 +3,15 @@ package com.example.tickets.controller;
 import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketDTO;
 import com.example.tickets.ticket.TicketRepository;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 public class ExampleTicketControllerTest {
@@ -40,7 +40,7 @@ public class ExampleTicketControllerTest {
     private ModelMapper mapper;
     private Ticket t;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         TicketDTO dto = new TicketDTO();
         dto.setOrigin("LED");
@@ -52,7 +52,7 @@ public class ExampleTicketControllerTest {
         ticketRepository.save(t);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         ticketRepository.delete(t);
     }
