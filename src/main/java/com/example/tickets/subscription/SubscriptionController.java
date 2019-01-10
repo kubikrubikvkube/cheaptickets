@@ -1,6 +1,5 @@
 package com.example.tickets.subscription;
 
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,56 +10,47 @@ import java.util.List;
 
 @RestController
 public class SubscriptionController {
-    private final Logger logger = LoggerFactory.getLogger(SubscriptionController.class);
-    private final SubscriptionRepository repository;
-    private final ModelMapper modelMapper;
+    private final Logger log = LoggerFactory.getLogger(SubscriptionController.class);
+    private final SubscriptionService service;
 
-    public SubscriptionController(SubscriptionRepository repository, ModelMapper modelMapper) {
-        this.repository = repository;
-        this.modelMapper = modelMapper;
+    public SubscriptionController(SubscriptionService service) {
+        this.service = service;
     }
 
     @RequestMapping(value = "/subscription/add", params = {"owner", "origin", "destination"})
-    public List<Subscription> add(@RequestParam String owner,
-                                  @RequestParam String origin,
-                                  @RequestParam String destination) {
-
-        boolean exists = repository.exists(owner, origin, destination);
-
-        if (!exists) {
-            SubscriptionDTO dto = new SubscriptionDTO(owner, origin, destination);
-            Subscription subscription = modelMapper.map(dto, Subscription.class);
-            repository.save(subscription);
-        }
-
-        return repository.findBy(owner, origin, destination);
+    public Subscription add(@RequestParam String owner,
+                            @RequestParam String origin,
+                            @RequestParam String destination) {
+        log.info("Subscription add request for '{} {} {}'", owner, origin, destination);
+        return service.add(owner, origin, destination);
     }
 
     @RequestMapping(value = "/subscription/get", params = {"owner", "origin", "destination"})
-    public List<Subscription> get(@RequestParam String owner,
-                                  @RequestParam String origin,
-                                  @RequestParam String destination) {
-        return repository.findBy(owner, origin, destination);
+    public Subscription get(@RequestParam String owner,
+                            @RequestParam String origin,
+                            @RequestParam String destination) {
+        log.info("Subscription get request '{} {} {}'", owner, origin, destination);
+        return service.get(owner, origin, destination);
     }
 
     @RequestMapping(value = "/subscription/get", params = "owner")
     public List<Subscription> get(@RequestParam String owner) {
-        return repository.findByOwner(owner);
+        log.info("Subscription get request '{}'", owner);
+        return service.get(owner);
     }
 
     @RequestMapping(value = "/subscription/delete", params = {"owner", "origin", "destination"})
     public void delete(@RequestParam String owner,
                        @RequestParam String origin,
                        @RequestParam String destination) {
-
-        List<Subscription> foundSubscriptions = repository.findBy(owner, origin, destination);
-        repository.deleteAll(foundSubscriptions);
+        log.info("Subscription delete request '{} {} {}'", owner, origin, destination);
+        service.delete(owner, origin, destination);
     }
 
     @RequestMapping(value = "/subscription/delete", params = {"owner"})
     public void delete(@RequestParam String owner) {
-        List<Subscription> foundSubscriptions = repository.findByOwner(owner);
-        repository.deleteAll(foundSubscriptions);
+        log.info("Subscription delete request '{}'", owner);
+        service.delete(owner);
     }
 
 

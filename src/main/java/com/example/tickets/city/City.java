@@ -10,16 +10,10 @@ import java.util.Calendar;
 @Entity
 @Table(indexes = {@Index(name = "idx_city", columnList = "code")})
 public class City {
-
-    /**
-     * PK айдишник базы
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    /**
-     * Метка даты записи в БД, когда была записана константа билет.
-     */
+
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
