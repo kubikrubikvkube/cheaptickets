@@ -1,6 +1,7 @@
 package com.example.tickets.subscription;
 
 import org.modelmapper.ModelMapper;
+import org.quartz.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,12 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     private final Logger log = LoggerFactory.getLogger(SubscriptionServiceImpl.class);
     private final SubscriptionRepository repository;
     private final ModelMapper mapper;
+    private final Scheduler scheduler;
 
-    public SubscriptionServiceImpl(SubscriptionRepository repository, ModelMapper mapper) {
+    public SubscriptionServiceImpl(SubscriptionRepository repository, ModelMapper mapper, Scheduler scheduler) {
         this.repository = repository;
         this.mapper = mapper;
+        this.scheduler = scheduler;
     }
 
     @Override
@@ -30,6 +33,22 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             log.debug("Saving subscription '{}'", subscription);
             repository.save(subscription);
         }
+
+        //TODO
+//        Trigger t = TriggerBuilder.newTrigger()
+//                .forJob("OnewayTicketsForAYearAviasalesJob")
+//                .forJob("LatestTicketsTravelPayoutsPopulationJob")
+//                .startNow()
+//                .build();
+//
+//        try {
+//            scheduler.scheduleJob(t);
+//            log.info("Jobs started");
+//
+//        } catch (SchedulerException e) {
+//            log.error("Failed",e);
+//
+//        }
         return repository.findBy(owner, origin, destination);
     }
 
