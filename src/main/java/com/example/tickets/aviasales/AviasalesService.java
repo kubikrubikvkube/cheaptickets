@@ -25,8 +25,8 @@ public interface AviasalesService {
     /**
      * Получение списка билетов туда-обратно
      *
-     * @param originIAT      IAT код места отправления
-     * @param destinationIAT IAT код места назначения
+     * @param originIATA      IAT код места отправления
+     * @param destinationIATA IAT код места назначения
      * @param departure      дата отправления
      * @param returnDate     дата возращения
      * @param departRange    ближайший период отправления, в течении которого также ищутся билеты (в днях)
@@ -34,7 +34,7 @@ public interface AviasalesService {
      * @return список найденных билетов
      * @throws ServiceException исключение во время выполнения
      */
-    List<Ticket> getReturnTicket(String originIAT, String destinationIAT, LocalDate departure, LocalDate returnDate, int departRange, int returnRange) throws ServiceException;
+    List<Ticket> getReturnTicket(String originIATA, String destinationIATA, LocalDate departure, LocalDate returnDate, int departRange, int returnRange) throws ServiceException;
 
     /**
      * Возвращает список билетов "Карта низких цен"
@@ -45,4 +45,14 @@ public interface AviasalesService {
      * @return список найденных билетов
      */
     List<Ticket> getTicketsMap(String originIAT, LocalDate departDate, boolean onlyDirect);
+
+    /**
+     * Возвращает список билетов "Карта низких цен"
+     *
+     * @param originIAT       IAT код места отправления
+     * @param minTripDuration минимальная продолжительность поездки
+     * @param maxTripDuration максимальная продолжительность поездки
+     * @return список найденных билетов
+     */
+    List<Ticket> getTicketsMap(String originIAT, int minTripDuration, int maxTripDuration);
 }

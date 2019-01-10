@@ -56,11 +56,12 @@ public class AviasalesServiceImpl implements AviasalesService {
     }
 
     @Override
-    public List<Ticket> getReturnTicket(String originIAT, String destinationIAT, LocalDate departure, LocalDate returnDate, int departRange, int returnRange) throws ServiceException {
+    public List<Ticket> getReturnTicket(String originIATA, String destinationIATA, LocalDate departure, LocalDate returnDate, int departRange, int returnRange) throws ServiceException {
         StringBuilder sb = new StringBuilder();
+
         sb.append("https://lyssa.aviasales.ru/price_matrix?");
-        sb.append("origin_iata=").append(originIAT).append("&");
-        sb.append("destination_iata=").append(destinationIAT).append("&");
+        sb.append("origin_iata=").append(originIATA).append("&");
+        sb.append("destination_iata=").append(destinationIATA).append("&");
         sb.append("depart_start=").append(departure).append("&");
         sb.append("return_start=").append(returnDate).append("&");
         sb.append("depart_range=").append(departRange).append("&");
@@ -73,8 +74,8 @@ public class AviasalesServiceImpl implements AviasalesService {
         List<TicketDTO> tickerPrices = response.getPrices();
         log.trace("Aviasales return ticket response size: " + tickerPrices.size());
         tickerPrices.forEach(rawTicket -> {
-            rawTicket.setOrigin(originIAT);
-            rawTicket.setDestination(destinationIAT);
+            rawTicket.setOrigin(originIATA);
+            rawTicket.setDestination(destinationIATA);
             rawTicket.setDepart_date(departure);
             rawTicket.setReturn_date(returnDate);
 
@@ -106,5 +107,27 @@ public class AviasalesServiceImpl implements AviasalesService {
 
         return tickets;
 
+    }
+
+    @Override
+    public List<Ticket> getTicketsMap(String originIAT, int minTripDuration, int maxTripDuration) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("https://lyssa.aviasales.ru/map?");
+        sb.append("origin_iata=").append(originIAT).append("&");
+        sb.append("one_way=").append(false).append("&");
+        sb.append("min_trip_duration=").append(minTripDuration).append("&");
+        sb.append("max_trip_duration=").append(maxTripDuration).append("&");
+        sb.append("show_to_affiliates=false");
+        var stringRequest = sb.toString();
+
+        JsonNode response = defaultHttpClient.getJsonResponseWithoutHeaders(stringRequest);
+        List<Ticket> tickets = new ArrayList<>();
+        response.elements().forEachRemaining(jsonNode -> {
+            TicketDTO dto = mapper.map(jsonNode, TicketDTO.class);
+            Ticket ticket = mapper.map(dto, Ticket.class);
+            tickets.add(ticket);
+        });
+
+        return tickets;
     }
 }
