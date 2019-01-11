@@ -24,6 +24,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.withSettings;
 
 @ExtendWith(SpringExtension.class)
 class AviasalesServiceTest {
@@ -51,7 +52,7 @@ class AviasalesServiceTest {
                 "   \"actual\":true\n" +
                 "}", ObjectNode.class);
         root.add(tickets);
-        DefaultHttpClient<AviasalesResponse> defaultHttpClient = Mockito.mock(DefaultHttpClient.class);
+        DefaultHttpClient<AviasalesResponse> defaultHttpClient = Mockito.mock(DefaultHttpClient.class, withSettings().verboseLogging());
         when(defaultHttpClient.getJsonResponseWithoutHeaders("https://lyssa.aviasales.ru/map?origin_iata=LED&one_way=false&min_trip_duration=1&max_trip_duration=3&show_to_affiliates=false")).thenReturn(root);
 
         aviasalesService = new AviasalesServiceImpl(defaultHttpClient, modelMapper);
