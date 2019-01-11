@@ -6,11 +6,13 @@ import com.example.tickets.ticket.TicketDTO;
 import com.example.tickets.util.DefaultHttpClient;
 import com.example.tickets.util.ServiceException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -122,12 +124,16 @@ public class AviasalesServiceImpl implements AviasalesService {
 
         JsonNode response = defaultHttpClient.getJsonResponseWithoutHeaders(stringRequest);
         List<Ticket> tickets = new ArrayList<>();
-        response.elements().forEachRemaining(jsonNode -> {
-            TicketDTO dto = mapper.map(jsonNode, TicketDTO.class);
-            Ticket ticket = mapper.map(dto, Ticket.class);
-            tickets.add(ticket);
-        });
-
+        try {
+            while (response.elements().hasNext()) {
+                JsonNode jsonNode = response.elements().next();
+                TicketDTO dto = new ObjectMapper().readValue(jsonNode.toString(), TicketDTO.class);
+                Ticket ticket = mapper.map(dto, Ticket.class);
+                tickets.add(ticket);
+            }
+        } catch (IOException ioe) {
+            throw new ServiceException(ioe);
+        }
         return tickets;
     }
 }
