@@ -5,17 +5,23 @@ import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketDTO;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
+import org.modelmapper.convention.NameTokenizers;
+import org.modelmapper.jackson.JsonNodeValueReader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AppConfig {
-
     @Bean
     public ModelMapper defaultMapper() {
         ModelMapper modelMapper = new ModelMapper();
-        TypeMap<TicketDTO, Ticket> ticketDTO_ticket_typeMap = modelMapper.typeMap(TicketDTO.class, Ticket.class);
+        // JsonNode <-> Any
+        modelMapper.getConfiguration().setSourceNameTokenizer(NameTokenizers.UNDERSCORE);
+        modelMapper.getConfiguration().addValueReader(new JsonNodeValueReader());
+        //http://modelmapper.org/user-manual/jackson-integration/
+
         //TicketDTO <-> Ticket
+        TypeMap<TicketDTO, Ticket> ticketDTO_ticket_typeMap = modelMapper.typeMap(TicketDTO.class, Ticket.class);
         ticketDTO_ticket_typeMap.addMappings(mapper -> mapper.skip(Ticket::setId));
         ticketDTO_ticket_typeMap.addMappings(mapper -> mapper.skip(Ticket::setCatchedOn));
         ticketDTO_ticket_typeMap.addMapping(TicketDTO::getTrip_class, Ticket::setTripClass);

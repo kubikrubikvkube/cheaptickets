@@ -92,6 +92,11 @@ public class Ticket {
     private Long ttl;
 
     /**
+     * Дата возвращения.
+     */
+    private LocalDate returnDate;
+
+    /**
      * Время истекания срока действия билета
      */
     private LocalDateTime expiresAt;
@@ -99,7 +104,7 @@ public class Ticket {
     /**
      * Время, когда билет был отдан пользователю через API (?)
      */
-    private Long created_at;
+    private Long createdAt;
 
     private Boolean isExpired;
 
