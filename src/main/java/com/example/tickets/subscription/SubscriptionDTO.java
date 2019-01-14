@@ -9,15 +9,24 @@ public class SubscriptionDTO {
     /**
      * Кто создал подписку
      */
-    private final String owner;
+    private String owner;
     /**
      * IAT отправления
      */
-    private final String origin;
+    private String origin;
     /**
      * IAT назначения
      */
-    private final String destination;
+    private String destination;
+
+    public SubscriptionDTO() {
+    }
+
+    public SubscriptionDTO(String owner, String origin, String destination) {
+        this.owner = owner;
+        this.origin = origin;
+        this.destination = destination;
+    }
     /**
      * Дата отправления
      */

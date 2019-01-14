@@ -27,10 +27,10 @@ public interface AviasalesService {
      *
      * @param originIATA      IAT код места отправления
      * @param destinationIATA IAT код места назначения
-     * @param departure      дата отправления
-     * @param returnDate     дата возращения
-     * @param departRange    ближайший период отправления, в течении которого также ищутся билеты (в днях)
-     * @param returnRange    ближайший период возвращения , в течении которого также ищутся билеты (в днях)
+     * @param departure       дата отправления
+     * @param returnDate      дата возращения
+     * @param departRange     ближайший период отправления, в течении которого также ищутся билеты (в днях)
+     * @param returnRange     ближайший период возвращения , в течении которого также ищутся билеты (в днях)
      * @return список найденных билетов
      * @throws ServiceException исключение во время выполнения
      */

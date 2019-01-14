@@ -1,6 +1,5 @@
 package com.example.tickets.subscription;
 
-import org.modelmapper.ModelMapper;
 import org.quartz.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,12 +12,11 @@ import java.util.List;
 public class SubscriptionServiceImpl implements SubscriptionService {
     private final Logger log = LoggerFactory.getLogger(SubscriptionServiceImpl.class);
     private final SubscriptionRepository repository;
-    private final ModelMapper mapper;
+    private final SubscriptionDTOMapper mapper = SubscriptionDTOMapper.INSTANCE;
     private final Scheduler scheduler;
 
-    public SubscriptionServiceImpl(SubscriptionRepository repository, ModelMapper mapper, Scheduler scheduler) {
+    public SubscriptionServiceImpl(SubscriptionRepository repository, Scheduler scheduler) {
         this.repository = repository;
-        this.mapper = mapper;
         this.scheduler = scheduler;
     }
 
@@ -29,7 +27,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
         if (!exists) {
             SubscriptionDTO dto = new SubscriptionDTO(owner, origin, destination);
-            Subscription subscription = mapper.map(dto, Subscription.class);
+            Subscription subscription = mapper.dtoToSubscription(dto);
             log.debug("Saving subscription '{}'", subscription);
             repository.save(subscription);
         }

@@ -1,8 +1,8 @@
 package com.example.tickets.aviasales;
 
-import com.example.tickets.AppConfig;
 import com.example.tickets.aviasales.response.AviasalesResponse;
 import com.example.tickets.ticket.Ticket;
+import com.example.tickets.ticket.TicketDTOMapper;
 import com.example.tickets.util.DefaultHttpClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.modelmapper.ModelMapper;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
@@ -33,7 +32,7 @@ class AviasalesServiceTest {
     @BeforeAll
     static void setup() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        ModelMapper modelMapper = new AppConfig().defaultMapper();
+        TicketDTOMapper mapper = TicketDTOMapper.INSTANCE;
         ArrayNode root = objectMapper.createArrayNode();
         ObjectNode tickets = objectMapper.readValue("{\n" +
                 "   \"value\":28912.0,\n" +
@@ -55,7 +54,7 @@ class AviasalesServiceTest {
         DefaultHttpClient<AviasalesResponse> defaultHttpClient = Mockito.mock(DefaultHttpClient.class, withSettings().verboseLogging());
         when(defaultHttpClient.getJsonResponseWithoutHeaders("https://lyssa.aviasales.ru/map?origin_iata=LED&one_way=false&min_trip_duration=1&max_trip_duration=3&show_to_affiliates=false")).thenReturn(root);
 
-        aviasalesService = new AviasalesServiceImpl(defaultHttpClient, modelMapper);
+        aviasalesService = new AviasalesServiceImpl(defaultHttpClient);
     }
 
     @Test

@@ -2,12 +2,12 @@ package com.example.tickets.controller;
 
 import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketDTO;
+import com.example.tickets.ticket.TicketDTOMapper;
 import com.example.tickets.ticket.TicketRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,8 +36,7 @@ public class ExampleTicketControllerTest {
     TicketRepository ticketRepository;
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private ModelMapper mapper;
+    private TicketDTOMapper mapper = TicketDTOMapper.INSTANCE;
     private Ticket t;
 
     @BeforeEach
@@ -48,7 +47,7 @@ public class ExampleTicketControllerTest {
         dto.setDepart_date(date);
         dto.setDepartTime(time);
         dto.setValue(value);
-        t = mapper.map(dto, Ticket.class);
+        t = mapper.dtoToTicket(dto);
         ticketRepository.save(t);
     }
 

@@ -2,12 +2,12 @@ package com.example.tickets.travelpayouts;
 
 import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketDTO;
+import com.example.tickets.ticket.TicketDTOMapper;
 import com.example.tickets.travelpayouts.request.*;
 import com.example.tickets.travelpayouts.response.LatestResponse;
 import com.example.tickets.util.DefaultHttpClient;
 import com.example.tickets.util.ServiceException;
 import com.fasterxml.jackson.databind.JsonNode;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,11 +25,10 @@ import java.util.stream.Collectors;
 public class TravelPayoutsServiceImpl implements TravelPayoutsService {
     private final Logger log = LoggerFactory.getLogger(TravelPayoutsServiceImpl.class);
     private final DefaultHttpClient httpClient;
-    private final ModelMapper mapper;
+    private final TicketDTOMapper mapper = TicketDTOMapper.INSTANCE;
 
-    public TravelPayoutsServiceImpl(DefaultHttpClient httpClient, ModelMapper mapper) {
+    public TravelPayoutsServiceImpl(DefaultHttpClient httpClient) {
         this.httpClient = httpClient;
-        this.mapper = mapper;
     }
 
     @Override
@@ -44,7 +43,7 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
         List<TicketDTO> ticketDTOS = response.getData();
         return ticketDTOS
                 .stream()
-                .map(dto -> mapper.map(dto, Ticket.class))
+                .map(mapper::dtoToTicket)
                 .collect(Collectors.toList());
     }
 
@@ -66,7 +65,7 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
     @Override
     public List<Ticket> getDirect(DirectRequest request) {
 
-        var stringRequest = request.toString();
+        String stringRequest = request.toString();
         log.trace("Sent request: " + stringRequest);
         JsonNode response = httpClient.getJsonResponseWithHeaders(stringRequest);
 
@@ -94,7 +93,7 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
                 ticketDTO.setDepart_date(departureDateTime);
                 ticketDTO.setReturn_date(returnDateTime);
                 ticketDTO.setExpiresAt(expiresDateTime);
-                Ticket ticket = mapper.map(ticketDTO, Ticket.class);
+                Ticket ticket = mapper.dtoToTicket(ticketDTO);
                 tickets.add(ticket);
             }
 
