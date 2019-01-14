@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @RestController
 public class TicketController {
@@ -19,26 +20,33 @@ public class TicketController {
     }
 
 
-    @RequestMapping("/ticket/cheapest")
-    public Ticket cheapest(@RequestParam(value = "origin") String origin,
-                           @RequestParam(value = "destination") String destination,
-                           @RequestParam(value = "departureDate") String departureDate) {
+    @RequestMapping(value = "/ticket/cheapest", params = {"origin", "destination", "departureDate"})
+    public Optional<Ticket> cheapest(@RequestParam(value = "origin") String origin,
+                                     @RequestParam(value = "destination") String destination,
+                                     @RequestParam(value = "departureDate") String departureDate) {
 
         return service.cheapest(origin, destination, LocalDate.parse(departureDate));
     }
 
+    @RequestMapping(value = "/ticket/cheapest", params = {"origin", "destination"})
+    public Optional<Ticket> cheapest(@RequestParam(value = "origin") String origin,
+                                     @RequestParam(value = "destination") String destination) {
+
+        return service.cheapest(origin, destination);
+    }
+
     @RequestMapping(name = "/ticket/prices", params = {"origin", "destination", "departureDate"})
-    public ObjectNode prices(@RequestParam(value = "origin") String origin,
-                             @RequestParam(value = "destination") String destination,
-                             @RequestParam(value = "departureDate") String departureDate) {
+    public Optional<ObjectNode> prices(@RequestParam(value = "origin") String origin,
+                                       @RequestParam(value = "destination") String destination,
+                                       @RequestParam(value = "departureDate") String departureDate) {
 
 
         return service.prices(origin, destination, LocalDate.parse(departureDate));
     }
 
     @RequestMapping(name = "/ticket/prices", params = {"origin", "destination"})
-    public ObjectNode prices(@RequestParam(value = "origin") String origin,
-                             @RequestParam(value = "destination") String destination) {
+    public Optional<ObjectNode> prices(@RequestParam(value = "origin") String origin,
+                                       @RequestParam(value = "destination") String destination) {
 
         return service.prices(origin, destination);
     }

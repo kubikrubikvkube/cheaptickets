@@ -42,4 +42,8 @@ public class SubscriptionDTO {
      */
     private Date expirationDate;
 
+    /**
+     * Истекла ли подписка
+     */
+    private Boolean isExpired;
 }
