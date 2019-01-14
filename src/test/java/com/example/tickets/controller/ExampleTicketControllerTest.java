@@ -45,7 +45,7 @@ public class ExampleTicketControllerTest {
         dto.setOrigin("LED");
         dto.setDestination("MOW");
         dto.setDepart_date(date);
-        dto.setDepartTime(time);
+        dto.setDepart_time(time);
         dto.setValue(value);
         t = mapper.dtoToTicket(dto);
         ticketRepository.save(t);
@@ -68,7 +68,7 @@ public class ExampleTicketControllerTest {
                 .andExpect(jsonPath("$.origin", is("LED")))
                 .andExpect(jsonPath("$.destination", is("MOW")))
                 .andExpect(jsonPath("$.departDate", is(expectedDate)))
-                .andExpect(jsonPath("$.departTime", is(expectedTime)))
+                .andExpect(jsonPath("$.depart_time", is(expectedTime)))
                 .andExpect(jsonPath("$.value", is(value)));
     }
 }

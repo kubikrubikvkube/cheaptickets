@@ -71,12 +71,12 @@ public class TicketDTO {
     /**
      * Время отправления.
      */
-    private LocalTime departTime;
+    private LocalTime depart_time;
 
     /**
      * Номер рейса
      */
-    private String flightNumber;
+    private String flight_number;
 
     /**
      * TimeToLive in milliseconds
@@ -87,7 +87,7 @@ public class TicketDTO {
     /**
      * Время истекания срока действия билета
      */
-    private LocalDateTime expiresAt;
+    private LocalDateTime expires_at;
 
     /**
      * Время, когда билет был отдан пользователю через API (?)
@@ -97,5 +97,5 @@ public class TicketDTO {
     /**
      * Помечен ли билет как expires
      */
-    private Boolean isExpired;
+    private Boolean is_expired;
 }

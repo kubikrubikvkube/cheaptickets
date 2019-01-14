@@ -86,13 +86,13 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
                 ticketDTO.setReturn_date(request.getReturn_date());
                 ticketDTO.setValue(Integer.valueOf(price));
                 ticketDTO.setAirline(airLine);
-                ticketDTO.setFlightNumber(flightNumber);
+                ticketDTO.setFlight_number(flightNumber);
                 var departureDateTime = LocalDate.from(Instant.parse(departureAt).atZone(ZoneId.systemDefault()));
                 var returnDateTime = LocalDate.from(Instant.parse(returnAt).atZone(ZoneId.systemDefault()));
                 var expiresDateTime = LocalDateTime.from(Instant.parse(expiresAt).atZone(ZoneId.systemDefault()));
                 ticketDTO.setDepart_date(departureDateTime);
                 ticketDTO.setReturn_date(returnDateTime);
-                ticketDTO.setExpiresAt(expiresDateTime);
+                ticketDTO.setExpires_at(expiresDateTime);
                 Ticket ticket = mapper.dtoToTicket(ticketDTO);
                 tickets.add(ticket);
             }
