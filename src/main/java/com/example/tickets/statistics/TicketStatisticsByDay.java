@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Table(indexes = {@Index(name = "idx_ticket_statistics_by_day", columnList = "date")})
 public class TicketStatisticsByDay {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
     private LocalDate date;

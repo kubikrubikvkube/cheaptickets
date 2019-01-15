@@ -7,20 +7,18 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Date;
 
 @Data
 @Entity
 @Table(indexes = {@Index(name = "idx_ticket", columnList = "origin,destination,departDate,numberOfChanges,value,actual,isExpired")})
 public class Ticket {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
-    /**
-     * Метка даты записи в БД, когда был "пойман" билет.
-     */
     @CreationTimestamp
-    private LocalDateTime catchedOn;
+    private Date creationTimestamp;
     /**
      * Класс перелёта (только 0 — Эконом);
      */

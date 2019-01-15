@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "ticket_statistics_routes", indexes = {@Index(name = "idx_ticket_statistics_routes", columnList = "origin,destination")})
 public class TicketStatistics {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
     private String origin;

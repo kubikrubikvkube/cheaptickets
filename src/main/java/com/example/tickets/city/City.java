@@ -4,20 +4,19 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.util.Calendar;
+import java.util.Date;
 
 @Data
 @Entity
 @Table(indexes = {@Index(name = "idx_city", columnList = "code")})
 public class City {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
-    @Temporal(TemporalType.TIMESTAMP)
+
     @CreationTimestamp
-    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private Calendar createdOn;
+    private Date creationTimestamp;
 
     private String code;
     private String name;

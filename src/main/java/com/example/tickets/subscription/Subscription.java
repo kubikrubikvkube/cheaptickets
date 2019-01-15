@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.util.Calendar;
 import java.util.Date;
 
 @Data
@@ -16,16 +15,11 @@ public class Subscription {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
-    /**
-     * Метка даты записи в БД, когда была создана подписка
-     */
-    @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
-    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private Calendar creationDate;
+    private Date creationTimestamp;
 
     /**
      * Кто создал подписку
