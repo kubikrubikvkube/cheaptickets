@@ -1,6 +1,7 @@
 package com.example.tickets.subscription;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -8,11 +9,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(indexes = {@Index(name = "idx_subscription", columnList = "id,owner,origin,destination,departDate,returnDate")})
 public class Subscription {
-    public Subscription() {
-    }
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
