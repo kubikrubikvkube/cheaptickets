@@ -7,6 +7,7 @@ import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketRepository;
 import com.example.tickets.travelpayouts.TravelPayoutsService;
 import com.example.tickets.travelpayouts.request.LatestRequest;
+import com.google.common.collect.Iterables;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -41,11 +42,11 @@ public class LatestTicketsTravelPayoutsPopulationJob implements Job {
     public void execute(JobExecutionContext context) {
         var startTime = Instant.now().toEpochMilli();
         log.info("LatestTicketsTravelPayoutsPopulationJob started");
-        List<Subscription> nonExpired = subscriptionRepository.findNonExpired();
-        log.info(format("Found %d non-expired subscriptions", nonExpired.size()));
+        Iterable<Subscription> subscriptions = subscriptionRepository.findAll();
+        log.info(format("Found %d subscriptions", Iterables.size(subscriptions)));
 
         List<Ticket> travelPayoutsTickets = new ArrayList<>();
-        nonExpired.forEach(subscription -> {
+        subscriptions.forEach(subscription -> {
             //TODO одну и ту же подписку от разных юзеров он будет молоть херову тучу раз, исправить
             LatestRequest latestRequest = LatestRequest.builder()
                     .origin(subscription.getOrigin())

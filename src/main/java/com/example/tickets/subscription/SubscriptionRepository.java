@@ -15,12 +15,6 @@ public interface SubscriptionRepository extends CrudRepository<Subscription, Lon
     @Query("select s from Subscription s where s.owner = ?1")
     List<Subscription> findByOwner(String owner);
 
-    @Query("select s from Subscription s where (s.isExpired = false or s.isExpired is null)")
-    List<Subscription> findNonExpired();
-
-    @Query("select count(s) from Subscription s where (s.isExpired = false or s.isExpired is null)")
-    long countNonExpired();
-
     @Query("select s from Subscription s where s.origin = ?1")
     List<Subscription> findByOrigin(String origin);
 
@@ -36,9 +30,6 @@ public interface SubscriptionRepository extends CrudRepository<Subscription, Lon
     @Query("select s from Subscription s where s.owner = ?1 and s.origin = ?2 and s.destination = ?3 and s.departDate = ?4 and s.returnDate= ?5")
     List<Subscription> findBy(String owner, String origin, String destination, Date departDate, Date returnDate);
 
-    @Query("select s from Subscription s where s.owner = ?1 and s.origin = ?2 and s.destination = ?3 and s.departDate = ?4 and s.returnDate= ?5 and s.expirationDate = ?6")
-    List<Subscription> findBy(String owner, String origin, String destination, Date departDate, Date returnDate, Date expirationDate);
-
     @Query("select count(s)>0 from Subscription s where s.owner = ?1 and s.origin = ?2 and s.destination = ?3")
     boolean exists(String owner, String origin, String destination);
 
@@ -46,6 +37,4 @@ public interface SubscriptionRepository extends CrudRepository<Subscription, Lon
     @Query("select count(s)>0 from Subscription s where s.owner = ?1 and s.origin = ?2 and s.destination = ?3 and s.departDate = ?4 and s.returnDate = ?5")
     boolean exists(String owner, String origin, String destination, Date departDate, Date returnDate);
 
-    @Query("select count(s)>0 from Subscription s where s.owner = ?1 and s.origin = ?2 and s.destination = ?3 and s.departDate = ?4 and s.returnDate = ?5 and s.expirationDate = ?6")
-    boolean exists(String owner, String origin, String destination, Date departDate, Date returnDate, Date expirationDate);
 }

@@ -6,6 +6,7 @@ import com.example.tickets.subscription.SubscriptionRepository;
 import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketRepository;
 import com.example.tickets.travelpayouts.TravelPayoutsService;
+import com.google.common.collect.Iterables;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -38,10 +39,10 @@ public class OnewayTicketsForAYearAviasalesJob implements Job {
         //TODO code duplication
         var startTime = Instant.now().toEpochMilli();
         log.info("OnewayTicketsForAYearAviasalesJob started");
-        List<Subscription> nonExpired = subscriptionRepository.findNonExpired();
-        log.info(format("Found %d non-expired subscriptions", nonExpired.size()));
+        Iterable<Subscription> subscriptions = subscriptionRepository.findAll();
+        log.info(format("Found %d subscriptions", Iterables.size(subscriptions)));
 
-        nonExpired
+        subscriptions
                 .forEach(subscription -> LocalDate.now().datesUntil(LocalDate.now().plusMonths(12))
                         .parallel()
                         .forEach(date -> {

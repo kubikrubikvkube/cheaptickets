@@ -37,7 +37,7 @@ public class TicketStatisticsUpdaterJob implements Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
         var startTime = Instant.now().toEpochMilli();
         log.info("TicketStatisticsUpdaterJob started");
-        List<Subscription> subscriptions = subscriptionRepository.findNonExpired();
+        Iterable<Subscription> subscriptions = subscriptionRepository.findAll();
         for (Subscription subscription : subscriptions) {
             var origin = subscription.getOrigin();
             var destination = subscription.getDestination();

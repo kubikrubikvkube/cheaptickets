@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(indexes = {@Index(name = "idx_subscription", columnList = "id,owner,origin,destination,departDate,returnDate,isExpired")})
+@Table(indexes = {@Index(name = "idx_subscription", columnList = "id,owner,origin,destination,departDate,returnDate")})
 public class Subscription {
     public Subscription() {
     }
@@ -49,13 +49,4 @@ public class Subscription {
      */
     private Date returnDate;
 
-    /**
-     * Дата истечения подписки
-     */
-    private Date expirationDate;
-
-    /**
-     * Истекла ли подписка
-     */
-    private Boolean isExpired;
 }

@@ -49,7 +49,6 @@ public class StatisticsEndpoint {
     private ObjectNode prepareSubscriptionsMetric() {
         ObjectNode subscriptions = mapper.createObjectNode();
         subscriptions.put("total subscriptions", subscriptionRep.count());
-        subscriptions.put("unexpired subscriptions", subscriptionRep.countNonExpired());
         return subscriptions;
     }
 }

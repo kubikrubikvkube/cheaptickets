@@ -27,6 +27,7 @@ public class SubscriptionDTO {
         this.origin = origin;
         this.destination = destination;
     }
+
     /**
      * Дата отправления
      */
@@ -37,13 +38,4 @@ public class SubscriptionDTO {
      */
     private Date returnDate;
 
-    /**
-     * Дата истечения подписки
-     */
-    private Date expirationDate;
-
-    /**
-     * Истекла ли подписка
-     */
-    private Boolean isExpired;
 }
