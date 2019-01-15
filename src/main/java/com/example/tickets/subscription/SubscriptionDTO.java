@@ -1,10 +1,12 @@
 package com.example.tickets.subscription;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
 public class SubscriptionDTO {
     /**
      * Кто создал подписку
@@ -18,9 +20,6 @@ public class SubscriptionDTO {
      * IAT назначения
      */
     private String destination;
-
-    public SubscriptionDTO() {
-    }
 
     public SubscriptionDTO(String owner, String origin, String destination) {
         this.owner = owner;
