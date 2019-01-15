@@ -1,5 +1,6 @@
 package com.example.tickets.route;
 
+import com.example.tickets.notification.TicketNotification;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -7,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -59,4 +61,7 @@ public class Route {
      * Время поездки в днях
      */
     private Integer tripDuration;
+
+    @OneToMany
+    private List<TicketNotification> ticketNotifications;
 }
