@@ -4,11 +4,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Month;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
 public class TicketStatisticsByMonthDTO {
-
     private Month month;
 
     private Integer year;
@@ -20,4 +20,8 @@ public class TicketStatisticsByMonthDTO {
     private Double avgTicketPrice;
 
     private Double percentile10;
+
+    private Date createdAt;
+
+    private Date updatedAt;
 }

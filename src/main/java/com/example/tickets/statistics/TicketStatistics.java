@@ -1,8 +1,11 @@
 package com.example.tickets.statistics;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -24,4 +27,10 @@ public class TicketStatistics {
     @CollectionTable(name = "ticket_statistics_by_month_collection")
     @OneToMany(targetEntity = TicketStatisticsByMonth.class, cascade = CascadeType.ALL)
     private List<TicketStatisticsByMonth> ticketStatisticsByMonth;
+
+    @CreationTimestamp
+    private Date createdAt;
+
+    @UpdateTimestamp
+    private Date updatedAt;
 }

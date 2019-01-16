@@ -71,7 +71,7 @@ public class TicketStatisticsUpdaterJob implements Job {
 
         List<TicketStatisticsByMonth> statisticsList = new ArrayList<>();
         long monthsRange = LocalDate.from(earliestDepartDate).until(latestDepartDate, ChronoUnit.MONTHS);
-
+        //TODO здесь мы заново переписываем объекты статистики а не апдейтим старые поэтому createdAt и updatedAt один и тот же таймстамп
         for (int i = 0; i < monthsRange; i++) {
             int year = earliestDepartDate.plusMonths(i).getYear();
             Month month = earliestDepartDate.plusMonths(i).getMonth();
