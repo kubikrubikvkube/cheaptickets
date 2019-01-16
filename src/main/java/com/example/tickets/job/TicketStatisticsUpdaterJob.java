@@ -49,7 +49,7 @@ public class TicketStatisticsUpdaterJob implements Job {
             TicketStatistics statistics = subscriptionStatistics.orElseGet(TicketStatistics::new);
             statistics.setOrigin(origin);
             statistics.setDestination(destination);
-//            statistics.setTicketStatisticsByDay(byDay(subscription));
+            statistics.setTicketStatisticsByDay(byDay(subscription));
             statistics.setTicketStatisticsByMonth(byMonth(subscription));
             statisticsList.add(statistics);
         }
@@ -116,7 +116,7 @@ public class TicketStatisticsUpdaterJob implements Job {
                     .collect(Collectors.toList());
             long count = todayTickets.size();
 
-            subscriptionTickets.forEach(ticket -> {
+            todayTickets.forEach(ticket -> {
                 DescriptiveStatistics ds = new DescriptiveStatistics();
                 ds.addValue(ticket.getValue());
                 TicketStatisticsByDayDTO statDTO = new TicketStatisticsByDayDTO();
