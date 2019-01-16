@@ -18,17 +18,26 @@ public class SubscriptionController {
     }
 
     @RequestMapping(value = "/subscription/add", params = {"owner", "origin", "destination"})
-    public Subscription add(@RequestParam String owner,
-                            @RequestParam String origin,
-                            @RequestParam String destination) {
+    public List<Subscription> add(@RequestParam String owner,
+                                  @RequestParam String origin,
+                                  @RequestParam String destination) {
         log.info("Subscription add request for '{} {} {}'", owner, origin, destination);
         return service.add(owner, origin, destination);
     }
 
+    @RequestMapping(value = "/subscription/add", params = {"owner", "origin", "destination", "tripDurationInDays"})
+    public List<Subscription> add(@RequestParam String owner,
+                                  @RequestParam String origin,
+                                  @RequestParam String destination,
+                                  @RequestParam String tripDurationInDays) {
+        log.info("Subscription add request for '{} {} {} {}'", owner, origin, destination, tripDurationInDays);
+        return service.add(owner, origin, destination, tripDurationInDays);
+    }
+
     @RequestMapping(value = "/subscription/get", params = {"owner", "origin", "destination"})
-    public Subscription get(@RequestParam String owner,
-                            @RequestParam String origin,
-                            @RequestParam String destination) {
+    public List<Subscription> get(@RequestParam String owner,
+                                  @RequestParam String origin,
+                                  @RequestParam String destination) {
         log.info("Subscription get request '{} {} {}'", owner, origin, destination);
         return service.get(owner, origin, destination);
     }

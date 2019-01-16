@@ -32,4 +32,8 @@ public class SubscriptionDTO {
      */
     private Date returnDate;
 
+    /**
+     * Время поездки в днях
+     */
+    private Integer tripDurationInDays;
 }

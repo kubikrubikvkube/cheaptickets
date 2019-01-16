@@ -25,7 +25,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public Subscription add(String ownerName, String origin, String destination) {
+    public List<Subscription> add(String ownerName, String origin, String destination) {
         boolean exists = repository.exists(ownerName, origin, destination);
         log.debug("Subscription for '{} {} {}' exists '{}'", ownerName, origin, destination, exists);
         if (!exists) {
@@ -37,36 +37,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             Subscription createdSubscription = mapper.dtoToSubscription(dto);
             log.debug("Saving subscription '{}'", createdSubscription);
             repository.save(createdSubscription);
-//            log.debug("Saving owner '{}'", owner);
-// TODO bidirectional owner <-> subscription
-//            List<Subscription> ownerSubscriptions = owner.getSubscriptions();
-//            ownerSubscriptions.add(createdSubscription);
-//            owner.setSubscriptions(ownerSubscriptions);
-//            ownerRepository.save(owner);
-
         }
-
-        //TODO
-//        Trigger t = TriggerBuilder.newTrigger()
-//                .forJob("OnewayTicketsForAYearAviasalesJob")
-//                .forJob("LatestTicketsTravelPayoutsPopulationJob")
-//                .startNow()
-//                .build();
-//
-//        try {
-//            scheduler.scheduleJob(t);
-//            log.info("Jobs started");
-//
-//        } catch (SchedulerException e) {
-//            log.error("Failed",e);
-//
-//        }
         return repository.findBy(ownerName, origin, destination);
     }
 
     @Override
-    public Subscription get(String owner, String origin, String destination) {
-        Subscription subscription = repository.findBy(owner, origin, destination);
+    public List<Subscription> get(String owner, String origin, String destination) {
+        List<Subscription> subscription = repository.findBy(owner, origin, destination);
         log.debug("Subscription found '{}'", subscription);
         return subscription;
     }
@@ -80,9 +57,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public void delete(String owner, String origin, String destination) {
-        Subscription subscription = repository.findBy(owner, origin, destination);
+        List<Subscription> subscription = repository.findBy(owner, origin, destination);
         log.debug("Subscription deleted '{}'", subscription);
-        repository.delete(subscription);
+        repository.deleteAll(subscription);
     }
 
     @Override
@@ -90,5 +67,24 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         List<Subscription> subscriptions = repository.findByOwnerName(owner);
         log.debug("Subscriptions deleted '{}'", subscriptions);
         repository.deleteAll(subscriptions);
+    }
+
+    @Override
+    public List<Subscription> add(String ownerName, String origin, String destination, String tripDurationInDays) {
+        Integer tripDuration = Integer.parseInt(tripDurationInDays);
+        boolean exists = repository.exists(ownerName, origin, destination, tripDuration);
+        log.debug("Subscription for '{} {} {} {}' exists '{}'", ownerName, origin, destination, tripDuration, exists);
+        if (!exists) {
+            Owner owner = ownerRepository.findBy(ownerName);
+            SubscriptionDTO dto = new SubscriptionDTO();
+            dto.setOwner(owner);
+            dto.setOrigin(origin);
+            dto.setDestination(destination);
+            dto.setTripDurationInDays(tripDuration);
+            Subscription createdSubscription = mapper.dtoToSubscription(dto);
+            log.debug("Saving subscription '{}'", createdSubscription);
+            repository.save(createdSubscription);
+        }
+        return repository.findBy(ownerName, origin, destination, tripDuration);
     }
 }

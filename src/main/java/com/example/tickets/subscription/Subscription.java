@@ -49,4 +49,9 @@ public class Subscription {
      */
     private Date returnDate;
 
+    /**
+     * Время поездки в днях
+     */
+    private Integer tripDurationInDays;
+
 }
