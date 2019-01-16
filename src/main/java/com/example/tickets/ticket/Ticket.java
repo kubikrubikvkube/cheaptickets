@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(indexes = {@Index(name = "idx_ticket", columnList = "origin,destination,departDate,numberOfChanges,value,actual,isExpired")})
+@Table(indexes = {@Index(name = "idx_ticket", columnList = "id,origin,destination,departDate,numberOfChanges,value,actual,isExpired")})
 public class Ticket {
     @Id
     @GeneratedValue

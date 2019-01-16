@@ -1,19 +1,19 @@
 package com.example.tickets.route;
 
 import com.example.tickets.notification.TicketNotification;
+import com.example.tickets.ticket.Ticket;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 @Data
 @Entity
 @NoArgsConstructor
-@Table(indexes = {@Index(name = "idx_route", columnList = "origin,destination,departDate,returnDate,sumValue,tripDuration")})
+@Table(indexes = {@Index(name = "idx_route", columnList = "id,origin,destination,sumValue,tripDuration")})
 public class Route {
 
     @Id
@@ -21,7 +21,7 @@ public class Route {
     private Long id;
 
     @CreationTimestamp
-    private Calendar creationTimestamp;
+    private Date creationTimestamp;
 
     /**
      * Место отправления
@@ -34,24 +34,16 @@ public class Route {
     private String destination;
 
     /**
-     * Дата отправления
+     * Билет из места отправления
      */
-    private Date departDate;
+    @OneToOne
+    private Ticket departTicket;
 
     /**
-     * Дата возвращения
+     * Обратный билет
      */
-    private Date returnDate;
-
-    /**
-     * Стоимость билета туда
-     */
-    private Integer departTicketValue;
-
-    /**
-     * Стоимость обратного билета
-     */
-    private Integer returnTicketValue;
+    @OneToOne
+    private Ticket returnTicket;
     /**
      * Общая стоимость поездки
      */
@@ -63,5 +55,6 @@ public class Route {
     private Integer tripDuration;
 
     @OneToMany
+    @CollectionTable(name = "route_notifications")
     private List<TicketNotification> ticketNotifications;
 }

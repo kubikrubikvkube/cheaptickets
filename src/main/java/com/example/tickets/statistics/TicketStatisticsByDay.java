@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-@Table(indexes = {@Index(name = "idx_ticket_statistics_by_day", columnList = "date")})
+@Table(indexes = {@Index(name = "idx_ticket_statistics_by_day", columnList = "id,date")})
 public class TicketStatisticsByDay {
     @Id
     @GeneratedValue

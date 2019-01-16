@@ -1,6 +1,5 @@
-package com.example.tickets.notification;
+package com.example.tickets.owner;
 
-import com.example.tickets.route.Route;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -8,11 +7,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.util.Date;
 
+@NoArgsConstructor
 @Data
 @Entity
-@NoArgsConstructor
-@Table
-public class TicketNotification {
+@Table(indexes = {@Index(name = "idx_owner", columnList = "id,name,email")})
+public class Owner {
     @Id
     @GeneratedValue
     private Long id;
@@ -20,7 +19,7 @@ public class TicketNotification {
     @CreationTimestamp
     private Date creationTimestamp;
 
-    @ManyToOne
-    Route ticketNotification;
-    private String owner;
+    private String name;
+
+    private String email;
 }

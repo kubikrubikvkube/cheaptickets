@@ -1,5 +1,6 @@
 package com.example.tickets.healthcheck;
 
+import com.example.tickets.owner.OwnerRepository;
 import com.example.tickets.subscription.SubscriptionRepository;
 import com.example.tickets.ticket.TicketRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,11 +19,13 @@ public class StatisticsEndpoint {
     private final ObjectMapper mapper;
     private final TicketRepository ticketRep;
     private final SubscriptionRepository subscriptionRep;
+    private final OwnerRepository ownerRep;
 
-    public StatisticsEndpoint(ObjectMapper mapper, TicketRepository ticketRep, SubscriptionRepository subscriptionRep) {
+    public StatisticsEndpoint(ObjectMapper mapper, TicketRepository ticketRep, SubscriptionRepository subscriptionRep, OwnerRepository ownerRep) {
         this.mapper = mapper;
         this.ticketRep = ticketRep;
         this.subscriptionRep = subscriptionRep;
+        this.ownerRep = ownerRep;
     }
 
     @ReadOperation
@@ -30,6 +33,7 @@ public class StatisticsEndpoint {
         ObjectNode root = mapper.createObjectNode();
         root.set("tickets", prepareTicketsMetric());
         root.set("subscriptions", prepareSubscriptionsMetric());
+        root.set("owners", prepareOwnerMetric());
         root.put("timestamp", LocalDateTime.now().toString());
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);
     }
@@ -50,5 +54,11 @@ public class StatisticsEndpoint {
         ObjectNode subscriptions = mapper.createObjectNode();
         subscriptions.put("total subscriptions", subscriptionRep.count());
         return subscriptions;
+    }
+
+    private ObjectNode prepareOwnerMetric() {
+        ObjectNode owners = mapper.createObjectNode();
+        owners.put("total owners", ownerRep.count());
+        return owners;
     }
 }
