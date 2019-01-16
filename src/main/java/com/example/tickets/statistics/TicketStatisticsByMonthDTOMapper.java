@@ -4,8 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
-public interface TicketStatisticsByMonthMapper {
-    TicketStatisticsByMonthMapper INSTANCE = Mappers.getMapper(TicketStatisticsByMonthMapper.class);
+public interface TicketStatisticsByMonthDTOMapper {
+    TicketStatisticsByMonthDTOMapper INSTANCE = Mappers.getMapper(TicketStatisticsByMonthDTOMapper.class);
 
     TicketStatisticsByMonthDTO toDTO(TicketStatisticsByMonth statistics);
 

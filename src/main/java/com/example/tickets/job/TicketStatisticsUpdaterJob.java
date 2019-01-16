@@ -1,9 +1,6 @@
 package com.example.tickets.job;
 
-import com.example.tickets.statistics.TicketStatistics;
-import com.example.tickets.statistics.TicketStatisticsByDay;
-import com.example.tickets.statistics.TicketStatisticsByMonth;
-import com.example.tickets.statistics.TicketStatisticsRepository;
+import com.example.tickets.statistics.*;
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionRepository;
 import com.example.tickets.ticket.Ticket;
@@ -20,6 +17,7 @@ import java.time.Month;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.lang.String.format;
@@ -43,6 +41,7 @@ public class TicketStatisticsUpdaterJob implements Job {
         var startTime = Instant.now().toEpochMilli();
         log.info("TicketStatisticsUpdaterJob started");
         Iterable<Subscription> subscriptions = subscriptionRepository.findAll();
+        List<TicketStatistics> statisticsList = new ArrayList<>();
         for (Subscription subscription : subscriptions) {
             var origin = subscription.getOrigin();
             var destination = subscription.getDestination();
@@ -50,29 +49,26 @@ public class TicketStatisticsUpdaterJob implements Job {
             TicketStatistics statistics = subscriptionStatistics.orElseGet(TicketStatistics::new);
             statistics.setOrigin(origin);
             statistics.setDestination(destination);
-            statistics.setTicketStatisticsByDay(byDay(subscription));
+//            statistics.setTicketStatisticsByDay(byDay(subscription));
             statistics.setTicketStatisticsByMonth(byMonth(subscription));
-            statisticsRepository.save(statistics);
+            statisticsList.add(statistics);
         }
+        statisticsRepository.saveAll(statisticsList);
         var endTime = Instant.now().toEpochMilli();
         log.info(format("TicketStatisticsUpdaterJob finished in %d ms", endTime - startTime));
     }
 
     private List<TicketStatisticsByMonth> byMonth(Subscription s) {
-        //TODO не работает если статистика идёт до следующего января следующего года так как и там и там первый месяц
-        var origin = s.getOrigin();
-        var destination = s.getDestination();
-        var earliestTicketForSubscriptionOpt = ticketRepository.findBySubscription(s)
-                .stream()
-                .min(Comparator.comparing(Ticket::getDepartDate));
-        var latestTicketOpt = ticketRepository.findBySubscription(s)
-                .stream()
-                .max(Comparator.comparing(Ticket::getDepartDate));
+        List<Ticket> subscriptionTickets = ticketRepository.findBySubscription(s);
+        var earliestTicketForSubscriptionOpt = subscriptionTickets.stream().min(Comparator.comparing(Ticket::getDepartDate));
+        var latestTicketOpt = subscriptionTickets.stream().max(Comparator.comparing(Ticket::getDepartDate));
+        if (earliestTicketForSubscriptionOpt.isEmpty() || latestTicketOpt.isEmpty()) {
+            return Collections.emptyList();
+        }
 
-        if (earliestTicketForSubscriptionOpt.isEmpty() || latestTicketOpt.isEmpty()) return Collections.emptyList();
         LocalDate earliestDepartDate = earliestTicketForSubscriptionOpt.get().getDepartDate();
         LocalDate latestDepartDate = latestTicketOpt.get().getDepartDate();
-        List<Ticket> subscriptionTickets = ticketRepository.findBySubscription(s);
+
         List<TicketStatisticsByMonth> statisticsList = new ArrayList<>();
         long monthsRange = LocalDate.from(earliestDepartDate).until(latestDepartDate, ChronoUnit.MONTHS);
 
@@ -84,43 +80,56 @@ public class TicketStatisticsUpdaterJob implements Job {
                     .stream()
                     .filter(ticket -> ticket.getDepartDate().getMonth().equals(month))
                     .forEach(ticket -> ds.addValue(ticket.getValue()));
-            TicketStatisticsByMonth statistics = new TicketStatisticsByMonth();
-            statistics.setYear(year);
-            statistics.setMonth(month);
-            statistics.setTicketsCount((long) Doubles.asList(ds.getValues()).size());
-            statistics.setAvgTicketPrice(ds.getMean());
-            statistics.setMinTicketPrice(ds.getMin());
-            statistics.setPercentile10(ds.getPercentile(10));
-            statisticsList.add(statistics);
+
+            TicketStatisticsByMonthDTO statDTO = new TicketStatisticsByMonthDTO();
+            statDTO.setYear(year);
+            statDTO.setMonth(month);
+            statDTO.setTicketsCount((long) Doubles.asList(ds.getValues()).size());
+            statDTO.setAvgTicketPrice(ds.getMean());
+            statDTO.setMinTicketPrice(ds.getMin());
+            statDTO.setPercentile10(ds.getPercentile(10));
+            TicketStatisticsByMonth stat = TicketStatisticsByMonthDTOMapper.INSTANCE.fromDTO(statDTO);
+            statisticsList.add(stat);
         }
 
         return statisticsList;
     }
 
     private List<TicketStatisticsByDay> byDay(Subscription s) {
-        var origin = s.getOrigin();
-        var destination = s.getDestination();
-        var earliestTicketForSubscriptionOpt = ticketRepository.findBySubscription(s)
-                .stream()
-                .min(Comparator.comparing(Ticket::getDepartDate));
-        var latestTicketOpt = ticketRepository.findBySubscription(s)
-                .stream()
-                .max(Comparator.comparing(Ticket::getDepartDate));
+        List<Ticket> subscriptionTickets = ticketRepository.findBySubscription(s);
+        var earliestTicketForSubscriptionOpt = subscriptionTickets.stream().min(Comparator.comparing(Ticket::getDepartDate));
+        var latestTicketOpt = subscriptionTickets.stream().max(Comparator.comparing(Ticket::getDepartDate));
+        if (earliestTicketForSubscriptionOpt.isEmpty() || latestTicketOpt.isEmpty()) {
+            return Collections.emptyList();
+        }
 
-        if (earliestTicketForSubscriptionOpt.isEmpty() || latestTicketOpt.isEmpty()) return Collections.emptyList();
         LocalDate earliestDepartDate = earliestTicketForSubscriptionOpt.get().getDepartDate();
         LocalDate latestDepartDate = latestTicketOpt.get().getDepartDate();
-        Stream<LocalDate> observableDays = earliestDepartDate.datesUntil(latestDepartDate, Period.ofDays(1));
+
         List<TicketStatisticsByDay> byDayStatistics = new ArrayList<>();
-        observableDays.forEach(date -> {
-            TicketStatisticsByDay day = new TicketStatisticsByDay();
-            day.setDate(date);
-            day.setTicketsCount(ticketRepository.countByOriginAndDestinationAndDepartDate(origin, destination, date));
-            day.setAvgTicketPrice(statisticsRepository.calculateAvgTicketPriceForDate(origin, destination, date));
-            day.setMinTicketPrice(statisticsRepository.calculateMinTicketPriceForDate(origin, destination, date));
-            day.setPercentile10(statisticsRepository.calculate10PercentileTicketPriceForDate(origin, destination, date));
-            byDayStatistics.add(day);
+        Stream<LocalDate> daysUntil = earliestDepartDate.datesUntil(latestDepartDate, Period.ofDays(1));
+
+        daysUntil.forEach(day -> {
+            List<Ticket> todayTickets = subscriptionTickets
+                    .stream()
+                    .filter(ticket -> ticket.getDepartDate().equals(day))
+                    .collect(Collectors.toList());
+            long count = todayTickets.size();
+
+            subscriptionTickets.forEach(ticket -> {
+                DescriptiveStatistics ds = new DescriptiveStatistics();
+                ds.addValue(ticket.getValue());
+                TicketStatisticsByDayDTO statDTO = new TicketStatisticsByDayDTO();
+                statDTO.setDate(day);
+                statDTO.setTicketsCount(count);
+                statDTO.setAvgTicketPrice(ds.getMean());
+                statDTO.setMinTicketPrice(ds.getMin());
+                statDTO.setPercentile10(ds.getPercentile(10));
+                TicketStatisticsByDay stat = TicketStatisticsByDayDTOMapper.INSTANCE.dtoToTicketStatisticsByDay(statDTO);
+                byDayStatistics.add(stat);
+            });
         });
+
         return byDayStatistics;
     }
 }
