@@ -20,4 +20,8 @@ public class TicketStatistics {
     @CollectionTable(name = "ticket_statistics_by_day_collection")
     @OneToMany(targetEntity = TicketStatisticsByDay.class, cascade = CascadeType.ALL)
     private List<TicketStatisticsByDay> ticketStatisticsByDay;
+
+    @CollectionTable(name = "ticket_statistics_by_month_collection")
+    @OneToMany(targetEntity = TicketStatisticsByMonth.class, cascade = CascadeType.ALL)
+    private List<TicketStatisticsByMonth> ticketStatisticsByMonth;
 }
