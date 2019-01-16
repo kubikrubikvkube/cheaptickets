@@ -21,6 +21,6 @@ public interface TicketStatisticsRepository extends CrudRepository<TicketStatist
     @Query(value = "SELECT value FROM ticket t WHERE t.origin = ?1 AND t.destination = ?2 AND t.depart_date = ?3", nativeQuery = true)
     List<Double> calculateTicketPrices(String origin, String destination, LocalDate date);
 
-    @Query(value = "SELECT  percentile_cont(0.05) within group (order by value asc) FROM ticket t WHERE t.origin = ?1 AND t.destination = ?2 AND t.depart_date = ?3", nativeQuery = true)
-    Double calculate5PercentileTicketPriceForDate(String origin, String destination, LocalDate date);
+    @Query(value = "SELECT  percentile_cont(0.1) within group (order by value asc) FROM ticket t WHERE t.origin = ?1 AND t.destination = ?2 AND t.depart_date = ?3", nativeQuery = true)
+    Double calculate10PercentileTicketPriceForDate(String origin, String destination, LocalDate date);
 }

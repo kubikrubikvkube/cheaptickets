@@ -3,17 +3,19 @@ package com.example.tickets.statistics;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.Month;
 
 @Data
 @Entity
-@Table(indexes = {@Index(name = "idx_ticket_statistics_by_month", columnList = "id,date")})
+@Table(indexes = {@Index(name = "idx_ticket_statistics_by_month", columnList = "id,month,year")})
 public class TicketStatisticsByMonth {
     @Id
     @GeneratedValue
     private Long id;
 
-    private LocalDate date;
+    private Month month;
+
+    private Integer year;
 
     private Long ticketsCount;
 
@@ -21,5 +23,6 @@ public class TicketStatisticsByMonth {
 
     private Double avgTicketPrice;
 
-    private Double percentile5;
+    private Double percentile10;
+
 }

@@ -21,5 +21,5 @@ public class TicketStatisticsByDay {
 
     private Double avgTicketPrice;
 
-    private Double percentile5;
+    private Double percentile10;
 }

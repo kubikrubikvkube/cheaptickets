@@ -10,14 +10,15 @@ import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketRepository;
 import com.google.common.primitives.Doubles;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
-import org.apache.commons.math3.util.IntegerSequence;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -71,23 +72,28 @@ public class TicketStatisticsUpdaterJob implements Job {
         if (earliestTicketForSubscriptionOpt.isEmpty() || latestTicketOpt.isEmpty()) return Collections.emptyList();
         LocalDate earliestDepartDate = earliestTicketForSubscriptionOpt.get().getDepartDate();
         LocalDate latestDepartDate = latestTicketOpt.get().getDepartDate();
-        int earliestMonth = earliestDepartDate.getMonth().getValue();
-        int latestMonth = latestDepartDate.getMonth().getValue();
         List<Ticket> subscriptionTickets = ticketRepository.findBySubscription(s);
         List<TicketStatisticsByMonth> statisticsList = new ArrayList<>();
-        IntegerSequence.range(earliestMonth, latestMonth).forEach(month -> {
+        long monthsRange = LocalDate.from(earliestDepartDate).until(latestDepartDate, ChronoUnit.MONTHS);
+
+        for (int i = 0; i < monthsRange; i++) {
+            int year = earliestDepartDate.plusMonths(i).getYear();
+            Month month = earliestDepartDate.plusMonths(i).getMonth();
             DescriptiveStatistics ds = new DescriptiveStatistics();
             subscriptionTickets
                     .stream()
-                    .filter(ticket -> ticket.getDepartDate().getMonth().getValue() == month)
+                    .filter(ticket -> ticket.getDepartDate().getMonth().equals(month))
                     .forEach(ticket -> ds.addValue(ticket.getValue()));
             TicketStatisticsByMonth statistics = new TicketStatisticsByMonth();
+            statistics.setYear(year);
+            statistics.setMonth(month);
             statistics.setTicketsCount((long) Doubles.asList(ds.getValues()).size());
             statistics.setAvgTicketPrice(ds.getMean());
             statistics.setMinTicketPrice(ds.getMin());
-            statistics.setPercentile5(ds.getPercentile(5));
+            statistics.setPercentile10(ds.getPercentile(10));
             statisticsList.add(statistics);
-        });
+        }
+
         return statisticsList;
     }
 
@@ -112,7 +118,7 @@ public class TicketStatisticsUpdaterJob implements Job {
             day.setTicketsCount(ticketRepository.countByOriginAndDestinationAndDepartDate(origin, destination, date));
             day.setAvgTicketPrice(statisticsRepository.calculateAvgTicketPriceForDate(origin, destination, date));
             day.setMinTicketPrice(statisticsRepository.calculateMinTicketPriceForDate(origin, destination, date));
-            day.setPercentile5(statisticsRepository.calculate5PercentileTicketPriceForDate(origin, destination, date));
+            day.setPercentile10(statisticsRepository.calculate10PercentileTicketPriceForDate(origin, destination, date));
             byDayStatistics.add(day);
         });
         return byDayStatistics;
