@@ -14,7 +14,7 @@ import java.util.List;
 public class SubscriptionServiceImpl implements SubscriptionService {
     private final Logger log = LoggerFactory.getLogger(SubscriptionServiceImpl.class);
     private final SubscriptionRepository repository;
-    private final SubscriptionDTOMapper mapper = SubscriptionDTOMapper.INSTANCE;
+    private final SubscriptionMapper mapper = SubscriptionMapper.INSTANCE;
     private final Scheduler scheduler;
     private final OwnerRepository ownerRepository;
 

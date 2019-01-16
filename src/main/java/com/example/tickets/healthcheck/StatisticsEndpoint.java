@@ -58,7 +58,7 @@ public class StatisticsEndpoint {
 
     private ObjectNode prepareOwnerMetric() {
         ObjectNode owners = mapper.createObjectNode();
-        owners.put("total owners", ownerRep.count());
+        owners.put("total owners", ownerRep.countDistinct());
         return owners;
     }
 }

@@ -19,6 +19,9 @@ public interface OwnerRepository extends CrudRepository<Owner, Long> {
 
     @Query("select o from Owner o where o.name = ?1")
     Owner findBy(String name);
+
+    @Query("select distinct(count(o)) from Owner o")
+    Long countDistinct();
 }
 
 

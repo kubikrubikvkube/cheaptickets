@@ -2,6 +2,7 @@ package com.example.tickets.route;
 
 import com.example.tickets.notification.TicketNotification;
 import com.example.tickets.ticket.Ticket;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,7 +14,7 @@ import java.util.List;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(indexes = {@Index(name = "idx_route", columnList = "id,origin,destination,sumValue,tripDuration")})
+@Table(indexes = {@Index(name = "idx_route", columnList = "id,origin,destination,sumValue,tripDurationInDays")})
 public class Route {
 
     @Id
@@ -52,9 +53,10 @@ public class Route {
     /**
      * Время поездки в днях
      */
-    private Integer tripDuration;
+    private Integer tripDurationInDays;
 
     @OneToMany
     @CollectionTable(name = "route_notifications")
+    @JsonBackReference
     private List<TicketNotification> ticketNotifications;
 }
