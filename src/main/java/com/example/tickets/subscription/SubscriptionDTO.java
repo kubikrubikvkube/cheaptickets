@@ -1,5 +1,6 @@
 package com.example.tickets.subscription;
 
+import com.example.tickets.owner.Owner;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +12,7 @@ public class SubscriptionDTO {
     /**
      * Кто создал подписку
      */
-    private String owner;
+    private Owner owner;
     /**
      * IAT отправления
      */
@@ -20,12 +21,6 @@ public class SubscriptionDTO {
      * IAT назначения
      */
     private String destination;
-
-    public SubscriptionDTO(String owner, String origin, String destination) {
-        this.owner = owner;
-        this.origin = origin;
-        this.destination = destination;
-    }
 
     /**
      * Дата отправления

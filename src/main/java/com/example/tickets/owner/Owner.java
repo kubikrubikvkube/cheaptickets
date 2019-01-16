@@ -1,11 +1,14 @@
 package com.example.tickets.owner;
 
+import com.example.tickets.subscription.Subscription;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @NoArgsConstructor
 @Data
@@ -22,4 +25,9 @@ public class Owner {
     private String name;
 
     private String email;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "owner")
+    @CollectionTable(name = "owner_subscriptions")
+    private List<Subscription> subscriptions;
 }

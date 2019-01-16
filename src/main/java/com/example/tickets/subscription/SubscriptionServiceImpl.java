@@ -1,5 +1,7 @@
 package com.example.tickets.subscription;
 
+import com.example.tickets.owner.Owner;
+import com.example.tickets.owner.OwnerRepository;
 import org.quartz.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,22 +16,34 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     private final SubscriptionRepository repository;
     private final SubscriptionDTOMapper mapper = SubscriptionDTOMapper.INSTANCE;
     private final Scheduler scheduler;
+    private final OwnerRepository ownerRepository;
 
-    public SubscriptionServiceImpl(SubscriptionRepository repository, Scheduler scheduler) {
-        this.repository = repository;
+    public SubscriptionServiceImpl(SubscriptionRepository subscriptionRepository, Scheduler scheduler, OwnerRepository ownerRepository) {
+        this.repository = subscriptionRepository;
         this.scheduler = scheduler;
+        this.ownerRepository = ownerRepository;
     }
 
     @Override
-    public Subscription add(String owner, String origin, String destination) {
-        boolean exists = repository.exists(owner, origin, destination);
-        log.debug("Subscription for '{} {} {}' exists '{}'", owner, origin, destination, exists);
-
+    public Subscription add(String ownerName, String origin, String destination) {
+        boolean exists = repository.exists(ownerName, origin, destination);
+        log.debug("Subscription for '{} {} {}' exists '{}'", ownerName, origin, destination, exists);
         if (!exists) {
-            SubscriptionDTO dto = new SubscriptionDTO(owner, origin, destination);
-            Subscription subscription = mapper.dtoToSubscription(dto);
-            log.debug("Saving subscription '{}'", subscription);
-            repository.save(subscription);
+            Owner owner = ownerRepository.findBy(ownerName);
+            SubscriptionDTO dto = new SubscriptionDTO();
+            dto.setOwner(owner);
+            dto.setOrigin(origin);
+            dto.setDestination(destination);
+            Subscription createdSubscription = mapper.dtoToSubscription(dto);
+            log.debug("Saving subscription '{}'", createdSubscription);
+            repository.save(createdSubscription);
+//            log.debug("Saving owner '{}'", owner);
+// TODO bidirectional owner <-> subscription
+//            List<Subscription> ownerSubscriptions = owner.getSubscriptions();
+//            ownerSubscriptions.add(createdSubscription);
+//            owner.setSubscriptions(ownerSubscriptions);
+//            ownerRepository.save(owner);
+
         }
 
         //TODO
@@ -47,7 +61,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 //            log.error("Failed",e);
 //
 //        }
-        return repository.findBy(owner, origin, destination);
+        return repository.findBy(ownerName, origin, destination);
     }
 
     @Override
@@ -59,7 +73,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public List<Subscription> get(String owner) {
-        List<Subscription> subscriptions = repository.findByOwner(owner);
+        List<Subscription> subscriptions = repository.findByOwnerName(owner);
         log.debug("Subscriptions found '{}'", subscriptions);
         return subscriptions;
     }
@@ -73,7 +87,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public void delete(String owner) {
-        List<Subscription> subscriptions = repository.findByOwner(owner);
+        List<Subscription> subscriptions = repository.findByOwnerName(owner);
         log.debug("Subscriptions deleted '{}'", subscriptions);
         repository.deleteAll(subscriptions);
     }
