@@ -4,8 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
-public interface SubscriptionMapper {
-    SubscriptionMapper INSTANCE = Mappers.getMapper(SubscriptionMapper.class);
+public interface SubscriptionDTOMapper {
+    SubscriptionDTOMapper INSTANCE = Mappers.getMapper(SubscriptionDTOMapper.class);
 
     SubscriptionDTO subscriptionToDTO(Subscription subscription);
 

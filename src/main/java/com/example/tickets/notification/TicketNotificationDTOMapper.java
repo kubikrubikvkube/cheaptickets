@@ -4,8 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
-public interface TicketNotificationMapper {
-    TicketNotificationMapper INSTANCE = Mappers.getMapper(TicketNotificationMapper.class);
+public interface TicketNotificationDTOMapper {
+    TicketNotificationDTOMapper INSTANCE = Mappers.getMapper(TicketNotificationDTOMapper.class);
 
     TicketNotificationDTO ticketNotificationToDTO(TicketNotification notification);
 
