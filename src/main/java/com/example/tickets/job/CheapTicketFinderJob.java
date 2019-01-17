@@ -44,7 +44,8 @@ public class CheapTicketFinderJob implements Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
         var startTime = Instant.now().toEpochMilli();
         log.info("CheapTicketFinderJob started");
-
+        //TODO сохраняет дважды в репозиторий. Сделать чек на exists а не удаление всех записей
+        cheapTicketService.deleteAll();
         Multimap<String, String> distinctOriginAndDestination = subscriptionService.findDistinctOriginAndDestination();
         List<Subscription> foundSubscriptions = new ArrayList<>();
         distinctOriginAndDestination.forEach((o, d) -> foundSubscriptions.addAll(subscriptionService.get(o, d)));
@@ -70,13 +71,13 @@ public class CheapTicketFinderJob implements Job {
                 }
             }
         }
-//        TODO cheapTicketRepository должен сохранять такие тикеты
         List<CheapTicket> cheapTicketList = new ArrayList<>();
         bestTicketsList.forEach(ticket -> {
             CheapTicket cheapTicket = cheapTicketMapper.toCheapTicket(ticket);
             cheapTicketList.add(cheapTicket);
         });
-        //TODO сохраняет дважды в репозиторий. Сделать чек на exists
+
+
         cheapTicketService.saveAll(cheapTicketList);
         var endTime = Instant.now().toEpochMilli();
         log.info(format("CheapTicketFinderJob finished in %d ms", endTime - startTime));

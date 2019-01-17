@@ -8,4 +8,5 @@ import javax.transaction.Transactional;
 @Repository
 @Transactional
 public interface CheapTicketRepository extends CrudRepository<CheapTicket, Long> {
+
 }

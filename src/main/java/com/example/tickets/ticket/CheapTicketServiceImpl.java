@@ -27,4 +27,9 @@ public class CheapTicketServiceImpl implements CheapTicketService {
     public long count() {
         return repository.count();
     }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
+    }
 }
