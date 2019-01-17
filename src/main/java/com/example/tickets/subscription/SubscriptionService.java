@@ -7,6 +7,7 @@ import java.util.List;
 public interface SubscriptionService {
     List<Subscription> add(String owner, String origin, String destination);
 
+    List<Subscription> get(String origin, String destination);
     List<Subscription> get(String owner, String origin, String destination);
 
     List<Subscription> get(String owner);

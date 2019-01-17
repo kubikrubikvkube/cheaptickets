@@ -44,6 +44,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    public List<Subscription> get(String origin, String destination) {
+        return repository.findBy(origin, destination);
+    }
+
+    @Override
     public List<Subscription> get(String owner, String origin, String destination) {
         List<Subscription> subscription = repository.findBy(owner, origin, destination);
         log.debug("Subscription found '{}'", subscription);
