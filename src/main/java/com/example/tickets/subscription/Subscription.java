@@ -3,7 +3,9 @@ package com.example.tickets.subscription;
 import com.example.tickets.owner.Owner;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -29,6 +31,9 @@ public class Subscription {
 
     @JsonBackReference
     @ManyToOne
+    @JoinColumn(name = "owner_fk")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Owner owner;
     /**
      * IAT отправления
@@ -53,5 +58,4 @@ public class Subscription {
      * Время поездки в днях
      */
     private Integer tripDurationInDays;
-
 }

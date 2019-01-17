@@ -3,7 +3,9 @@ package com.example.tickets.owner;
 import com.example.tickets.subscription.Subscription;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -27,7 +29,8 @@ public class Owner {
     private String email;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "owner")
-    @CollectionTable(name = "owner_subscriptions")
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<Subscription> subscriptions;
 }
