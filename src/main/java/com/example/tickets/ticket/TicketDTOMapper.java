@@ -23,7 +23,7 @@ public interface TicketDTOMapper {
             @Mapping(source = "createdAt", target = "created_at"),
             @Mapping(source = "isExpired", target = "is_expired")
     })
-    TicketDTO ticketToDTO(Ticket source);
+    TicketDTO toDTO(Ticket source);
 
     @Mappings({
             @Mapping(source = "trip_class", target = "tripClass"),
@@ -38,5 +38,5 @@ public interface TicketDTOMapper {
             @Mapping(source = "created_at", target = "createdAt"),
             @Mapping(source = "is_expired", target = "isExpired")
     })
-    Ticket dtoToTicket(TicketDTO destination);
+    Ticket fromDTO(TicketDTO destination);
 }

@@ -34,7 +34,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             dto.setOwner(owner);
             dto.setOrigin(origin);
             dto.setDestination(destination);
-            Subscription createdSubscription = mapper.dtoToSubscription(dto);
+            Subscription createdSubscription = mapper.fromDTO(dto);
             log.debug("Saving subscription '{}'", createdSubscription);
             repository.save(createdSubscription);
         }
@@ -81,7 +81,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             dto.setOrigin(origin);
             dto.setDestination(destination);
             dto.setTripDurationInDays(tripDuration);
-            Subscription createdSubscription = mapper.dtoToSubscription(dto);
+            Subscription createdSubscription = mapper.fromDTO(dto);
             log.debug("Saving subscription '{}'", createdSubscription);
             repository.save(createdSubscription);
         }

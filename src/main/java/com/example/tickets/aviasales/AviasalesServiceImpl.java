@@ -52,7 +52,7 @@ public class AviasalesServiceImpl implements AviasalesService {
         });
         return tickerPrices
                 .stream()
-                .map(mapper::dtoToTicket)
+                .map(mapper::fromDTO)
                 .collect(Collectors.toList());
     }
 
@@ -83,7 +83,7 @@ public class AviasalesServiceImpl implements AviasalesService {
         });
         return tickerPrices
                 .stream()
-                .map(mapper::dtoToTicket)
+                .map(mapper::fromDTO)
                 .collect(Collectors.toList());
     }
 
@@ -106,7 +106,7 @@ public class AviasalesServiceImpl implements AviasalesService {
             while (response.elements().hasNext()) {
                 JsonNode jsonNode = response.elements().next();
                 TicketDTO dto = jsonMapper.readValue(jsonNode.toString(), TicketDTO.class);
-                Ticket ticket = mapper.dtoToTicket(dto);
+                Ticket ticket = mapper.fromDTO(dto);
                 tickets.add(ticket);
             }
         } catch (IOException ioe) {
@@ -134,7 +134,7 @@ public class AviasalesServiceImpl implements AviasalesService {
             while (response.elements().hasNext()) {
                 JsonNode jsonNode = response.elements().next();
                 TicketDTO dto = jsonMapper.readValue(jsonNode.toString(), TicketDTO.class);
-                Ticket ticket = mapper.dtoToTicket(dto);
+                Ticket ticket = mapper.fromDTO(dto);
                 tickets.add(ticket);
             }
         } catch (IOException ioe) {

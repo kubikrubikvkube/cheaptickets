@@ -20,7 +20,7 @@ public class OwnerServiceImpl implements OwnerService {
             OwnerDTO ownerDTO = new OwnerDTO();
             ownerDTO.setName(name);
             ownerDTO.setEmail(email);
-            Owner newOwner = OwnerDTOMapper.INSTANCE.dtoToOwner(ownerDTO);
+            Owner newOwner = OwnerDTOMapper.INSTANCE.fromDTO(ownerDTO);
             repository.save(newOwner);
         }
         return repository.findBy(name);

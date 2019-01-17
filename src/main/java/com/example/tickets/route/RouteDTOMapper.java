@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 public interface RouteDTOMapper {
     RouteDTOMapper INSTANCE = Mappers.getMapper(RouteDTOMapper.class);
 
-    RouteDTO routeToDTO(Route route);
+    RouteDTO toDTO(Route route);
 
-    Route dtoToRoute(RouteDTO dto);
+    Route fromDTO(RouteDTO dto);
 }

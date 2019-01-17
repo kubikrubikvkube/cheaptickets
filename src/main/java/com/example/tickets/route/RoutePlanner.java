@@ -1,5 +1,8 @@
 package com.example.tickets.route;
 
-public class RoutePlanner {
+import com.example.tickets.subscription.Subscription;
+
+public interface RoutePlanner {
+    Route plan(Subscription subscription);
 
 }

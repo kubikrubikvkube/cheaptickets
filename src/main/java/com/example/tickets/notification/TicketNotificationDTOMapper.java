@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 public interface TicketNotificationDTOMapper {
     TicketNotificationDTOMapper INSTANCE = Mappers.getMapper(TicketNotificationDTOMapper.class);
 
-    TicketNotificationDTO ticketNotificationToDTO(TicketNotification notification);
+    TicketNotificationDTO toDTO(TicketNotification notification);
 
-    TicketNotification dtoToTicketNotification(TicketNotificationDTO dto);
+    TicketNotification fromDTO(TicketNotificationDTO dto);
 }

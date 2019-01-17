@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 public interface TicketStatisticsByDayDTOMapper {
     TicketStatisticsByDayDTOMapper INSTANCE = Mappers.getMapper(TicketStatisticsByDayDTOMapper.class);
 
-    TicketStatisticsByDayDTO ticketStatisticsByDayToDTO(TicketStatisticsByDay statistics);
+    TicketStatisticsByDayDTO toDTO(TicketStatisticsByDay statistics);
 
-    TicketStatisticsByDay dtoToTicketStatisticsByDay(TicketStatisticsByDayDTO dto);
+    TicketStatisticsByDay fromDTO(TicketStatisticsByDayDTO dto);
 }

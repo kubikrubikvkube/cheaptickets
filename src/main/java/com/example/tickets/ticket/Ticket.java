@@ -11,6 +11,7 @@ import java.util.Date;
 
 @Data
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Table(indexes = {@Index(name = "idx_ticket", columnList = "id,origin,destination,departDate,numberOfChanges,value,actual,isExpired")})
 public class Ticket {
     @Id

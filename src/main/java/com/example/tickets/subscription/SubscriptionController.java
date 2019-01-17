@@ -1,5 +1,7 @@
 package com.example.tickets.subscription;
 
+import com.example.tickets.route.Route;
+import com.example.tickets.route.RoutePlanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,9 +14,11 @@ import java.util.List;
 public class SubscriptionController {
     private final Logger log = LoggerFactory.getLogger(SubscriptionController.class);
     private final SubscriptionService service;
+    private final RoutePlanner routePlanner;
 
-    public SubscriptionController(SubscriptionService service) {
+    public SubscriptionController(SubscriptionService service, RoutePlanner routePlanner) {
         this.service = service;
+        this.routePlanner = routePlanner;
     }
 
     @RequestMapping(value = "/subscription/add", params = {"owner", "origin", "destination"})
@@ -31,7 +35,10 @@ public class SubscriptionController {
                                   @RequestParam String destination,
                                   @RequestParam String tripDurationInDays) {
         log.info("Subscription add request for '{} {} {} {}'", owner, origin, destination, tripDurationInDays);
-        return service.add(owner, origin, destination, tripDurationInDays);
+        List<Subscription> add = service.add(owner, origin, destination, tripDurationInDays);
+        Subscription subscription = add.get(0);
+        Route plan = routePlanner.plan(subscription);
+        return null;
     }
 
     @RequestMapping(value = "/subscription/get", params = {"owner", "origin", "destination"})

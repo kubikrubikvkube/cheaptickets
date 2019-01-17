@@ -43,7 +43,7 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
         List<TicketDTO> ticketDTOS = response.getData();
         return ticketDTOS
                 .stream()
-                .map(mapper::dtoToTicket)
+                .map(mapper::fromDTO)
                 .collect(Collectors.toList());
     }
 
@@ -93,7 +93,7 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
                 ticketDTO.setDepart_date(departureDateTime);
                 ticketDTO.setReturn_date(returnDateTime);
                 ticketDTO.setExpires_at(expiresDateTime);
-                Ticket ticket = mapper.dtoToTicket(ticketDTO);
+                Ticket ticket = mapper.fromDTO(ticketDTO);
                 tickets.add(ticket);
             }
 

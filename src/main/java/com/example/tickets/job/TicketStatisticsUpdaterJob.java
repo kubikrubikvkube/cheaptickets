@@ -125,7 +125,7 @@ public class TicketStatisticsUpdaterJob implements Job {
                 statDTO.setAvgTicketPrice(ds.getMean());
                 statDTO.setMinTicketPrice(ds.getMin());
                 statDTO.setPercentile10(ds.getPercentile(10));
-                TicketStatisticsByDay stat = TicketStatisticsByDayDTOMapper.INSTANCE.dtoToTicketStatisticsByDay(statDTO);
+                TicketStatisticsByDay stat = TicketStatisticsByDayDTOMapper.INSTANCE.fromDTO(statDTO);
                 byDayStatistics.add(stat);
             });
         });

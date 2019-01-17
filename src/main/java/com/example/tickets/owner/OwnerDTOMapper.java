@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 public interface OwnerDTOMapper {
     OwnerDTOMapper INSTANCE = Mappers.getMapper(OwnerDTOMapper.class);
 
-    OwnerDTO ownerToDTO(Owner subscription);
+    OwnerDTO toDTO(Owner subscription);
 
-    Owner dtoToOwner(OwnerDTO dto);
+    Owner fromDTO(OwnerDTO dto);
 }

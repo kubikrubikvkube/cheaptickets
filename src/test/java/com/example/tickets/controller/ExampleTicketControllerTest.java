@@ -47,7 +47,7 @@ public class ExampleTicketControllerTest {
         dto.setDepart_date(date);
         dto.setDepart_time(time);
         dto.setValue(value);
-        t = mapper.dtoToTicket(dto);
+        t = mapper.fromDTO(dto);
         ticketRepository.save(t);
     }
 

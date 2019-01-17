@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 public interface SubscriptionDTOMapper {
     SubscriptionDTOMapper INSTANCE = Mappers.getMapper(SubscriptionDTOMapper.class);
 
-    SubscriptionDTO subscriptionToDTO(Subscription subscription);
+    SubscriptionDTO toDTO(Subscription subscription);
 
-    Subscription dtoToSubscription(SubscriptionDTO dto);
+    Subscription fromDTO(SubscriptionDTO dto);
 }
