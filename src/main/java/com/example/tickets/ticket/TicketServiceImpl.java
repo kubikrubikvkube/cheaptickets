@@ -63,4 +63,9 @@ public class TicketServiceImpl implements TicketService {
                 .filter(ticket -> ticket.getValue() != null)
                 .min(comparing(Ticket::getValue));
     }
+
+    @Override
+    public List<Ticket> findBy(String origin, String destination) {
+        return repository.findByOriginAndDestination(origin, destination);
+    }
 }
