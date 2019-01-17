@@ -1,5 +1,7 @@
 package com.example.tickets.subscription;
 
+import com.google.common.collect.Multimap;
+
 import java.util.List;
 
 public interface SubscriptionService {
@@ -14,4 +16,6 @@ public interface SubscriptionService {
     void delete(String owner);
 
     List<Subscription> add(String owner, String origin, String destination, String tripDurationInDays);
+
+    Multimap<String, String> findDistinctOriginAndDestination();
 }

@@ -2,6 +2,8 @@ package com.example.tickets.subscription;
 
 import com.example.tickets.owner.Owner;
 import com.example.tickets.owner.OwnerRepository;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import org.quartz.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,5 +88,15 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             repository.save(createdSubscription);
         }
         return repository.findBy(ownerName, origin, destination, tripDuration);
+    }
+
+    @Override
+    public Multimap<String, String> findDistinctOriginAndDestination() {
+        Multimap<String, String> map = ArrayListMultimap.create();
+        List<Object[]> distinctOriginAndDestination = repository.findDistinctOriginAndDestination();
+        for (Object[] originAndDestination : distinctOriginAndDestination) {
+            map.put(String.valueOf(originAndDestination[0]), String.valueOf(originAndDestination[1]));
+        }
+        return map;
     }
 }

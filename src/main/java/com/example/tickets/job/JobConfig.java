@@ -30,6 +30,24 @@ public class JobConfig {
         scheduler.scheduleJob(jobDetail, trigger);
     }
 
+    @Bean(name = "cheapTicketFinderJob")
+    void cheapTicketFinderJob() throws SchedulerException {
+        JobDetail jobDetail = JobBuilder
+                .newJob(CheapTicketFinderJob.class)
+                .withIdentity("CheapTicketFinderJob")
+                .storeDurably(true)
+                .requestRecovery(true)
+                .build();
+
+        Trigger trigger = TriggerBuilder
+                .newTrigger()
+                .withIdentity("CheapTicketFinderTrigger", "trigger")
+                .withSchedule(
+                        SimpleScheduleBuilder.repeatHourlyForever())
+                .build();
+        scheduler.scheduleJob(jobDetail, trigger);
+    }
+
     @Bean(name = "LatestTicketsTravelPayoutsPopulationJob")
     void latestTicketsTravelPayoutsPopulationJob() throws SchedulerException {
         JobDetail jobDetail = JobBuilder

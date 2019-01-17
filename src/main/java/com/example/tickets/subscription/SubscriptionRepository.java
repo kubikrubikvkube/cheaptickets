@@ -41,4 +41,7 @@ public interface SubscriptionRepository extends CrudRepository<Subscription, Lon
 
     @Query("select count(s)>0 from Subscription s where s.owner.name = ?1 and s.origin = ?2 and s.destination = ?3 and s.tripDurationInDays = ?4")
     boolean exists(String owner, String origin, String destination, Integer tripDurationInDays);
+
+    @Query(value = "select distinct q.origin,q.destination from Subscription q", nativeQuery = true)
+    List<Object[]> findDistinctOriginAndDestination();
 }
