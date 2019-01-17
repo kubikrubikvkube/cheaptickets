@@ -2,6 +2,7 @@ package com.example.tickets.healthcheck;
 
 import com.example.tickets.owner.OwnerRepository;
 import com.example.tickets.subscription.SubscriptionRepository;
+import com.example.tickets.ticket.CheapTicketService;
 import com.example.tickets.ticket.TicketRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,12 +21,14 @@ public class StatisticsEndpoint {
     private final TicketRepository ticketRep;
     private final SubscriptionRepository subscriptionRep;
     private final OwnerRepository ownerRep;
+    private final CheapTicketService cheapTicketService;
 
-    public StatisticsEndpoint(ObjectMapper mapper, TicketRepository ticketRep, SubscriptionRepository subscriptionRep, OwnerRepository ownerRep) {
+    public StatisticsEndpoint(ObjectMapper mapper, TicketRepository ticketRep, SubscriptionRepository subscriptionRep, OwnerRepository ownerRep, CheapTicketService cheapTicketService) {
         this.mapper = mapper;
         this.ticketRep = ticketRep;
         this.subscriptionRep = subscriptionRep;
         this.ownerRep = ownerRep;
+        this.cheapTicketService = cheapTicketService;
     }
 
     @ReadOperation
@@ -34,6 +37,7 @@ public class StatisticsEndpoint {
         root.set("tickets", prepareTicketsMetric());
         root.set("subscriptions", prepareSubscriptionsMetric());
         root.set("owners", prepareOwnerMetric());
+        root.set("cheap tickets", prepareCheapTicketMetric());
         root.put("timestamp", LocalDateTime.now().toString());
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);
     }
@@ -60,5 +64,11 @@ public class StatisticsEndpoint {
         ObjectNode owners = mapper.createObjectNode();
         owners.put("total owners", ownerRep.countDistinct());
         return owners;
+    }
+
+    private ObjectNode prepareCheapTicketMetric() {
+        ObjectNode cheapTickets = mapper.createObjectNode();
+        cheapTickets.put("total cheap tickets", cheapTicketService.count());
+        return cheapTickets;
     }
 }

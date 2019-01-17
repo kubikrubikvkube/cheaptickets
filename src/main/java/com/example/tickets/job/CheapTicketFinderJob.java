@@ -5,8 +5,7 @@ import com.example.tickets.statistics.TicketStatisticsByMonth;
 import com.example.tickets.statistics.TicketStatisticsService;
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionService;
-import com.example.tickets.ticket.Ticket;
-import com.example.tickets.ticket.TicketService;
+import com.example.tickets.ticket.*;
 import com.google.common.collect.Multimap;
 import org.quartz.*;
 import org.slf4j.Logger;
@@ -30,11 +29,15 @@ public class CheapTicketFinderJob implements Job {
     private final TicketStatisticsService ticketStatisticsService;
     private final TicketService ticketService;
     private final SubscriptionService subscriptionService;
+    private final CheapTicketMapper cheapTicketMapper;
+    private final CheapTicketService cheapTicketService;
 
-    public CheapTicketFinderJob(TicketStatisticsService ticketStatisticsService, TicketService ticketService, SubscriptionService subscriptionService) {
+    public CheapTicketFinderJob(TicketStatisticsService ticketStatisticsService, TicketService ticketService, SubscriptionService subscriptionService, CheapTicketMapper cheapTicketMapper, CheapTicketService cheapTicketService) {
         this.ticketStatisticsService = ticketStatisticsService;
         this.ticketService = ticketService;
         this.subscriptionService = subscriptionService;
+        this.cheapTicketMapper = cheapTicketMapper;
+        this.cheapTicketService = cheapTicketService;
     }
 
     @Override
@@ -68,7 +71,12 @@ public class CheapTicketFinderJob implements Job {
             }
         }
 //        TODO cheapTicketRepository должен сохранять такие тикеты
-
+        List<CheapTicket> cheapTicketList = new ArrayList<>();
+        bestTicketsList.forEach(ticket -> {
+            CheapTicket cheapTicket = cheapTicketMapper.toCheapTicket(ticket);
+            cheapTicketList.add(cheapTicket);
+        });
+        cheapTicketService.saveAll(cheapTicketList);
         var endTime = Instant.now().toEpochMilli();
         log.info(format("CheapTicketFinderJob finished in %d ms", endTime - startTime));
     }
