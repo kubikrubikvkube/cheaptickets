@@ -5,7 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class RouteServiceImpl implements RouteService {
     private final Logger log = LoggerFactory.getLogger(RouteServiceImpl.class);
 

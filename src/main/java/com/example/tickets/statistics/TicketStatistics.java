@@ -2,6 +2,8 @@ package com.example.tickets.statistics;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -22,10 +24,12 @@ public class TicketStatistics {
 
     @CollectionTable(name = "ticket_statistics_by_day_collection")
     @OneToMany(targetEntity = TicketStatisticsByDay.class, cascade = CascadeType.ALL)
+    @LazyCollection(value = LazyCollectionOption.FALSE) //TODO perfomance!
     private List<TicketStatisticsByDay> ticketStatisticsByDay;
 
     @CollectionTable(name = "ticket_statistics_by_month_collection")
     @OneToMany(targetEntity = TicketStatisticsByMonth.class, cascade = CascadeType.ALL)
+    @LazyCollection(value = LazyCollectionOption.FALSE) //TODO perfomance!
     private List<TicketStatisticsByMonth> ticketStatisticsByMonth;
 
     @CreationTimestamp

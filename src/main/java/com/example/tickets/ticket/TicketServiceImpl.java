@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +12,7 @@ import java.util.Optional;
 import static java.util.Comparator.comparing;
 
 @Service
+@Transactional
 public class TicketServiceImpl implements TicketService {
     private final TicketRepository repository;
     private final ObjectMapper mapper;

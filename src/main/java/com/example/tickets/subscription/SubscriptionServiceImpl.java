@@ -9,10 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 
 @Service
+@Transactional
 public class SubscriptionServiceImpl implements SubscriptionService {
     private final Logger log = LoggerFactory.getLogger(SubscriptionServiceImpl.class);
     private final SubscriptionRepository repository;
