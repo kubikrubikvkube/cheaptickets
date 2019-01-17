@@ -56,19 +56,19 @@ public class StatisticsEndpoint {
 
     private ObjectNode prepareSubscriptionsMetric() {
         ObjectNode subscriptions = mapper.createObjectNode();
-        subscriptions.put("total subscriptions", subscriptionRep.count());
+        subscriptions.put("total", subscriptionRep.count());
         return subscriptions;
     }
 
     private ObjectNode prepareOwnerMetric() {
         ObjectNode owners = mapper.createObjectNode();
-        owners.put("total owners", ownerRep.countDistinct());
+        owners.put("total", ownerRep.countDistinct());
         return owners;
     }
 
     private ObjectNode prepareCheapTicketMetric() {
         ObjectNode cheapTickets = mapper.createObjectNode();
-        cheapTickets.put("total cheap tickets", cheapTicketService.count());
+        cheapTickets.put("total", cheapTicketService.count());
         return cheapTickets;
     }
 }

@@ -76,6 +76,7 @@ public class CheapTicketFinderJob implements Job {
             CheapTicket cheapTicket = cheapTicketMapper.toCheapTicket(ticket);
             cheapTicketList.add(cheapTicket);
         });
+        //TODO сохраняет дважды в репозиторий. Сделать чек на exists
         cheapTicketService.saveAll(cheapTicketList);
         var endTime = Instant.now().toEpochMilli();
         log.info(format("CheapTicketFinderJob finished in %d ms", endTime - startTime));
