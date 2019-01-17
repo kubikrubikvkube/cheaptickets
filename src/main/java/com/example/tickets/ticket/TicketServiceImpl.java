@@ -68,4 +68,10 @@ public class TicketServiceImpl implements TicketService {
     public List<Ticket> findBy(String origin, String destination) {
         return repository.findByOriginAndDestination(origin, destination);
     }
+
+    @Override
+    public void saveAll(List<Ticket> tickets) {
+        repository.saveAll(tickets);
+    }
+
 }

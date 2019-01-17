@@ -17,4 +17,6 @@ public interface TicketService {
     Optional<Ticket> cheapest(String origin, String destination);
 
     List<Ticket> findBy(String origin, String destination);
+
+    void saveAll(List<Ticket> tickets);
 }

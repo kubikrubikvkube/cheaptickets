@@ -1,6 +1,5 @@
 package com.example.tickets.subscription;
 
-import com.example.tickets.route.Route;
 import com.example.tickets.route.RoutePlanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,17 +28,17 @@ public class SubscriptionController {
         return service.add(owner, origin, destination);
     }
 
-    @RequestMapping(value = "/subscription/add", params = {"owner", "origin", "destination", "tripDurationInDays"})
-    public List<Subscription> add(@RequestParam String owner,
-                                  @RequestParam String origin,
-                                  @RequestParam String destination,
-                                  @RequestParam String tripDurationInDays) {
-        log.info("Subscription add request for '{} {} {} {}'", owner, origin, destination, tripDurationInDays);
-        List<Subscription> add = service.add(owner, origin, destination, tripDurationInDays);
-        Subscription subscription = add.get(0);
-        Route plan = routePlanner.plan(subscription);
-        return null;
-    }
+//    @RequestMapping(value = "/subscription/add", params = {"owner", "origin", "destination", "tripDurationInDays"})
+//    public List<Subscription> add(@RequestParam String owner,
+//                                  @RequestParam String origin,
+//                                  @RequestParam String destination,
+//                                  @RequestParam String tripDurationInDays) {
+//        log.info("Subscription add request for '{} {} {} {}'", owner, origin, destination, tripDurationInDays);
+//        List<Subscription> add = service.add(owner, origin, destination, tripDurationInDays);
+//        Subscription subscription = add.get(0);
+//        Route plan = routePlanner.plan(subscription);
+//        return null;
+//    }
 
     @RequestMapping(value = "/subscription/get", params = {"owner", "origin", "destination"})
     public List<Subscription> get(@RequestParam String owner,
