@@ -5,6 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 
 @Repository
@@ -18,7 +19,7 @@ public interface OwnerRepository extends CrudRepository<Owner, Long> {
     boolean existsByName(String name);
 
     @Query("select o from Owner o where o.name = ?1")
-    Owner findBy(String name);
+    Optional<Owner> findBy(String name);
 
     @Query("select distinct(count(o)) from Owner o")
     Long countDistinct();

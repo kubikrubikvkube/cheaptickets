@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "ticket_statistics_routes", indexes = {@Index(name = "idx_ticket_statistics_routes", columnList = "id,origin,destination")})
+@Table(name = "ticket_statistics", indexes = {@Index(name = "idx_ticket_statistics", columnList = "id,origin,destination")})
 public class TicketStatistics {
     @Id
     @GeneratedValue

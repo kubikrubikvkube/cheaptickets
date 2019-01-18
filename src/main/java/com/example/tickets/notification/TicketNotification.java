@@ -23,5 +23,6 @@ public class TicketNotification {
     @OneToOne
     Route route;
 
+
     private String owner;
 }

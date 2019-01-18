@@ -2,13 +2,16 @@ package com.example.tickets.ticket;
 
 import com.example.tickets.notification.TicketNotification;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
 
+
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @NoArgsConstructor
 @Table(name = "ticket_cheap", indexes = {@Index(name = "idx_cheap_ticket", columnList = "id,origin,destination,departDate,numberOfChanges,value,actual,isExpired")})

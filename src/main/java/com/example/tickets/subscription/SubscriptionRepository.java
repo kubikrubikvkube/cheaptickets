@@ -25,7 +25,7 @@ public interface SubscriptionRepository extends CrudRepository<Subscription, Lon
     List<Subscription> findBy(String origin, String destination);
 
     @Query("select s from Subscription s where s.owner.name = ?1 and s.origin = ?2 and s.destination = ?3 and s.tripDurationInDays = ?4")
-    List<Subscription> findBy(String ownerName, String origin, String destination, Integer tripDurationInDays);
+    Subscription findBy(String ownerName, String origin, String destination, Integer tripDurationInDays);
 
     @Query("select s from Subscription s where s.owner.name = ?1 and s.origin = ?2 and s.destination = ?3")
     List<Subscription> findBy(String ownerName, String origin, String destination);

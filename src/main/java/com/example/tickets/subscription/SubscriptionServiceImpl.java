@@ -2,6 +2,7 @@ package com.example.tickets.subscription;
 
 import com.example.tickets.owner.Owner;
 import com.example.tickets.owner.OwnerRepository;
+import com.example.tickets.util.ServiceException;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import org.quartz.Scheduler;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -33,14 +35,21 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         boolean exists = repository.exists(ownerName, origin, destination);
         log.debug("Subscription for '{} {} {}' exists '{}'", ownerName, origin, destination, exists);
         if (!exists) {
-            Owner owner = ownerRepository.findBy(ownerName);
-            SubscriptionDTO dto = new SubscriptionDTO();
-            dto.setOwner(owner);
-            dto.setOrigin(origin);
-            dto.setDestination(destination);
-            Subscription createdSubscription = mapper.fromDTO(dto);
-            log.debug("Saving subscription '{}'", createdSubscription);
-            repository.save(createdSubscription);
+            Optional<Owner> ownerOpt = ownerRepository.findBy(ownerName);
+            if (ownerOpt.isPresent()) {
+                Owner owner = ownerOpt.get();
+                SubscriptionDTO dto = new SubscriptionDTO();
+                dto.setOwner(owner);
+                dto.setOrigin(origin);
+                dto.setDestination(destination);
+                Subscription createdSubscription = mapper.fromDTO(dto);
+                log.debug("Saving subscription '{}'", createdSubscription);
+                repository.save(createdSubscription);
+            } else {
+                var msg = String.format("Owner %s does not exist", ownerName);
+                throw new ServiceException(msg);
+            }
+
         }
         return repository.findBy(ownerName, origin, destination);
     }
@@ -79,20 +88,28 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public List<Subscription> add(String ownerName, String origin, String destination, String tripDurationInDays) {
+    public Subscription add(String ownerName, String origin, String destination, String tripDurationInDays) {
         Integer tripDuration = Integer.parseInt(tripDurationInDays);
         boolean exists = repository.exists(ownerName, origin, destination, tripDuration);
-        log.debug("Subscription for '{} {} {} {}' exists '{}'", ownerName, origin, destination, tripDuration, exists);
+        log.info("Subscription for '{} {} {} {}' exists '{}'", ownerName, origin, destination, tripDuration, exists);
         if (!exists) {
-            Owner owner = ownerRepository.findBy(ownerName);
-            SubscriptionDTO dto = new SubscriptionDTO();
-            dto.setOwner(owner);
-            dto.setOrigin(origin);
-            dto.setDestination(destination);
-            dto.setTripDurationInDays(tripDuration);
-            Subscription createdSubscription = mapper.fromDTO(dto);
-            log.debug("Saving subscription '{}'", createdSubscription);
-            repository.save(createdSubscription);
+            Optional<Owner> ownerOpt = ownerRepository.findBy(ownerName);
+            if (ownerOpt.isPresent()) {
+                Owner owner = ownerOpt.get();
+                SubscriptionDTO dto = new SubscriptionDTO();
+                dto.setOwner(owner);
+                dto.setOrigin(origin);
+                dto.setDestination(destination);
+                dto.setTripDurationInDays(tripDuration);
+                Subscription createdSubscription = mapper.fromDTO(dto);
+                log.debug("Saving subscription '{}'", createdSubscription);
+                repository.save(createdSubscription);
+            } else {
+                var msg = String.format("Owner %s does not exist", ownerName);
+                throw new ServiceException(msg);
+            }
+
+
         }
         return repository.findBy(ownerName, origin, destination, tripDuration);
     }

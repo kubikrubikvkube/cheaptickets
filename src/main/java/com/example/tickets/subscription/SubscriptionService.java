@@ -16,7 +16,7 @@ public interface SubscriptionService {
 
     void delete(String owner);
 
-    List<Subscription> add(String owner, String origin, String destination, String tripDurationInDays);
+    Subscription add(String owner, String origin, String destination, String tripDurationInDays);
 
     Multimap<String, String> findDistinctOriginAndDestination();
 }

@@ -1,10 +1,13 @@
 package com.example.tickets.owner;
 
+import java.util.Optional;
+
 public interface OwnerService {
     Owner add(String name, String email);
 
-    Owner get(String name);
+    Optional<Owner> get(String name);
 
     void delete(String name);
 
+    Owner add(String name);
 }

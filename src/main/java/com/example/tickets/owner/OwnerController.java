@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 public class OwnerController {
     private final Logger log = LoggerFactory.getLogger(OwnerController.class);
@@ -22,8 +24,14 @@ public class OwnerController {
         return service.add(name, email);
     }
 
+    @RequestMapping(value = "/owner/add", params = {"name"})
+    public Owner add(@RequestParam String name) {
+        log.info("Owner add request '{}'", name);
+        return service.add(name);
+    }
+
     @RequestMapping(value = "/owner/get", params = {"name"})
-    public Owner get(@RequestParam String name) {
+    public Optional<Owner> get(@RequestParam String name) {
         log.info("Owner get request '{}'", name);
         return service.get(name);
     }
