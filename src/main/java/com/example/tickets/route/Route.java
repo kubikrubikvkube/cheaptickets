@@ -1,15 +1,12 @@
 package com.example.tickets.route;
 
-import com.example.tickets.notification.TicketNotification;
 import com.example.tickets.ticket.Ticket;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @Entity
@@ -54,9 +51,4 @@ public class Route {
      * Время поездки в днях
      */
     private Integer tripDurationInDays;
-
-    @OneToMany
-    @CollectionTable(name = "route_notifications")
-    @JsonBackReference
-    private List<TicketNotification> ticketNotifications;
 }
