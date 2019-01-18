@@ -71,13 +71,8 @@ public class CheapTicketFinderJob implements Job {
                 }
             }
         }
-        List<CheapTicket> cheapTicketList = new ArrayList<>();
-        bestTicketsList.forEach(ticket -> {
-            CheapTicket cheapTicket = cheapTicketMapper.toCheapTicket(ticket);
-            cheapTicketList.add(cheapTicket);
-        });
 
-
+        List<CheapTicket> cheapTicketList = cheapTicketMapper.toCheapTicket(bestTicketsList);
         cheapTicketService.saveAll(cheapTicketList);
         var endTime = Instant.now().toEpochMilli();
         log.info(format("CheapTicketFinderJob finished in %d ms", endTime - startTime));

@@ -43,7 +43,7 @@ public class JobConfig {
                 .newTrigger()
                 .withIdentity("CheapTicketFinderTrigger", "trigger")
                 .withSchedule(
-                        SimpleScheduleBuilder.repeatHourlyForever())
+                        SimpleScheduleBuilder.repeatMinutelyForever())
                 .build();
         scheduler.scheduleJob(jobDetail, trigger);
     }

@@ -29,11 +29,15 @@ public class TicketStatisticsUpdaterJob implements Job {
     private final TicketStatisticsRepository statisticsRepository;
     private final TicketRepository ticketRepository;
     private final SubscriptionRepository subscriptionRepository;
+    private final TicketStatisticsByDayDTOMapper ticketStatisticsByDayDTOMapper;
+    private final TicketStatisticsByMonthDTOMapper ticketStatisticsByMonthDTOMapper;
 
-    public TicketStatisticsUpdaterJob(TicketStatisticsRepository statisticsRepository, TicketRepository ticketRepository, SubscriptionRepository subscriptionRepository) {
+    public TicketStatisticsUpdaterJob(TicketStatisticsRepository statisticsRepository, TicketRepository ticketRepository, SubscriptionRepository subscriptionRepository, TicketStatisticsByDayDTOMapper ticketStatisticsByDayDTOMapper, TicketStatisticsByMonthDTOMapper ticketStatisticsByMonthDTOMapper) {
         this.statisticsRepository = statisticsRepository;
         this.ticketRepository = ticketRepository;
         this.subscriptionRepository = subscriptionRepository;
+        this.ticketStatisticsByDayDTOMapper = ticketStatisticsByDayDTOMapper;
+        this.ticketStatisticsByMonthDTOMapper = ticketStatisticsByMonthDTOMapper;
     }
 
     @Override
@@ -88,7 +92,7 @@ public class TicketStatisticsUpdaterJob implements Job {
             statDTO.setAvgTicketPrice(ds.getMean());
             statDTO.setMinTicketPrice(ds.getMin());
             statDTO.setPercentile10(ds.getPercentile(10));
-            TicketStatisticsByMonth stat = TicketStatisticsByMonthDTOMapper.INSTANCE.fromDTO(statDTO);
+            TicketStatisticsByMonth stat = ticketStatisticsByMonthDTOMapper.fromDTO(statDTO);
             statisticsList.add(stat);
         }
 
@@ -125,7 +129,7 @@ public class TicketStatisticsUpdaterJob implements Job {
                 statDTO.setAvgTicketPrice(ds.getMean());
                 statDTO.setMinTicketPrice(ds.getMin());
                 statDTO.setPercentile10(ds.getPercentile(10));
-                TicketStatisticsByDay stat = TicketStatisticsByDayDTOMapper.INSTANCE.fromDTO(statDTO);
+                TicketStatisticsByDay stat = ticketStatisticsByDayDTOMapper.fromDTO(statDTO);
                 byDayStatistics.add(stat);
             });
         });
