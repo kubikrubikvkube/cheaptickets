@@ -22,11 +22,6 @@ public class TicketStatistics {
 
     private String destination;
 
-    @CollectionTable(name = "ticket_statistics_by_day_collection")
-    @OneToMany(targetEntity = TicketStatisticsByDay.class, cascade = CascadeType.ALL)
-    @LazyCollection(value = LazyCollectionOption.FALSE) //TODO perfomance!
-    private List<TicketStatisticsByDay> ticketStatisticsByDay;
-
     @CollectionTable(name = "ticket_statistics_by_month_collection")
     @OneToMany(targetEntity = TicketStatisticsByMonth.class, cascade = CascadeType.ALL)
     @LazyCollection(value = LazyCollectionOption.FALSE) //TODO perfomance!

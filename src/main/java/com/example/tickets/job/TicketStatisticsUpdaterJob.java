@@ -14,11 +14,8 @@ import org.slf4j.LoggerFactory;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Month;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.lang.String.format;
 
@@ -29,14 +26,12 @@ public class TicketStatisticsUpdaterJob implements Job {
     private final TicketStatisticsRepository statisticsRepository;
     private final TicketRepository ticketRepository;
     private final SubscriptionRepository subscriptionRepository;
-    private final TicketStatisticsByDayDTOMapper ticketStatisticsByDayDTOMapper;
     private final TicketStatisticsByMonthDTOMapper ticketStatisticsByMonthDTOMapper;
 
-    public TicketStatisticsUpdaterJob(TicketStatisticsRepository statisticsRepository, TicketRepository ticketRepository, SubscriptionRepository subscriptionRepository, TicketStatisticsByDayDTOMapper ticketStatisticsByDayDTOMapper, TicketStatisticsByMonthDTOMapper ticketStatisticsByMonthDTOMapper) {
+    public TicketStatisticsUpdaterJob(TicketStatisticsRepository statisticsRepository, TicketRepository ticketRepository, SubscriptionRepository subscriptionRepository, TicketStatisticsByMonthDTOMapper ticketStatisticsByMonthDTOMapper) {
         this.statisticsRepository = statisticsRepository;
         this.ticketRepository = ticketRepository;
         this.subscriptionRepository = subscriptionRepository;
-        this.ticketStatisticsByDayDTOMapper = ticketStatisticsByDayDTOMapper;
         this.ticketStatisticsByMonthDTOMapper = ticketStatisticsByMonthDTOMapper;
     }
 
@@ -44,20 +39,19 @@ public class TicketStatisticsUpdaterJob implements Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
         var startTime = Instant.now().toEpochMilli();
         log.info("TicketStatisticsUpdaterJob started");
-        Iterable<Subscription> subscriptions = subscriptionRepository.findAll();
-        List<TicketStatistics> statisticsList = new ArrayList<>();
-        for (Subscription subscription : subscriptions) {
+        Iterable<Subscription> allSubscriptions = subscriptionRepository.findAll();
+        List<TicketStatistics> allTicketStatistics = new ArrayList<>();
+        for (Subscription subscription : allSubscriptions) {
             var origin = subscription.getOrigin();
             var destination = subscription.getDestination();
-            Optional<TicketStatistics> subscriptionStatistics = statisticsRepository.findByOriginAndDestination(origin, destination);
-            TicketStatistics statistics = subscriptionStatistics.orElseGet(TicketStatistics::new);
+            Optional<TicketStatistics> subscriptionStatisticsOpt = statisticsRepository.findByOriginAndDestination(origin, destination);
+            TicketStatistics statistics = subscriptionStatisticsOpt.orElseGet(TicketStatistics::new);
             statistics.setOrigin(origin);
             statistics.setDestination(destination);
-            statistics.setTicketStatisticsByDay(byDay(subscription));
             statistics.setTicketStatisticsByMonth(byMonth(subscription));
-            statisticsList.add(statistics);
+            allTicketStatistics.add(statistics);
         }
-        statisticsRepository.saveAll(statisticsList);
+        statisticsRepository.saveAll(allTicketStatistics);
         var endTime = Instant.now().toEpochMilli();
         log.info(format("TicketStatisticsUpdaterJob finished in %d ms", endTime - startTime));
     }
@@ -97,43 +91,5 @@ public class TicketStatisticsUpdaterJob implements Job {
         }
 
         return statisticsList;
-    }
-
-    private List<TicketStatisticsByDay> byDay(Subscription s) {
-        List<Ticket> subscriptionTickets = ticketRepository.findBySubscription(s);
-        var earliestTicketForSubscriptionOpt = subscriptionTickets.stream().min(Comparator.comparing(Ticket::getDepartDate));
-        var latestTicketOpt = subscriptionTickets.stream().max(Comparator.comparing(Ticket::getDepartDate));
-        if (earliestTicketForSubscriptionOpt.isEmpty() || latestTicketOpt.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        LocalDate earliestDepartDate = earliestTicketForSubscriptionOpt.get().getDepartDate();
-        LocalDate latestDepartDate = latestTicketOpt.get().getDepartDate();
-
-        List<TicketStatisticsByDay> byDayStatistics = new ArrayList<>();
-        Stream<LocalDate> daysUntil = earliestDepartDate.datesUntil(latestDepartDate, Period.ofDays(1));
-
-        daysUntil.forEach(day -> {
-            List<Ticket> todayTickets = subscriptionTickets
-                    .stream()
-                    .filter(ticket -> ticket.getDepartDate().equals(day))
-                    .collect(Collectors.toList());
-            long count = todayTickets.size();
-
-            todayTickets.forEach(ticket -> {
-                DescriptiveStatistics ds = new DescriptiveStatistics();
-                ds.addValue(ticket.getValue());
-                TicketStatisticsByDayDTO statDTO = new TicketStatisticsByDayDTO();
-                statDTO.setDate(day);
-                statDTO.setTicketsCount(count);
-                statDTO.setAvgTicketPrice(ds.getMean());
-                statDTO.setMinTicketPrice(ds.getMin());
-                statDTO.setPercentile10(ds.getPercentile(10));
-                TicketStatisticsByDay stat = ticketStatisticsByDayDTOMapper.fromDTO(statDTO);
-                byDayStatistics.add(stat);
-            });
-        });
-
-        return byDayStatistics;
     }
 }

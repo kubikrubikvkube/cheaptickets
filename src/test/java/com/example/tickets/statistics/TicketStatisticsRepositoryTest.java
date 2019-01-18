@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Collections;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,7 +32,6 @@ public class TicketStatisticsRepositoryTest {
         TicketStatistics ts = new TicketStatistics();
         ts.setOrigin("LED");
         ts.setDestination("MOW");
-        ts.setTicketStatisticsByDay(Collections.emptyList());
         var saved = repository.save(ts);
         var byIdOpt = repository.findById(saved.getId());
         assertTrue(byIdOpt.isPresent());
