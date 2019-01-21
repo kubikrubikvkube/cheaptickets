@@ -28,6 +28,8 @@ public class CheapTicketServiceImpl implements CheapTicketService {
 
     @Override
     public void saveAll(Iterable<CheapTicket> cheapTickets) {
+        //TODO если не существует то сохранить если существует то обновить
+
         repository.saveAll(cheapTickets);
     }
 

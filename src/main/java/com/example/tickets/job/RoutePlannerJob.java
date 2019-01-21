@@ -39,7 +39,7 @@ public class RoutePlannerJob implements Job {
         for (Subscription subscription : subscriptions) {
             log.info("Calculating routes for " + subscription);
             List<RouteDTO> routes = routeService.plan(subscription);
-            log.info("Found {} routes for subscription {}", routes, subscription);
+            log.info("Found {} routes for subscription {}", routes.size(), subscription);
             all.putAll(subscription, routes);
         }
         List<RouteDTO> routeDTOs = new ArrayList<>(all.values());
