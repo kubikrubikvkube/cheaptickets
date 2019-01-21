@@ -66,6 +66,25 @@ public class JobConfig {
         scheduler.scheduleJob(jobDetail, trigger);
     }
 
+    @Bean(name = "routePlannerJob")
+    void routePlannerJob() throws SchedulerException {
+        JobDetail jobDetail = JobBuilder
+                .newJob(RoutePlannerJob.class)
+                .withIdentity("RoutePlannerJob")
+                .withDescription("Gathering up routes for tickets from cheap tickets")
+                .storeDurably(true)
+                .requestRecovery(true)
+                .build();
+
+        Trigger trigger = TriggerBuilder
+                .newTrigger()
+                .withIdentity("RoutePlannerTrigger", "trigger")
+                .withSchedule(
+                        SimpleScheduleBuilder.repeatMinutelyForever())
+                .build();
+        scheduler.scheduleJob(jobDetail, trigger);
+    }
+
     @Bean(name = "OnewayTicketsForAYearAviasalesJob")
     void oneWayTicketsForAYearAviasalesJob() throws SchedulerException {
         JobDetail jobDetail = JobBuilder

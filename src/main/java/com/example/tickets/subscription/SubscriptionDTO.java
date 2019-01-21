@@ -4,7 +4,7 @@ import com.example.tickets.owner.Owner;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -25,12 +25,12 @@ public class SubscriptionDTO {
     /**
      * Дата отправления
      */
-    private Date departDate;
+    private LocalDate departDate;
 
     /**
      * Дата возвращения
      */
-    private Date returnDate;
+    private LocalDate returnDate;
 
     /**
      * Время поездки в днях

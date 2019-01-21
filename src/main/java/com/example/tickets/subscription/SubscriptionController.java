@@ -28,6 +28,16 @@ public class SubscriptionController {
         return service.add(owner, origin, destination);
     }
 
+    @RequestMapping(value = "/subscription/add", params = {"owner", "origin", "destination", "departDate", "returnDate"})
+    public List<Subscription> add(@RequestParam String owner,
+                                  @RequestParam String origin,
+                                  @RequestParam String destination,
+                                  @RequestParam String departDate,
+                                  @RequestParam String returnDate) {
+        log.info("Subscription add request for '{} {} {} {} {}'", owner, origin, destination, departDate, returnDate);
+        return service.add(owner, origin, destination, departDate, returnDate);
+    }
+
     @RequestMapping(value = "/subscription/add", params = {"owner", "origin", "destination", "tripDurationInDays"})
     public Subscription add(@RequestParam String owner,
                             @RequestParam String origin,

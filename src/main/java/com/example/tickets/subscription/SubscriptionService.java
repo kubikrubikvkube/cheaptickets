@@ -7,6 +7,8 @@ import java.util.List;
 public interface SubscriptionService {
     List<Subscription> add(String owner, String origin, String destination);
 
+    List<Subscription> add(String owner, String origin, String destination, String departDate, String returnDate);
+
     List<Subscription> get(String origin, String destination);
     List<Subscription> get(String owner, String origin, String destination);
 
