@@ -1,6 +1,7 @@
 package com.example.tickets.route;
 
 import com.example.tickets.subscription.Subscription;
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,13 @@ public class RouteServiceImpl implements RouteService {
     public Route save(RouteDTO dto) {
         Route route = mapper.fromDTO(dto);
         return repository.save(route);
+    }
+
+    @Override
+    public List<Route> save(List<RouteDTO> routeDTOS) {
+        List<Route> routes = mapper.fromDTO(routeDTOS);
+        Iterable<Route> savedRoutes = repository.saveAll(routes);
+        return Lists.newArrayList(savedRoutes);
     }
 
     @Override

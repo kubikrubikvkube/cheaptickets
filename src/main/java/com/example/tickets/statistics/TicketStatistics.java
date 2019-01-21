@@ -7,7 +7,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -28,8 +28,8 @@ public class TicketStatistics {
     private List<TicketStatisticsByMonth> ticketStatisticsByMonth;
 
     @CreationTimestamp
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 }

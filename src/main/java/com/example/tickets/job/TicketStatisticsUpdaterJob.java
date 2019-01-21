@@ -39,8 +39,8 @@ public class TicketStatisticsUpdaterJob implements Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
         var startTime = Instant.now().toEpochMilli();
         log.info("TicketStatisticsUpdaterJob started");
+        statisticsRepository.deleteAll(); //TODO обновление, а не удаление и создание заново
         Iterable<Subscription> allSubscriptions = subscriptionRepository.findAll();
-        List<TicketStatistics> allTicketStatistics = new ArrayList<>();
         for (Subscription subscription : allSubscriptions) {
             var origin = subscription.getOrigin();
             var destination = subscription.getDestination();
@@ -49,9 +49,9 @@ public class TicketStatisticsUpdaterJob implements Job {
             statistics.setOrigin(origin);
             statistics.setDestination(destination);
             statistics.setTicketStatisticsByMonth(byMonth(subscription));
-            allTicketStatistics.add(statistics);
+            statisticsRepository.save(statistics);
         }
-        statisticsRepository.saveAll(allTicketStatistics);
+
         var endTime = Instant.now().toEpochMilli();
         log.info(format("TicketStatisticsUpdaterJob finished in %d ms", endTime - startTime));
     }

@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -36,10 +37,12 @@ public class RoutePlannerJob implements Job {
 
         Multimap<Subscription, RouteDTO> all = ArrayListMultimap.create();
         for (Subscription subscription : subscriptions) {
+            log.info("Calculating routes for " + subscription);
             List<RouteDTO> routes = routeService.plan(subscription);
             all.putAll(subscription, routes);
         }
-        var g = 0;
+        List<RouteDTO> routeDTOs = new ArrayList<>(all.values());
+        routeService.save(routeDTOs);
 
         var endTime = Instant.now().toEpochMilli();
         log.info(format("RoutePlannerJob finished in %d ms", endTime - startTime));

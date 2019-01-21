@@ -42,11 +42,13 @@ public class CheapTicketFinderJob implements Job {
         var startTime = Instant.now().toEpochMilli();
         log.info("CheapTicketFinderJob started");
         //TODO сохраняет дважды в репозиторий. Сделать чек на exists а не удаление всех записей
-        cheapTicketService.deleteAll();
+//        cheapTicketService.deleteAll();
+        //TODO ну конечно блять одна джоба ищет инфу, вторая джоба удаляет и бегут они одновременно. Очень удобно прям ппц.
         Multimap<String, String> distinctOriginAndDestination = subscriptionService.findDistinctOriginAndDestination();
         List<Subscription> foundSubscriptions = new ArrayList<>();
         distinctOriginAndDestination.forEach((o, d) -> foundSubscriptions.addAll(subscriptionService.get(o, d)));
         List<Ticket> bestTicketsList = new ArrayList<>();
+        //TODO почему ищем по подписке, а не по билетам ? У билетов ведь есть depart_date а у подписки может не быть
         for (Subscription s : foundSubscriptions) {
             var origin = s.getOrigin();
             var destination = s.getDestination();
@@ -63,6 +65,8 @@ public class CheapTicketFinderJob implements Job {
                             .collect(Collectors.toList());
                     bestTicketsList.addAll(bestTickets);
                 }
+            } else {
+                log.info("DepartDate for subscription {} is not set. So what?", s);
             }
         }
 
