@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -37,7 +38,21 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
+    public List<Route> findBy(String origin, String destination) {
+        return repository.findBy(origin, destination);
+    }
+
+    @Override
     public List<RouteDTO> plan(Subscription subscription) {
         return routePlanner.plan(subscription);
     }
+
+    @Override
+    public List<Route> findBy(String origin, String destination, String limit) {
+        int limitInt = Integer.parseInt(limit);
+        List<Route> routes = this.findBy(origin, destination);
+        return routes.stream().limit(limitInt).collect(Collectors.toList());
+    }
+
+
 }

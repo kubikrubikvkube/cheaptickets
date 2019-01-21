@@ -36,6 +36,7 @@ public class RoutePlannerJob implements Job {
         Iterable<Subscription> subscriptions = subscriptionService.findAll();
 
         Multimap<Subscription, RouteDTO> all = ArrayListMultimap.create();
+
         for (Subscription subscription : subscriptions) {
             log.info("Calculating routes for " + subscription);
             List<RouteDTO> routes = routeService.plan(subscription);
