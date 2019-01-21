@@ -13,16 +13,12 @@ import java.util.Date;
 @Entity
 @Table(indexes = {@Index(name = "idx_ticket_notification", columnList = "id,owner")})
 public class TicketNotification {
+    @OneToOne
+    Route route;
     @Id
     @GeneratedValue
     private Long id;
-
     @CreationTimestamp
     private Date creationTimestamp;
-
-    @OneToOne
-    Route route;
-
-
     private String owner;
 }

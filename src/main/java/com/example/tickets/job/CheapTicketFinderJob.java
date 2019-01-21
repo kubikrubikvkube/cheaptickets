@@ -1,6 +1,5 @@
 package com.example.tickets.job;
 
-import com.example.tickets.statistics.TicketStatistics;
 import com.example.tickets.statistics.TicketStatisticsByMonth;
 import com.example.tickets.statistics.TicketStatisticsService;
 import com.example.tickets.subscription.Subscription;
@@ -13,8 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
 import java.time.Month;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,16 +46,13 @@ public class CheapTicketFinderJob implements Job {
         Multimap<String, String> distinctOriginAndDestination = subscriptionService.findDistinctOriginAndDestination();
         List<Subscription> foundSubscriptions = new ArrayList<>();
         distinctOriginAndDestination.forEach((o, d) -> foundSubscriptions.addAll(subscriptionService.get(o, d)));
-        List<TicketStatistics> ticketStatistics = new ArrayList<>();
-        distinctOriginAndDestination.forEach((o, d) -> ticketStatisticsService.findByOriginAndDestination(o, d).ifPresent(ticketStatistics::add));
         List<Ticket> bestTicketsList = new ArrayList<>();
         for (Subscription s : foundSubscriptions) {
             var origin = s.getOrigin();
             var destination = s.getDestination();
             var departDate = s.getDepartDate();
             if (departDate != null) {
-                ZonedDateTime zonedDepartDate = departDate.toInstant().atZone(ZoneId.systemDefault());
-                Month departureMonth = zonedDepartDate.getMonth();
+                Month departureMonth = departDate.getMonth();
                 Optional<TicketStatisticsByMonth> statisticsOpt = ticketStatisticsService.findByOriginAndDestination(origin, destination, departureMonth);
                 if (statisticsOpt.isPresent()) {
                     TicketStatisticsByMonth monthStat = statisticsOpt.get();
