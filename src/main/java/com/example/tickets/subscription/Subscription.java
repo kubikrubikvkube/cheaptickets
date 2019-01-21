@@ -9,6 +9,7 @@ import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -47,12 +48,12 @@ public class Subscription {
     /**
      * Дата отправления
      */
-    private Date departDate;
+    private LocalDate departDate;
 
     /**
      * Дата возвращения
      */
-    private Date returnDate;
+    private LocalDate returnDate;
 
     /**
      * Время поездки в днях

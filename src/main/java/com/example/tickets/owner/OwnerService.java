@@ -10,4 +10,6 @@ public interface OwnerService {
     void delete(String name);
 
     Owner add(String name);
+
+    long countDistinct();
 }

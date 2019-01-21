@@ -10,7 +10,6 @@ import javax.persistence.*;
 import java.util.List;
 
 
-
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)

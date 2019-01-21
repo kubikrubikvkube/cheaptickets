@@ -17,6 +17,7 @@ public class JobConfig {
         JobDetail jobDetail = JobBuilder
                 .newJob(TicketInvalidationJob.class)
                 .withIdentity("TicketInvalidationJob")
+                .withDescription("Invalidates ticket")
                 .storeDurably(true)
                 .requestRecovery(true)
                 .build();
@@ -35,6 +36,7 @@ public class JobConfig {
         JobDetail jobDetail = JobBuilder
                 .newJob(CheapTicketFinderJob.class)
                 .withIdentity("CheapTicketFinderJob")
+                .withDescription("Selecting cheap tickets from database")
                 .storeDurably(true)
                 .requestRecovery(true)
                 .build();
@@ -60,6 +62,7 @@ public class JobConfig {
         Trigger trigger = TriggerBuilder
                 .newTrigger()
                 .withIdentity("LatestTicketsTravelPayoutsPopulationTrigger", "trigger")
+                .withDescription("Population job for tickets within last 48 hours using TravelPayouts service")
                 .withSchedule(
                         SimpleScheduleBuilder.repeatHourlyForever())
                 .build();
@@ -90,6 +93,7 @@ public class JobConfig {
         JobDetail jobDetail = JobBuilder
                 .newJob(OnewayTicketsForAYearAviasalesJob.class)
                 .withIdentity("OnewayTicketsForAYearAviasalesJob")
+                .withDescription("Find all tickets within a year using Aviasales service")
                 .storeDurably(true)
                 .requestRecovery(true)
                 .build();
@@ -108,6 +112,7 @@ public class JobConfig {
         JobDetail jobDetail = JobBuilder
                 .newJob(PopulateUnknownExpirationStatusJob.class)
                 .withIdentity("PopulateUnknownExpirationStatusJob")
+                .withDescription("Marking tickets as expired if it's departure date is passed")
                 .storeDurably(true)
                 .requestRecovery(true)
                 .build();
@@ -126,6 +131,7 @@ public class JobConfig {
         JobDetail jobDetail = JobBuilder
                 .newJob(TicketStatisticsUpdaterJob.class)
                 .withIdentity("TicketStatisticsUpdaterJob")
+                .withDescription("Updating ticket statistics")
                 .storeDurably(true)
                 .requestRecovery(true)
                 .build();

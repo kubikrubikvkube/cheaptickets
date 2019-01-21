@@ -10,6 +10,7 @@ public interface SubscriptionService {
     List<Subscription> add(String owner, String origin, String destination, String departDate, String returnDate);
 
     List<Subscription> get(String origin, String destination);
+
     List<Subscription> get(String owner, String origin, String destination);
 
     List<Subscription> get(String owner);
@@ -21,4 +22,8 @@ public interface SubscriptionService {
     Subscription add(String owner, String origin, String destination, String tripDurationInDays);
 
     Multimap<String, String> findDistinctOriginAndDestination();
+
+    List<Subscription> findAll();
+
+    long count();
 }

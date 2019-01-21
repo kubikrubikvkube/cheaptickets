@@ -22,7 +22,7 @@ public interface OwnerRepository extends CrudRepository<Owner, Long> {
     Optional<Owner> findBy(String name);
 
     @Query("select distinct(count(o)) from Owner o")
-    Long countDistinct();
+    long countDistinct();
 }
 
 

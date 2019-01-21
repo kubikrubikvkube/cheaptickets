@@ -1,9 +1,9 @@
 package com.example.tickets.healthcheck;
 
-import com.example.tickets.owner.OwnerRepository;
-import com.example.tickets.subscription.SubscriptionRepository;
+import com.example.tickets.owner.OwnerService;
+import com.example.tickets.subscription.SubscriptionService;
 import com.example.tickets.ticket.CheapTicketService;
-import com.example.tickets.ticket.TicketRepository;
+import com.example.tickets.ticket.TicketService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -18,16 +18,16 @@ import java.time.LocalDateTime;
 @Endpoint(id = "statistics")
 public class StatisticsEndpoint {
     private final ObjectMapper mapper;
-    private final TicketRepository ticketRep;
-    private final SubscriptionRepository subscriptionRep;
-    private final OwnerRepository ownerRep;
+    private final TicketService ticketService;
+    private final SubscriptionService subscriptionService;
+    private final OwnerService ownerService;
     private final CheapTicketService cheapTicketService;
 
-    public StatisticsEndpoint(ObjectMapper mapper, TicketRepository ticketRep, SubscriptionRepository subscriptionRep, OwnerRepository ownerRep, CheapTicketService cheapTicketService) {
+    public StatisticsEndpoint(ObjectMapper mapper, TicketService ticketService, SubscriptionService subscriptionService, OwnerService ownerService, CheapTicketService cheapTicketService) {
         this.mapper = mapper;
-        this.ticketRep = ticketRep;
-        this.subscriptionRep = subscriptionRep;
-        this.ownerRep = ownerRep;
+        this.ticketService = ticketService;
+        this.subscriptionService = subscriptionService;
+        this.ownerService = ownerService;
         this.cheapTicketService = cheapTicketService;
     }
 
@@ -44,25 +44,25 @@ public class StatisticsEndpoint {
 
     private ObjectNode prepareTicketsMetric() {
         ObjectNode tickets = mapper.createObjectNode();
-        tickets.put("total tickets", ticketRep.count());
-        int ticketsWithUnknownExpirationStatusSize = ticketRep.findTicketsWithUnknownExpirationStatus().size();
+        tickets.put("total tickets", ticketService.count());
+        int ticketsWithUnknownExpirationStatusSize = ticketService.findTicketsWithUnknownExpirationStatus().size();
         tickets.put("unknown expiration status tickets", ticketsWithUnknownExpirationStatusSize);
-        int unaccountedExpiredTicketsSize = ticketRep.findExpiredTickets(LocalDate.now(), false).size();
+        int unaccountedExpiredTicketsSize = ticketService.findExpiredTickets(LocalDate.now(), false).size();
         tickets.put("unaccounted expired tickets", unaccountedExpiredTicketsSize);
-        int accountedExpiredTicketsSize = ticketRep.findExpiredTickets(LocalDate.now(), true).size();
+        int accountedExpiredTicketsSize = ticketService.findExpiredTickets(LocalDate.now(), true).size();
         tickets.put("accounted expired tickets", accountedExpiredTicketsSize);
         return tickets;
     }
 
     private ObjectNode prepareSubscriptionsMetric() {
         ObjectNode subscriptions = mapper.createObjectNode();
-        subscriptions.put("total", subscriptionRep.count());
+        subscriptions.put("total", subscriptionService.count());
         return subscriptions;
     }
 
     private ObjectNode prepareOwnerMetric() {
         ObjectNode owners = mapper.createObjectNode();
-        owners.put("total", ownerRep.countDistinct());
+        owners.put("total", ownerService.countDistinct());
         return owners;
     }
 

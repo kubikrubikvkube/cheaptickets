@@ -2,7 +2,9 @@ package com.example.tickets.route;
 
 import com.example.tickets.subscription.Subscription;
 
+import java.util.List;
+
 public interface RoutePlanner {
-    Route plan(Subscription subscription);
+    List<RouteDTO> plan(Subscription subscription);
 
 }

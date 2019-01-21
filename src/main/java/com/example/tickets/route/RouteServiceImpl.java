@@ -12,11 +12,24 @@ import java.util.List;
 @Transactional
 public class RouteServiceImpl implements RouteService {
     private final Logger log = LoggerFactory.getLogger(RouteServiceImpl.class);
+    private final RouteDTOMapper mapper;
+    private final RouteRepository repository;
+    private final RoutePlanner routePlanner;
 
-    Route plan(Subscription subscription) {
-        String origin = subscription.getOrigin();
-        String destination = subscription.getDestination();
+    public RouteServiceImpl(RouteDTOMapper mapper, RouteRepository repository, RoutePlanner routePlanner) {
+        this.mapper = mapper;
+        this.repository = repository;
+        this.routePlanner = routePlanner;
+    }
 
-        return null;
+    @Override
+    public Route save(RouteDTO dto) {
+        Route route = mapper.fromDTO(dto);
+        return repository.save(route);
+    }
+
+    @Override
+    public List<RouteDTO> plan(Subscription subscription) {
+        return routePlanner.plan(subscription);
     }
 }

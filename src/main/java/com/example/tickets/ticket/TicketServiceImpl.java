@@ -1,5 +1,6 @@
 package com.example.tickets.ticket;
 
+import com.example.tickets.subscription.Subscription;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.stereotype.Service;
@@ -72,6 +73,26 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public void saveAll(List<Ticket> tickets) {
         repository.saveAll(tickets);
+    }
+
+    @Override
+    public long count() {
+        return repository.count();
+    }
+
+    @Override
+    public List<Ticket> findTicketsWithUnknownExpirationStatus() {
+        return repository.findTicketsWithUnknownExpirationStatus();
+    }
+
+    @Override
+    public List<Ticket> findExpiredTickets(LocalDate departDate, boolean markedAsExpired) {
+        return repository.findExpiredTickets(departDate, markedAsExpired);
+    }
+
+    @Override
+    public List<Ticket> findBySubscription(Subscription subscription) {
+        return repository.findBySubscription(subscription);
     }
 
 }

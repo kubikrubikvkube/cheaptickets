@@ -33,11 +33,33 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+            <version>2.1.2.RELEASE</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.icegreen/greenmail -->
+        <dependency>
+            <groupId>com.icegreen</groupId>
+            <artifactId>greenmail</artifactId>
+            <version>1.5.9</version>
+            <scope>test</scope>
+        </dependency>
+
+
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-quartz -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-quartz</artifactId>
             <version>2.1.1.RELEASE</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.8.1</version>
         </dependency>
 
 
@@ -151,12 +173,6 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.9.8</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.3.2</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

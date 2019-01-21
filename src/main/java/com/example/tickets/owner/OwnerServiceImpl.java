@@ -50,7 +50,7 @@ public class OwnerServiceImpl implements OwnerService {
             Owner owner = ownerOpt.get();
             repository.delete(owner);
         } else {
-            var msg = String.format("Owner %s is not found");
+            var msg = String.format("Owner %s is not found", name);
             throw new ServiceException(msg);
         }
 
@@ -70,5 +70,10 @@ public class OwnerServiceImpl implements OwnerService {
             throw new ServiceException(msg);
         }
         return foundOwner.get();
+    }
+
+    @Override
+    public long countDistinct() {
+        return repository.countDistinct();
     }
 }
