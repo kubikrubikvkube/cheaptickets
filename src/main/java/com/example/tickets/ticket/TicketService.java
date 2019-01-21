@@ -19,6 +19,8 @@ public interface TicketService {
 
     List<Ticket> findBy(String origin, String destination);
 
+    List<Ticket> findAll();
+
     void saveAll(List<Ticket> tickets);
 
     long count();

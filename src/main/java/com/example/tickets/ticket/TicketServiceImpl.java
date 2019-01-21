@@ -3,6 +3,7 @@ package com.example.tickets.ticket;
 import com.example.tickets.subscription.Subscription;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -68,6 +69,11 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public List<Ticket> findBy(String origin, String destination) {
         return repository.findByOriginAndDestination(origin, destination);
+    }
+
+    @Override
+    public List<Ticket> findAll() {
+        return Lists.newArrayList(repository.findAll());
     }
 
     @Override
