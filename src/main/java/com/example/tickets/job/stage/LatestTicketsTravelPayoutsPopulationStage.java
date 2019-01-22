@@ -10,11 +10,14 @@ import com.google.common.collect.Multimap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.exact;
 
 @Component
 public class LatestTicketsTravelPayoutsPopulationStage extends AbstractStage {
@@ -30,7 +33,7 @@ public class LatestTicketsTravelPayoutsPopulationStage extends AbstractStage {
     }
 
     @Override
-    public StageResult call() throws InterruptedException {
+    public StageResult call() {
         Stopwatch timer = Stopwatch.createStarted();
 
         log.info("LatestTicketsTravelPayoutsPopulationStage started");
@@ -52,25 +55,40 @@ public class LatestTicketsTravelPayoutsPopulationStage extends AbstractStage {
                 subscriptionRequests.add(latestRequest);
             }
         }
-
+        log.info("Generated {} subscription requests", subscriptionRequests.size());
         List<Ticket> foundTickets = subscriptionRequests
                 .parallelStream()
                 .map(travelPayoutsService::getLatest)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
+        log.info("Subscription requests processed");
+        log.info("Got {} tickets from TravelPayouts", foundTickets.size());
 
+        log.info("Ticket saving started");
         AtomicInteger savedObjects = new AtomicInteger();
+
+        ExampleMatcher ticketMatcher = ExampleMatcher.matchingAny()
+                .withMatcher("origin", exact())
+                .withMatcher("destination", exact())
+                .withMatcher("value", exact())
+                .withMatcher("departDate", exact())
+                .withMatcher("foundAt", exact())
+                .withMatcher("numberOfChanges", exact());
 
         foundTickets
                 .parallelStream()
                 .forEach(foundTicket -> {
-                    Optional<? extends Ticket> alreadyStoredOptional = ticketRepository.findOne(Example.of(foundTicket));
+                    log.debug("Processing {}", foundTicket);
+                    //TODO работать через DTO??? Чтобы игнорить айдишники. И вообще выпилить юзание репозитория нахер из стейджа, а юзать сервис.
+                    Optional<Ticket> alreadyStoredOptional = ticketRepository.findOne(Example.of(foundTicket, ticketMatcher));
+                    log.debug("Already stored ticket optional {}", alreadyStoredOptional);
                     if (alreadyStoredOptional.isEmpty()) {
+                        log.debug("Not stored. Saving {}", foundTicket);
+                        ticketRepository.save(foundTicket);
                         savedObjects.incrementAndGet();
-                        ticketRepository.saveAndFlush(foundTicket);
                     }
                 });
-
+        ticketRepository.flush();
 
         log.info("LatestTicketsTravelPayoutsPopulationStage finished in {}", timer.stop());
         return new StageResult("LatestTicketsTravelPayoutsPopulationStage", savedObjects.get(), 0, 0);
