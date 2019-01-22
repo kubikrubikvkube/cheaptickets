@@ -30,26 +30,6 @@ public class LatestTicketsTravelPayoutsPopulationStage extends AbstractStage {
         this.subscriptionService = subscriptionService;
     }
 
-
-//        subscriptions.forEach(subscription -> {
-//            //TODO одну и ту же подписку от разных юзеров он будет молоть херову тучу раз, исправить
-//
-//
-//            List<Ticket> latest = travelPayoutsService.getLatest(latestRequest);
-//            ticketsFromTravelPayoutsService.addAll(latest);
-//        });
-//        var unsavedTicketsSize = ticketsFromTravelPayoutsService.size();
-//        log.info(format("Found %d latest tickets from TravelPayout", unsavedTicketsSize));
-//
-//        ticketsFromTravelPayoutsService
-//                .parallelStream()
-//                .filter(ticket -> ticket.getNumberOfChanges() < 2)
-//                .filter(ticket -> !ticketRepository.existsByOriginAndDestinationAndDepartDateAndValue(ticket.getOrigin(), ticket.getDestination(), ticket.getDepartDate(), ticket.getValue()))
-//                .forEach(ticketRepository::save);
-//        var endTime = Instant.now().toEpochMilli();
-//        log.info("LatestTicketsTravelPayoutsPopulationStage finished in {}", timer.stop());
-
-
     @Override
     public StageResult call() throws InterruptedException {
         Stopwatch timer = Stopwatch.createStarted();
