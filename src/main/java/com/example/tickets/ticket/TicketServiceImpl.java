@@ -25,7 +25,7 @@ public class TicketServiceImpl implements TicketService {
     public TicketServiceImpl(TicketRepository repository, ObjectMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
-        exampleMatcher = ExampleMatcher.matchingAll().withIgnorePaths("id", "creationTimestamp", "foundAt");
+        exampleMatcher = ExampleMatcher.matchingAll().withIgnorePaths("id", "creationTimestamp").withIncludeNullValues();
     }
 
     @Override

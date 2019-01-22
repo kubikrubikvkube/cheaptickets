@@ -35,6 +35,5 @@ public interface TicketService {
 
     boolean exist(Ticket ticket);
     List<Ticket> findBySubscription(Subscription subscription);
-
     Ticket save(Ticket foundTicket);
 }

@@ -79,7 +79,6 @@ public class LatestTicketsTravelPayoutsPopulationStage extends AbstractStage {
                         savedObjects.incrementAndGet();
                     }
                 });
-
         log.info("LatestTicketsTravelPayoutsPopulationStage finished in {}", timer.stop());
         return new StageResult("LatestTicketsTravelPayoutsPopulationStage", savedObjects.get(), 0, 0);
     }
