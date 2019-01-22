@@ -27,10 +27,11 @@ import java.util.stream.Collectors;
 public class TravelPayoutsServiceImpl implements TravelPayoutsService {
     private final Logger log = LoggerFactory.getLogger(TravelPayoutsServiceImpl.class);
     private final DefaultHttpClient<LatestResponse> httpClient;
-    private final TicketDTOMapper mapper = TicketDTOMapper.INSTANCE;
+    private final TicketDTOMapper mapper;
 
-    public TravelPayoutsServiceImpl(DefaultHttpClient httpClient) {
+    public TravelPayoutsServiceImpl(DefaultHttpClient<LatestResponse> httpClient, TicketDTOMapper mapper) {
         this.httpClient = httpClient;
+        this.mapper = mapper;
     }
 
     @Override

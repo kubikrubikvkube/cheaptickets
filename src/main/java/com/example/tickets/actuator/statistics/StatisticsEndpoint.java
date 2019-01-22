@@ -1,4 +1,4 @@
-package com.example.tickets.healthcheck;
+package com.example.tickets.actuator.statistics;
 
 import com.example.tickets.owner.OwnerService;
 import com.example.tickets.route.RoutesService;
@@ -13,7 +13,6 @@ import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Component
@@ -53,14 +52,6 @@ public class StatisticsEndpoint {
     private ObjectNode prepareTicketsMetric() {
         ObjectNode tickets = mapper.createObjectNode();
         tickets.put("total tickets", ticketService.count());
-        long nonExpiredTicketsSize = ticketService.findNonExpiredTicketsSize();
-        tickets.put("non expired tickets", nonExpiredTicketsSize);
-        int accountedExpiredTicketsSize = ticketService.findExpiredTickets(LocalDate.now(), true).size();
-        tickets.put("accounted expired tickets", accountedExpiredTicketsSize);
-        int ticketsWithUnknownExpirationStatusSize = ticketService.findTicketsWithUnknownExpirationStatus().size();
-        tickets.put("unknown expiration status tickets", ticketsWithUnknownExpirationStatusSize);
-        int unaccountedExpiredTicketsSize = ticketService.findExpiredTickets(LocalDate.now(), false).size();
-        tickets.put("unaccounted expired tickets", unaccountedExpiredTicketsSize);
         return tickets;
     }
 

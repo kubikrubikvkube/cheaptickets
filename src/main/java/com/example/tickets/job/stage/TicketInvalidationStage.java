@@ -2,15 +2,13 @@ package com.example.tickets.job.stage;
 
 import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketRepository;
+import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
-
-import static java.lang.String.format;
 
 @Component
 public class TicketInvalidationStage extends AbstractStage {
@@ -22,26 +20,22 @@ public class TicketInvalidationStage extends AbstractStage {
         this.ticketRepository = ticketRepository;
     }
 
-
     @Override
     public StageResult call() {
-        var startTime = Instant.now().toEpochMilli();
+        Stopwatch timer = Stopwatch.createStarted();
         log.info("TicketInvalidationStage started");
 
         List<Ticket> expiredTickets = ticketRepository.findTicketsInPast(LocalDate.now(), false);
 
         long expiredTicketsCount = expiredTickets.size();
 
-        log.info("Found {} actually expired tickets, but not marked 'asExpired'", expiredTicketsCount);
+        log.info("Found {} actually expired tickets, but not deleted from database", expiredTicketsCount);
 
-        expiredTickets.forEach(t -> t.setIsExpired(true));
-        ticketRepository.saveAll(expiredTickets);
+        ticketRepository.deleteAll(expiredTickets);
         ticketRepository.flush();
 
-        var endTime = Instant.now().toEpochMilli();
-        log.info(format("TicketInvalidationStage finished in %d ms", endTime - startTime));
-
-        return new StageResult("TicketInvalidationStage", 0, expiredTicketsCount, 0);
+        log.info("TicketInvalidationStage finished in {}", timer.stop());
+        return new StageResult("TicketInvalidationStage", 0, 0, expiredTicketsCount);
     }
 
 }

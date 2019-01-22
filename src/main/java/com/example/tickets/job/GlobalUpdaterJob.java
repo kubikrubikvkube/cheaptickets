@@ -20,8 +20,14 @@ public class GlobalUpdaterJob implements Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
         log.info("GlobalUpdaterJob started");
         log.info("Starting stage 1 - TicketInvalidationStage");
+        /*
+        Эта стадия используется для инвалидации тех билетов, чья дата вылета в прошедшем времени.
+        Предполагается, что максимальная польза от этой стадии будет после полуночи, когда сутки сменились и билеты за "сегодняшнее"
+        число становятся неактуальными,а значит подлежат удалению из базы.
+         */
         StageResult ticketInvalidationStageResult = ticketInvalidationStage.call();
         log.info("{}", ticketInvalidationStageResult);
 
+        log.info("Starting stage 2 - LatestTicketsTravelPayoutsPopulation");
     }
 }

@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.withSettings;
 
 @ExtendWith(SpringExtension.class)
-class AviasalesServiceTest {
+public class AviasalesServiceTest {
     private static AviasalesService aviasalesService;
 
     @BeforeAll
