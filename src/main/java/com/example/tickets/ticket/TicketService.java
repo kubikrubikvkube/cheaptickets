@@ -33,5 +33,8 @@ public interface TicketService {
 
     long findNonExpiredTicketsSize();
 
+    boolean exist(Ticket ticket);
     List<Ticket> findBySubscription(Subscription subscription);
+
+    Ticket save(Ticket foundTicket);
 }

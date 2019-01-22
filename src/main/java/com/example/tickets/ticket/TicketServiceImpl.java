@@ -4,6 +4,8 @@ import com.example.tickets.subscription.Subscription;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Lists;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,10 +20,12 @@ import static java.util.Comparator.comparing;
 public class TicketServiceImpl implements TicketService {
     private final TicketRepository repository;
     private final ObjectMapper mapper;
+    private final ExampleMatcher exampleMatcher;
 
     public TicketServiceImpl(TicketRepository repository, ObjectMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
+        exampleMatcher = ExampleMatcher.matchingAll().withIgnorePaths("id", "creationTimestamp", "foundAt");
     }
 
     @Override
@@ -107,8 +111,19 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    public boolean exist(Ticket ticket) {
+        Example<Ticket> probe = Example.of(ticket, exampleMatcher);
+        return repository.exists(probe);
+    }
+
+    @Override
     public List<Ticket> findBySubscription(Subscription subscription) {
         return repository.findBySubscription(subscription);
+    }
+
+    @Override
+    public Ticket save(Ticket foundTicket) {
+        return repository.saveAndFlush(foundTicket);
     }
 
 }
