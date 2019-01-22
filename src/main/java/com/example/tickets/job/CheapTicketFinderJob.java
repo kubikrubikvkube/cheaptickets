@@ -48,7 +48,7 @@ public class CheapTicketFinderJob implements Job {
             var destination = ticket.getDestination();
             Optional<TicketStatistics> statisticsOpt = ticketStatisticsService.findByOriginAndDestination(origin, destination);
             if (statisticsOpt.isEmpty()) return;
-//           TODO     throw new ServiceException(String.format("Ticket statistics is not present for %s and %s", origin, destination));
+//               throw new ServiceException(String.format("Ticket statistics is not present for %s and %s", origin, destination));
             TicketStatistics statistics = statisticsOpt.get();
             var ticketDepartureMonth = ticket.getDepartDate().getMonth();
             Optional<TicketStatisticsByMonth> statisticsByMonthOpt = statistics.getTicketStatisticsByMonth().stream().filter(s -> s.getMonth().equals(ticketDepartureMonth)).findFirst();
