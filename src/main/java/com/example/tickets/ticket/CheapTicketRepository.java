@@ -2,8 +2,8 @@ package com.example.tickets.ticket;
 
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionDTO;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 @Transactional
-public interface CheapTicketRepository extends CrudRepository<CheapTicket, Long> {
+public interface CheapTicketRepository extends JpaRepository<CheapTicket, Long> {
 
     List<CheapTicket> findByOriginAndDestinationAndDepartDate(String origin, String destination, LocalDate departDate);
 

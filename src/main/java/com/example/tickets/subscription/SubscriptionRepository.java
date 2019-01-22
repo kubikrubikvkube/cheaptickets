@@ -1,7 +1,7 @@
 package com.example.tickets.subscription;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 @Transactional
-public interface SubscriptionRepository extends CrudRepository<Subscription, Long> {
+public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
 
     @Query("select s from Subscription s where s.owner.name = ?1")
     List<Subscription> findByOwnerName(String ownerName);

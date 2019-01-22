@@ -53,12 +53,14 @@ public class StatisticsEndpoint {
     private ObjectNode prepareTicketsMetric() {
         ObjectNode tickets = mapper.createObjectNode();
         tickets.put("total tickets", ticketService.count());
+        long nonExpiredTicketsSize = ticketService.findNonExpiredTicketsSize();
+        tickets.put("non expired tickets", nonExpiredTicketsSize);
+        int accountedExpiredTicketsSize = ticketService.findExpiredTickets(LocalDate.now(), true).size();
+        tickets.put("accounted expired tickets", accountedExpiredTicketsSize);
         int ticketsWithUnknownExpirationStatusSize = ticketService.findTicketsWithUnknownExpirationStatus().size();
         tickets.put("unknown expiration status tickets", ticketsWithUnknownExpirationStatusSize);
         int unaccountedExpiredTicketsSize = ticketService.findExpiredTickets(LocalDate.now(), false).size();
         tickets.put("unaccounted expired tickets", unaccountedExpiredTicketsSize);
-        int accountedExpiredTicketsSize = ticketService.findExpiredTickets(LocalDate.now(), true).size();
-        tickets.put("accounted expired tickets", accountedExpiredTicketsSize);
         return tickets;
     }
 

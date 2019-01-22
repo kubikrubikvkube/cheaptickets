@@ -29,5 +29,9 @@ public interface TicketService {
 
     List<Ticket> findExpiredTickets(LocalDate departDate, boolean markedAsExpired);
 
+    List<Ticket> findNonExpiredTickets();
+
+    long findNonExpiredTicketsSize();
+
     List<Ticket> findBySubscription(Subscription subscription);
 }

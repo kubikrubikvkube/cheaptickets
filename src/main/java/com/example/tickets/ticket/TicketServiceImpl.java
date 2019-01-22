@@ -93,7 +93,17 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public List<Ticket> findExpiredTickets(LocalDate departDate, boolean markedAsExpired) {
-        return repository.findExpiredTickets(departDate, markedAsExpired);
+        return repository.findTicketsInPast(departDate, markedAsExpired);
+    }
+
+    @Override
+    public List<Ticket> findNonExpiredTickets() {
+        return repository.findNonExpiredTickets();
+    }
+
+    @Override
+    public long findNonExpiredTicketsSize() {
+        return repository.findNonExpiredTicketsSize();
     }
 
     @Override

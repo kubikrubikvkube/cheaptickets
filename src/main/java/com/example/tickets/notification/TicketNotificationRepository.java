@@ -1,6 +1,6 @@
 package com.example.tickets.notification;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-interface TicketNotificationRepository extends CrudRepository<TicketNotification, Long> {
+interface TicketNotificationRepository extends JpaRepository<TicketNotification, Long> {
 }
