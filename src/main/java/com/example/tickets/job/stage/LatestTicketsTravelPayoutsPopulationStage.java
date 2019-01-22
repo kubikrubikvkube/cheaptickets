@@ -22,7 +22,6 @@ public class LatestTicketsTravelPayoutsPopulationStage extends AbstractStage {
     private final TicketRepository ticketRepository;
     private final TravelPayoutsService travelPayoutsService;
     private final SubscriptionService subscriptionService;
-    List<Ticket> ticketsFromTravelPayoutsService = new ArrayList<>();
 
     public LatestTicketsTravelPayoutsPopulationStage(TicketRepository ticketRepository, TravelPayoutsService travelPayoutsService, SubscriptionService subscriptionService) {
         this.ticketRepository = ticketRepository;
