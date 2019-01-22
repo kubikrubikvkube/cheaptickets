@@ -4,7 +4,7 @@ import com.example.tickets.subscription.Subscription;
 
 import java.util.List;
 
-public interface RouteService {
+public interface RoutesService {
     Route save(RouteDTO dto);
 
     List<Route> save(List<RouteDTO> routeDTOS);
@@ -13,4 +13,6 @@ public interface RouteService {
     List<RouteDTO> plan(Subscription subscription);
 
     List<Route> findBy(String origin, String destination, String limit);
+
+    long count();
 }

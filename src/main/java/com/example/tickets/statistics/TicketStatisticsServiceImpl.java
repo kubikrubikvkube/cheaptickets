@@ -32,4 +32,9 @@ public class TicketStatisticsServiceImpl implements TicketStatisticsService {
         }
         return Optional.empty();
     }
+
+    @Override
+    public long count() {
+        return repository.count();
+    }
 }

@@ -1,7 +1,7 @@
 package com.example.tickets.job;
 
 import com.example.tickets.route.RouteDTO;
-import com.example.tickets.route.RouteService;
+import com.example.tickets.route.RoutesService;
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionService;
 import com.google.common.collect.ArrayListMultimap;
@@ -20,11 +20,11 @@ import static java.lang.String.format;
 @DisallowConcurrentExecution
 public class RoutePlannerJob implements Job {
     private final Logger log = LoggerFactory.getLogger(RoutePlannerJob.class);
-    private final RouteService routeService;
+    private final RoutesService routesService;
     private final SubscriptionService subscriptionService;
 
-    public RoutePlannerJob(RouteService routeService, SubscriptionService subscriptionService) {
-        this.routeService = routeService;
+    public RoutePlannerJob(RoutesService routesService, SubscriptionService subscriptionService) {
+        this.routesService = routesService;
         this.subscriptionService = subscriptionService;
     }
 
@@ -39,12 +39,12 @@ public class RoutePlannerJob implements Job {
 
         for (Subscription subscription : subscriptions) {
             log.info("Calculating routes for " + subscription);
-            List<RouteDTO> routes = routeService.plan(subscription);
+            List<RouteDTO> routes = routesService.plan(subscription);
             log.info("Found {} routes for subscription {}", routes.size(), subscription);
             all.putAll(subscription, routes);
         }
         List<RouteDTO> routeDTOs = new ArrayList<>(all.values());
-        routeService.save(routeDTOs);
+        routesService.save(routeDTOs);
 
         var endTime = Instant.now().toEpochMilli();
         log.info(format("RoutePlannerJob finished in %d ms", endTime - startTime));

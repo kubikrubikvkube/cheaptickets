@@ -12,13 +12,13 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class RouteServiceImpl implements RouteService {
-    private final Logger log = LoggerFactory.getLogger(RouteServiceImpl.class);
+public class RoutesServiceImpl implements RoutesService {
+    private final Logger log = LoggerFactory.getLogger(RoutesServiceImpl.class);
     private final RouteDTOMapper mapper;
     private final RouteRepository repository;
     private final RoutePlanner routePlanner;
 
-    public RouteServiceImpl(RouteDTOMapper mapper, RouteRepository repository, RoutePlanner routePlanner) {
+    public RoutesServiceImpl(RouteDTOMapper mapper, RouteRepository repository, RoutePlanner routePlanner) {
         this.mapper = mapper;
         this.repository = repository;
         this.routePlanner = routePlanner;
@@ -52,6 +52,11 @@ public class RouteServiceImpl implements RouteService {
         int limitInt = Integer.parseInt(limit);
         List<Route> routes = this.findBy(origin, destination);
         return routes.stream().limit(limitInt).collect(Collectors.toList());
+    }
+
+    @Override
+    public long count() {
+        return repository.count();
     }
 
 

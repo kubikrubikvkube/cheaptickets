@@ -17,14 +17,16 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
 @Service
 public class TravelPayoutsServiceImpl implements TravelPayoutsService {
     private final Logger log = LoggerFactory.getLogger(TravelPayoutsServiceImpl.class);
-    private final DefaultHttpClient httpClient;
+    private final DefaultHttpClient<LatestResponse> httpClient;
     private final TicketDTOMapper mapper = TicketDTOMapper.INSTANCE;
 
     public TravelPayoutsServiceImpl(DefaultHttpClient httpClient) {
@@ -35,16 +37,19 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
     public List<Ticket> getLatest(LatestRequest request) throws ServiceException {
         String stringRequest = request.toString();
         log.trace("Sent request: " + stringRequest);
-        LatestResponse response = (LatestResponse) httpClient.getWithHeaders(stringRequest, LatestResponse.class);
-        log.trace("Got response: " + response);
-        if (!response.getSuccess()) {
-            throw new ServiceException(response.getError());
+        Optional<LatestResponse> responseOptional = httpClient.getWithHeaders(stringRequest, LatestResponse.class);
+        log.trace("Got response: " + responseOptional);
+        if (responseOptional.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            LatestResponse response = responseOptional.get();
+            List<TicketDTO> ticketDTOS = response.getData();
+            return ticketDTOS
+                    .stream()
+                    .map(mapper::fromDTO)
+                    .collect(Collectors.toList());
         }
-        List<TicketDTO> ticketDTOS = response.getData();
-        return ticketDTOS
-                .stream()
-                .map(mapper::fromDTO)
-                .collect(Collectors.toList());
+
     }
 
     @Override

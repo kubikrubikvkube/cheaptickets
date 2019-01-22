@@ -5,7 +5,6 @@ import com.example.tickets.statistics.TicketStatisticsByMonth;
 import com.example.tickets.statistics.TicketStatisticsService;
 import com.example.tickets.subscription.SubscriptionService;
 import com.example.tickets.ticket.*;
-import com.example.tickets.util.ServiceException;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,8 +47,8 @@ public class CheapTicketFinderJob implements Job {
             var origin = ticket.getOrigin();
             var destination = ticket.getDestination();
             Optional<TicketStatistics> statisticsOpt = ticketStatisticsService.findByOriginAndDestination(origin, destination);
-            if (statisticsOpt.isEmpty())
-                throw new ServiceException(String.format("Ticket statistics is not present for %s and %s", origin, destination));
+            if (statisticsOpt.isEmpty()) return;
+//           TODO     throw new ServiceException(String.format("Ticket statistics is not present for %s and %s", origin, destination));
             TicketStatistics statistics = statisticsOpt.get();
             var ticketDepartureMonth = ticket.getDepartDate().getMonth();
             Optional<TicketStatisticsByMonth> statisticsByMonthOpt = statistics.getTicketStatisticsByMonth().stream().filter(s -> s.getMonth().equals(ticketDepartureMonth)).findFirst();

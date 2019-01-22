@@ -11,7 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -36,19 +38,25 @@ public class AviasalesServiceImpl implements AviasalesService {
         sb.append("affiliate=false");
         var request = sb.toString();
         log.trace("Aviasales one-way ticket request: " + request);
-        AviasalesResponse response = defaultHttpClient.getWithoutHeaders(request, AviasalesResponse.class);
-        log.trace("Aviasales one-way ticket response: " + response);
-        List<TicketDTO> tickerPrices = response.getPrices();
-        log.trace("Aviasales one-way ticket response size: " + tickerPrices.size());
-        tickerPrices.forEach(rawTicket -> {
-            rawTicket.setOrigin(originIAT);
-            rawTicket.setDestination(destinationIAT);
-            rawTicket.setDepart_date(date);
+        Optional<AviasalesResponse> responseOptional = defaultHttpClient.getWithoutHeaders(request, AviasalesResponse.class);
+        log.trace("Aviasales one-way ticket response: " + responseOptional);
+        if (responseOptional.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            AviasalesResponse response = responseOptional.get();
+            List<TicketDTO> tickerPrices = response.getPrices();
+            log.trace("Aviasales one-way ticket response size: " + tickerPrices.size());
+            tickerPrices.forEach(rawTicket -> {
+                rawTicket.setOrigin(originIAT);
+                rawTicket.setDestination(destinationIAT);
+                rawTicket.setDepart_date(date);
 
-        });
-        return tickerPrices
-                .stream()
-                .map(mapper::fromDTO)
-                .collect(Collectors.toList());
+            });
+            return tickerPrices
+                    .stream()
+                    .map(mapper::fromDTO)
+                    .collect(Collectors.toList());
+        }
+
     }
 }

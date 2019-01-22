@@ -8,20 +8,20 @@ import java.util.List;
 
 @RestController
 public class RouteController {
-    private final RouteService routeService;
+    private final RoutesService routesService;
 
-    public RouteController(RouteService routeService) {
-        this.routeService = routeService;
+    public RouteController(RoutesService routesService) {
+        this.routesService = routesService;
     }
 
 
     @RequestMapping(value = "/route/get", params = {"origin", "destination"})
     public List<Route> get(@RequestParam String origin, @RequestParam String destination) {
-        return routeService.findBy(origin, destination);
+        return routesService.findBy(origin, destination);
     }
 
     @RequestMapping(value = "/route/get", params = {"origin", "destination", "limit"})
     public List<Route> get(@RequestParam String origin, @RequestParam String destination, @RequestParam String limit) {
-        return routeService.findBy(origin, destination, limit);
+        return routesService.findBy(origin, destination, limit);
     }
 }

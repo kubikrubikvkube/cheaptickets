@@ -14,7 +14,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Optional;
 
 @Configuration
 @PropertySource("classpath:ticket.properties")
@@ -27,7 +30,7 @@ public class DefaultHttpClient<T> {
         this.token = token;
     }
 
-    public <T> T getWithHeaders(String getRequest, Class<T> clazz) {
+    public <T> Optional<T> getWithHeaders(String getRequest, Class<T> clazz) {
         CloseableHttpClient client = HttpClients
                 .custom()
                 //default headers can be set in here with .setDefaultHeaders
@@ -40,16 +43,23 @@ public class DefaultHttpClient<T> {
         headers.add("X-Access-Token", token);
         HttpEntity<String> httpEntity = new HttpEntity<>("parameters", headers);
         log.trace("Send request: " + getRequest);
-        ResponseEntity<T> exchange = restTemplate.exchange(getRequest, HttpMethod.GET, httpEntity, clazz);
-        if (!exchange.getStatusCode().is2xxSuccessful()) {
-            log.error(String.format("Request failed. Error code %s : %s", exchange.getStatusCode(), getRequest));
+        ResponseEntity<T> exchange = null;
+        try {
+            exchange = restTemplate.exchange(getRequest, HttpMethod.GET, httpEntity, clazz);
+        } catch (RestClientException rce) {
+            log.error("RestClientException: " + rce);
         }
         log.trace("Got response: " + exchange);
-        return exchange.getBody();
+        if (exchange == null) {
+            return Optional.empty();
+        } else {
+            return Optional.ofNullable(exchange.getBody());
+        }
+
     }
 
 
-    public <T> T getWithoutHeaders(String getRequest, Class<T> clazz) {
+    public <T> Optional<T> getWithoutHeaders(String getRequest, Class<T> clazz) {
         CloseableHttpClient client = HttpClients
                 .custom()
                 .setConnectionManager(connectionManager)
@@ -57,13 +67,18 @@ public class DefaultHttpClient<T> {
         HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(client);
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
         log.trace("Send request: " + getRequest);
-        ResponseEntity<T> exchange = restTemplate.exchange(getRequest, HttpMethod.GET, null, clazz);
-        if (!exchange.getStatusCode().is2xxSuccessful()) {
-            log.error(String.format("Request failed. Error code %s : %s", exchange.getStatusCode(), getRequest));
+        ResponseEntity<T> exchange = null;
+        try {
+            exchange = restTemplate.exchange(getRequest, HttpMethod.GET, null, clazz);
+        } catch (RestClientException rce) {
+            log.error("RestClientException: " + rce);
         }
         log.trace("Got response: " + exchange);
-
-        return exchange.getBody();
+        if (exchange == null) {
+            return Optional.empty();
+        } else {
+            return Optional.ofNullable(exchange.getBody());
+        }
     }
 
     public JsonNode getJsonResponseWithoutHeaders(String getRequest) {
