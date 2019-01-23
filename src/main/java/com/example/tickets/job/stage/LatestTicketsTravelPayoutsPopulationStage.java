@@ -46,6 +46,7 @@ public class LatestTicketsTravelPayoutsPopulationStage extends AbstractStage {
             String origin = entry.getKey();
             Collection<String> destinations = entry.getValue();
             for (String destination : destinations) {
+                log.debug("Processing subscription from {} to {}", origin, destination);
                 LatestRequest latestRequest = LatestRequest.builder()
                         .origin(origin)
                         .destination(destination)
