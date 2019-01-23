@@ -31,8 +31,10 @@ public class TicketInvalidationStage extends AbstractStage {
 
         log.info("Found {} actually expired tickets, but not deleted from database", expiredTicketsCount);
 
-        ticketRepository.deleteAll(expiredTickets);
-        ticketRepository.flush();
+        if (!expiredTickets.isEmpty()) {
+            ticketRepository.deleteAll(expiredTickets);
+            ticketRepository.flush();
+        }
 
         log.info("TicketInvalidationStage finished in {}", timer.stop());
         return new StageResult("TicketInvalidationStage", 0, 0, expiredTicketsCount);
