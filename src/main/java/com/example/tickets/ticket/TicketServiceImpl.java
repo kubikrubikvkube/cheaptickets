@@ -123,7 +123,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public Ticket save(Ticket foundTicket) {
-        return repository.saveAndFlush(foundTicket);
+        return repository.save(foundTicket);
     }
 
 }
