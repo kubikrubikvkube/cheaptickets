@@ -6,6 +6,7 @@ import com.example.tickets.ticket.TicketDTOMapper;
 import com.example.tickets.ticket.TicketRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,7 @@ public class ExampleTicketControllerTest {
     }
 
     @Test
+    @Disabled
     public void cheapest() throws Exception {
         String request = "/cheapest?origin=LED&destination=MOW&departureDate=" + date;
         String expectedDate = date.toString();

@@ -25,14 +25,6 @@ public interface TicketService {
 
     long count();
 
-    List<Ticket> findTicketsWithUnknownExpirationStatus();
-
-    List<Ticket> findExpiredTickets(LocalDate departDate, boolean markedAsExpired);
-
-    List<Ticket> findNonExpiredTickets();
-
-    long findNonExpiredTicketsSize();
-
     boolean exist(Ticket ticket);
     List<Ticket> findBySubscription(Subscription subscription);
     Ticket save(Ticket foundTicket);

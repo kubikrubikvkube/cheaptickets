@@ -23,14 +23,14 @@ class TicketInvalidationStageTest {
         Ticket expiredTicket = new Ticket();
         List<Ticket> oneExpiredTicket = Collections.singletonList(expiredTicket);
         TicketRepository ticketRepository = mock(TicketRepository.class);
-        when(ticketRepository.findTicketsInPast(LocalDate.now(), false)).thenReturn(oneExpiredTicket);
+        when(ticketRepository.findTicketsInPast(LocalDate.now())).thenReturn(oneExpiredTicket);
         doNothing().when(ticketRepository).deleteAll(oneExpiredTicket);
         doNothing().when(ticketRepository).flush();
 
         TicketInvalidationStage stage = new TicketInvalidationStage(ticketRepository);
         StageResult result = stage.call();
         assertEquals(1, result.getDeletedObjects());
-        verify(ticketRepository, times(1)).findTicketsInPast(LocalDate.now(), false);
+        verify(ticketRepository, times(1)).findTicketsInPast(LocalDate.now());
         verify(ticketRepository, times(1)).deleteAll(oneExpiredTicket);
         verify(ticketRepository, times(1)).flush();
     }
@@ -39,14 +39,14 @@ class TicketInvalidationStageTest {
     void found_none_expired_tickets() {
         List<Ticket> emptyList = Lists.emptyList();
         TicketRepository ticketRepository = mock(TicketRepository.class);
-        when(ticketRepository.findTicketsInPast(LocalDate.now(), false)).thenReturn(emptyList);
+        when(ticketRepository.findTicketsInPast(LocalDate.now())).thenReturn(emptyList);
         doNothing().when(ticketRepository).deleteAll(emptyList);
         doNothing().when(ticketRepository).flush();
 
         TicketInvalidationStage stage = new TicketInvalidationStage(ticketRepository);
         StageResult result = stage.call();
         assertEquals(0, result.getDeletedObjects());
-        verify(ticketRepository, times(1)).findTicketsInPast(LocalDate.now(), false);
+        verify(ticketRepository, times(1)).findTicketsInPast(LocalDate.now());
         verify(ticketRepository, never()).deleteAll(emptyList);
         verify(ticketRepository, never()).flush();
     }

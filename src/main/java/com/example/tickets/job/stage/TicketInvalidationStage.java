@@ -25,7 +25,7 @@ public class TicketInvalidationStage extends AbstractStage {
         Stopwatch timer = Stopwatch.createStarted();
         log.info("TicketInvalidationStage started");
 
-        List<Ticket> expiredTickets = ticketRepository.findTicketsInPast(LocalDate.now(), false);
+        List<Ticket> expiredTickets = ticketRepository.findTicketsInPast(LocalDate.now());
 
         long expiredTicketsCount = expiredTickets.size();
 

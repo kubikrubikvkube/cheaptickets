@@ -35,8 +35,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     boolean existsByOriginAndDestination(String origin, String destination);
 
-    @Query("select t from Ticket t where t.departDate < ?1 and t.isExpired = ?2")
-    List<Ticket> findTicketsInPast(LocalDate startingDate, boolean markedAsExpired);
+    @Query("select t from Ticket t where t.departDate < ?1")
+    List<Ticket> findTicketsInPast(LocalDate startingDate);
 
     @Query("select t from Ticket t where (t.isExpired is not null and t.isExpired = false) ")
     List<Ticket> findNonExpiredTickets();
