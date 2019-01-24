@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.Month;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Component
 public class TicketStatisticsUpdaterStage extends AbstractStage {
@@ -39,10 +40,10 @@ public class TicketStatisticsUpdaterStage extends AbstractStage {
 
     @Override
     public StageResult call() {
-        //TODO фильтрацию статистики билетов с двумя пересадками из базы. Они не несут никакой практической ценности, а только портят статистику перцентилей.
         Stopwatch timer = Stopwatch.createStarted();
         log.info("TicketStatisticsUpdaterStage started");
 
+        AtomicLong updatedCounter = new AtomicLong();
         List<Subscription> allSubscriptions = subscriptionService.findAll();
         for (Subscription subscription : allSubscriptions) {
             var origin = subscription.getOrigin();
@@ -52,11 +53,14 @@ public class TicketStatisticsUpdaterStage extends AbstractStage {
             statistics.setOrigin(origin);
             statistics.setDestination(destination);
             statistics.setTicketStatisticsByMonth(byMonth(subscription));
-            ticketStatisticsService.update(statistics);
+            Optional<TicketStatistics> update = ticketStatisticsService.update(statistics);
+            if (update.isPresent()) {
+                updatedCounter.incrementAndGet();
+            }
         }
 
         log.info("TicketStatisticsUpdaterStage finished in {}", timer.stop());
-        return null;
+        return new StageResult("TicketStatisticsUpdaterStage", 0, updatedCounter.get(), 0);
     }
 
     private List<TicketStatisticsByMonth> byMonth(Subscription s) {
