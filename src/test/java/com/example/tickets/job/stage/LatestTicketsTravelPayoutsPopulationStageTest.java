@@ -7,6 +7,7 @@ import com.example.tickets.travelpayouts.TravelPayoutsService;
 import com.example.tickets.travelpayouts.request.LatestRequest;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
@@ -35,18 +36,23 @@ class LatestTicketsTravelPayoutsPopulationStageTest {
     @SpyBean
     private TicketService ticketService;
 
-    @Test
-    void if_ticket_not_exist_ticket_should_be_saved() {
-        LatestRequest ledMowLatestRequest = LatestRequest.builder()
+    private LatestRequest fromAToBLatestRequest;
+
+    @BeforeEach
+    void setUp() {
+        fromAToBLatestRequest = LatestRequest.builder()
                 .origin("A")
                 .destination("B")
                 .limit(1000)
                 .one_way(true)
                 .build();
+    }
 
+    @Test
+    void if_ticket_not_exist_ticket_should_be_saved() {
         Ticket ticket = new Ticket();
         List<Ticket> ticketList = List.of(ticket);
-        when(travelPayoutsService.getLatest(ledMowLatestRequest)).thenReturn(ticketList);
+        when(travelPayoutsService.getLatest(fromAToBLatestRequest)).thenReturn(ticketList);
 
         Multimap<String, String> subscriptionDestinations = ArrayListMultimap.create(1, 1);
         subscriptionDestinations.put("A", "B");
@@ -62,16 +68,9 @@ class LatestTicketsTravelPayoutsPopulationStageTest {
 
     @Test
     void if_ticket_not_exist_ticket_should_not_be_saved() {
-        LatestRequest ledMowLatestRequest = LatestRequest.builder()
-                .origin("A")
-                .destination("B")
-                .limit(1000)
-                .one_way(true)
-                .build();
-
         Ticket ticket = new Ticket();
         List<Ticket> ticketList = List.of(ticket);
-        when(travelPayoutsService.getLatest(ledMowLatestRequest)).thenReturn(ticketList);
+        when(travelPayoutsService.getLatest(fromAToBLatestRequest)).thenReturn(ticketList);
 
 
         Multimap<String, String> subscriptionDestinations = ArrayListMultimap.create(1, 1);
@@ -97,15 +96,8 @@ class LatestTicketsTravelPayoutsPopulationStageTest {
         complexTicket.setDepartTime(LocalTime.now());
         ticketService.save(complexTicket);
 
-        LatestRequest ledMowLatestRequest = LatestRequest.builder()
-                .origin("A")
-                .destination("B")
-                .limit(1000)
-                .one_way(true)
-                .build();
-
         List<Ticket> ticketList = List.of(complexTicket);
-        when(travelPayoutsService.getLatest(ledMowLatestRequest)).thenReturn(ticketList);
+        when(travelPayoutsService.getLatest(fromAToBLatestRequest)).thenReturn(ticketList);
         Multimap<String, String> subscriptionDestinations = ArrayListMultimap.create(1, 1);
         subscriptionDestinations.put("A", "B");
         when(subscriptionService.findDistinctOriginAndDestination()).thenReturn(subscriptionDestinations);
