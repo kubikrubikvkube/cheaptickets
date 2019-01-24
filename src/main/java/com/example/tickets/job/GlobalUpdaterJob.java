@@ -64,7 +64,9 @@ public class GlobalUpdaterJob implements Job {
         log.info("{}", ticketStatisticsUpdaterStageResult);
 
         /*
-         * Эта стадия необходима для поиска дешёвых билетов на основе заранее сформированной статистики.
+         * Эта стадия необходима для поиска дешёвых билетов на основе заранее сформированной статистики. Мы фильтруем билеты,
+         * которые считаем дешёвыми, и кладём их в отдельную таблицу. После этого мы будем работать уже непосредственно с этой
+         * таблицей, фильтруя их и подбирая лучшие рейсы.
          */
         log.info("Starting stage 5 - CheapTicketFinderStage");
         StageResult cheapTicketFinderStageResult = cheapTicketFinderStage.call();
