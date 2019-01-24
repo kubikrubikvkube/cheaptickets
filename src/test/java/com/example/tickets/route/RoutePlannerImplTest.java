@@ -14,7 +14,6 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -66,7 +65,6 @@ class RoutePlannerImplTest {
         Integer expectedSum = departTicket.getValue() + cheapReturnTicket.getValue();
         assertEquals(expectedSum, routeDTO.getSumValue());
         assertEquals(tripDuration, routeDTO.getTripDurationInDays());
-        assertNull(routeDTO.getTicketNotifications());
     }
 
     @Test
@@ -93,7 +91,6 @@ class RoutePlannerImplTest {
         assertEquals(destination, routeDTO.getDestination());
         assertEquals(departTicket, routeDTO.getDepartTicket());
         assertEquals(ticketValue, routeDTO.getSumValue());
-        assertNull(routeDTO.getTicketNotifications());
     }
 
     @Test
@@ -131,8 +128,6 @@ class RoutePlannerImplTest {
         assertEquals(expensiveDepartTicket, expensiveRouteDTO.getDepartTicket());
         assertEquals(ticketValue, cheapDepartTicket.getValue());
         assertEquals(expensiveTicketValue, expensiveDepartTicket.getValue());
-        assertNull(cheapRouteDTO.getTicketNotifications());
-        assertNull(expensiveRouteDTO.getTicketNotifications());
     }
 
     @Test
@@ -181,7 +176,6 @@ class RoutePlannerImplTest {
         assertEquals(cheapDepartTicket, cheapestRouteDTO.getDepartTicket());
         assertEquals(cheapReturnTicket, cheapestRouteDTO.getReturnTicket());
         assertEquals(Integer.valueOf(ticketValue + ticketValue), cheapestRouteDTO.getSumValue());
-        assertNull(cheapestRouteDTO.getTicketNotifications());
         var expectedTripDuration = Integer.valueOf(departDate.until(returnDate).getDays());
         assertEquals(expectedTripDuration, cheapestRouteDTO.getTripDurationInDays());
 

@@ -4,6 +4,8 @@ import com.example.tickets.subscription.Subscription;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Lists;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
@@ -12,12 +14,15 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Stream;
 
 import static java.util.Comparator.comparing;
 
 @Service
 @Transactional
 public class TicketServiceImpl implements TicketService {
+    private final Logger log = LoggerFactory.getLogger(TicketServiceImpl.class);
     private final TicketRepository repository;
     private final ObjectMapper mapper;
     private final ExampleMatcher exampleMatcher;
@@ -83,6 +88,34 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public void saveAll(List<Ticket> tickets) {
         repository.saveAll(tickets);
+    }
+
+    @Override
+    public long saveAllIfNotExist(List<Ticket> tickets) {
+        return saveAllIfNotExist(tickets, false);
+    }
+
+    @Override
+    public long saveAllIfNotExist(List<Ticket> tickets, boolean isParallel) {
+        Stream<Ticket> ticketStream;
+        if (isParallel) {
+            ticketStream = tickets.parallelStream();
+        } else {
+            ticketStream = tickets.stream();
+        }
+        AtomicLong counter = new AtomicLong();
+        ticketStream
+                .forEach(foundTicket -> {
+                    log.debug("Processing {}", foundTicket);
+                    boolean alreadyStored = this.exist(foundTicket);
+                    log.debug("Is ticket already stored", alreadyStored);
+                    if (!alreadyStored) {
+                        log.debug("Not stored. Saving {}", foundTicket);
+                        this.save(foundTicket);
+                        counter.addAndGet(1);
+                    }
+                });
+        return counter.get();
     }
 
     @Override

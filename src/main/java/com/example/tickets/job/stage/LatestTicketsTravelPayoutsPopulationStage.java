@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Component
@@ -35,7 +34,6 @@ public class LatestTicketsTravelPayoutsPopulationStage extends AbstractStage {
     @Override
     public StageResult call() {
         Stopwatch timer = Stopwatch.createStarted();
-
         log.info("LatestTicketsTravelPayoutsPopulationStage started");
         Multimap<String, String> subscriptionsMultimap = subscriptionService.findDistinctOriginAndDestination();
         int subscriptionsSize = subscriptionsMultimap.size();
@@ -64,24 +62,10 @@ public class LatestTicketsTravelPayoutsPopulationStage extends AbstractStage {
                 .collect(Collectors.toList());
         log.info("Subscription requests processed");
         log.info("Got {} tickets from TravelPayouts", foundTickets.size());
-
         log.info("Ticket saving started");
-        AtomicInteger savedObjects = new AtomicInteger();
-
-        foundTickets
-                .parallelStream()
-                .forEach(foundTicket -> {
-                    log.debug("Processing {}", foundTicket);
-                    boolean alreadyStored = ticketService.exist(foundTicket);
-                    log.debug("Is ticket already stored", alreadyStored);
-                    if (!alreadyStored) {
-                        log.debug("Not stored. Saving {}", foundTicket);
-                        ticketService.save(foundTicket);
-                        savedObjects.incrementAndGet();
-                    }
-                });
+        long savedTickets = ticketService.saveAllIfNotExist(foundTickets, true);
         log.info("LatestTicketsTravelPayoutsPopulationStage finished in {}", timer.stop());
-        return new StageResult("LatestTicketsTravelPayoutsPopulationStage", savedObjects.get(), 0, 0);
+        return new StageResult("LatestTicketsTravelPayoutsPopulationStage", savedTickets, 0, 0);
     }
 
 

@@ -23,6 +23,9 @@ public interface TicketService {
 
     void saveAll(List<Ticket> tickets);
 
+    long saveAllIfNotExist(List<Ticket> tickets);
+
+    long saveAllIfNotExist(List<Ticket> tickets, boolean isParallel);
     long count();
 
     boolean exist(Ticket ticket);
