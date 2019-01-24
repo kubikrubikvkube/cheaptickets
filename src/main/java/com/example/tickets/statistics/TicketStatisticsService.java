@@ -12,6 +12,7 @@ public interface TicketStatisticsService {
 
     Optional<TicketStatistics> update(TicketStatistics statistics);
 
+    void deleteAll();
     boolean exist(TicketStatistics statistics);
     long count();
 }

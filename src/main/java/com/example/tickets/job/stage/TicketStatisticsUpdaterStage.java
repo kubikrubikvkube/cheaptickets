@@ -42,6 +42,7 @@ public class TicketStatisticsUpdaterStage extends AbstractStage {
     public StageResult call() {
         Stopwatch timer = Stopwatch.createStarted();
         log.info("TicketStatisticsUpdaterStage started");
+        ticketStatisticsService.deleteAll();//TODO опять не работает апдейт но работает добавление в БД если она пустая
 
         AtomicLong updatedCounter = new AtomicLong();
         List<Subscription> allSubscriptions = subscriptionService.findAll();

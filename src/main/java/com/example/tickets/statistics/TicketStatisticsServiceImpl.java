@@ -55,6 +55,11 @@ public class TicketStatisticsServiceImpl implements TicketStatisticsService {
     }
 
     @Override
+    public void deleteAll() {
+        repository.deleteAll();
+    }
+
+    @Override
     public boolean exist(TicketStatistics statistics) {
         return repository.exists(Example.of(statistics, exampleMatcher));
     }
