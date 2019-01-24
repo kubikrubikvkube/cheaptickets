@@ -1,9 +1,6 @@
 package com.example.tickets.job;
 
-import com.example.tickets.job.stage.LatestTicketsTravelPayoutsPopulationStage;
-import com.example.tickets.job.stage.OnewayTicketsForAYearAviasalesStage;
-import com.example.tickets.job.stage.StageResult;
-import com.example.tickets.job.stage.TicketInvalidationStage;
+import com.example.tickets.job.stage.*;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +12,15 @@ public class GlobalUpdaterJob implements Job {
     private final TicketInvalidationStage ticketInvalidationStage;
     private final LatestTicketsTravelPayoutsPopulationStage latestTicketsTravelPayoutsPopulationStage;
     private final OnewayTicketsForAYearAviasalesStage onewayTicketsForAYearAviasalesStage;
+    private final CheapTicketFinderStage cheapTicketFinderStage;
+    private final TicketStatisticsUpdaterStage ticketStatisticsUpdaterStage;
 
-    public GlobalUpdaterJob(TicketInvalidationStage ticketInvalidationStage, LatestTicketsTravelPayoutsPopulationStage latestTicketsTravelPayoutsPopulationStage, OnewayTicketsForAYearAviasalesStage onewayTicketsForAYearAviasalesStage) {
+    public GlobalUpdaterJob(TicketInvalidationStage ticketInvalidationStage, LatestTicketsTravelPayoutsPopulationStage latestTicketsTravelPayoutsPopulationStage, OnewayTicketsForAYearAviasalesStage onewayTicketsForAYearAviasalesStage, CheapTicketFinderStage cheapTicketFinderStage, TicketStatisticsUpdaterStage ticketStatisticsUpdaterStage) {
         this.ticketInvalidationStage = ticketInvalidationStage;
         this.latestTicketsTravelPayoutsPopulationStage = latestTicketsTravelPayoutsPopulationStage;
         this.onewayTicketsForAYearAviasalesStage = onewayTicketsForAYearAviasalesStage;
+        this.cheapTicketFinderStage = cheapTicketFinderStage;
+        this.ticketStatisticsUpdaterStage = ticketStatisticsUpdaterStage;
     }
 
     @Override
@@ -54,6 +55,20 @@ public class GlobalUpdaterJob implements Job {
         StageResult onewayTicketsForAYearAviasalesStageResult = onewayTicketsForAYearAviasalesStage.call();
         log.info("{}", onewayTicketsForAYearAviasalesStageResult);
 
+        //TODO сделать стейдж удаление билетов с двумя пересадками из базы. Они не несут никакой практической ценности, а только портят статистику перцентилей.
 
+        /*
+         * Эта стадия необходима для получения пересчёта статистики по билетам, которые у нас уже имеются.
+         */
+        //log.info("Starting stage 4 - TicketStatisticsUpdaterStage");
+        //StageResult ticketStatisticsUpdaterStageResult  = ticketStatisticsUpdaterStage.call();
+        //log.info("{}", onewayTicketsForAYearAviasalesStageResult);
+
+        /*
+         * Эта стадия необходима для поиска дешёвых билетов на основе заранее сформированной статистики.
+         */
+        //log.info("Starting stage 5 - CheapTicketFinderStage");
+        //StageResult cheapTicketFinderStageResult = cheapTicketFinderStage.call();
+        //log.info("{}", cheapTicketFinderStageResult);
     }
 }

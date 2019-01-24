@@ -1,4 +1,4 @@
-package com.example.tickets.job;
+package com.example.tickets.job.stage;
 
 import com.example.tickets.statistics.*;
 import com.example.tickets.subscription.Subscription;
@@ -7,9 +7,9 @@ import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketRepository;
 import com.google.common.primitives.Doubles;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
-import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -19,24 +19,24 @@ import java.util.*;
 
 import static java.lang.String.format;
 
-@PersistJobDataAfterExecution
-@DisallowConcurrentExecution
-public class TicketStatisticsUpdaterJob implements Job {
-    private final Logger log = LoggerFactory.getLogger(TicketStatisticsUpdaterJob.class);
+@Component
+public class TicketStatisticsUpdaterStage extends AbstractStage {
+    private final Logger log = LoggerFactory.getLogger(TicketStatisticsUpdaterStage.class);
     private final TicketStatisticsRepository statisticsRepository;
     private final TicketRepository ticketRepository;
     private final SubscriptionRepository subscriptionRepository;
     private final TicketStatisticsByMonthDTOMapper ticketStatisticsByMonthDTOMapper;
 
-    public TicketStatisticsUpdaterJob(TicketStatisticsRepository statisticsRepository, TicketRepository ticketRepository, SubscriptionRepository subscriptionRepository, TicketStatisticsByMonthDTOMapper ticketStatisticsByMonthDTOMapper) {
+    public TicketStatisticsUpdaterStage(TicketStatisticsRepository statisticsRepository, TicketRepository ticketRepository, SubscriptionRepository subscriptionRepository, TicketStatisticsByMonthDTOMapper ticketStatisticsByMonthDTOMapper) {
         this.statisticsRepository = statisticsRepository;
         this.ticketRepository = ticketRepository;
         this.subscriptionRepository = subscriptionRepository;
         this.ticketStatisticsByMonthDTOMapper = ticketStatisticsByMonthDTOMapper;
     }
 
+
     @Override
-    public void execute(JobExecutionContext context) throws JobExecutionException {
+    public StageResult call() {
         var startTime = Instant.now().toEpochMilli();
         log.info("TicketStatisticsUpdaterJob started");
         statisticsRepository.deleteAll(); //TODO обновление, а не удаление и создание заново
@@ -54,6 +54,7 @@ public class TicketStatisticsUpdaterJob implements Job {
 
         var endTime = Instant.now().toEpochMilli();
         log.info(format("TicketStatisticsUpdaterJob finished in %d ms", endTime - startTime));
+        return null;
     }
 
     private List<TicketStatisticsByMonth> byMonth(Subscription s) {
