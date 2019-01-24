@@ -44,6 +44,8 @@ public class TicketStatisticsServiceImpl implements TicketStatisticsService {
 
         Optional<TicketStatistics> found = repository.findOne(example);
         if (found.isPresent()) {
+            repository.deleteById(found.get().getId());
+            repository.flush();
             repository.saveAndFlush(statistics);
         } else {
             repository.saveAndFlush(statistics);

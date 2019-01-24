@@ -45,7 +45,9 @@ public class TicketStatisticsUpdaterStage extends AbstractStage {
 
         AtomicLong updatedCounter = new AtomicLong();
         List<Subscription> allSubscriptions = subscriptionService.findAll();
+        log.info("Found {} subscriptions", allSubscriptions.size());
         for (Subscription subscription : allSubscriptions) {
+            log.info("Processing subscription {}", subscription);
             var origin = subscription.getOrigin();
             var destination = subscription.getDestination();
             Optional<TicketStatistics> subscriptionStatisticsOpt = ticketStatisticsService.findByOriginAndDestination(origin, destination);
@@ -53,8 +55,11 @@ public class TicketStatisticsUpdaterStage extends AbstractStage {
             statistics.setOrigin(origin);
             statistics.setDestination(destination);
             statistics.setTicketStatisticsByMonth(byMonth(subscription));
+            log.debug("Ticket statistics generated {}", statistics);
             Optional<TicketStatistics> update = ticketStatisticsService.update(statistics);
             if (update.isPresent()) {
+                var updatedTicketStatistics = update.get();
+                log.debug("Ticket statistics updated successfully for {}", updatedTicketStatistics);
                 updatedCounter.incrementAndGet();
             }
         }
