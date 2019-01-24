@@ -47,8 +47,9 @@ public class TicketStatisticsUpdaterStage extends AbstractStage {
         AtomicLong updatedCounter = new AtomicLong();
         List<Subscription> allSubscriptions = subscriptionService.findAll();
         log.info("Found {} subscriptions", allSubscriptions.size());
+        log.info("Starting subscription processing");
         for (Subscription subscription : allSubscriptions) {
-            log.info("Processing subscription {}", subscription);
+            log.debug("Processing subscription {}", subscription);
             var origin = subscription.getOrigin();
             var destination = subscription.getDestination();
             Optional<TicketStatistics> subscriptionStatisticsOpt = ticketStatisticsService.findByOriginAndDestination(origin, destination);
