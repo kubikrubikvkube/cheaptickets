@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(indexes = {@Index(name = "idx_ticket_statistics_by_month", columnList = "id,month,year")})
+@Table(indexes = {@Index(name = "idx_ticket_statistics_by_month", columnList = "id,month")})
 public class TicketStatisticsByMonth {
     @Id
     @GeneratedValue
@@ -18,9 +18,7 @@ public class TicketStatisticsByMonth {
 
     private Month month;
 
-    private Integer year;
-
-    private Long ticketsCount;
+    private int ticketsCount;
 
     private Double minTicketPrice;
 

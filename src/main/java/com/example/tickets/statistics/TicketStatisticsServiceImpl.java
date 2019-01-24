@@ -1,5 +1,7 @@
 package com.example.tickets.statistics;
 
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -10,15 +12,18 @@ import java.util.Optional;
 @Transactional
 public class TicketStatisticsServiceImpl implements TicketStatisticsService {
     private final TicketStatisticsRepository repository;
+    private final ExampleMatcher exampleMatcher;
 
     public TicketStatisticsServiceImpl(TicketStatisticsRepository repository) {
         this.repository = repository;
+        this.exampleMatcher = ExampleMatcher.matchingAll().withIgnorePaths("id", "ticketStatisticsByMonth", "createdAt", "foundAt").withIncludeNullValues();
     }
 
     @Override
     public Optional<TicketStatistics> findByOriginAndDestination(String origin, String destination) {
         return repository.findByOriginAndDestination(origin, destination);
     }
+
 
     @Override
     public Optional<TicketStatisticsByMonth> findByOriginAndDestination(String origin, String destination, Month month) {
@@ -31,6 +36,25 @@ public class TicketStatisticsServiceImpl implements TicketStatisticsService {
                     .findAny();
         }
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<TicketStatistics> update(TicketStatistics statistics) {
+        Example<TicketStatistics> example = Example.of(statistics, exampleMatcher);
+
+        Optional<TicketStatistics> found = repository.findOne(example);
+        if (found.isPresent()) {
+            repository.delete(found.get());
+            repository.flush();
+            repository.saveAndFlush(statistics);
+        }
+
+        return repository.findOne(example);
+    }
+
+    @Override
+    public boolean exist(TicketStatistics statistics) {
+        return repository.exists(Example.of(statistics, exampleMatcher));
     }
 
     @Override

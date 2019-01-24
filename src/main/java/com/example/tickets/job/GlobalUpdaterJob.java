@@ -55,7 +55,6 @@ public class GlobalUpdaterJob implements Job {
         StageResult onewayTicketsForAYearAviasalesStageResult = onewayTicketsForAYearAviasalesStage.call();
         log.info("{}", onewayTicketsForAYearAviasalesStageResult);
 
-        //TODO сделать стейдж удаление билетов с двумя пересадками из базы. Они не несут никакой практической ценности, а только портят статистику перцентилей.
 
         /*
          * Эта стадия необходима для получения пересчёта статистики по билетам, которые у нас уже имеются.
