@@ -3,8 +3,10 @@ package com.example.tickets.job;
 import org.quartz.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
+@Profile("prod")
 public class JobConfig {
     private final Scheduler scheduler;
 
