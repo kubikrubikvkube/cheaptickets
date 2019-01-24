@@ -1,9 +1,6 @@
 package com.example.tickets.job.stage;
 
-import com.example.tickets.statistics.TicketStatistics;
-import com.example.tickets.statistics.TicketStatisticsByMonth;
-import com.example.tickets.statistics.TicketStatisticsByMonthDTOMapper;
-import com.example.tickets.statistics.TicketStatisticsService;
+import com.example.tickets.statistics.*;
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionService;
 import com.example.tickets.ticket.Ticket;
@@ -80,7 +77,7 @@ public class TicketStatisticsUpdaterStage extends AbstractStage {
             ticketsAsMultimap.put(month, ticket);
         }
 
-        List<TicketStatisticsByMonth> statisticsList = new ArrayList<>();
+        List<TicketStatisticsByMonthDTO> statisticsListDTO = new ArrayList<>();
         Map<Month, Collection<Ticket>> monthTicketCollection = ticketsAsMultimap.asMap();
         monthTicketCollection.forEach((Month month, Collection<Ticket> tickets) -> {
             DescriptiveStatistics ds = new DescriptiveStatistics();
@@ -92,14 +89,16 @@ public class TicketStatisticsUpdaterStage extends AbstractStage {
                 }
             });
 
-            TicketStatisticsByMonth stat = new TicketStatisticsByMonth();
+            TicketStatisticsByMonthDTO stat = new TicketStatisticsByMonthDTO();
             stat.setMonth(month);
             stat.setTicketsCount(tickets.size());
             stat.setAvgTicketPrice(ds.getMean());
             stat.setMinTicketPrice(ds.getMin());
             stat.setPercentile10(ds.getPercentile(10));
-            statisticsList.add(stat);
+            statisticsListDTO.add(stat);
         });
+        List<TicketStatisticsByMonth> statisticsList = new ArrayList<>();
+        statisticsListDTO.forEach(dto -> statisticsList.add(ticketStatisticsByMonthDTOMapper.fromDTO(dto)));
 
         return statisticsList;
     }

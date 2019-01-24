@@ -13,7 +13,7 @@ public class TicketStatisticsByMonthDTO {
 
     private Integer year;
 
-    private Long ticketsCount;
+    private Integer ticketsCount;
 
     private Double minTicketPrice;
 
