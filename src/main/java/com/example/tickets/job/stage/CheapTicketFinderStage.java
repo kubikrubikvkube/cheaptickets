@@ -33,6 +33,7 @@ public class CheapTicketFinderStage extends AbstractStage {
 
     @Override
     public StageResult call() {
+        //TODO in progress
         Stopwatch timer = Stopwatch.createStarted();
         log.info("CheapTicketFinderStage started");
 
@@ -62,7 +63,7 @@ public class CheapTicketFinderStage extends AbstractStage {
         log.info("Found {} cheapest tickets", cheapestTickets.size());
         cheapTicketService.saveAll(cheapestTickets);
         log.info("Saved {} cheapest tickets", cheapestTickets.size());
-        log.info("LatestTicketsTravelPayoutsPopulationStage finished in {}", timer.stop());
+        log.info("CheapTicketFinderStage finished in {}", timer.stop());
         return null;
     }
 }
