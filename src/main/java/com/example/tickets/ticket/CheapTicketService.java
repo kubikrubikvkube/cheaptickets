@@ -11,6 +11,8 @@ public interface CheapTicketService {
 
     void saveAll(Iterable<CheapTicket> cheapTickets);
 
+    void saveAll(Iterable<CheapTicket> cheapTickets, boolean isParallel);
+
     long count();
 
     void deleteAll();

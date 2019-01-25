@@ -45,23 +45,27 @@ public class CheapTicketFinderStage extends AbstractStage {
             var origin = ticket.getOrigin();
             var destination = ticket.getDestination();
             Optional<TicketStatistics> statisticsOpt = ticketStatisticsService.findByOriginAndDestination(origin, destination);
-            if (statisticsOpt.isEmpty()) return null;
-            TicketStatistics statistics = statisticsOpt.get();
-            var ticketDepartureMonth = ticket.getDepartDate().getMonth();
-            Optional<TicketStatisticsByMonth> statisticsByMonthOpt = statistics.getTicketStatisticsByMonth().stream().filter(s -> s.getMonth().equals(ticketDepartureMonth)).findFirst();
-            if (statisticsByMonthOpt.isPresent()) {
-                TicketStatisticsByMonth statisticsByMonth = statisticsByMonthOpt.get();
-                if (ticket.getValue() <= statisticsByMonth.getPercentile10()) {
-                    CheapTicket cheapTicket = cheapTicketMapper.toCheapTicket(ticket);
-                    cheapestTickets.add(cheapTicket);
-                }
-            } else {
-                log.debug("Ticket statistics is not found for month {}", ticketDepartureMonth);
-            }
+            if (statisticsOpt.isPresent()) {
+                TicketStatistics statistics = statisticsOpt.get();
+                var ticketDepartureMonth = ticket.getDepartDate().getMonth();
+                Optional<TicketStatisticsByMonth> statisticsByMonthOpt = statistics.getTicketStatisticsByMonth()
+                        .stream()
+                        .filter(s -> s.getMonth().equals(ticketDepartureMonth))
+                        .findFirst();
 
+                if (statisticsByMonthOpt.isPresent()) {
+                    TicketStatisticsByMonth statisticsByMonth = statisticsByMonthOpt.get();
+                    if (ticket.getValue() <= statisticsByMonth.getPercentile10()) {
+                        CheapTicket cheapTicket = cheapTicketMapper.toCheapTicket(ticket);
+                        cheapestTickets.add(cheapTicket);
+                    }
+                } else {
+                    log.debug("Ticket statistics is not found for month {}", ticketDepartureMonth);
+                }
+            }
         }
         log.info("Found {} cheapest tickets", cheapestTickets.size());
-        cheapTicketService.saveAll(cheapestTickets);
+        cheapTicketService.saveAll(cheapestTickets, true);
         log.info("Saved {} cheapest tickets", cheapestTickets.size());
         log.info("CheapTicketFinderStage finished in {}", timer.stop());
         return null;

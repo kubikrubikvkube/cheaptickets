@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.StreamSupport;
 
 @Service
 @Transactional
@@ -28,9 +29,13 @@ public class CheapTicketServiceImpl implements CheapTicketService {
 
     @Override
     public void saveAll(Iterable<CheapTicket> cheapTickets) {
-        //TODO если не существует то сохранить если существует то обновить
+        saveAll(cheapTickets, false);
+    }
 
-        repository.saveAll(cheapTickets);
+    @Override
+    public void saveAll(Iterable<CheapTicket> cheapTickets, boolean isParallel) {
+        StreamSupport.stream(cheapTickets.spliterator(), isParallel).forEach(repository::save);
+        repository.flush();
     }
 
     @Override
