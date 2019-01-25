@@ -54,7 +54,7 @@ public class CheapTicketFinderStage extends AbstractStage {
                         .findFirst();
 
                 if (statisticsByMonthOpt.isPresent()) {
-                    TicketStatisticsByMonth statisticsByMonth = statisticsByMonthOpt.get();
+                    var statisticsByMonth = statisticsByMonthOpt.get();
                     if (ticket.getValue() <= statisticsByMonth.getPercentile10()) {
                         CheapTicket cheapTicket = cheapTicketMapper.toCheapTicket(ticket);
                         cheapestTickets.add(cheapTicket);
