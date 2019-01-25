@@ -10,9 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Component
 public class CheapTicketFinderStage extends AbstractStage {
@@ -40,8 +40,8 @@ public class CheapTicketFinderStage extends AbstractStage {
         List<Ticket> allTickets = ticketService.findAll();
         log.info("Found {} tickets total", allTickets.size());
 
-        List<CheapTicket> cheapestTickets = new ArrayList<>();
-        for (Ticket ticket : allTickets) {
+        List<CheapTicket> cheapestTickets = new CopyOnWriteArrayList<>();
+        allTickets.parallelStream().forEach(ticket -> {
             var origin = ticket.getOrigin();
             var destination = ticket.getDestination();
             Optional<TicketStatistics> statisticsOpt = ticketStatisticsService.findByOriginAndDestination(origin, destination);
@@ -63,7 +63,8 @@ public class CheapTicketFinderStage extends AbstractStage {
                     log.debug("Ticket statistics is not found for month {}", ticketDepartureMonth);
                 }
             }
-        }
+        });
+
         log.info("Found {} cheapest tickets", cheapestTickets.size());
         cheapTicketService.saveAll(cheapestTickets, true);
         log.info("Saved {} cheapest tickets", cheapestTickets.size());
