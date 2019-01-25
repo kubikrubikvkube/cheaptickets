@@ -56,7 +56,6 @@ class TicketStatisticsUpdaterStageTest {
         simpleTicket.setDestination("b");
         simpleTicket.setDepartDate(LocalDate.now());
         simpleTicket.setValue(1000);
-        simpleTicket.setReturnDate(LocalDate.now().plusDays(1));
         simpleTicket.setNumberOfChanges(1);
 
         expensiveTicket = new Ticket();
@@ -64,7 +63,6 @@ class TicketStatisticsUpdaterStageTest {
         expensiveTicket.setDestination("b");
         expensiveTicket.setDepartDate(LocalDate.now());
         expensiveTicket.setValue(3000);
-        expensiveTicket.setReturnDate(LocalDate.now().plusDays(1));
         expensiveTicket.setNumberOfChanges(1);
     }
 
