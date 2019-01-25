@@ -39,7 +39,7 @@ public class TicketStatisticsUpdaterStage extends AbstractStage {
     public StageResult call() {
         Stopwatch timer = Stopwatch.createStarted();
         log.info("TicketStatisticsUpdaterStage started");
-        ticketStatisticsService.deleteAll();//TODO опять не работает апдейт но работает добавление в БД если она пустая
+        ticketStatisticsService.deleteAll();//TODO опять не работает апдейт. Но работает добавление в БД если она пустая
 
         AtomicLong updatedCounter = new AtomicLong();
         List<Subscription> allSubscriptions = subscriptionService.findAll();
@@ -55,13 +55,10 @@ public class TicketStatisticsUpdaterStage extends AbstractStage {
             statistics.setDestination(destination);
             statistics.setTicketStatisticsByMonth(byMonth(subscription));
             log.debug("Ticket statistics generated {}", statistics);
-            Optional<TicketStatistics> update = ticketStatisticsService.update(statistics);
-            if (update.isPresent()) {
-                var updatedTicketStatistics = update.get();
-                log.debug("Ticket statistics updated successfully for {}", updatedTicketStatistics);
-                updatedCounter.incrementAndGet();
+            TicketStatistics savedTicketStatistics = ticketStatisticsService.save(statistics);
+            log.debug("Ticket statistics saved {}", savedTicketStatistics);
+            updatedCounter.incrementAndGet();
             }
-        }
 
         log.info("TicketStatisticsUpdaterStage finished in {}", timer.stop());
         return new StageResult("TicketStatisticsUpdaterStage", 0, updatedCounter.get(), 0);

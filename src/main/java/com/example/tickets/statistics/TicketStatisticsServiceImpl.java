@@ -39,19 +39,8 @@ public class TicketStatisticsServiceImpl implements TicketStatisticsService {
     }
 
     @Override
-    public Optional<TicketStatistics> update(TicketStatistics statistics) {
-        Example<TicketStatistics> example = Example.of(statistics, exampleMatcher);
-
-        Optional<TicketStatistics> found = repository.findOne(example);
-        if (found.isPresent()) {
-            repository.deleteById(found.get().getId());
-            repository.flush();
-            repository.saveAndFlush(statistics);
-        } else {
-            repository.saveAndFlush(statistics);
-        }
-
-        return repository.findOne(example);
+    public TicketStatistics save(TicketStatistics ticketStatistics) {
+        return repository.saveAndFlush(ticketStatistics);
     }
 
     @Override
