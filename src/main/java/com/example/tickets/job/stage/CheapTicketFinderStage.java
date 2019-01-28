@@ -60,6 +60,7 @@ public class CheapTicketFinderStage extends AbstractStage {
                 }
             }
         });
+        //TODO пусть сохраняет только те дешевые билеты, которых нет в базе данных.
         var beforeCheapTicketsCount = cheapTicketService.count();
         log.info("Found {} cheapest tickets", cheapestTickets.size());
         cheapTicketService.saveAll(cheapestTickets, true);
