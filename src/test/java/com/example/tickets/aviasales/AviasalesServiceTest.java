@@ -45,7 +45,7 @@ public class AviasalesServiceTest {
         DefaultHttpClient<AviasalesResponse> defaultHttpClient = Mockito.mock(DefaultHttpClient.class, withSettings().verboseLogging());
         when(defaultHttpClient.getJsonResponseWithoutHeaders("https://lyssa.aviasales.ru/map?origin_iata=LED&one_way=false&min_trip_duration=1&max_trip_duration=3&show_to_affiliates=false")).thenReturn(root);
 
-        aviasalesService = new AviasalesServiceImpl(defaultHttpClient);
+        aviasalesService = new AviasalesServiceImpl(defaultHttpClient, mapper);
     }
 
 }

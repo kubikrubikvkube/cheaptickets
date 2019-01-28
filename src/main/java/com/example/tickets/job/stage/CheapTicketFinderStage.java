@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Component
-public class CheapTicketFinderStage extends AbstractStage {
+public class CheapTicketFinderStage implements AbstractStage {
     private final Logger log = LoggerFactory.getLogger(CheapTicketFinderStage.class);
     private final TicketStatisticsService ticketStatisticsService;
     private final TicketService ticketService;
@@ -61,6 +61,7 @@ public class CheapTicketFinderStage extends AbstractStage {
             }
         });
         //TODO пусть сохраняет только те дешевые билеты, которых нет в базе данных.
+        //TODO или всё таки сохраняет не все? Чекнуть и исправить логирование
         var beforeCheapTicketsCount = cheapTicketService.count();
         log.info("Found {} cheapest tickets", cheapestTickets.size());
         cheapTicketService.saveAll(cheapestTickets, true);

@@ -5,7 +5,6 @@ import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketDTO;
 import com.example.tickets.ticket.TicketDTOMapper;
 import com.example.tickets.util.DefaultHttpClient;
-import com.example.tickets.util.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -21,14 +20,15 @@ import java.util.stream.Collectors;
 public class AviasalesServiceImpl implements AviasalesService {
     private final Logger log = LoggerFactory.getLogger(AviasalesServiceImpl.class);
     private final DefaultHttpClient<AviasalesResponse> defaultHttpClient;
-    private final TicketDTOMapper mapper = TicketDTOMapper.INSTANCE;
+    private final TicketDTOMapper mapper;
 
-    public AviasalesServiceImpl(DefaultHttpClient<AviasalesResponse> defaultHttpClient) {
+    public AviasalesServiceImpl(DefaultHttpClient<AviasalesResponse> defaultHttpClient, TicketDTOMapper mapper) {
         this.defaultHttpClient = defaultHttpClient;
+        this.mapper = mapper;
     }
 
     @Override
-    public List<Ticket> getOneWayTicket(String originIAT, String destinationIAT, LocalDate date, int range) throws ServiceException {
+    public List<Ticket> getOneWayTicket(String originIAT, String destinationIAT, LocalDate date, int range) {
         StringBuilder sb = new StringBuilder();
         sb.append("https://lyssa.aviasales.ru/price_matrix?");
         sb.append("origin_iata=").append(originIAT).append("&");
@@ -37,15 +37,15 @@ public class AviasalesServiceImpl implements AviasalesService {
         sb.append("depart_range=").append(range).append("&");
         sb.append("affiliate=false");
         var request = sb.toString();
-        log.trace("Aviasales one-way ticket request: " + request);
+        log.trace("Aviasales one-way ticket request: {}", request);
         Optional<AviasalesResponse> responseOptional = defaultHttpClient.getWithoutHeaders(request, AviasalesResponse.class);
-        log.trace("Aviasales one-way ticket response: " + responseOptional);
+        log.trace("Aviasales one-way ticket response: {}", responseOptional);
         if (responseOptional.isEmpty()) {
             return Collections.emptyList();
         } else {
             AviasalesResponse response = responseOptional.get();
             List<TicketDTO> tickerPrices = response.getPrices();
-            log.trace("Aviasales one-way ticket response size: " + tickerPrices.size());
+            log.trace("Aviasales one-way ticket response size: {}", tickerPrices.size());
             tickerPrices.forEach(rawTicket -> {
                 rawTicket.setOrigin(originIAT);
                 rawTicket.setDestination(destinationIAT);

@@ -20,5 +20,5 @@ public interface AviasalesService {
      * @return список найденных билетов
      * @throws ServiceException исключение во время выполнения
      */
-    List<Ticket> getOneWayTicket(String originIAT, String destinationIAT, LocalDate date, int range) throws ServiceException;
+    List<Ticket> getOneWayTicket(String originIAT, String destinationIAT, LocalDate date, int range);
 }
