@@ -2,7 +2,6 @@ package com.example.tickets.travelpayouts;
 
 import com.example.tickets.ticket.Ticket;
 import com.example.tickets.travelpayouts.request.*;
-import com.example.tickets.util.ServiceException;
 
 import java.util.List;
 
@@ -11,18 +10,18 @@ import java.util.List;
  */
 public interface TravelPayoutsService {
 
-    List<Ticket> getLatest(LatestRequest request) throws ServiceException;
+    List<Ticket> getLatest(LatestRequest request);
 
-    List<Ticket> getMonthMatrix(MonthMatrixRequest request) throws ServiceException;
+    List<Ticket> getMonthMatrix(MonthMatrixRequest request);
 
-    List<Ticket> getNearestPlacesMatrix(NearestPlacesMatrixRequest request) throws ServiceException;
+    List<Ticket> getNearestPlacesMatrix(NearestPlacesMatrixRequest request);
 
-    List<Ticket> getCheap(CheapRequest request) throws ServiceException;
+    List<Ticket> getCheap(CheapRequest request);
 
-    List<Ticket> getDirect(DirectRequest request) throws ServiceException;
+    List<Ticket> getDirect(DirectRequest request);
 
-    List<Ticket> getCalendar(CalendarRequest request) throws ServiceException;
+    List<Ticket> getCalendar(CalendarRequest request);
 
-    List<Ticket> getWeekMatrix(WeekMatrixRequest request) throws ServiceException;
+    List<Ticket> getWeekMatrix(WeekMatrixRequest request);
 
 }

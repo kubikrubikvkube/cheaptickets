@@ -18,7 +18,7 @@ import java.time.LocalDate;
 @Value
 @Builder
 public class LatestRequest {
-    private final static String BASE_URL = "http://api.travelpayouts.com/v2/prices/latest";
+    private static final String BASE_URL = "http://api.travelpayouts.com/v2/prices/latest";
     /**
      * Валюта цен на билеты. Значение по умолчанию — rub.
      */

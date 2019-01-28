@@ -4,17 +4,15 @@ import com.example.tickets.route.RouteDTO;
 import com.example.tickets.route.RoutesService;
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionService;
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.String.format;
 
 @PersistJobDataAfterExecution
 @DisallowConcurrentExecution
@@ -30,7 +28,7 @@ public class RoutePlannerJob implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        var startTime = Instant.now().toEpochMilli();
+        Stopwatch timer = Stopwatch.createStarted();
         log.info("RoutePlannerJob started");
 
         Iterable<Subscription> subscriptions = subscriptionService.findAll();
@@ -46,7 +44,6 @@ public class RoutePlannerJob implements Job {
         List<RouteDTO> routeDTOs = new ArrayList<>(all.values());
         routesService.save(routeDTOs);
 
-        var endTime = Instant.now().toEpochMilli();
-        log.info(format("RoutePlannerJob finished in %d ms", endTime - startTime));
+        log.info("RoutePlannerStage finished in {}", timer.stop());
     }
 }

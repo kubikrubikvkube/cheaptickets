@@ -58,7 +58,7 @@ public class TicketStatisticsUpdaterStage implements AbstractStage {
             TicketStatistics savedTicketStatistics = ticketStatisticsService.save(statistics);
             log.debug("Ticket statistics saved {}", savedTicketStatistics);
             updatedCounter.incrementAndGet();
-            }
+        }
 
         log.info("TicketStatisticsUpdaterStage finished in {}", timer.stop());
         return new StageResult("TicketStatisticsUpdaterStage", 0, updatedCounter.get(), 0);

@@ -6,7 +6,6 @@ import com.example.tickets.ticket.TicketDTOMapper;
 import com.example.tickets.travelpayouts.request.*;
 import com.example.tickets.travelpayouts.response.LatestResponse;
 import com.example.tickets.util.DefaultHttpClient;
-import com.example.tickets.util.ServiceException;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,11 +34,11 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
     }
 
     @Override
-    public List<Ticket> getLatest(LatestRequest request) throws ServiceException {
+    public List<Ticket> getLatest(LatestRequest request) {
         String stringRequest = request.toString();
-        log.trace("Sent request: " + stringRequest);
+        log.trace("Sent request: {}", stringRequest);
         Optional<LatestResponse> responseOptional = httpClient.getWithHeaders(stringRequest, LatestResponse.class);
-        log.trace("Got response: " + responseOptional);
+        log.trace("Got response: {}", responseOptional);
         if (responseOptional.isEmpty()) {
             return Collections.emptyList();
         } else {
@@ -55,24 +54,24 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
 
     @Override
     public List<Ticket> getMonthMatrix(MonthMatrixRequest request) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public List<Ticket> getNearestPlacesMatrix(NearestPlacesMatrixRequest request) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public List<Ticket> getCheap(CheapRequest request) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public List<Ticket> getDirect(DirectRequest request) {
 
         String stringRequest = request.toString();
-        log.trace("Sent request: " + stringRequest);
+        log.trace("Sent request: {}", stringRequest);
         JsonNode response = httpClient.getJsonResponseWithHeaders(stringRequest);
 
         List<JsonNode> values = response.findValues(request.getDestination());
@@ -109,11 +108,11 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
 
     @Override
     public List<Ticket> getCalendar(CalendarRequest request) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public List<Ticket> getWeekMatrix(WeekMatrixRequest request) {
-        return null;
+        return Collections.emptyList();
     }
 }

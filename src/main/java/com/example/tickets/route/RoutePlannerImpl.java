@@ -86,7 +86,7 @@ public class RoutePlannerImpl implements RoutePlanner {
             LocalDate departDate = departTicket.getDepartDate();
             LocalDate returnDate = departDate.plusDays(tripDurationInDays);
             List<CheapTicket> returnTickets = cheapTicketService.findByOriginAndDestinationAndDepartDate(origin, destination, returnDate);
-            if (returnTickets.size() > 0) {
+            if (!returnTickets.isEmpty()) {
                 Optional<CheapTicket> cheapestReturnTicket = returnTickets
                         .stream()
                         .filter(Objects::nonNull)

@@ -2,7 +2,6 @@ package com.example.tickets.ticket;
 
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionDTO;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,11 +14,9 @@ import java.util.stream.StreamSupport;
 @Transactional
 public class CheapTicketServiceImpl implements CheapTicketService {
     private final CheapTicketRepository repository;
-    private final ObjectMapper objectMapper;
 
-    public CheapTicketServiceImpl(CheapTicketRepository repository, ObjectMapper objectMapper) {
+    public CheapTicketServiceImpl(CheapTicketRepository repository) {
         this.repository = repository;
-        this.objectMapper = objectMapper;
     }
 
     @Override

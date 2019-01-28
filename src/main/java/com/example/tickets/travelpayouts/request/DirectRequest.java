@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Value
 @Builder
 public class DirectRequest {
-    public final static String BASE_URL = "http://api.travelpayouts.com/v1/prices/direct";
+    public static final String BASE_URL = "http://api.travelpayouts.com/v1/prices/direct";
     /**
      * Валюта цен на билеты. Значение по умолчанию — rub.
      */

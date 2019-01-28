@@ -1,6 +1,5 @@
 package com.example.tickets.subscription;
 
-import com.example.tickets.route.RoutePlanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,11 +12,9 @@ import java.util.List;
 public class SubscriptionRestController {
     private final Logger log = LoggerFactory.getLogger(SubscriptionRestController.class);
     private final SubscriptionService service;
-    private final RoutePlanner routePlanner;
 
-    public SubscriptionRestController(SubscriptionService service, RoutePlanner routePlanner) {
+    public SubscriptionRestController(SubscriptionService service) {
         this.service = service;
-        this.routePlanner = routePlanner;
     }
 
     @RequestMapping(value = "/subscription/add", params = {"owner", "origin", "destination"})

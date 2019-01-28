@@ -108,7 +108,7 @@ public class TicketServiceImpl implements TicketService {
                 .forEach(foundTicket -> {
                     log.debug("Processing {}", foundTicket);
                     boolean alreadyStored = this.exist(foundTicket);
-                    log.debug("Is ticket already stored", alreadyStored);
+                    log.debug("Is ticket already stored {}", alreadyStored);
                     if (!alreadyStored) {
                         log.debug("Not stored. Saving {}", foundTicket);
                         this.save(foundTicket);

@@ -11,7 +11,10 @@ public interface TicketStatisticsService {
     Optional<TicketStatisticsByMonth> findByOriginAndDestination(String origin, String destination, Month month);
 
     TicketStatistics save(TicketStatistics ticketStatistics);
+
     void deleteAll();
+
     boolean exist(TicketStatistics statistics);
+
     long count();
 }

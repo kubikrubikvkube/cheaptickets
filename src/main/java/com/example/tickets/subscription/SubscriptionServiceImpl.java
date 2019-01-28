@@ -6,7 +6,6 @@ import com.example.tickets.util.ServiceException;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import org.quartz.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,14 +21,13 @@ import java.util.Optional;
 public class SubscriptionServiceImpl implements SubscriptionService {
     private final Logger log = LoggerFactory.getLogger(SubscriptionServiceImpl.class);
     private final SubscriptionRepository repository;
-    private final SubscriptionDTOMapper mapper = SubscriptionDTOMapper.INSTANCE;
-    private final Scheduler scheduler;
+    private final SubscriptionDTOMapper mapper;
     private final OwnerRepository ownerRepository;
 
-    public SubscriptionServiceImpl(SubscriptionRepository subscriptionRepository, Scheduler scheduler, OwnerRepository ownerRepository) {
+    public SubscriptionServiceImpl(SubscriptionRepository subscriptionRepository, OwnerRepository ownerRepository, SubscriptionDTOMapper mapper) {
         this.repository = subscriptionRepository;
-        this.scheduler = scheduler;
         this.ownerRepository = ownerRepository;
+        this.mapper = mapper;
     }
 
     @Override
