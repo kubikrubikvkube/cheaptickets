@@ -90,7 +90,7 @@ public class DefaultHttpClient<T> {
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
         log.trace("Send request: {}", getRequest);
         JsonNode node = restTemplate.getForObject(getRequest, JsonNode.class);
-        log.trace("Got response: {}" + node);
+        log.trace("Got response: {}", node);
         return node;
     }
 
