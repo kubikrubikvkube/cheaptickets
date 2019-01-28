@@ -10,7 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -24,7 +24,7 @@ public class Subscription {
     private Long id;
 
     @CreationTimestamp
-    private Date creationTimestamp;
+    private LocalDateTime creationTimestamp;
 
     /**
      * Кто создал подписку

@@ -4,7 +4,7 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -16,7 +16,7 @@ public class City {
 
 
     @CreationTimestamp
-    private Date creationTimestamp;
+    private LocalDateTime creationTimestamp;
 
     private String code;
     private String name;

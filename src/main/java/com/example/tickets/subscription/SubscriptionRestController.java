@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class SubscriptionController {
-    private final Logger log = LoggerFactory.getLogger(SubscriptionController.class);
+public class SubscriptionRestController {
+    private final Logger log = LoggerFactory.getLogger(SubscriptionRestController.class);
     private final SubscriptionService service;
     private final RoutePlanner routePlanner;
 
-    public SubscriptionController(SubscriptionService service, RoutePlanner routePlanner) {
+    public SubscriptionRestController(SubscriptionService service, RoutePlanner routePlanner) {
         this.service = service;
         this.routePlanner = routePlanner;
     }

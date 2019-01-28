@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Data
@@ -20,7 +20,7 @@ public class TicketNotification {
     @GeneratedValue
     private Long id;
     @CreationTimestamp
-    private Date creationTimestamp;
+    private LocalDateTime creationTimestamp;
 
     @JsonManagedReference
     private String owner;

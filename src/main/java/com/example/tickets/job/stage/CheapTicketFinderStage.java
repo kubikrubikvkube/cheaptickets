@@ -3,7 +3,6 @@ package com.example.tickets.job.stage;
 import com.example.tickets.statistics.TicketStatistics;
 import com.example.tickets.statistics.TicketStatisticsByMonth;
 import com.example.tickets.statistics.TicketStatisticsService;
-import com.example.tickets.subscription.SubscriptionService;
 import com.example.tickets.ticket.*;
 import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
@@ -19,21 +18,18 @@ public class CheapTicketFinderStage extends AbstractStage {
     private final Logger log = LoggerFactory.getLogger(CheapTicketFinderStage.class);
     private final TicketStatisticsService ticketStatisticsService;
     private final TicketService ticketService;
-    private final SubscriptionService subscriptionService;
     private final CheapTicketMapper cheapTicketMapper;
     private final CheapTicketService cheapTicketService;
 
-    public CheapTicketFinderStage(TicketStatisticsService ticketStatisticsService, TicketService ticketService, SubscriptionService subscriptionService, CheapTicketMapper cheapTicketMapper, CheapTicketService cheapTicketService) {
+    public CheapTicketFinderStage(TicketStatisticsService ticketStatisticsService, TicketService ticketService, CheapTicketMapper cheapTicketMapper, CheapTicketService cheapTicketService) {
         this.ticketStatisticsService = ticketStatisticsService;
         this.ticketService = ticketService;
-        this.subscriptionService = subscriptionService;
         this.cheapTicketMapper = cheapTicketMapper;
         this.cheapTicketService = cheapTicketService;
     }
 
     @Override
     public StageResult call() {
-        //TODO in progress
         Stopwatch timer = Stopwatch.createStarted();
         log.info("CheapTicketFinderStage started");
 
@@ -64,10 +60,12 @@ public class CheapTicketFinderStage extends AbstractStage {
                 }
             }
         });
-
+        var beforeCheapTicketsCount = cheapTicketService.count();
         log.info("Found {} cheapest tickets", cheapestTickets.size());
         cheapTicketService.saveAll(cheapestTickets, true);
-        log.info("Saved {} cheapest tickets", cheapestTickets.size());
+        var afterCheapTicketsCount = cheapTicketService.count();
+        var savedCheapTickets = afterCheapTicketsCount - beforeCheapTicketsCount;
+        log.info("Saved {} cheapest tickets", savedCheapTickets);
         log.info("CheapTicketFinderStage finished in {}", timer.stop());
         return null;
     }

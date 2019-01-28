@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Owner menu</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+</head>
+<body>
+<a th:href="@{/admin}"><b>Back to admin menu</b></a>
+<p>Total owners: <span th:text="${@ownerServiceImpl.countDistinct()}">Unknown</span></p>
+<!-- Actions table -->
+<table border="1" style="width:30%" summary="Actions">
+    <tr>
+        <td>
+            <form method="post" th:action="@{/admin/owner/add}" th:object="${ownerDTO}">
+                <input autocomplete="off" placeholder="name" th:field="*{name}" type="text"/>
+                <input autocomplete="off" placeholder="email" th:field="*{email}" type="text"/>
+                <input type="submit" value="Create"/>
+            </form>
+        </td>
+        <td>
+            <form method="post" th:action="@{/admin/owner/delete}" th:object="${ownerDTO}">
+                <input autocomplete="off" placeholder="Id" th:field="*{id}" type="text"/>
+                <input type="submit" value="Delete"/>
+            </form>
+        </td>
+    </tr>
+</table>
+<!-- Owners table -->
+<table border="1" style="width:70%">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>creationTimestamp</th>
+        <th>name</th>
+        <th>email</th>
+        <th>subscriptions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="owner : ${@ownerServiceImpl.findAll()}">
+        <td><span th:text="${owner.id}">id </span></td>
+        <td><span th:text="${owner.creationTimestamp}"> creationTimestamp </span></td>
+        <td><span th:text="${owner.name}"> name </span></td>
+        <td><span th:text="${owner.email}"> email </span></td>
+        <td><span th:text="${owner.subscriptions}"> subscriptions </span></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

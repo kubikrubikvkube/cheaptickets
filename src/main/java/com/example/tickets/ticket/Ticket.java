@@ -7,7 +7,6 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
 
 @Data
 @Entity
@@ -19,7 +18,7 @@ public class Ticket {
     private Long id;
 
     @CreationTimestamp
-    private Date creationTimestamp;
+    private LocalDateTime creationTimestamp;
     /**
      * Класс перелёта (только 0 — Эконом);
      */

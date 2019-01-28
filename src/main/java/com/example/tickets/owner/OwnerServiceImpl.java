@@ -1,11 +1,13 @@
 package com.example.tickets.owner;
 
 import com.example.tickets.util.ServiceException;
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,9 +16,11 @@ public class OwnerServiceImpl implements OwnerService {
     private final Logger log = LoggerFactory.getLogger(OwnerServiceImpl.class);
 
     private final OwnerRepository repository;
+    private final OwnerDTOMapper mapper;
 
-    public OwnerServiceImpl(OwnerRepository repository) {
+    public OwnerServiceImpl(OwnerRepository repository, OwnerDTOMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     @Override
@@ -39,8 +43,20 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public Optional<Owner> get(String name) {
+    public Owner save(OwnerDTO dto) {
+        Owner owner = mapper.fromDTO(dto);
+        return repository.save(owner);
+    }
+
+    @Override
+    public Optional<Owner> find(String name) {
         return repository.findBy(name);
+    }
+
+    @Override
+    public List<Owner> findAll() {
+        Iterable<Owner> all = repository.findAll();
+        return Lists.newArrayList(all);
     }
 
     @Override
@@ -54,6 +70,13 @@ public class OwnerServiceImpl implements OwnerService {
             throw new ServiceException(msg);
         }
 
+    }
+
+    @Override
+    public void delete(Long id) {
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+        }
     }
 
     @Override

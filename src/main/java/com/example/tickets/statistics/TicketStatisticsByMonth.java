@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Date;
 
@@ -27,7 +28,7 @@ public class TicketStatisticsByMonth {
     private Double percentile10;
 
     @CreationTimestamp
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
     private Date updatedAt;

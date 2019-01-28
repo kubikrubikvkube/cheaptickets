@@ -105,6 +105,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    public List<Subscription> findAll() {
+        return Lists.newArrayList(repository.findAll());
+    }
+
+    @Override
     public void delete(String owner, String origin, String destination) {
         List<Subscription> subscription = repository.findBy(owner, origin, destination);
         log.debug("Subscription deleted '{}'", subscription);
@@ -116,6 +121,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         List<Subscription> subscriptions = repository.findByOwnerName(owner);
         log.debug("Subscriptions deleted '{}'", subscriptions);
         repository.deleteAll(subscriptions);
+    }
+
+    @Override
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 
     @Override
@@ -155,14 +165,15 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         return map;
     }
 
-    @Override
-    public List<Subscription> findAll() {
-        return Lists.newArrayList(repository.findAll());
-    }
-
 
     @Override
     public long count() {
         return repository.count();
+    }
+
+    @Override
+    public Subscription save(SubscriptionDTO subscriptionDTO) {
+        Subscription subscription = mapper.fromDTO(subscriptionDTO);
+        return repository.save(subscription);
     }
 }

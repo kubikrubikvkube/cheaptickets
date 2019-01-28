@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Subscription menu</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+</head>
+<body>
+<a th:href="@{/admin}"><b>Back to admin menu</b></a>
+<p>Total subscriptions: <span th:text="${@subscriptionServiceImpl.count()}">Unknown</span></p>
+
+<!-- Actions table -->
+<table border="1" style="width:30%" summary="Actions">
+    <tr>
+        <td>
+            <form method="post" th:action="@{/admin/subscription/add}" th:object="${subscriptionDTO}">
+                <select th:field="*{owner}">
+                    <option value="">-</option>
+                    <option th:each="ownerEntry : ${@ownerServiceImpl.findAll()}"
+                            th:text="${ownerEntry.name}"
+                            th:value="${ownerEntry.id}"/>
+                </select>
+
+                <input autocomplete="off" placeholder="origin" th:field="*{origin}" th:required="false" type="text"/>
+                <input autocomplete="off" placeholder="destination" th:field="*{destination}" th:required="false"
+                       type="text"/>
+                <input autocomplete="off" placeholder="departDate" th:field="*{departDate}" th:required="false"
+                       type="text"/>
+                <input autocomplete="off" placeholder="returnDate" th:field="*{returnDate}" th:required="false"
+                       type="text"/>
+                <input autocomplete="off" placeholder="tripDurationInDays" th:field="*{tripDurationInDays}"
+                       type="text"/>
+                <input type="submit" value="Create"/>
+            </form>
+        </td>
+        <td>
+            <form method="post" th:action="@{/admin/subscription/delete}" th:object="${subscriptionDTO}">
+                <input autocomplete="off" placeholder="Id" th:field="*{id}" type="text"/>
+                <input type="submit" value="Delete"/>
+            </form>
+        </td>
+    </tr>
+</table>
+<!-- Subscriptions table -->
+<table border="1" style="width:70%">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>creationTimestamp</th>
+        <th>owner</th>
+        <th>origin</th>
+        <th>destination</th>
+        <th>departDate</th>
+        <th>returnDate</th>
+        <th>tripDurationInDays</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="subscription : ${@subscriptionServiceImpl.findAll()}">
+        <td><span th:text="${subscription.id}">id</span></td>
+        <td><span th:text="${subscription.creationTimestamp}"> creationTimestamp </span></td>
+        <td><span th:text="${subscription.owner}"> owner </span></td>
+        <td><span th:text="${subscription.origin}"> origin </span></td>
+        <td><span th:text="${subscription.destination}"> destination </span></td>
+        <td><span th:text="${subscription.departDate}"> departDate </span></td>
+        <td><span th:text="${subscription.returnDate}"> returnDate </span></td>
+        <td><span th:text="${subscription.tripDurationInDays}"> tripDurationInDays </span></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

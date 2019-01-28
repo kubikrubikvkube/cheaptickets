@@ -19,6 +19,8 @@ public interface SubscriptionService {
 
     void delete(String owner);
 
+    void delete(Long id);
+
     Subscription add(String owner, String origin, String destination, String tripDurationInDays);
 
     Multimap<String, String> findDistinctOriginAndDestination();
@@ -26,4 +28,6 @@ public interface SubscriptionService {
     List<Subscription> findAll();
 
     long count();
+
+    Subscription save(SubscriptionDTO subscriptionDTO);
 }

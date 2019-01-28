@@ -5,10 +5,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 public class SubscriptionDTO {
+    /**
+     * ID
+     */
+    private Long id;
+
+    private LocalDateTime creationTimestamp;
+
     /**
      * Кто создал подписку
      */
