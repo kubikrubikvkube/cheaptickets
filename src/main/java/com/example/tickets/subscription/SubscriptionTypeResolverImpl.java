@@ -42,37 +42,38 @@ public class SubscriptionTypeResolverImpl implements SubscriptionTypeResolver {
         }
         SubscriptionType subscriptionType = null;
         if (isNotNull(destination) && isNull(departDate, returnDate, tripDurationFrom, tripDurationTo)) {
-            subscriptionType = ONE_WAY_DESTINATION;
+            subscriptionType = DESTINATION;
         }
         if (isNotNull(destination, departDate) && isNull(returnDate, tripDurationFrom, tripDurationTo)) {
-            subscriptionType = ONE_WAY_DESTINATION_AND_DEPART_DATE;
+            subscriptionType = DESTINATION_DEPART_DATE;
         }
 
         if (isNotNull(departDate, returnDate) && isNull(destination, tripDurationFrom, tripDurationTo)) {
-            subscriptionType = RETURN_NO_DESTINATION_DEPART_DATE_AND_RETURN_DATE;
+            subscriptionType = DEPART_DATE_AND_RETURN_DATE;
         }
 
         if (isNotNull(destination, returnDate) && isNull(departDate, tripDurationFrom, tripDurationTo)) {
-            subscriptionType = RETURN_DESTINATION_RETURN_DATE;
+            subscriptionType = DESTINATION_RETURN_DATE;
         }
 
         if (isNotNull(destination, tripDurationTo) && isNull(departDate, tripDurationFrom, returnDate)) {
-            subscriptionType = RETURN_DESTINATION_TRIP_DURATION_TO;
+            subscriptionType = DESTINATION_TRIP_DURATION_TO;
         }
 
         if (isNotNull(destination, tripDurationFrom) && isNull(departDate, returnDate, tripDurationTo)) {
-            subscriptionType = RETURN_DESTINATION_TRIP_DURATION_FROM;
+            subscriptionType = DESTINATION_TRIP_DURATION_FROM;
         }
 
-        if (isNotNull(destination, returnDate, tripDurationFrom) && isNull(departDate, tripDurationTo)) {
-            subscriptionType = RETURN_DESTINATION_DEPART_DATE_TRIP_DURATION_FROM;
+        if (isNotNull(destination, departDate, tripDurationFrom) && isNull(returnDate, tripDurationTo)) {
+            subscriptionType = DESTINATION_DEPART_DATE_TRIP_DURATION_FROM;
         }
 
         if (isNotNull(destination, tripDurationFrom, tripDurationTo) && isNull(departDate, returnDate)) {
-            subscriptionType = RETURN_DESTINATION_TRIP_DURATION_FROM_TRIP_DURATION_TO;
+            subscriptionType = DESTINATION_TRIP_DURATION_FROM_TRIP_DURATION_TO;
         }
+
         if (isNotNull(tripDurationFrom, tripDurationTo) && isNull(destination, departDate, returnDate)) {
-            subscriptionType = RETURN_TRIP_DURATION_FROM_TRIP_DURATION_TO;
+            subscriptionType = TRIP_DURATION_FROM_TRIP_DURATION_TO;
         }
 
         if (subscriptionType == null) {

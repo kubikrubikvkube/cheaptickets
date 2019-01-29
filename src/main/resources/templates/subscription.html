@@ -14,8 +14,7 @@
             <form method="post" th:action="@{/admin/subscription/add}" th:object="${subscriptionDTO}">
                 <select th:field="*{owner}">
                     <option value="">-</option>
-                    <option th:each="ownerEntry : ${@ownerServiceImpl.findAll()}"
-                            th:text="${ownerEntry.name}"
+                    <option th:each="ownerEntry : ${@ownerServiceImpl.findAll()}" th:text="${ownerEntry.name}"
                             th:value="${ownerEntry.id}"/>
                 </select>
                 <p><input autocomplete="off" placeholder="origin" th:field="*{origin}" th:required="false" type="text"/>
@@ -42,7 +41,7 @@
     </tr>
 </table>
 <!-- Subscriptions table -->
-<table border="1" style="width:70%">
+<table border="1" style="width:80%">
     <thead>
     <tr>
         <th>id</th>
