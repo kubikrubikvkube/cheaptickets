@@ -4,9 +4,12 @@ import com.example.tickets.subscription.Subscription;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,11 +20,13 @@ public class RoutesServiceImpl implements RoutesService {
     private final RouteDTOMapper mapper;
     private final RouteRepository repository;
     private final RoutePlanner routePlanner;
+    private final ExampleMatcher exampleMatcher;
 
     public RoutesServiceImpl(RouteDTOMapper mapper, RouteRepository repository, RoutePlanner routePlanner) {
         this.mapper = mapper;
         this.repository = repository;
         this.routePlanner = routePlanner;
+        this.exampleMatcher = ExampleMatcher.matchingAll().withIgnorePaths("id", "creationTimestamp").withIncludeNullValues();
     }
 
     @Override
@@ -35,6 +40,21 @@ public class RoutesServiceImpl implements RoutesService {
         List<Route> routes = mapper.fromDTO(routeDTOS);
         Iterable<Route> savedRoutes = repository.saveAll(routes);
         return Lists.newArrayList(savedRoutes);
+    }
+
+    @Override
+    public List<Route> saveIfNotExist(List<RouteDTO> routeDTOS) {
+        List<Route> routes = mapper.fromDTO(routeDTOS);
+        List<Route> savedRoutes = new ArrayList<>();
+        for (Route route : routes) {
+            var example = Example.of(route, exampleMatcher);
+            var exists = repository.exists(example);
+            if (!exists) {
+                Route saved = repository.save(route);
+                savedRoutes.add(saved);
+            }
+        }
+        return savedRoutes;
     }
 
     @Override

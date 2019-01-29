@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
-public class SubscriptionTypeResolverStage implements AbstractStage {
+public class SubscriptionTypeResolverStage implements Stage {
     private final Logger log = LoggerFactory.getLogger(SubscriptionTypeResolverStage.class);
     private final SubscriptionService subscriptionService;
     private final SubscriptionTypeResolver typeResolver;

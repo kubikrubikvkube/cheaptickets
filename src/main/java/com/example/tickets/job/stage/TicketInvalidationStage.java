@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Component
-public class TicketInvalidationStage implements AbstractStage {
+public class TicketInvalidationStage implements Stage {
     private final Logger log = LoggerFactory.getLogger(TicketInvalidationStage.class);
 
     private final TicketRepository ticketRepository;

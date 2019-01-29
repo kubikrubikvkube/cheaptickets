@@ -9,6 +9,8 @@ public interface RoutesService {
 
     List<Route> save(List<RouteDTO> routeDTOS);
 
+    List<Route> saveIfNotExist(List<RouteDTO> routeDTOS);
+
     List<Route> findBy(String origin, String destination);
 
     List<RouteDTO> plan(Subscription subscription);

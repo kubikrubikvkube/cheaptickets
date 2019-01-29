@@ -1,5 +1,6 @@
-package com.example.tickets.job;
+package com.example.tickets.job.stage;
 
+import com.example.tickets.route.Route;
 import com.example.tickets.route.RouteDTO;
 import com.example.tickets.route.RoutesService;
 import com.example.tickets.subscription.Subscription;
@@ -7,32 +8,28 @@ import com.example.tickets.subscription.SubscriptionService;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import org.quartz.DisallowConcurrentExecution;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.PersistJobDataAfterExecution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@PersistJobDataAfterExecution
-@DisallowConcurrentExecution
-public class RoutePlannerJob implements Job {
-    private final Logger log = LoggerFactory.getLogger(RoutePlannerJob.class);
+@Component
+public class RoutePlannerStage implements Stage {
+    private final static Logger log = LoggerFactory.getLogger(RoutePlannerStage.class);
     private final RoutesService routesService;
     private final SubscriptionService subscriptionService;
 
-    public RoutePlannerJob(RoutesService routesService, SubscriptionService subscriptionService) {
+    public RoutePlannerStage(RoutesService routesService, SubscriptionService subscriptionService) {
         this.routesService = routesService;
         this.subscriptionService = subscriptionService;
     }
 
     @Override
-    public void execute(JobExecutionContext context) {
+    public StageResult call() {
         Stopwatch timer = Stopwatch.createStarted();
-        log.info("RoutePlannerJob started");
+        log.info("RoutePlannerStage started");
 
         Iterable<Subscription> subscriptions = subscriptionService.findAll();
 
@@ -45,8 +42,9 @@ public class RoutePlannerJob implements Job {
             all.putAll(subscription, routes);
         }
         List<RouteDTO> routeDTOs = new ArrayList<>(all.values());
-        routesService.save(routeDTOs);
+        List<Route> savedRoutes = routesService.saveIfNotExist(routeDTOs);
 
         log.info("RoutePlannerStage finished in {}", timer.stop());
+        return new StageResult("RoutePlannerStage", savedRoutes.size(), 0, 0);
     }
 }

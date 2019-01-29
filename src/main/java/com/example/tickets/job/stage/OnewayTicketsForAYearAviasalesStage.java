@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
 @Component
-public class OnewayTicketsForAYearAviasalesStage implements AbstractStage {
+public class OnewayTicketsForAYearAviasalesStage implements Stage {
     private final Logger log = LoggerFactory.getLogger(OnewayTicketsForAYearAviasalesStage.class);
     private final TicketService ticketService;
     private final SubscriptionService subscriptionService;
