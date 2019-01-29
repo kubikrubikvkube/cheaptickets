@@ -2,9 +2,11 @@ package com.example.tickets.statistics;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -21,7 +23,9 @@ public class TicketStatisticsByMonthDTO {
 
     private Double percentile10;
 
-    private Date createdAt;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
-    private Date updatedAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 }

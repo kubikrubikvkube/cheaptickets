@@ -23,9 +23,9 @@
                 <p><input autocomplete="off" placeholder="destination" th:field="*{destination}" th:required="false"
                           type="text"/></p>
                 <p><input autocomplete="off" placeholder="departDate" th:field="*{departDate}" th:required="false"
-                          type="text"/></p>
+                          th:value="*{departDate}" type="date"/></p>
                 <p><input autocomplete="off" placeholder="returnDate" th:field="*{returnDate}" th:required="false"
-                          type="text"/></p>
+                          th:value="*{returnDate}" type="date"/></p>
                 <p><input autocomplete="off" placeholder="tripDurationInDaysFrom" th:field="*{tripDurationInDaysFrom}"
                           type="text"/></p>
                 <p><input autocomplete="off" placeholder="tripDurationInDaysTo" th:field="*{tripDurationInDaysTo}"
@@ -54,6 +54,7 @@
         <th>returnDate</th>
         <th>tripDurationInDaysFrom</th>
         <th>tripDurationInDaysTo</th>
+        <th>subscriptionType</th>
     </tr>
     </thead>
     <tbody>
@@ -67,6 +68,7 @@
         <td><span th:text="${subscription.returnDate}"> returnDate </span></td>
         <td><span th:text="${subscription.tripDurationInDaysFrom}"> tripDurationInDaysFrom </span></td>
         <td><span th:text="${subscription.tripDurationInDaysTo}"> tripDurationInDaysTo </span></td>
+        <td><span th:text="${subscription.subscriptionType}"> subscriptionType </span></td>
     </tr>
     </tbody>
 </table>

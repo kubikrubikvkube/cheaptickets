@@ -7,7 +7,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.Date;
 
 @Data
 @Entity
@@ -31,6 +30,6 @@ public class TicketStatisticsByMonth {
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
 }

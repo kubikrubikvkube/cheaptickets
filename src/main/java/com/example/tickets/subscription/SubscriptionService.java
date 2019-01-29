@@ -28,4 +28,6 @@ public interface SubscriptionService {
     long count();
 
     Subscription save(SubscriptionDTO subscriptionDTO);
+
+    Subscription save(Subscription subscriptionDTO);
 }

@@ -3,6 +3,7 @@ package com.example.tickets.subscription;
 import com.example.tickets.owner.Owner;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -33,11 +34,13 @@ public class SubscriptionDTO {
     /**
      * Дата отправления
      */
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate departDate;
 
     /**
      * Дата возвращения
      */
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate returnDate;
 
     /**

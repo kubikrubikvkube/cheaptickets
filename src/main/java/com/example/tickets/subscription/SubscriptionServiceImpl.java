@@ -177,4 +177,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         Subscription subscription = mapper.fromDTO(subscriptionDTO);
         return repository.save(subscription);
     }
+
+    @Override
+    public Subscription save(Subscription subscription) {
+        return repository.save(subscription);
+    }
 }

@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -48,11 +49,13 @@ public class Subscription {
     /**
      * Дата отправления
      */
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate departDate;
 
     /**
      * Дата возвращения
      */
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate returnDate;
 
     /**
