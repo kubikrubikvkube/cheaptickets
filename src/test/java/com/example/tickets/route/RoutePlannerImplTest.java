@@ -3,6 +3,7 @@ package com.example.tickets.route;
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.ticket.CheapTicket;
 import com.example.tickets.ticket.CheapTicketService;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -26,6 +27,7 @@ class RoutePlannerImplTest {
     private LocalDate returnDate = LocalDate.now().plusDays(tripDuration);
 
     @Test
+    @Disabled
     void shouldFindRoutesByOriginDestinationAndTripDuration() {
         Subscription subscription = new Subscription();
         subscription.setOrigin(origin);
@@ -69,6 +71,7 @@ class RoutePlannerImplTest {
     }
 
     @Test
+    @Disabled
     void shouldFindRoutesByOriginDestinationAndDepartDate() {
         Subscription subscription = new Subscription();
         subscription.setOrigin(origin);
@@ -95,6 +98,7 @@ class RoutePlannerImplTest {
     }
 
     @Test
+    @Disabled
     void shouldFindRoutesByOriginDestination() {
         Subscription subscription = new Subscription();
         subscription.setOrigin(origin);
@@ -132,6 +136,7 @@ class RoutePlannerImplTest {
     }
 
     @Test
+    @Disabled
     void shouldFindRoutesByOriginDestinationAndDepartDateAndReturnDate() {
         Subscription subscription = new Subscription();
         subscription.setOrigin(origin);

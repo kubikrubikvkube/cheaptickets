@@ -64,4 +64,7 @@ public class Subscription {
      * Время поездки в днях до
      */
     private Integer tripDurationInDaysTo;
+
+    @Enumerated(EnumType.STRING)
+    private SubscriptionType subscriptionType;
 }

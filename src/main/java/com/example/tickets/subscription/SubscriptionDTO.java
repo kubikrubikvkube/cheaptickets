@@ -49,4 +49,6 @@ public class SubscriptionDTO {
      * Время поездки в днях до
      */
     private Integer tripDurationInDaysTo;
+
+    private SubscriptionType subscriptionType;
 }
