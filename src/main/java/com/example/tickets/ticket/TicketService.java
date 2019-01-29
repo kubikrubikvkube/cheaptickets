@@ -21,6 +21,8 @@ public interface TicketService {
 
     List<Ticket> findAll();
 
+    List<Ticket> findAll(int limit);
+
     void saveAll(List<Ticket> tickets);
 
     long saveAllIfNotExist(List<Ticket> tickets);

@@ -9,9 +9,13 @@ import java.util.List;
 public interface CheapTicketService {
     void save(CheapTicket cheapTicket);
 
-    void saveAll(Iterable<CheapTicket> cheapTickets);
+    void save(Iterable<CheapTicket> cheapTickets);
 
-    void saveAll(Iterable<CheapTicket> cheapTickets, boolean isParallel);
+    void save(Iterable<CheapTicket> cheapTickets, boolean isParallel);
+
+    void saveIfNotExist(Iterable<CheapTicket> cheapTickets, boolean isParallel);
+
+    void saveIfNotExist(Iterable<CheapTicket> cheapTickets);
 
     long count();
 

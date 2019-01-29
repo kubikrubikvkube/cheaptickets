@@ -63,6 +63,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         if (!exists) {
             Optional<Owner> ownerOpt = ownerRepository.findBy(ownerName);
             if (ownerOpt.isPresent()) {
+                var tripDuration = localDepartDate.until(localReturnDate).getDays();
                 Owner owner = ownerOpt.get();
                 SubscriptionDTO dto = new SubscriptionDTO();
                 dto.setOwner(owner);
@@ -70,7 +71,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
                 dto.setDestination(destination);
                 dto.setDepartDate(localDepartDate);
                 dto.setReturnDate(localReturnDate);
-                dto.setTripDurationInDays(localDepartDate.until(localReturnDate).getDays());
+                dto.setTripDurationInDaysFrom(tripDuration);
+                dto.setTripDurationInDaysTo(tripDuration);
                 Subscription createdSubscription = mapper.fromDTO(dto);
                 log.info("Saving subscription '{}'", createdSubscription);
                 repository.save(createdSubscription);
@@ -126,32 +128,33 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         repository.deleteById(id);
     }
 
-    @Override
-    public Subscription add(String ownerName, String origin, String destination, String tripDurationInDays) {
-        Integer tripDuration = Integer.parseInt(tripDurationInDays);
-        boolean exists = repository.exists(ownerName, origin, destination, tripDuration);
-        log.info("Subscription for '{} {} {} {}' exists '{}'", ownerName, origin, destination, tripDuration, exists);
-        if (!exists) {
-            Optional<Owner> ownerOpt = ownerRepository.findBy(ownerName);
-            if (ownerOpt.isPresent()) {
-                Owner owner = ownerOpt.get();
-                SubscriptionDTO dto = new SubscriptionDTO();
-                dto.setOwner(owner);
-                dto.setOrigin(origin);
-                dto.setDestination(destination);
-                dto.setTripDurationInDays(tripDuration);
-                Subscription createdSubscription = mapper.fromDTO(dto);
-                log.debug("Saving subscription '{}'", createdSubscription);
-                repository.save(createdSubscription);
-            } else {
-                var msg = String.format("Owner %s does not exist", ownerName);
-                throw new ServiceException(msg);
-            }
-
-
-        }
-        return repository.findBy(ownerName, origin, destination, tripDuration);
-    }
+//    @Override
+//    public Subscription add(String ownerName, String origin, String destination, String tripDurationInDays) {
+//        Integer tripDuration = Integer.parseInt(tripDurationInDays);
+//        boolean exists = repository.exists(ownerName, origin, destination, tripDuration);
+//        log.info("Subscription for '{} {} {} {}' exists '{}'", ownerName, origin, destination, tripDuration, exists);
+//        if (!exists) {
+//            Optional<Owner> ownerOpt = ownerRepository.findBy(ownerName);
+//            if (ownerOpt.isPresent()) {
+//                Owner owner = ownerOpt.get();
+//                SubscriptionDTO dto = new SubscriptionDTO();
+//                dto.setOwner(owner);
+//                dto.setOrigin(origin);
+//                dto.setDestination(destination);
+//                dto.setTripDurationInDaysFrom(tripDuration);
+//                dto.setTripDurationInDaysTo(tripDuration);
+//                Subscription createdSubscription = mapper.fromDTO(dto);
+//                log.debug("Saving subscription '{}'", createdSubscription);
+//                repository.save(createdSubscription);
+//            } else {
+//                var msg = String.format("Owner %s does not exist", ownerName);
+//                throw new ServiceException(msg);
+//            }
+//
+//
+//        }
+//        return repository.findBy(ownerName, origin, destination, tripDuration);
+//    }
 
     @Override
     public Multimap<String, String> findDistinctOriginAndDestination() {

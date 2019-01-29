@@ -30,7 +30,8 @@ class RoutePlannerImplTest {
         Subscription subscription = new Subscription();
         subscription.setOrigin(origin);
         subscription.setDestination(destination);
-        subscription.setTripDurationInDays(tripDuration);
+        subscription.setTripDurationInDaysFrom(tripDuration);
+        subscription.setTripDurationInDaysTo(tripDuration);
 
         CheapTicket departTicket = new CheapTicket();
         departTicket.setOrigin(origin);

@@ -7,8 +7,10 @@ import com.example.tickets.ticket.Ticket;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 @Component
 public class RoutePlannerImpl implements RoutePlanner {
@@ -20,20 +22,6 @@ public class RoutePlannerImpl implements RoutePlanner {
 
     @Override
     public List<RouteDTO> plan(Subscription subscription) {
-        String origin = subscription.getOrigin();
-        String destination = subscription.getDestination();
-        LocalDate departDate = subscription.getDepartDate();
-        Integer tripDuration = subscription.getTripDurationInDays();
-        LocalDate returnDate = subscription.getReturnDate();
-        if ((origin != null && destination != null && tripDuration != null) && (departDate == null && returnDate == null)) {
-            return planReturnTripForSpecificNumberOfDays(origin, destination, tripDuration);
-        } else if ((origin != null && destination != null) && (tripDuration == null && departDate == null && returnDate == null)) {
-            return planOneWayTrip(origin, destination);
-        } else if ((origin != null && destination != null && departDate != null) && (tripDuration == null && returnDate == null)) {
-            return planOneWayTrip(origin, destination).stream().filter(routeDTO -> routeDTO.getDepartTicket().getDepartDate().equals(departDate)).collect(Collectors.toList());
-        } else if ((origin != null && destination != null && departDate != null && returnDate != null)) {
-            return planReturnTripWithDepartAndReturnDates(origin, destination, departDate, returnDate);
-        }
         return Collections.emptyList();
     }
 
@@ -78,35 +66,35 @@ public class RoutePlannerImpl implements RoutePlanner {
         return availableRoutes;
     }
 
-    private List<RouteDTO> planReturnTripForSpecificNumberOfDays(String origin, String destination, Integer tripDurationInDays) {
-        List<CheapTicket> departTickets = cheapTicketService.findByOriginAndDestination(origin, destination);
-
-        List<RouteDTO> availableRoutes = new ArrayList<>();
-        for (CheapTicket departTicket : departTickets) {
-            LocalDate departDate = departTicket.getDepartDate();
-            LocalDate returnDate = departDate.plusDays(tripDurationInDays);
-            List<CheapTicket> returnTickets = cheapTicketService.findByOriginAndDestinationAndDepartDate(origin, destination, returnDate);
-            if (!returnTickets.isEmpty()) {
-                Optional<CheapTicket> cheapestReturnTicket = returnTickets
-                        .stream()
-                        .filter(Objects::nonNull)
-                        .min(Comparator.comparingInt(Ticket::getValue));
-
-                if (cheapestReturnTicket.isPresent()) {
-                    CheapTicket returnTicket = cheapestReturnTicket.get();
-                    RouteDTO routeDTO = new RouteDTO();
-                    routeDTO.setOrigin(origin);
-                    routeDTO.setDestination(destination);
-                    routeDTO.setDepartTicket(departTicket);
-                    routeDTO.setReturnTicket(returnTicket);
-                    routeDTO.setTripDurationInDays(tripDurationInDays);
-                    routeDTO.setSumValue(departTicket.getValue() + returnTicket.getValue());
-                    availableRoutes.add(routeDTO);
-                }
-            }
-        }
-
-        availableRoutes.sort(Comparator.comparingInt(RouteDTO::getSumValue));
-        return availableRoutes;
-    }
+//    private List<RouteDTO> planReturnTripForSpecificNumberOfDays(String origin, String destination, Integer tripDurationInDays) {
+//        List<CheapTicket> departTickets = cheapTicketService.findByOriginAndDestination(origin, destination);
+//
+//        List<RouteDTO> availableRoutes = new ArrayList<>();
+//        for (CheapTicket departTicket : departTickets) {
+//            LocalDate departDate = departTicket.getDepartDate();
+//            LocalDate returnDate = departDate.plusDays(tripDurationInDays);
+//            List<CheapTicket> returnTickets = cheapTicketService.findByOriginAndDestinationAndDepartDate(origin, destination, returnDate);
+//            if (!returnTickets.isEmpty()) {
+//                Optional<CheapTicket> cheapestReturnTicket = returnTickets
+//                        .stream()
+//                        .filter(Objects::nonNull)
+//                        .min(Comparator.comparingInt(Ticket::getValue));
+//
+//                if (cheapestReturnTicket.isPresent()) {
+//                    CheapTicket returnTicket = cheapestReturnTicket.get();
+//                    RouteDTO routeDTO = new RouteDTO();
+//                    routeDTO.setOrigin(origin);
+//                    routeDTO.setDestination(destination);
+//                    routeDTO.setDepartTicket(departTicket);
+//                    routeDTO.setReturnTicket(returnTicket);
+//                    routeDTO.setTripDurationInDays(tripDurationInDays);
+//                    routeDTO.setSumValue(departTicket.getValue() + returnTicket.getValue());
+//                    availableRoutes.add(routeDTO);
+//                }
+//            }
+//        }
+//
+//        availableRoutes.sort(Comparator.comparingInt(RouteDTO::getSumValue));
+//        return availableRoutes;
+//    }
 }

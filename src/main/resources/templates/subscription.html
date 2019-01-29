@@ -7,7 +7,6 @@
 <body>
 <a th:href="@{/admin}"><b>Back to admin menu</b></a>
 <p>Total subscriptions: <span th:text="${@subscriptionServiceImpl.count()}">Unknown</span></p>
-
 <!-- Actions table -->
 <table border="1" style="width:30%" summary="Actions">
     <tr>
@@ -19,17 +18,19 @@
                             th:text="${ownerEntry.name}"
                             th:value="${ownerEntry.id}"/>
                 </select>
-
-                <input autocomplete="off" placeholder="origin" th:field="*{origin}" th:required="false" type="text"/>
-                <input autocomplete="off" placeholder="destination" th:field="*{destination}" th:required="false"
-                       type="text"/>
-                <input autocomplete="off" placeholder="departDate" th:field="*{departDate}" th:required="false"
-                       type="text"/>
-                <input autocomplete="off" placeholder="returnDate" th:field="*{returnDate}" th:required="false"
-                       type="text"/>
-                <input autocomplete="off" placeholder="tripDurationInDays" th:field="*{tripDurationInDays}"
-                       type="text"/>
-                <input type="submit" value="Create"/>
+                <p><input autocomplete="off" placeholder="origin" th:field="*{origin}" th:required="false" type="text"/>
+                </p>
+                <p><input autocomplete="off" placeholder="destination" th:field="*{destination}" th:required="false"
+                          type="text"/></p>
+                <p><input autocomplete="off" placeholder="departDate" th:field="*{departDate}" th:required="false"
+                          type="text"/></p>
+                <p><input autocomplete="off" placeholder="returnDate" th:field="*{returnDate}" th:required="false"
+                          type="text"/></p>
+                <p><input autocomplete="off" placeholder="tripDurationInDaysFrom" th:field="*{tripDurationInDaysFrom}"
+                          type="text"/></p>
+                <p><input autocomplete="off" placeholder="tripDurationInDaysTo" th:field="*{tripDurationInDaysTo}"
+                          type="text"/></p>
+                <p><input type="submit" value="Create"/></p>
             </form>
         </td>
         <td>
@@ -51,7 +52,8 @@
         <th>destination</th>
         <th>departDate</th>
         <th>returnDate</th>
-        <th>tripDurationInDays</th>
+        <th>tripDurationInDaysFrom</th>
+        <th>tripDurationInDaysTo</th>
     </tr>
     </thead>
     <tbody>
@@ -63,7 +65,8 @@
         <td><span th:text="${subscription.destination}"> destination </span></td>
         <td><span th:text="${subscription.departDate}"> departDate </span></td>
         <td><span th:text="${subscription.returnDate}"> returnDate </span></td>
-        <td><span th:text="${subscription.tripDurationInDays}"> tripDurationInDays </span></td>
+        <td><span th:text="${subscription.tripDurationInDaysFrom}"> tripDurationInDaysFrom </span></td>
+        <td><span th:text="${subscription.tripDurationInDaysTo}"> tripDurationInDaysTo </span></td>
     </tr>
     </tbody>
 </table>

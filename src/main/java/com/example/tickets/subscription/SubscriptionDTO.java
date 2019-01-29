@@ -41,7 +41,12 @@ public class SubscriptionDTO {
     private LocalDate returnDate;
 
     /**
-     * Время поездки в днях
+     * Время поездки в днях от
      */
-    private Integer tripDurationInDays;
+    private Integer tripDurationInDaysFrom;
+
+    /**
+     * Время поездки в днях до
+     */
+    private Integer tripDurationInDaysTo;
 }

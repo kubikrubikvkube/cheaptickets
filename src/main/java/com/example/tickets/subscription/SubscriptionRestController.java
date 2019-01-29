@@ -35,15 +35,6 @@ public class SubscriptionRestController {
         return service.add(owner, origin, destination, departDate, returnDate);
     }
 
-    @RequestMapping(value = "/subscription/add", params = {"owner", "origin", "destination", "tripDurationInDays"})
-    public Subscription add(@RequestParam String owner,
-                            @RequestParam String origin,
-                            @RequestParam String destination,
-                            @RequestParam String tripDurationInDays) {
-        log.info("Subscription add request for '{} {} {} {}'", owner, origin, destination, tripDurationInDays);
-        return service.add(owner, origin, destination, tripDurationInDays);
-    }
-
     @RequestMapping(value = "/subscription/get", params = {"owner", "origin", "destination"})
     public List<Subscription> get(@RequestParam String owner,
                                   @RequestParam String origin,

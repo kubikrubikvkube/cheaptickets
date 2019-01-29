@@ -2,6 +2,8 @@ package com.example.tickets.ticket;
 
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionDTO;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -14,9 +16,12 @@ import java.util.stream.StreamSupport;
 @Transactional
 public class CheapTicketServiceImpl implements CheapTicketService {
     private final CheapTicketRepository repository;
+    private final ExampleMatcher exampleMatcher;
 
     public CheapTicketServiceImpl(CheapTicketRepository repository) {
         this.repository = repository;
+        this.exampleMatcher = ExampleMatcher.matchingAll().withIgnorePaths("id", "creationTimestamp", "foundAt").withIncludeNullValues();
+
     }
 
     @Override
@@ -25,14 +30,31 @@ public class CheapTicketServiceImpl implements CheapTicketService {
     }
 
     @Override
-    public void saveAll(Iterable<CheapTicket> cheapTickets) {
-        saveAll(cheapTickets, false);
+    public void save(Iterable<CheapTicket> cheapTickets) {
+        save(cheapTickets, false);
     }
 
     @Override
-    public void saveAll(Iterable<CheapTicket> cheapTickets, boolean isParallel) {
-        StreamSupport.stream(cheapTickets.spliterator(), isParallel).forEach(repository::save);
+    public void save(Iterable<CheapTicket> cheapTickets, boolean isParallel) {
+
         repository.flush();
+    }
+
+    @Override
+    public void saveIfNotExist(Iterable<CheapTicket> cheapTickets, boolean isParallel) {
+        StreamSupport
+                .stream(cheapTickets.spliterator(), isParallel)
+                .forEach(ticket -> {
+                    var ticketExample = Example.of(ticket, exampleMatcher);
+                    if (!repository.exists(ticketExample)) {
+                        repository.save(ticket);
+                    }
+                });
+    }
+
+    @Override
+    public void saveIfNotExist(Iterable<CheapTicket> cheapTickets) {
+        saveIfNotExist(cheapTickets, false);
     }
 
     @Override

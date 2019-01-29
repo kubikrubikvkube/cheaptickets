@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Comparator.comparing;
@@ -83,6 +84,16 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public List<Ticket> findAll() {
         return Lists.newArrayList(repository.findAll());
+    }
+
+    @Override
+    public List<Ticket> findAll(int limit) {
+        List<Ticket> allTickets = this.findAll();
+
+        return allTickets
+                .stream()
+                .limit(limit)
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -24,8 +24,6 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
     @Query("select s from Subscription s where s.origin = ?1 and s.destination = ?2")
     List<Subscription> findBy(String origin, String destination);
 
-    @Query("select s from Subscription s where s.owner.name = ?1 and s.origin = ?2 and s.destination = ?3 and s.tripDurationInDays = ?4")
-    Subscription findBy(String ownerName, String origin, String destination, Integer tripDurationInDays);
 
     @Query("select s from Subscription s where s.owner.name = ?1 and s.origin = ?2 and s.destination = ?3")
     List<Subscription> findBy(String ownerName, String origin, String destination);
@@ -38,9 +36,6 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
 
     @Query("select count(s)>0 from Subscription s where s.owner.name = ?1 and s.origin = ?2 and s.destination = ?3 and s.departDate = ?4 and s.returnDate = ?5")
     boolean exists(String owner, String origin, String destination, LocalDate departDate, LocalDate returnDate);
-
-    @Query("select count(s)>0 from Subscription s where s.owner.name = ?1 and s.origin = ?2 and s.destination = ?3 and s.tripDurationInDays = ?4")
-    boolean exists(String owner, String origin, String destination, Integer tripDurationInDays);
 
     @Query(value = "select distinct q.origin,q.destination from Subscription q", nativeQuery = true)
     List<Object[]> findDistinctOriginAndDestination();

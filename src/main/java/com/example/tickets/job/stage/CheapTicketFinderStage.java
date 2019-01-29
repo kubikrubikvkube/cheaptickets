@@ -60,14 +60,10 @@ public class CheapTicketFinderStage implements AbstractStage {
                 }
             }
         });
-        //TODO пусть сохраняет только те дешевые билеты, которых нет в базе данных.
-        //TODO или всё таки сохраняет не все? Чекнуть и исправить логирование
         var beforeCheapTicketsCount = cheapTicketService.count();
         log.info("Found {} cheapest tickets", cheapestTickets.size());
-        cheapTicketService.saveAll(cheapestTickets, true);
-        var afterCheapTicketsCount = cheapTicketService.count();
-        var savedCheapTickets = afterCheapTicketsCount - beforeCheapTicketsCount;
-        log.info("Saved {} cheapest tickets", savedCheapTickets);
+        cheapTicketService.saveIfNotExist(cheapestTickets, true);
+        log.info("Saved {} cheapest tickets", cheapTicketService.count() - beforeCheapTicketsCount);
         log.info("CheapTicketFinderStage finished in {}", timer.stop());
         return null;
     }
