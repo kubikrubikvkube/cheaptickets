@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class RoutePlannerImpl implements RoutePlanner {
@@ -118,21 +119,29 @@ public class RoutePlannerImpl implements RoutePlanner {
             routeDTO.setSumValue(ticket.getValue());
             availableRoutes.add(routeDTO);
         }
-        availableRoutes.sort(Comparator.comparingInt(RouteDTO::getSumValue));
-        return availableRoutes.subList(0, 100);
+
+        return availableRoutes
+                .stream()
+                .sorted(Comparator.comparingInt(RouteDTO::getSumValue))
+                .limit(100)
+                .collect(Collectors.toList());
     }
 
     private List<RouteDTO> planReturnTripWithTripDurationFromTo(String origin, String destination, int from, int to) {
-        List<RouteDTO> localRoutes = new ArrayList<>();
+        List<RouteDTO> availableRoutes = new ArrayList<>();
         for (int i = from; i <= to; i++) {
-            List<RouteDTO> routeDTOS = planReturnTripForSpecificNumberOfDays(origin, destination, i);
-            localRoutes.addAll(routeDTOS);
+            List<RouteDTO> routeDTOS = internal_planReturnTripForSpecificNumberOfDays(origin, destination, i);
+            availableRoutes.addAll(routeDTOS);
         }
-        localRoutes.sort(Comparator.comparingInt(RouteDTO::getSumValue));
-        return localRoutes.subList(0, 100);
 
+        return availableRoutes
+                .stream()
+                .sorted(Comparator.comparingInt(RouteDTO::getSumValue))
+                .limit(100)
+                .collect(Collectors.toList());
     }
-    private List<RouteDTO> planReturnTripForSpecificNumberOfDays(String origin, String destination, Integer tripDurationInDays) {
+
+    private List<RouteDTO> internal_planReturnTripForSpecificNumberOfDays(String origin, String destination, Integer tripDurationInDays) {
         List<CheapTicket> departTickets = cheapTicketService.findByOriginAndDestination(origin, destination);
 
         List<RouteDTO> availableRoutes = new ArrayList<>();
@@ -159,8 +168,8 @@ public class RoutePlannerImpl implements RoutePlanner {
                 }
             }
         }
-        availableRoutes.sort(Comparator.comparingInt(RouteDTO::getSumValue));
-        return availableRoutes.subList(0, 100);
+
+        return availableRoutes;
     }
 
     private List<RouteDTO> planReturnTripWithDepartAndReturnDates(LocalDate departDate, LocalDate returnDate) {

@@ -52,10 +52,6 @@ public class SubscriptionTypeResolverImpl implements SubscriptionTypeResolver {
             subscriptionType = DEPART_DATE_AND_RETURN_DATE;
         }
 
-        if (isNotNull(destination, returnDate) && isNull(departDate, tripDurationFrom, tripDurationTo)) {
-            subscriptionType = DESTINATION_RETURN_DATE;
-        }
-
         if (isNotNull(destination, tripDurationTo) && isNull(departDate, tripDurationFrom, returnDate)) {
             subscriptionType = DESTINATION_TRIP_DURATION_TO;
         }
