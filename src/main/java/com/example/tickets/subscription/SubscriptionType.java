@@ -27,10 +27,6 @@ public enum SubscriptionType {
      */
     DESTINATION_DEPART_DATE_RETURN_DATE,
     /**
-     * Туда-обратно в пункт Б имея дату возврата, но не зная дату отправления
-     */
-    DESTINATION_RETURN_DATE,
-    /**
      * Туда-обратно в пункт Б в определенную дату не меньше чем на Х дней
      */
     DESTINATION_DEPART_DATE_TRIP_DURATION_FROM,
