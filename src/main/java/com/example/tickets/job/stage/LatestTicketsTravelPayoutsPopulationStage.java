@@ -49,6 +49,7 @@ public class LatestTicketsTravelPayoutsPopulationStage implements Stage {
                         .origin(origin)
                         .destination(destination)
                         .limit(1000)
+                        .show_to_affiliates(true)
                         .one_way(true)
                         .build();
                 subscriptionRequests.add(latestRequest);

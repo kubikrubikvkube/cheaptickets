@@ -35,7 +35,7 @@ public class AviasalesServiceImpl implements AviasalesService {
         sb.append("destination_iata=").append(destinationIAT).append("&");
         sb.append("depart_start=").append(date).append("&");
         sb.append("depart_range=").append(range).append("&");
-        sb.append("affiliate=false");
+        sb.append("affiliate=true");
         var request = sb.toString();
         log.trace("Aviasales one-way ticket request: {}", request);
         Optional<AviasalesResponse> responseOptional = defaultHttpClient.getWithoutHeaders(request, AviasalesResponse.class);
