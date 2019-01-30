@@ -104,7 +104,7 @@ public class RoutePlannerImpl implements RoutePlanner {
             }
         }
         availableRoutes.sort(Comparator.comparingInt(RouteDTO::getSumValue));
-        return availableRoutes;
+        return availableRoutes.subList(0, 100);
     }
     private List<RouteDTO> planOneWayTrip(String origin, String destination) {
         List<CheapTicket> departTickets = cheapTicketService.findByOriginAndDestination(origin, destination);
@@ -119,7 +119,7 @@ public class RoutePlannerImpl implements RoutePlanner {
             availableRoutes.add(routeDTO);
         }
         availableRoutes.sort(Comparator.comparingInt(RouteDTO::getSumValue));
-        return availableRoutes;
+        return availableRoutes.subList(0, 100);
     }
 
     private List<RouteDTO> planReturnTripWithTripDurationFromTo(String origin, String destination, int from, int to) {
@@ -128,7 +128,8 @@ public class RoutePlannerImpl implements RoutePlanner {
             List<RouteDTO> routeDTOS = planReturnTripForSpecificNumberOfDays(origin, destination, i);
             localRoutes.addAll(routeDTOS);
         }
-        return localRoutes;
+        localRoutes.sort(Comparator.comparingInt(RouteDTO::getSumValue));
+        return localRoutes.subList(0, 100);
 
     }
     private List<RouteDTO> planReturnTripForSpecificNumberOfDays(String origin, String destination, Integer tripDurationInDays) {
@@ -158,9 +159,8 @@ public class RoutePlannerImpl implements RoutePlanner {
                 }
             }
         }
-
         availableRoutes.sort(Comparator.comparingInt(RouteDTO::getSumValue));
-        return availableRoutes;
+        return availableRoutes.subList(0, 100);
     }
 
     private List<RouteDTO> planReturnTripWithDepartAndReturnDates(LocalDate departDate, LocalDate returnDate) {
