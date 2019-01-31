@@ -96,7 +96,7 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public long countDistinct() {
-        return repository.countDistinct();
+    public long count() {
+        return repository.count();
     }
 }

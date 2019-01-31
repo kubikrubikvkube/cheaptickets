@@ -23,8 +23,8 @@ public class StatisticsEndpoint {
 //    public String getStatistics() throws JsonProcessingException {
 //        ObjectNode root = mapper.createObjectNode();
 //
-//        root.set("subscriptions", prepareSubscriptionsMetric());
-//        root.set("owners", prepareOwnerMetric());
+
+
 //        root.set("cheap tickets", prepareCheapTicketMetric());
 //        root.set("ticket statistics", prepareTicketStatisticsMetric());
 //        root.set("routes", prepareRoutesMetric());
@@ -33,17 +33,7 @@ public class StatisticsEndpoint {
 //    }
 //
 //
-//    private ObjectNode prepareSubscriptionsMetric() {
-//        ObjectNode subscriptions = mapper.createObjectNode();
-//        subscriptions.put("total", subscriptionService.count());
-//        return subscriptions;
-//    }
 //
-//    private ObjectNode prepareOwnerMetric() {
-//        ObjectNode owners = mapper.createObjectNode();
-//        owners.put("total", ownerService.countDistinct());
-//        return owners;
-//    }
 //
 //    private ObjectNode prepareCheapTicketMetric() {
 //        ObjectNode cheapTickets = mapper.createObjectNode();

@@ -20,9 +20,6 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
 
     @Query("select o from Owner o where o.name = ?1")
     Optional<Owner> findBy(String name);
-
-    @Query("select distinct(count(o)) from Owner o")
-    long countDistinct();
 }
 
 

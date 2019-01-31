@@ -8,6 +8,10 @@
 <a th:href="@{/admin}"><b>Back to admin menu</b></a>
 
 <p th:inline="text">Total tickets: [[${@ticketServiceImpl.count()}]]</p>
+<p th:inline="text">Total subscriptions: [[${@subscriptionServiceImpl.count()}]]</p>
+<p th:inline="text">Total owners: [[${@ownerServiceImpl.count()}]]</p>
+<p th:inline="text">Total cheap tickets: [[${@cheapTicketServiceImpl.count()}]]</p>
+
 
 </body>
 </html>

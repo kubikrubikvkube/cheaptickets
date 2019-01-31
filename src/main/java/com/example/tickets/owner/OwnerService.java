@@ -18,5 +18,5 @@ public interface OwnerService {
 
     Owner add(String name);
 
-    long countDistinct();
+    long count();
 }
