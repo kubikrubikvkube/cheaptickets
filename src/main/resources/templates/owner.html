@@ -6,7 +6,7 @@
 </head>
 <body>
 <a th:href="@{/admin}"><b>Back to admin menu</b></a>
-<p>Total owners: <span th:text="${@ownerServiceImpl.countDistinct()}">Unknown</span></p>
+<p>Total owners: <span th:text="${@ownerServiceImpl.count()}">Unknown</span></p>
 <!-- Actions table -->
 <table border="1" style="width:30%" summary="Actions">
     <tr>

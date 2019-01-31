@@ -1,6 +1,9 @@
 package com.example.tickets.web;
 
-import org.quartz.*;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobKey;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,12 +28,18 @@ public class StagesController {
     }
 
 
-    @ModelAttribute("isGlobalJobRunning")
-    public boolean isGlobalJobRunning() throws SchedulerException {
-        List<JobExecutionContext> globalUpdaterJob = scheduler.getCurrentlyExecutingJobs();
-        JobDetail globalUpdaterJob1 = scheduler.getJobDetail(JobKey.jobKey("GlobalUpdaterJob"));
-        //globalUpdaterJob.get(0).getJobDetail().equals(globalUpdaterJob1)
-        return false;
+    @ModelAttribute("isGlobalUpdaterJobRunning")
+    public boolean isGlobalUpdaterJobRunning() throws SchedulerException {
+        List<JobExecutionContext> contextList = scheduler.getCurrentlyExecutingJobs();
+        JobKey globalUpdaterJobKey = JobKey.jobKey("GlobalUpdaterJob");
+        boolean isJobRunning = false;
+        for (JobExecutionContext jec : contextList) {
+            if (jec.getJobDetail().getKey().equals(globalUpdaterJobKey)) {
+                isJobRunning = true;
+            }
+
+        }
+        return isJobRunning;
     }
 
 }
