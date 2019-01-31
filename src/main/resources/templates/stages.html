@@ -7,5 +7,15 @@
 <body>
 <a th:href="@{/admin}"><b>Back to admin menu</b></a>
 <p th:inline="text">GlobalUpdaterJob is running: [[${isGlobalUpdaterJobRunning}]]</p>
+
+<form method="post" th:action="@{/admin/stages/start}" th:object="${stageCommandObject}">
+    <select th:field="*{stageName}">
+        <option value="">-</option>
+        <option th:each="stage : ${allStages}" th:text="${stage}" th:value="${stage}"/>
+    </select>
+    <input type="submit" value="Start stage"/>
+</form>
+
+</form>
 </body>
 </html>

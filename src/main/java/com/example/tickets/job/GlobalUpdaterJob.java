@@ -31,7 +31,7 @@ public class GlobalUpdaterJob implements Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
         log.info("GlobalUpdaterJob started");
 
-        log.info("Starting stage 1 - TicketInvalidation");
+        log.info("Starting stage 1 - SubscriptionTypeResolverStage");
         /*
         Эта стадия используется для обновления SubscriptionType всех подписок, что были созданы и по каким-то причинам не имели
         указанного типа при сохранении в базу. Этот тип необходим для выбора корректного алгоритма планирования маршрута. В зависимости
