@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Sign Up For Beta Form</title>
+    <link href="/static/css/signup.css" rel="stylesheet" th:href="@{/css/signup.css}"/>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<form method="post" th:action="@{/admin/owner/add}" th:object="${ownerDTO}">
+    <div class="header">
+        <p>Добро пожаловать в SubTicket.Ru!</p>
+    </div>
+    <div class="description">
+        <p>Для поиска дешёвых авиабилетов практически всё готово...</p>
+        <p>Для начала работы введите свой e-mail</p>
+    </div>
+    <div class="input">
+        <input autocomplete="on" class="button" id="email" name="email" placeholder="name@example.com"
+               th:field="*{email}" type="text">
+        <input class="button" id="submit" type="submit" value="Вход">
+</form>
+
+</div>
+</body>
+</html>
