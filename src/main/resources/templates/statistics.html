@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Statistics menu</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+</head>
+<body>
+<a th:href="@{/admin}"><b>Back to admin menu</b></a>
+
+<p th:inline="text">Total tickets: [[${@ticketServiceImpl.count()}]]</p>
+
+</body>
+</html>
