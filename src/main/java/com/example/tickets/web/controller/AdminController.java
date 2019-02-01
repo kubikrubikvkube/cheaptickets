@@ -1,4 +1,4 @@
-package com.example.tickets.web;
+package com.example.tickets.web.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

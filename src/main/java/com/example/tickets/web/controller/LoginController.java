@@ -1,4 +1,4 @@
-package com.example.tickets.web;
+package com.example.tickets.web.controller;
 
 import com.example.tickets.owner.OwnerDTO;
 import org.springframework.stereotype.Controller;
