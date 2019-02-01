@@ -10,6 +10,7 @@
 </head>
 <body>
 
+<span>
 <form method="post" th:action="@{/main/saveSubscription}" th:object="${subscriptionDTO}">
     <p><input autocomplete="off" placeholder="originName" th:field="*{originName}" th:required="true" type="text"/>
     </p>
@@ -21,6 +22,7 @@
               th:required="true" type="text"/></p>
     <p><input type="submit" value="Create"/></p>
 </form>
+    </span>
 
 
 <script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
