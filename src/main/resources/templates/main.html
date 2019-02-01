@@ -12,15 +12,39 @@
 
 <span>
 <form method="post" th:action="@{/main/saveSubscription}" th:object="${subscriptionDTO}">
-    <p><input autocomplete="off" placeholder="originName" th:field="*{originName}" th:required="true" type="text"/>
-    </p>
-    <p><input autocomplete="off" placeholder="destinationName" th:field="*{destinationName}" th:required="true"
-              type="text"/></p>
-    <p><input autocomplete="off" placeholder="tripDurationInDaysFrom" th:field="*{tripDurationInDaysFrom}"
-              th:required="true" type="text"/></p>
-    <p><input autocomplete="off" placeholder="tripDurationInDaysTo" th:field="*{tripDurationInDaysTo}"
-              th:required="true" type="text"/></p>
-    <p><input type="submit" value="Create"/></p>
+    <table border="1">
+        <tbody>
+        <tr>
+            <td>
+                <p>Откуда</p>
+                <input autocomplete="off" placeholder="Москва" th:field="*{originName}" th:required="true" type="text"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Куда</p>
+                <input autocomplete="off" placeholder="Лондон" th:field="*{destinationName}" th:required="true"
+                       type="text"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <p>Пребывание в днях (от)</p>
+                <input autocomplete="off" placeholder="1" th:field="*{tripDurationInDaysFrom}" th:required="true"
+                       type="text"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Пребывание в днях (до)</p>
+                <input autocomplete="off" placeholder="3" th:field="*{tripDurationInDaysTo}" th:required="true"
+                       type="text"/>
+            </td>
+        </tr>
+        </tbody>
+        </table>
+     <input type="submit" value="Создать подписку"/>
 </form>
     </span>
 

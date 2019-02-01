@@ -2,6 +2,7 @@ package com.example.tickets.web.controller;
 
 import com.example.tickets.iata.IATAResolver;
 import com.example.tickets.owner.Owner;
+import com.example.tickets.owner.OwnerService;
 import com.example.tickets.subscription.*;
 import com.example.tickets.util.ServiceException;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -23,17 +26,20 @@ public class MainController {
     private final SubscriptionDTOMapper mapper;
     private final IATAResolver iataResolver;
     private final SubscriptionTypeResolver typeResolver;
+    private final OwnerService ownerService;
 
-    public MainController(SubscriptionService subscriptionService, SubscriptionDTOMapper mapper, IATAResolver iataResolver, SubscriptionTypeResolver typeResolver) {
+    public MainController(SubscriptionService subscriptionService, SubscriptionDTOMapper mapper, IATAResolver iataResolver, SubscriptionTypeResolver typeResolver, OwnerService ownerService) {
         this.subscriptionService = subscriptionService;
         this.mapper = mapper;
         this.iataResolver = iataResolver;
         this.typeResolver = typeResolver;
+        this.ownerService = ownerService;
     }
 
 
     @GetMapping("/main")
     public String main(Model model, BindingResult bindingResult) {
+
         model.addAttribute("lastSavedSubscription", null);
         return MAIN_PAGE;
     }
@@ -55,5 +61,10 @@ public class MainController {
         return MAIN_PAGE;
     }
 
+    @ModelAttribute("ownerSubscriptions")
+    public List<Subscription> ownerSubscriptions(HttpSession httpSession, Model model, BindingResult bindingResult) {
+
+        return Collections.emptyList();
+    }
 
 }
