@@ -39,7 +39,6 @@ public class MainController {
     public String main(HttpSession httpSession, Model model) {
         model.addAttribute("lastSavedSubscription", null);
         model.addAttribute("subscriptionDTO", new SubscriptionDTO());
-        model.addAttribute("ownerSubscriptions", ownerSubscriptions(httpSession));
         return MAIN_PAGE;
     }
 
@@ -57,6 +56,13 @@ public class MainController {
             Subscription savedSubscription = subscriptionService.save(subscriptionDTO);
             model.addAttribute("lastSavedSubscription", savedSubscription);
         }
+        return MAIN_PAGE;
+    }
+
+    @PostMapping("/main/deleteSubscription")
+    public String deleteSubscription(HttpSession session, @ModelAttribute SubscriptionDTO subscriptionDTO, Model model) {
+        Long subscriptionId = subscriptionDTO.getId();
+        subscriptionService.delete(subscriptionId);
         return MAIN_PAGE;
     }
 

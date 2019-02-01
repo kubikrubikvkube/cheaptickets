@@ -46,13 +46,16 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="subscription : ${ownerSubscriptions}">
+    <tr th:each="subscription,iterStat : ${ownerSubscriptions}">
         <td><span th:text="${subscription.originName}">originName</span></td>
         <td><span th:text="${subscription.destinationName}">destinationName</span></td>
         <td><span th:text="${subscription.tripDurationInDaysFrom}">tripDurationInDaysFrom</span></td>
         <td><span th:text="${subscription.tripDurationInDaysTo}">tripDurationInDaysTo</span></td>
         <td>
-            <button class="btn btn-outline-info" type="button">Удалить подписку</button>
+            <form method="post" th:action="@{/main/deleteSubscription}" th:object="${subscriptionDTO}">
+                <input id="id" name="id" th:value="${iterStat.current.id}" type="hidden"/>
+                <button class="btn btn-outline-info" type="submit">Удалить подписку</button>
+            </form>
         </td>
     </tr>
     </tbody>

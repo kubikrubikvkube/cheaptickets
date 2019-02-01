@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -44,9 +46,9 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String loginPage(@ModelAttribute OwnerDTO ownerDTO, HttpSession session, Model model) {
+    public View loginPage(@ModelAttribute OwnerDTO ownerDTO, HttpSession session, Model model) {
         var userEmail = ownerDTO.getEmail();
-        if (!isValidEmailAddress(userEmail)) return LOGIN_PAGE;
+        if (!isValidEmailAddress(userEmail)) return new RedirectView(LOGIN_PAGE);
 
         Optional<Owner> ownerOptional = ownerService.find(userEmail);
         if (ownerOptional.isEmpty()) {
@@ -56,6 +58,6 @@ public class LoginController {
 
         session.setAttribute("ownerDTO", ownerService.find(userEmail));
         model.addAttribute("subscriptionDTO", new SubscriptionDTO());
-        return "redirect:/main.html";
+        return new RedirectView(MAIN_PAGE);
     }
 }
