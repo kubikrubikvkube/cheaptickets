@@ -3,6 +3,7 @@ package com.example.tickets.web.controller;
 import com.example.tickets.owner.Owner;
 import com.example.tickets.owner.OwnerDTO;
 import com.example.tickets.owner.OwnerService;
+import com.example.tickets.subscription.SubscriptionDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @Controller
@@ -42,7 +44,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String loginPage(@ModelAttribute OwnerDTO ownerDTO, Model model) {
+    public String loginPage(@ModelAttribute OwnerDTO ownerDTO, HttpSession session, Model model) {
         var userEmail = ownerDTO.getEmail();
         if (!isValidEmailAddress(userEmail)) return LOGIN_PAGE;
 
@@ -52,8 +54,8 @@ public class LoginController {
             ownerService.save(ownerDTO);
         }
 
-        model.addAttribute("ownerDTO", ownerService.find(userEmail));
-
+        session.setAttribute("ownerDTO", ownerService.find(userEmail));
+        model.addAttribute("subscriptionDTO", new SubscriptionDTO());
         return MAIN_PAGE;
     }
 }

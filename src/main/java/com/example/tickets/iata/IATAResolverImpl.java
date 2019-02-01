@@ -1,5 +1,7 @@
 package com.example.tickets.iata;
 
+import com.example.tickets.subscription.Subscription;
+import com.example.tickets.subscription.SubscriptionDTO;
 import com.example.tickets.util.DefaultHttpClient;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Service;
@@ -28,5 +30,23 @@ public class IATAResolverImpl implements IATAResolver {
         JsonNode cityNode = response.get(0);
         JsonNode cityCode = cityNode.get("code");
         return cityCode.textValue();
+    }
+
+    @Override
+    public SubscriptionDTO resolve(SubscriptionDTO dto) {
+        var origin = resolve(dto.getOriginName());
+        var destination = resolve(dto.getDestination());
+        dto.setOrigin(origin);
+        dto.setDestination(destination);
+        return dto;
+    }
+
+    @Override
+    public Subscription resolve(Subscription s) {
+        var origin = resolve(s.getOriginName());
+        var destination = resolve(s.getDestination());
+        s.setOrigin(origin);
+        s.setDestination(destination);
+        return s;
     }
 }

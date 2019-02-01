@@ -98,8 +98,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public List<Subscription> get(String owner) {
-        List<Subscription> subscriptions = repository.findByOwnerName(owner);
+    public List<Subscription> get(String ownerEmail) {
+        List<Subscription> subscriptions = repository.findByOwnerEmail(ownerEmail);
         log.debug("Subscriptions found '{}'", subscriptions);
         return subscriptions;
     }
@@ -118,7 +118,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public void delete(String owner) {
-        List<Subscription> subscriptions = repository.findByOwnerName(owner);
+        List<Subscription> subscriptions = repository.findByOwnerEmail(owner);
         log.debug("Subscriptions deleted '{}'", subscriptions);
         repository.deleteAll(subscriptions);
     }

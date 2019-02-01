@@ -9,7 +9,20 @@
 
 </head>
 <body>
-<a th:href="@{/}"><b>Back root</b></a>
+
+<form method="post" th:action="@{/main/saveSubscription}" th:object="${subscriptionDTO}">
+    <p><input autocomplete="off" placeholder="originName" th:field="*{originName}" th:required="true" type="text"/>
+    </p>
+    <p><input autocomplete="off" placeholder="destinationName" th:field="*{destinationName}" th:required="true"
+              type="text"/></p>
+    <p><input autocomplete="off" placeholder="tripDurationInDaysFrom" th:field="*{tripDurationInDaysFrom}"
+              th:required="true" type="text"/></p>
+    <p><input autocomplete="off" placeholder="tripDurationInDaysTo" th:field="*{tripDurationInDaysTo}"
+              th:required="true" type="text"/></p>
+    <p><input type="submit" value="Create"/></p>
+</form>
+
+
 <script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script crossorigin="anonymous" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"

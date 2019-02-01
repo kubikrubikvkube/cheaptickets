@@ -13,7 +13,7 @@ public interface SubscriptionService {
 
     List<Subscription> get(String owner, String origin, String destination);
 
-    List<Subscription> get(String owner);
+    List<Subscription> get(String ownerEmail);
 
     void delete(String owner, String origin, String destination);
 

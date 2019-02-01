@@ -13,7 +13,7 @@ import java.util.List;
 public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
 
     @Query("select s from Subscription s where s.owner.email = ?1")
-    List<Subscription> findByOwnerName(String ownerEmail);
+    List<Subscription> findByOwnerEmail(String ownerEmail);
 
     @Query("select s from Subscription s where s.origin = ?1")
     List<Subscription> findByOrigin(String origin);
