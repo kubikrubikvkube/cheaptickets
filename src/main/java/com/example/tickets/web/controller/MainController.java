@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.Optional;
 
 @Controller
 public class MainController {
-    private final String MAIN_PAGE = "main";
+    private final String MAIN_PAGE = "/main";
     private final String LOGIN_PAGE = "login";
 
     private final SubscriptionService subscriptionService;
@@ -43,7 +44,7 @@ public class MainController {
     }
 
     @PostMapping("/main/saveSubscription")
-    public String saveSubscription(HttpSession session, @ModelAttribute SubscriptionDTO subscriptionDTO, Model model) {
+    public RedirectView saveSubscription(HttpSession session, @ModelAttribute SubscriptionDTO subscriptionDTO, Model model) {
         Optional<Owner> ownerOptional = (Optional<Owner>) session.getAttribute("ownerDTO");
         if (ownerOptional.isEmpty()) throw new ServiceException("Owner is not found in model");
         Owner owner = ownerOptional.get();
@@ -56,14 +57,14 @@ public class MainController {
             Subscription savedSubscription = subscriptionService.save(subscriptionDTO);
             model.addAttribute("lastSavedSubscription", savedSubscription);
         }
-        return MAIN_PAGE;
+        return new RedirectView(MAIN_PAGE);
     }
 
     @PostMapping("/main/deleteSubscription")
-    public String deleteSubscription(HttpSession session, @ModelAttribute SubscriptionDTO subscriptionDTO, Model model) {
+    public RedirectView deleteSubscription(HttpSession session, @ModelAttribute SubscriptionDTO subscriptionDTO, Model model) {
         Long subscriptionId = subscriptionDTO.getId();
         subscriptionService.delete(subscriptionId);
-        return MAIN_PAGE;
+        return new RedirectView(MAIN_PAGE);
     }
 
     @ModelAttribute("ownerSubscriptions")
