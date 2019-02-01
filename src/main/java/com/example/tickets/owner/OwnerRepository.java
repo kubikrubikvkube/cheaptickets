@@ -15,11 +15,8 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
     @Query("select count(o)>0 from Owner o where o.email = ?1")
     boolean existsByEmail(String email);
 
-    @Query("select count(o)>0 from Owner o where o.name = ?1")
-    boolean existsByName(String name);
-
-    @Query("select o from Owner o where o.name = ?1")
-    Optional<Owner> findBy(String name);
+    @Query("select o from Owner o where o.email = ?1")
+    Optional<Owner> findBy(String email);
 }
 
 

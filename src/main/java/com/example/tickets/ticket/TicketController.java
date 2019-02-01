@@ -27,7 +27,7 @@ public class TicketController {
 //        return service.cheapest(origin, destination);
 //    }
 //
-//    @RequestMapping(name = "/ticket/prices", params = {"origin", "destination", "departureDate"})
+//    @RequestMapping(sessionId = "/ticket/prices", params = {"origin", "destination", "departureDate"})
 //    public Optional<ObjectNode> prices(@RequestParam(value = "origin") String origin,
 //                                       @RequestParam(value = "destination") String destination,
 //                                       @RequestParam(value = "departureDate") String departureDate) {
@@ -36,7 +36,7 @@ public class TicketController {
 //        return service.prices(origin, destination, LocalDate.parse(departureDate));
 //    }
 //
-//    @RequestMapping(name = "/ticket/prices", params = {"origin", "destination"})
+//    @RequestMapping(sessionId = "/ticket/prices", params = {"origin", "destination"})
 //    public Optional<ObjectNode> prices(@RequestParam(value = "origin") String origin,
 //                                       @RequestParam(value = "destination") String destination) {
 //

@@ -24,33 +24,14 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public Owner add(String ownerName, String email) {
-        if (!repository.existsByName(ownerName)) {
-            OwnerDTO ownerDTO = new OwnerDTO();
-            ownerDTO.setName(ownerName);
-            ownerDTO.setEmail(email);
-            Owner newOwner = OwnerDTOMapper.INSTANCE.fromDTO(ownerDTO);
-            repository.save(newOwner);
-        }
-        Optional<Owner> ownerOpt = repository.findBy(ownerName);
-        if (ownerOpt.isPresent()) {
-            return ownerOpt.get();
-        } else {
-            var msg = String.format("Can't add owner %s with email %s", ownerName, email);
-            throw new ServiceException(msg);
-        }
-
-    }
-
-    @Override
     public Owner save(OwnerDTO dto) {
         Owner owner = mapper.fromDTO(dto);
         return repository.save(owner);
     }
 
     @Override
-    public Optional<Owner> find(String name) {
-        return repository.findBy(name);
+    public Optional<Owner> find(String email) {
+        return repository.findBy(email);
     }
 
     @Override
@@ -60,13 +41,13 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public void delete(String name) {
-        Optional<Owner> ownerOpt = repository.findBy(name);
+    public void delete(String email) {
+        Optional<Owner> ownerOpt = repository.findBy(email);
         if (ownerOpt.isPresent()) {
             Owner owner = ownerOpt.get();
             repository.delete(owner);
         } else {
-            var msg = String.format("Owner %s is not found", name);
+            var msg = String.format("Owner %s is not found", email);
             throw new ServiceException(msg);
         }
 
@@ -80,16 +61,16 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public Owner add(String name) {
-        if (repository.findBy(name).isEmpty()) {
+    public Owner add(String email) {
+        if (repository.findBy(email).isEmpty()) {
             Owner owner = new Owner();
-            owner.setName(name);
+            owner.setEmail(email);
             repository.save(owner);
         }
 
-        Optional<Owner> foundOwner = repository.findBy(name);
+        Optional<Owner> foundOwner = repository.findBy(email);
         if (foundOwner.isEmpty()) {
-            var msg = String.format("Problem saving owner %s", name);
+            var msg = String.format("Problem saving owner %s", email);
             throw new ServiceException(msg);
         }
         return foundOwner.get();

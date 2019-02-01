@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(indexes = {@Index(name = "idx_owner", columnList = "id,name,email")})
+@Table(indexes = {@Index(name = "idx_owner", columnList = "id,email")})
 public class Owner {
     @Id
     @GeneratedValue
@@ -23,8 +23,6 @@ public class Owner {
 
     @CreationTimestamp
     private LocalDateTime creationTimestamp;
-
-    private String name;
 
     private String email;
 

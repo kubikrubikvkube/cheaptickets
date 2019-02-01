@@ -12,7 +12,6 @@ import java.util.List;
 public class OwnerDTO {
     private Long id;
     private LocalDateTime creationTimestamp;
-    private String name;
     private String email;
     private List<Subscription> subscriptions;
 }
