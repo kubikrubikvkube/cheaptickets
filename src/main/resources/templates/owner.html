@@ -16,7 +16,6 @@
     <tr>
         <td>
             <form method="post" th:action="@{/admin/owner/add}" th:object="${ownerDTO}">
-                <input autocomplete="off" placeholder="name" th:field="*{name}" type="text"/>
                 <input autocomplete="off" placeholder="email" th:field="*{email}" type="text"/>
                 <input type="submit" value="Create"/>
             </form>
@@ -35,7 +34,6 @@
     <tr>
         <th>id</th>
         <th>creationTimestamp</th>
-        <th>name</th>
         <th>email</th>
         <th>subscriptions</th>
     </tr>
@@ -44,7 +42,6 @@
     <tr th:each="owner : ${@ownerServiceImpl.findAll()}">
         <td><span th:text="${owner.id}">id </span></td>
         <td><span th:text="${owner.creationTimestamp}"> creationTimestamp </span></td>
-        <td><span th:text="${owner.sessionId}"> sessionId </span></td>
         <td><span th:text="${owner.email}"> email </span></td>
         <td><span th:text="${owner.subscriptions}"> subscriptions </span></td>
     </tr>

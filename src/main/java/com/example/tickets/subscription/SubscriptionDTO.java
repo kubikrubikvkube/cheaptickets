@@ -32,6 +32,16 @@ public class SubscriptionDTO {
     private String destination;
 
     /**
+     * Название пункта отправления
+     */
+    private String originName;
+
+    /**
+     * Название пункта назначения
+     */
+    private String destinationName;
+
+    /**
      * Дата отправления
      */
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)

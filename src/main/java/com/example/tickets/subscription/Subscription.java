@@ -38,13 +38,23 @@ public class Subscription {
     @ToString.Exclude
     private Owner owner;
     /**
-     * IAT отправления
+     * IATA отправления
      */
     private String origin;
     /**
-     * IAT назначения
+     * IATA назначения
      */
     private String destination;
+
+    /**
+     * Название пункта отправления
+     */
+    private String originName;
+
+    /**
+     * Название пункта назначения
+     */
+    private String destinationName;
 
     /**
      * Дата отправления
