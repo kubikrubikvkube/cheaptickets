@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html
+        xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
@@ -9,11 +10,30 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
 </head>
 <body>
-<p><a th:href="@{/admin/owner}">Owner menu</a></p>
-<p><a th:href="@{/admin/subscription}">Subscription menu</a></p>
-<p><a th:href="@{/admin/statistics}">Statistics</a></p>
-<p><a th:href="@{/admin/stages}">Stages</a></p>
-
+<table border="1">
+    <tbody>
+    <tr>
+        <td>
+            <a th:href="@{/admin/owner}">Owner menu</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a th:href="@{/admin/subscription}">Subscription menu</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a th:href="@{/admin/statistics}">Statistics</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a th:href="@{/admin/stages}">Stages</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
 <script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script crossorigin="anonymous" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
