@@ -8,6 +8,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,11 +25,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     private final SubscriptionRepository repository;
     private final SubscriptionDTOMapper mapper;
     private final OwnerRepository ownerRepository;
+    private final ExampleMatcher exampleMatcher;
 
     public SubscriptionServiceImpl(SubscriptionRepository subscriptionRepository, OwnerRepository ownerRepository, SubscriptionDTOMapper mapper) {
         this.repository = subscriptionRepository;
         this.ownerRepository = ownerRepository;
         this.mapper = mapper;
+        this.exampleMatcher = ExampleMatcher.matchingAll().withIgnorePaths("id", "creationTimestamp", "foundAt").withIncludeNullValues();
     }
 
     @Override
@@ -102,6 +106,16 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         List<Subscription> subscriptions = repository.findByOwnerEmail(ownerEmail);
         log.debug("Subscriptions found '{}'", subscriptions);
         return subscriptions;
+    }
+
+    @Override
+    public Optional<Subscription> find(SubscriptionDTO dto) {
+        Subscription subscription = mapper.fromDTO(dto);
+        Example<Subscription> probe = Example.of(subscription, exampleMatcher);
+        if (repository.exists(probe)) {
+            return repository.findOne(probe);
+        }
+        return Optional.empty();
     }
 
     @Override

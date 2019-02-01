@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -48,8 +47,10 @@ public class MainController {
         subscriptionDTO = iataResolver.resolve(subscriptionDTO);
         SubscriptionType subscriptionType = typeResolver.resolve(subscriptionDTO);
         subscriptionDTO.setSubscriptionType(subscriptionType);
-        List<Subscription> ownerSubscriptions = subscriptionService.get(owner.getEmail());
-        ы
+        Optional<Subscription> foundSubscription = subscriptionService.find(subscriptionDTO);
+        if (foundSubscription.isEmpty()) {
+            subscriptionService.save(subscriptionDTO);
+        }
         return MAIN_PAGE;
     }
 

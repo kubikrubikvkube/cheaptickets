@@ -3,6 +3,7 @@ package com.example.tickets.subscription;
 import com.google.common.collect.Multimap;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SubscriptionService {
     List<Subscription> add(String owner, String origin, String destination);
@@ -14,6 +15,8 @@ public interface SubscriptionService {
     List<Subscription> get(String owner, String origin, String destination);
 
     List<Subscription> get(String ownerEmail);
+
+    Optional<Subscription> find(SubscriptionDTO dto);
 
     void delete(String owner, String origin, String destination);
 
