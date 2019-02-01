@@ -34,7 +34,7 @@ public class MainController {
 
     @GetMapping("/main")
     public String main(Model model, BindingResult bindingResult) {
-
+        model.addAttribute("lastSavedSubscription", null);
         return MAIN_PAGE;
     }
 
@@ -49,7 +49,8 @@ public class MainController {
         subscriptionDTO.setSubscriptionType(subscriptionType);
         Optional<Subscription> foundSubscription = subscriptionService.find(subscriptionDTO);
         if (foundSubscription.isEmpty()) {
-            subscriptionService.save(subscriptionDTO);
+            Subscription savedSubscription = subscriptionService.save(subscriptionDTO);
+            model.addAttribute("lastSavedSubscription", savedSubscription);
         }
         return MAIN_PAGE;
     }
