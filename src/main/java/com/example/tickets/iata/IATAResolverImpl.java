@@ -35,7 +35,7 @@ public class IATAResolverImpl implements IATAResolver {
     @Override
     public SubscriptionDTO resolve(SubscriptionDTO dto) {
         var origin = resolve(dto.getOriginName());
-        var destination = resolve(dto.getDestination());
+        var destination = resolve(dto.getDestinationName());
         dto.setOrigin(origin);
         dto.setDestination(destination);
         return dto;
