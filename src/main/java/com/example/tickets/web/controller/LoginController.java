@@ -56,6 +56,6 @@ public class LoginController {
 
         session.setAttribute("ownerDTO", ownerService.find(userEmail));
         model.addAttribute("subscriptionDTO", new SubscriptionDTO());
-        return MAIN_PAGE;
+        return "redirect:/main.html";
     }
 }

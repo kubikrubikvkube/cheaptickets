@@ -7,13 +7,11 @@ import com.example.tickets.subscription.*;
 import com.example.tickets.util.ServiceException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,14 +36,15 @@ public class MainController {
 
 
     @GetMapping("/main")
-    public String main(Model model, BindingResult bindingResult) {
-
+    public String main(HttpSession httpSession, Model model) {
         model.addAttribute("lastSavedSubscription", null);
+        model.addAttribute("subscriptionDTO", new SubscriptionDTO());
+        model.addAttribute("ownerSubscriptions", ownerSubscriptions(httpSession));
         return MAIN_PAGE;
     }
 
     @PostMapping("/main/saveSubscription")
-    public String saveSubscription(HttpSession session, @ModelAttribute SubscriptionDTO subscriptionDTO, Model model, BindingResult bindingResult) {
+    public String saveSubscription(HttpSession session, @ModelAttribute SubscriptionDTO subscriptionDTO, Model model) {
         Optional<Owner> ownerOptional = (Optional<Owner>) session.getAttribute("ownerDTO");
         if (ownerOptional.isEmpty()) throw new ServiceException("Owner is not found in model");
         Owner owner = ownerOptional.get();
@@ -62,9 +61,11 @@ public class MainController {
     }
 
     @ModelAttribute("ownerSubscriptions")
-    public List<Subscription> ownerSubscriptions(HttpSession httpSession, Model model, BindingResult bindingResult) {
-
-        return Collections.emptyList();
+    public List<Subscription> ownerSubscriptions(HttpSession httpSession) {
+        Optional<Owner> ownerOptional = (Optional<Owner>) httpSession.getAttribute("ownerDTO");
+        if (ownerOptional.isEmpty()) throw new ServiceException("Owner is not found in model");
+        Owner owner = ownerOptional.get();
+        return subscriptionService.get(owner.getEmail());
     }
 
 }

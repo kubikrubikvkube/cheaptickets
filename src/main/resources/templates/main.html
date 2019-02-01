@@ -6,48 +6,57 @@
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
-
 </head>
 <body>
-
-<span>
 <form method="post" th:action="@{/main/saveSubscription}" th:object="${subscriptionDTO}">
-    <table border="1">
-        <tbody>
-        <tr>
-            <td>
-                <p>Откуда</p>
-                <input autocomplete="off" placeholder="Москва" th:field="*{originName}" th:required="true" type="text"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <p>Куда</p>
-                <input autocomplete="off" placeholder="Лондон" th:field="*{destinationName}" th:required="true"
-                       type="text"/>
-            </td>
-        </tr>
-
-        <tr>
-            <td>
-                <p>Пребывание в днях (от)</p>
-                <input autocomplete="off" placeholder="1" th:field="*{tripDurationInDaysFrom}" th:required="true"
-                       type="text"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <p>Пребывание в днях (до)</p>
-                <input autocomplete="off" placeholder="3" th:field="*{tripDurationInDaysTo}" th:required="true"
-                       type="text"/>
-            </td>
-        </tr>
-        </tbody>
-        </table>
-     <input type="submit" value="Создать подписку"/>
+    <div class="form-group">
+        <div class="form-row col-auto">
+            <label for="originName">Откуда</label>
+            <input autocomplete="off" class="form-control" id="originName" th:field="*{originName}" th:required="true"
+                   type="text"/>
+        </div>
+        <div class="form-row col-auto">
+            <label for="originName">Куда</label>
+            <input autocomplete="off" class="form-control" id="destinationName" th:field="*{destinationName}"
+                   th:required="true" type="text"/>
+        </div>
+        <div class="form-row col-auto">
+            <label for="originName">Пребывание в днях (от)</label>
+            <input autocomplete="off" class="form-control" id="tripDurationInDaysFrom"
+                   th:field="*{tripDurationInDaysFrom}" th:required="true" type="text"/>
+        </div>
+        <div class="form-row col-auto">
+            <label for="originName">Пребывание в днях (до)</label>
+            <input autocomplete="off" class="form-control" id="tripDurationInDaysTo" th:field="*{tripDurationInDaysTo}"
+                   th:required="true" type="text"/>
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Создать подписку</button>
 </form>
-    </span>
 
+<span>Ваши подписки:</span>
+<table border="1" style="width:80%">
+    <thead>
+    <tr>
+        <th>Откуда</th>
+        <th>Куда</th>
+        <th>Время пребывания в днях (от)</th>
+        <th>Время пребывания в днях (до)</th>
+        <th>Действие</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="subscription : ${ownerSubscriptions}">
+        <td><span th:text="${subscription.originName}">originName</span></td>
+        <td><span th:text="${subscription.destinationName}">destinationName</span></td>
+        <td><span th:text="${subscription.tripDurationInDaysFrom}">tripDurationInDaysFrom</span></td>
+        <td><span th:text="${subscription.tripDurationInDaysTo}">tripDurationInDaysTo</span></td>
+        <td>
+            <button class="btn btn-outline-info" type="button">Удалить подписку</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 <script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
