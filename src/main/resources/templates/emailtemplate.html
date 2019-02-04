@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}">Template for HTML email with inline image</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+</head>
+<body>
+<p th:text="${title}">
+    Zagolovok???
+</p>
+<p th:text="${name}">
+    Hello, Peter Static!
+</p>
+<p>
+    You have been successfully subscribed to the <b>Fake newsletter</b> on
+    <span th:text="${#dates.format(subscriptionDate)}">28-12-2012</span>
+</p>
+<p>Your hobbies are:</p>
+<ul th:remove="all-but-first">
+    <li th:each="hobby : ${hobbies}" th:text="${hobby}">Reading</li>
+    <li>Writing</li>
+    <li>Bowling</li>
+</ul>
+
+</body>
+</html>
