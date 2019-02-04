@@ -1,4 +1,4 @@
-package com.example.tickets;
+package com.example.tickets.configuration;
 
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
