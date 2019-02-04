@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-class MailConfigTest {
+class JavaMailSenderTest {
     @Autowired
     private JavaMailSender javaMailSender;
 
@@ -35,7 +35,7 @@ class MailConfigTest {
     private String password;
 
     @Test
-    void getJavaMailSender() throws MessagingException {
+    void java_mail_sender_can_send_email_via_smtps_protocol() throws MessagingException {
         ServerSetup server = new ServerSetup(port, null, "smtps");
         server.setVerbose(true);
         GreenMail greenMail = new GreenMail(server);
