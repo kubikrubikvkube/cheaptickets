@@ -5,7 +5,7 @@ import com.example.tickets.subscription.SubscriptionDTO;
 
 public interface IATAResolver {
     /**
-     * Returns IATA code for this name
+     * Returns IATA code for this place
      *
      * @param place
      * @return
