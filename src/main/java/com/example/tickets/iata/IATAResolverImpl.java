@@ -23,6 +23,7 @@ public class IATAResolverImpl implements IATAResolver {
 
     @Override
     public String resolve(String place) {
+
         StringBuilder sb = new StringBuilder();
         sb.append("https://places.aviasales.ru/v2/places.json?")
                 .append("locale=ru&")

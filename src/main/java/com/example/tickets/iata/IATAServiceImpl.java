@@ -5,8 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class IATAServiceImpl implements IATAService {
     private final Logger log = LoggerFactory.getLogger(IATAServiceImpl.class);
@@ -22,24 +20,20 @@ public class IATAServiceImpl implements IATAService {
         this.exampleMatcher = ExampleMatcher.matchingAll().withIgnorePaths("id", "creationTimestamp").withIncludeNullValues();
     }
 
-    @Override
-    public String fromCode(String code) {
-        List<IATA> byCode = repository.findByCode(code);
-        return byCode.stream().findAny().get().getPlace(); //и будет возвращаться какое-то говно
-    }
 
     @Override
     public String fromPlaceName(String place) {
-        boolean exists = repository.existsByPlace(place);
+        String normalizedPlace = place.toLowerCase();
+        boolean exists = repository.existsByPlace(normalizedPlace);
         if (!exists) {
-            String code = resolver.resolve(place);
+            String code = resolver.resolve(normalizedPlace);
             IATADTO dto = new IATADTO();
             dto.setCode(code);
-            dto.setPlace(place);
+            dto.setPlace(normalizedPlace);
             IATA iata = mapper.fromDTO(dto);
             repository.save(iata);
         }
-        var iataOptional = repository.findByPlace(place);
+        var iataOptional = repository.findByPlace(normalizedPlace);
         IATA iata = iataOptional.get();
         return iata.getCode();
     }

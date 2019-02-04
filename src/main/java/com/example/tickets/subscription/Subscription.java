@@ -40,10 +40,12 @@ public class Subscription {
     /**
      * IATA отправления
      */
+    @Column(length = 3)
     private String origin;
     /**
      * IATA назначения
      */
+    @Column(length = 3)
     private String destination;
 
     /**

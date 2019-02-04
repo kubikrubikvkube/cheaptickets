@@ -21,9 +21,11 @@
                     <option th:each="ownerEntry : ${@ownerServiceImpl.findAll()}" th:text="${ownerEntry.email}"
                             th:value="${ownerEntry.id}"/>
                 </select>
-                <p><input autocomplete="off" placeholder="origin" th:field="*{origin}" th:required="false" type="text"/>
+                <p><input autocomplete="off" placeholder="originName" th:field="*{originName}" th:required="false"
+                          type="text"/>
                 </p>
-                <p><input autocomplete="off" placeholder="destination" th:field="*{destination}" th:required="false"
+                <p><input autocomplete="off" placeholder="destinationName" th:field="*{destinationName}"
+                          th:required="false"
                           type="text"/></p>
                 <p><input autocomplete="off" placeholder="departDate" th:field="*{departDate}" th:required="false"
                           th:value="*{departDate}" type="date"/></p>

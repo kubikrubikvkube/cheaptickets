@@ -17,6 +17,7 @@ public class IATA {
     @CreationTimestamp
     private LocalDateTime creationTimestamp;
 
+    @Column(length = 3)
     private String code;
     private String place;
 }
