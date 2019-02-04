@@ -6,7 +6,6 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class IATAServiceImpl implements IATAService {
@@ -24,13 +23,13 @@ public class IATAServiceImpl implements IATAService {
     }
 
     @Override
-    public Optional<IATA> fromCode(String code) {
+    public String fromCode(String code) {
         List<IATA> byCode = repository.findByCode(code);
-        return byCode.stream().findAny(); //и будет возвращаться какое-то говно
+        return byCode.stream().findAny().get().getPlace(); //и будет возвращаться какое-то говно
     }
 
     @Override
-    public Optional<IATA> fromPlaceName(String place) {
+    public String fromPlaceName(String place) {
         boolean exists = repository.existsByPlace(place);
         if (!exists) {
             String code = resolver.resolve(place);
@@ -40,7 +39,8 @@ public class IATAServiceImpl implements IATAService {
             IATA iata = mapper.fromDTO(dto);
             repository.save(iata);
         }
-
-        return repository.findByPlace(place);
+        var iataOptional = repository.findByPlace(place);
+        IATA iata = iataOptional.get();
+        return iata.getCode();
     }
 }

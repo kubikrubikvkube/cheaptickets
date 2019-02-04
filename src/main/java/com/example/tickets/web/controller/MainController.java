@@ -1,6 +1,6 @@
 package com.example.tickets.web.controller;
 
-import com.example.tickets.iata.IATAResolver;
+import com.example.tickets.iata.IATAService;
 import com.example.tickets.owner.Owner;
 import com.example.tickets.owner.OwnerService;
 import com.example.tickets.subscription.*;
@@ -23,16 +23,16 @@ public class MainController {
 
     private final SubscriptionService subscriptionService;
     private final SubscriptionDTOMapper mapper;
-    private final IATAResolver iataResolver;
     private final SubscriptionTypeResolver typeResolver;
     private final OwnerService ownerService;
+    private final IATAService iataService;
 
-    public MainController(SubscriptionService subscriptionService, SubscriptionDTOMapper mapper, IATAResolver iataResolver, SubscriptionTypeResolver typeResolver, OwnerService ownerService) {
+    public MainController(SubscriptionService subscriptionService, SubscriptionDTOMapper mapper, SubscriptionTypeResolver typeResolver, OwnerService ownerService, IATAService iataService) {
         this.subscriptionService = subscriptionService;
         this.mapper = mapper;
-        this.iataResolver = iataResolver;
         this.typeResolver = typeResolver;
         this.ownerService = ownerService;
+        this.iataService = iataService;
     }
 
 
@@ -49,7 +49,11 @@ public class MainController {
         if (ownerOptional.isEmpty()) throw new ServiceException("Owner is not found in model");
         Owner owner = ownerOptional.get();
         subscriptionDTO.setOwner(owner);
-        subscriptionDTO = iataResolver.resolve(subscriptionDTO);
+//        subscriptionDTO = iataResolver.resolve(subscriptionDTO);
+        var originIATA = iataService.fromPlaceName(subscriptionDTO.getOriginName());
+        var destinationIATA = iataService.fromPlaceName(subscriptionDTO.getDestinationName());
+        subscriptionDTO.setOrigin(originIATA);
+        subscriptionDTO.setDestination(destinationIATA);
         SubscriptionType subscriptionType = typeResolver.resolve(subscriptionDTO);
         subscriptionDTO.setSubscriptionType(subscriptionType);
         Optional<Subscription> foundSubscription = subscriptionService.find(subscriptionDTO);
