@@ -1,7 +1,10 @@
 package com.example.tickets.job;
 
 import com.example.tickets.job.stage.*;
-import org.quartz.*;
+import org.quartz.DisallowConcurrentExecution;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.PersistJobDataAfterExecution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +31,7 @@ public class GlobalUpdaterJob implements Job {
     }
 
     @Override
-    public void execute(JobExecutionContext context) throws JobExecutionException {
+    public void execute(JobExecutionContext context) {
         log.info("GlobalUpdaterJob started");
 
         log.info("Starting stage 1 - SubscriptionTypeResolverStage");

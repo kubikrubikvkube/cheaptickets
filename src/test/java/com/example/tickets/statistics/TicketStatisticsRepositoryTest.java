@@ -20,15 +20,15 @@ public class TicketStatisticsRepositoryTest {
     private TicketStatisticsRepository repository;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    public void tearDown() {
     }
 
     @Test
-    public void crud() throws Exception {
+    public void crud() {
         TicketStatistics ts = new TicketStatistics();
         ts.setOrigin("LED");
         ts.setDestination("MOW");

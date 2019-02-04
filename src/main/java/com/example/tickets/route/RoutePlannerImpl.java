@@ -107,6 +107,7 @@ public class RoutePlannerImpl implements RoutePlanner {
         availableRoutes.sort(Comparator.comparingInt(RouteDTO::getSumValue));
         return availableRoutes.subList(0, 100);
     }
+
     private List<RouteDTO> planOneWayTrip(String origin, String destination) {
         List<CheapTicket> departTickets = cheapTicketService.findByOriginAndDestination(origin, destination);
         List<RouteDTO> availableRoutes = new ArrayList<>();

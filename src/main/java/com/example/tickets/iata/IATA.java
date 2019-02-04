@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(indexes = {@Index(name = "idx_iata", columnList = "id,code,place")})
+@Table(indexes = {@Index(name = "idx_iata", columnList = "id,place")})
 public class IATA {
     @Id
     @GeneratedValue

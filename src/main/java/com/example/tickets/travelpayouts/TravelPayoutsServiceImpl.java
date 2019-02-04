@@ -51,11 +51,11 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
         }
         log.trace("Got response: {}", response);
 
-            List<TicketDTO> ticketDTOS = response.getData();
-            return ticketDTOS
-                    .stream()
-                    .map(mapper::fromDTO)
-                    .collect(Collectors.toList());
+        List<TicketDTO> ticketDTOS = response.getData();
+        return ticketDTOS
+                .stream()
+                .map(mapper::fromDTO)
+                .collect(Collectors.toList());
 
 
     }

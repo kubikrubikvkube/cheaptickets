@@ -37,7 +37,10 @@ public class ExampleTicketControllerTest {
     TicketRepository ticketRepository;
     @Autowired
     private MockMvc mockMvc;
-    private TicketDTOMapper mapper = TicketDTOMapper.INSTANCE;
+
+    @Autowired
+    private TicketDTOMapper mapper;
+
     private Ticket t;
 
     @BeforeEach

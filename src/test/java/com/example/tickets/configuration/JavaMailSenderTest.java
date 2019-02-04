@@ -1,11 +1,14 @@
 package com.example.tickets.configuration;
 
+
 import com.icegreen.greenmail.user.GreenMailUser;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.GreenMailUtil;
 import com.icegreen.greenmail.util.ServerSetup;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +25,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 class JavaMailSenderTest {
+    private final Logger log = LoggerFactory.getLogger(JavaMailSenderTest.class);
+
+
     @Autowired
     private JavaMailSender javaMailSender;
 
@@ -42,13 +48,17 @@ class JavaMailSenderTest {
         GreenMailUser greenMailUser = greenMail.setUser(user, password);
         greenMail.start();
 
-        final String subject = GreenMailUtil.random();
-        final String body = GreenMailUtil.random();
-        final MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, "UTF-8");
+        var subject = GreenMailUtil.random();
+        log.info("Subject: {}", subject);
+        var body = GreenMailUtil.random();
+        log.info("Body: {}", body);
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper message = new MimeMessageHelper(mimeMessage, "UTF-8");
 
-        message.setFrom(greenMailUser.getEmail());
-        message.setTo(greenMailUser.getEmail());
+        var userMail = greenMailUser.getEmail();
+        log.info("User e-mail: {}", userMail);
+        message.setFrom(userMail);
+        message.setTo(userMail);
         message.setSubject(subject);
         message.setText(body);
         javaMailSender.send(mimeMessage);

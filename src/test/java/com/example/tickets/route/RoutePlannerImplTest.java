@@ -19,12 +19,12 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class RoutePlannerImplTest {
-    private String origin = "LED";
-    private String destination = "MOW";
-    private Integer ticketValue = 1000;
-    private Integer tripDuration = 3;
-    private LocalDate departDate = LocalDate.now();
-    private LocalDate returnDate = LocalDate.now().plusDays(tripDuration);
+    private final String origin = "LED";
+    private final String destination = "MOW";
+    private final Integer ticketValue = 1000;
+    private final Integer tripDuration = 3;
+    private final LocalDate departDate = LocalDate.now();
+    private final LocalDate returnDate = LocalDate.now().plusDays(tripDuration);
 
     @Test
     @Disabled
