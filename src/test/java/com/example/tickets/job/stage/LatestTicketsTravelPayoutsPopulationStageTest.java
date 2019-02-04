@@ -8,6 +8,7 @@ import com.example.tickets.travelpayouts.request.LatestRequest;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
@@ -49,6 +50,7 @@ class LatestTicketsTravelPayoutsPopulationStageTest {
     }
 
     @Test
+    @Disabled
     void if_ticket_not_exist_ticket_should_be_saved() {
         Ticket ticket = new Ticket();
         List<Ticket> ticketList = List.of(ticket);
@@ -67,6 +69,7 @@ class LatestTicketsTravelPayoutsPopulationStageTest {
     }
 
     @Test
+    @Disabled
     void if_ticket_not_exist_ticket_should_not_be_saved() {
         Ticket ticket = new Ticket();
         List<Ticket> ticketList = List.of(ticket);
@@ -86,6 +89,7 @@ class LatestTicketsTravelPayoutsPopulationStageTest {
     }
 
     @Test
+    @Disabled
     void exist_method_should_compare_saved_tickets_as_expected() {
         Ticket complexTicket = new Ticket();
         complexTicket.setOrigin("A");

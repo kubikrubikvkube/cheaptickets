@@ -3,6 +3,7 @@ package com.example.tickets.aviasales;
 
 import com.example.tickets.ticket.TicketDTOMapper;
 import com.example.tickets.util.DefaultHttpClient;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -12,6 +13,7 @@ import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.withSettings;
@@ -43,7 +45,8 @@ public class AviasalesServiceTest {
                 "}", ObjectNode.class);
         root.add(tickets);
         DefaultHttpClient<AviasalesResponse> defaultHttpClient = Mockito.mock(DefaultHttpClient.class, withSettings().verboseLogging());
-        when(defaultHttpClient.getJsonResponseWithoutHeaders("https://lyssa.aviasales.ru/map?origin_iata=LED&one_way=false&min_trip_duration=1&max_trip_duration=3&show_to_affiliates=false")).thenReturn(root);
+        CompletableFuture<JsonNode> future = CompletableFuture.completedFuture(root);
+        when(defaultHttpClient.getJsonResponseWithoutHeaders("https://lyssa.aviasales.ru/map?origin_iata=LED&one_way=false&min_trip_duration=1&max_trip_duration=3&show_to_affiliates=false")).thenReturn(future);
 
         aviasalesService = new AviasalesServiceImpl(defaultHttpClient, mapper);
     }

@@ -14,10 +14,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.web.client.RestClientException;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Configuration
 @PropertySource("classpath:ticket.properties")
@@ -28,12 +28,13 @@ public class DefaultHttpClient<T> {
 
     public DefaultHttpClient(@Value("${developer.token}") String token) {
         this.token = token;
+        connectionManager.setDefaultMaxPerRoute(10);
+        connectionManager.setMaxTotal(100);
     }
 
-    public <T> Optional<T> getWithHeaders(String getRequest, Class<T> clazz) {
+    public <T> CompletableFuture<T> getWithHeaders(String getRequest, Class<T> clazz) {
         CloseableHttpClient client = HttpClients
                 .custom()
-                //default headers can be set in here with .setDefaultHeaders
                 .setConnectionManager(connectionManager)
                 .build();
         HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(client);
@@ -42,59 +43,50 @@ public class DefaultHttpClient<T> {
         headers.add("Accept-Encoding", "gzip, deflate");
         headers.add("X-Access-Token", token);
         HttpEntity<String> httpEntity = new HttpEntity<>("parameters", headers);
-        log.trace("Send request: {}", getRequest);
-        ResponseEntity<T> exchange = null;
-        try {
-            exchange = restTemplate.exchange(getRequest, HttpMethod.GET, httpEntity, clazz);
-        } catch (RestClientException rce) {
-            log.error("RestClientException: {}", rce);
+        log.trace("Send request: " + getRequest);
+        ResponseEntity<T> exchange = restTemplate.exchange(getRequest, HttpMethod.GET, httpEntity, clazz);
+        if (!exchange.getStatusCode().is2xxSuccessful()) {
+            log.error(String.format("Request failed. Error code %s : %s", exchange.getStatusCode(), getRequest));
         }
-        log.trace("Got response: {}", exchange);
-        if (exchange == null) {
-            return Optional.empty();
-        } else {
-            return Optional.ofNullable(exchange.getBody());
-        }
-
+        log.trace("Got response: " + exchange);
+        T responseBody = exchange.getBody();
+        return CompletableFuture.completedFuture(responseBody);
     }
 
-
-    public <T> Optional<T> getWithoutHeaders(String getRequest, Class<T> clazz) {
+    @Async("workStealingPool")
+    public <T> CompletableFuture<T> getWithoutHeaders(String getRequest, Class<T> clazz) {
         CloseableHttpClient client = HttpClients
                 .custom()
                 .setConnectionManager(connectionManager)
                 .build();
         HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(client);
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
-        log.trace("Send request: {}", getRequest);
-        ResponseEntity<T> exchange = null;
-        try {
-            exchange = restTemplate.exchange(getRequest, HttpMethod.GET, null, clazz);
-        } catch (RestClientException rce) {
-            log.error("RestClientException: {}", rce);
+        log.trace("Send request: " + getRequest);
+        ResponseEntity<T> exchange = restTemplate.exchange(getRequest, HttpMethod.GET, null, clazz);
+        if (!exchange.getStatusCode().is2xxSuccessful()) {
+            log.error(String.format("Request failed. Error code %s : %s", exchange.getStatusCode(), getRequest));
         }
-        log.trace("Got response: {}", exchange);
-        if (exchange == null) {
-            return Optional.empty();
-        } else {
-            return Optional.ofNullable(exchange.getBody());
-        }
+        log.trace("Got response: " + exchange);
+        T responseBody = exchange.getBody();
+        return CompletableFuture.completedFuture(responseBody);
     }
 
-    public JsonNode getJsonResponseWithoutHeaders(String getRequest) {
+    @Async("workStealingPool")
+    public CompletableFuture<JsonNode> getJsonResponseWithoutHeaders(String getRequest) {
         CloseableHttpClient client = HttpClients
                 .custom()
                 .setConnectionManager(connectionManager)
                 .build();
         HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(client);
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
-        log.trace("Send request: {}", getRequest);
+        log.trace("Send request: " + getRequest);
         JsonNode node = restTemplate.getForObject(getRequest, JsonNode.class);
-        log.trace("Got response: {}", node);
-        return node;
+        log.trace("Got response: " + node);
+        return CompletableFuture.completedFuture(node);
     }
 
-    public JsonNode getJsonResponseWithHeaders(String getRequest) {
+    @Async("workStealingPool")
+    public CompletableFuture<JsonNode> getJsonResponseWithHeaders(String getRequest) {
         CloseableHttpClient client = HttpClients
                 .custom()
                 .setConnectionManager(connectionManager)
@@ -105,12 +97,15 @@ public class DefaultHttpClient<T> {
         headers.add("Accept-Encoding", "gzip, deflate");
         headers.add("X-Access-Token", token);
         HttpEntity<String> httpEntity = new HttpEntity<>("parameters", headers);
-        log.trace("Send request: {}", getRequest);
+        log.trace("Send request: " + getRequest);
         ResponseEntity<JsonNode> exchange = restTemplate.exchange(getRequest, HttpMethod.GET, httpEntity, JsonNode.class);
         if (!exchange.getStatusCode().is2xxSuccessful()) {
-            log.error("Request failed. Error code {} : {}", exchange.getStatusCode(), getRequest);
+            var errMsg = String.format("Request failed. Error code %s : %s", exchange.getStatusCode(), getRequest);
+            var serviceException = new ServiceException(errMsg);
+            return CompletableFuture.failedFuture(serviceException);
         }
-        log.trace("Got response: {}", exchange);
-        return exchange.getBody();
+        log.trace("Got response: " + exchange);
+        JsonNode responseBody = exchange.getBody();
+        return CompletableFuture.completedFuture(responseBody);
     }
 }

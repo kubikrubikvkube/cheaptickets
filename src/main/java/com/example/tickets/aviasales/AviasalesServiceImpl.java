@@ -12,7 +12,10 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 
@@ -21,6 +24,7 @@ public class AviasalesServiceImpl implements AviasalesService {
     private final Logger log = LoggerFactory.getLogger(AviasalesServiceImpl.class);
     private final DefaultHttpClient<AviasalesResponse> defaultHttpClient;
     private final TicketDTOMapper mapper;
+    private final int WAIT_TIMEOUTS = 5;
 
     public AviasalesServiceImpl(DefaultHttpClient<AviasalesResponse> defaultHttpClient, TicketDTOMapper mapper) {
         this.defaultHttpClient = defaultHttpClient;
@@ -38,25 +42,28 @@ public class AviasalesServiceImpl implements AviasalesService {
         sb.append("affiliate=true");
         var request = sb.toString();
         log.trace("Aviasales one-way ticket request: {}", request);
-        Optional<AviasalesResponse> responseOptional = defaultHttpClient.getWithoutHeaders(request, AviasalesResponse.class);
-        log.trace("Aviasales one-way ticket response: {}", responseOptional);
-        if (responseOptional.isEmpty()) {
+        AviasalesResponse response;
+        try {
+            CompletableFuture<AviasalesResponse> responseFuture = defaultHttpClient.getWithoutHeaders(request, AviasalesResponse.class);
+            response = responseFuture.get(WAIT_TIMEOUTS, TimeUnit.SECONDS);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            log.debug(e.toString());
             return Collections.emptyList();
-        } else {
-            AviasalesResponse response = responseOptional.get();
-            List<TicketDTO> tickerPrices = response.getPrices();
-            log.trace("Aviasales one-way ticket response size: {}", tickerPrices.size());
-            tickerPrices.forEach(rawTicket -> {
-                rawTicket.setOrigin(originIAT);
-                rawTicket.setDestination(destinationIAT);
-                rawTicket.setDepart_date(date);
-
-            });
-            return tickerPrices
-                    .stream()
-                    .map(mapper::fromDTO)
-                    .collect(Collectors.toList());
         }
+        log.trace("Aviasales one-way ticket response: {}", response);
+        List<TicketDTO> tickerPrices = response.getPrices();
+        log.trace("Aviasales one-way ticket response size: {}", tickerPrices.size());
+        tickerPrices.forEach(rawTicket -> {
+            rawTicket.setOrigin(originIAT);
+            rawTicket.setDestination(destinationIAT);
+            rawTicket.setDepart_date(date);
+
+        });
+        return tickerPrices
+                .stream()
+                .map(mapper::fromDTO)
+                .collect(Collectors.toList());
+
 
     }
 }

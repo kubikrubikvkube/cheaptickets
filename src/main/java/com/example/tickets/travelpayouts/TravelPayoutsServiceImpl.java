@@ -6,6 +6,7 @@ import com.example.tickets.ticket.TicketDTOMapper;
 import com.example.tickets.travelpayouts.request.*;
 import com.example.tickets.travelpayouts.response.LatestResponse;
 import com.example.tickets.util.DefaultHttpClient;
+import com.example.tickets.util.ServiceException;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,10 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 
@@ -27,6 +31,7 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
     private final Logger log = LoggerFactory.getLogger(TravelPayoutsServiceImpl.class);
     private final DefaultHttpClient<LatestResponse> httpClient;
     private final TicketDTOMapper mapper;
+    private final int WAIT_TIMEOUT = 5;
 
     public TravelPayoutsServiceImpl(DefaultHttpClient<LatestResponse> httpClient, TicketDTOMapper mapper) {
         this.httpClient = httpClient;
@@ -37,18 +42,21 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
     public List<Ticket> getLatest(LatestRequest request) {
         String stringRequest = request.toString();
         log.trace("Sent request: {}", stringRequest);
-        Optional<LatestResponse> responseOptional = httpClient.getWithHeaders(stringRequest, LatestResponse.class);
-        log.trace("Got response: {}", responseOptional);
-        if (responseOptional.isEmpty()) {
-            return Collections.emptyList();
-        } else {
-            LatestResponse response = responseOptional.get();
+        LatestResponse response;
+        try {
+            CompletableFuture<LatestResponse> responseOptional = httpClient.getWithHeaders(stringRequest, LatestResponse.class);
+            response = responseOptional.get(WAIT_TIMEOUT, TimeUnit.SECONDS);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            throw new ServiceException(e);
+        }
+        log.trace("Got response: {}", response);
+
             List<TicketDTO> ticketDTOS = response.getData();
             return ticketDTOS
                     .stream()
                     .map(mapper::fromDTO)
                     .collect(Collectors.toList());
-        }
+
 
     }
 
@@ -72,7 +80,14 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
 
         String stringRequest = request.toString();
         log.trace("Sent request: {}", stringRequest);
-        JsonNode response = httpClient.getJsonResponseWithHeaders(stringRequest);
+        JsonNode response;
+        try {
+            CompletableFuture<JsonNode> responseFuture = httpClient.getJsonResponseWithHeaders(stringRequest);
+            response = responseFuture.get(WAIT_TIMEOUT, TimeUnit.SECONDS);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            log.debug(e.toString());
+            return Collections.emptyList();
+        }
 
         List<JsonNode> values = response.findValues(request.getDestination());
         List<Ticket> tickets = new ArrayList<>();
