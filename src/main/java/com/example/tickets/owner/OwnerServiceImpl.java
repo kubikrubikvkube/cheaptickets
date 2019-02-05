@@ -35,6 +35,11 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
+    public Optional<Owner> find(Long id) {
+        return repository.findById(id);
+    }
+
+    @Override
     public Optional<Owner> find(String email) {
         return repository.findBy(email);
     }

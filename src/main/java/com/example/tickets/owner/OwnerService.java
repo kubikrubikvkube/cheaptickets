@@ -9,6 +9,7 @@ public interface OwnerService {
 
     Owner save(Owner owner);
 
+    Optional<Owner> find(Long id);
     Optional<Owner> find(String email);
 
     List<Owner> findAll();

@@ -15,13 +15,13 @@
 <table border="1" style="width:30%" summary="Actions">
     <tr>
         <td>
-            <form method="post" th:action="@{/admin/owner/add}" th:object="${ownerDTO}">
+            <form method="post" th:action="@{/admin/owner/add}" th:object="${ownerDTOCO}">
                 <input autocomplete="off" placeholder="email" th:field="*{email}" type="text"/>
                 <input type="submit" value="Create"/>
             </form>
         </td>
         <td>
-            <form method="post" th:action="@{/admin/owner/delete}" th:object="${ownerDTO}">
+            <form method="post" th:action="@{/admin/owner/delete}" th:object="${ownerDTOCO}">
                 <input autocomplete="off" placeholder="Id" th:field="*{id}" type="text"/>
                 <input type="submit" value="Delete"/>
             </form>
