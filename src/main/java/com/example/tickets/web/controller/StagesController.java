@@ -1,7 +1,7 @@
 package com.example.tickets.web.controller;
 
 import com.example.tickets.job.stage.Stage;
-import com.example.tickets.web.commandobjects.StageCommandObject;
+import com.example.tickets.web.commandobjects.StageCO;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
@@ -36,7 +36,7 @@ public class StagesController {
 
     @GetMapping("/admin/stages")
     public String adminPage(Model model) {
-        model.addAttribute(new StageCommandObject());
+        model.addAttribute(new StageCO());
         return STAGES_PAGE;
     }
 
@@ -66,7 +66,7 @@ public class StagesController {
     }
 
     @PostMapping(value = "/admin/stages/start", params = "stageName")
-    public String startStage(@ModelAttribute StageCommandObject stageCO) throws Exception {
+    public String startStage(@ModelAttribute StageCO stageCO) throws Exception {
         String stageName = stageCO.getStageName();
         Class<?> stageClass = Class.forName(stagePackage + "." + stageName);
         Stage bean = (Stage) appContext.getAutowireCapableBeanFactory().getBean(stageClass);

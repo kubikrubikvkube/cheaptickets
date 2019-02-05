@@ -6,6 +6,6 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SubscriptionCommandObject extends SubscriptionDTO {
+public class SubscriptionDTOCO extends SubscriptionDTO {
     private Long id;
 }

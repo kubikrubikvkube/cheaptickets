@@ -3,6 +3,6 @@ package com.example.tickets.web.commandobjects;
 import lombok.Data;
 
 @Data
-public class StageCommandObject {
+public class StageCO {
     private String stageName;
 }
