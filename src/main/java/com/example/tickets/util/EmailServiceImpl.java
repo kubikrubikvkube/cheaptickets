@@ -1,7 +1,11 @@
 package com.example.tickets.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
+import com.example.tickets.owner.Owner;
+import com.example.tickets.route.Route;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -10,48 +14,52 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.Locale;
 
 @Service
+@PropertySource("classpath:ticket.properties")
 public class EmailServiceImpl implements EmailService {
-    @Autowired
-    public JavaMailSender emailSender;
+    private final Logger log = LoggerFactory.getLogger(EmailServiceImpl.class);
+    private final JavaMailSender emailSender;
+    private final TemplateEngine templateEngine;
+    private final String username;
 
-    @Autowired
-    TemplateEngine templateEngine;
 
-    public void sendSimpleMessage(String to, String subject, String text) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(text);
-        emailSender.send(message);
+    public EmailServiceImpl(JavaMailSender emailSender, TemplateEngine templateEngine, @Value("spring.mail.username") String username) {
+        this.emailSender = emailSender;
+        this.templateEngine = templateEngine;
+        this.username = username;
     }
 
+    @Override
+    public void sendNotification(Owner owner, Route route) {
+        var departTicket = route.getDepartTicket();
+        var returnTicket = route.getReturnTicket();
 
-    public void sendTest(String to, String subject) throws MessagingException {
-// Prepare the evaluation context
-        final Context ctx = new Context(Locale.ENGLISH);
-        ctx.setVariable("name", "slava");
-        ctx.setVariable("subscriptionDate", new Date());
-        ctx.setVariable("hobbies", Arrays.asList("Sex", "Drugs", "RockNRoll"));
-        ctx.setVariable("title", "Это заголовок");
+        Context ctx = new Context(Locale.ENGLISH);
+        ctx.setVariable("originName", departTicket.getOrigin());
+        ctx.setVariable("destinationName", departTicket.getDestination());
+        ctx.setVariable("tripDuration", route.getTripDurationInDays());
+        ctx.setVariable("departureDate", departTicket.getDepartDate());
+        ctx.setVariable("returnDate", returnTicket.getDepartDate());
+        ctx.setVariable("numberOfChangesDepartTicket", departTicket.getNumberOfChanges());
+        ctx.setVariable("numberOfChangesReturnTicket", returnTicket.getNumberOfChanges());
+        ctx.setVariable("sumValue", route.getSumValue());
 
-        // Prepare message using a Spring helper
-        final MimeMessage mimeMessage = emailSender.createMimeMessage();
-        final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-        message.setSubject("Example HTML email with inline image");
-        message.setFrom("subticket19@yandex.ru");
-        message.setTo("v.raskulin@gmail.com");
+        MimeMessage mimeMessage;
+        try {
+            mimeMessage = emailSender.createMimeMessage();
+            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            String subject = String.format("%s -> %s за %d рублей!", departTicket.getOrigin(), departTicket.getDestination(), route.getSumValue());
+            message.setSubject(subject);
+            message.setFrom(username);
+            message.setTo(owner.getEmail());
+            String htmlContent = this.templateEngine.process("emailtemplate.html", ctx);
+            message.setText(htmlContent, true);
+        } catch (MessagingException e) {
+            throw new ServiceException(e);
+        }
 
-        // Create the HTML body using Thymeleaf
-        final String htmlContent = this.templateEngine.process("emailtemplate.html", ctx);
-        message.setText(htmlContent, true); // true = isHtml
-
-        // Send mail
         emailSender.send(mimeMessage);
     }
-
 }

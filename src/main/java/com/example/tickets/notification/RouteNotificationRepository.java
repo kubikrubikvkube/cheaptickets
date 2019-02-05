@@ -7,5 +7,5 @@ import javax.transaction.Transactional;
 
 @Repository
 @Transactional
-interface TicketNotificationRepository extends JpaRepository<TicketNotification, Long> {
+interface RouteNotificationRepository extends JpaRepository<RouteNotification, Long> {
 }

@@ -1,63 +1,50 @@
 package com.example.tickets.notification;
 
-import com.example.tickets.owner.Owner;
 import com.example.tickets.owner.OwnerService;
 import com.example.tickets.route.Route;
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionService;
+import com.example.tickets.util.EmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+@Component
 public class RouteNotificatorImpl implements RouteNotificator {
     private final OwnerService ownerService;
-    private final TicketNotificationService ticketNotificationService;
+    private final RouteNotificationService routeNotificationService;
     private final SubscriptionService subscriptionService;
     private final JavaMailSender javaMailSender;
-    private final TicketNotificationDTOMapper notificationDTOMapper;
+    private final EmailService emailService;
+    private final RouteNotificationDTOMapper notificationDTOMapper;
     private final Logger log = LoggerFactory.getLogger(RouteNotificatorImpl.class);
 
-    public RouteNotificatorImpl(OwnerService ownerService, TicketNotificationService ticketNotificationService, SubscriptionService subscriptionService, JavaMailSender javaMailSender, TicketNotificationDTOMapper notificationDTOMapper) {
+    public RouteNotificatorImpl(OwnerService ownerService, RouteNotificationService routeNotificationService, SubscriptionService subscriptionService, JavaMailSender javaMailSender, EmailService emailService, RouteNotificationDTOMapper notificationDTOMapper) {
         this.ownerService = ownerService;
-        this.ticketNotificationService = ticketNotificationService;
+        this.routeNotificationService = routeNotificationService;
         this.subscriptionService = subscriptionService;
         this.javaMailSender = javaMailSender;
+        this.emailService = emailService;
         this.notificationDTOMapper = notificationDTOMapper;
     }
 
     @Override
-    public Optional<TicketNotification> notify(Owner owner, Route route) {
-        List<TicketNotificationDTO> notificationDTOS = owner.getSubscriptions()
-                .stream()
-                .map(Subscription::getNotifiedRoutes)
-                .flatMap(Collection::stream)
-                .map(notificationDTOMapper::toDTO)
-                .collect(Collectors.toList());
-
-        TicketNotificationDTO ticketNotificationDTO = new TicketNotificationDTO();
-        ticketNotificationDTO.setOwner(owner);
-        ticketNotificationDTO.setRoute(route);
-
-        if (notificationDTOS.contains(ticketNotificationDTO)) {
-            return Optional.empty();
-        }
-
-        //TicketNotificationService.вышлиПисьмо()
-        log.info("Owner {} notified about route {}", owner, route);
-
-
-        TicketNotification saved = ticketNotificationService.save(ticketNotificationDTO);
-
+    public Optional<RouteNotification> notify(Subscription subscription, Route route) {
+        RouteNotificationDTO routeNotificationDTO = new RouteNotificationDTO();
+        routeNotificationDTO.setSubscription(subscription);
+        routeNotificationDTO.setRoute(route);
+        emailService.sendNotification(subscription.getOwner(), route);
+        log.info("Owner {} notified about route {}", subscription, route);
+        RouteNotification saved = routeNotificationService.save(routeNotificationDTO);
         return Optional.ofNullable(saved);
     }
 
     @Override
-    public List<TicketNotification> notify(Owner owner, List<Route> routes) {
+    public List<RouteNotification> notify(Subscription subscription, List<Route> routes) {
         return null;
     }
 }

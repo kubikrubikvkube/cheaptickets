@@ -1,26 +1,43 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html
+		xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="${title}">Template for HTML email with inline image</title>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+	<title>SubTicket</title>
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
 </head>
 <body>
-<p th:text="${title}">
-    Zagolovok???
-</p>
-<p th:text="${name}">
-    Hello, Peter Static!
+<p>Мы нашли для Вас дешёвые билеты!</p>
+<p>
+<div>Город отправления:</div>
+<b id="originName" th:text="${originName}">Москва</b>
 </p>
 <p>
-    You have been successfully subscribed to the <b>Fake newsletter</b> on
-    <span th:text="${#dates.format(subscriptionDate)}">28-12-2012</span>
+<div>Город назначения:</div>
+<b id="destinationName" th:text="${destinationName}">Санкт-Петербург</b>
 </p>
-<p>Your hobbies are:</p>
-<ul th:remove="all-but-first">
-    <li th:each="hobby : ${hobbies}" th:text="${hobby}">Reading</li>
-    <li>Writing</li>
-    <li>Bowling</li>
-</ul>
-
+<p>
+<div>Продолжительность поездки в днях:</div>
+<b id="tripDuration" th:text="${tripDuration}">2</b>
+</p>
+<p>
+<div>Дата отправления:</div>
+<b id="departureDate" th:text="${departureDate}">2019-01-02</b>
+</p>
+<p>
+<div>Дата возвращения:</div>
+<b id="returnDate" th:text="${returnDate}">2019-01-04</b>
+</p>
+<p>
+<div>Пересадок туда:</div>
+<b id="numberOfChangesDepartTicket" th:text="${numberOfChangesDepartTicket}">1</b>
+</p>
+<p>
+<div>Пересадок обратно:</div>
+<b id="numberOfChangesReturnTicket" th:text="${numberOfChangesReturnTicket}">0</b>
+</p>
+<div>Общая стоимость поездки:</div>
+<b id="sumValue" th:text="${sumValue}">2199</b>
+</p>
 </body>
+undefined
 </html>

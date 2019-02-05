@@ -1,6 +1,6 @@
 package com.example.tickets.ticket;
 
-import com.example.tickets.notification.TicketNotification;
+import com.example.tickets.notification.RouteNotification;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -19,6 +19,6 @@ import java.util.List;
 public class CheapTicket extends Ticket {
 
     @CollectionTable(name = "ticket_cheap_sent_notifications")
-    @OneToMany(targetEntity = TicketNotification.class, cascade = CascadeType.ALL)
-    private List<TicketNotification> sentNotifications;
+    @OneToMany(targetEntity = RouteNotification.class, cascade = CascadeType.ALL)
+    private List<RouteNotification> sentNotifications;
 }

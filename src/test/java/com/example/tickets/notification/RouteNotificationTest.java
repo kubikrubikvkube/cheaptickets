@@ -24,13 +24,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-class TicketNotificationTest {
+class RouteNotificationTest {
     private Ticket departTicket;
     private Ticket returnTicket;
 
-    private final Logger log = LoggerFactory.getLogger(TicketNotificationTest.class);
+    private final Logger log = LoggerFactory.getLogger(RouteNotificationTest.class);
     @Autowired
-    private TicketNotificationRepository ticketNotificationRepository;
+    private RouteNotificationRepository routeNotificationRepository;
     @Autowired
     private SubscriptionRepository subscriptionRepository;
     @Autowired
@@ -49,7 +49,7 @@ class TicketNotificationTest {
 
     @Test
     void simplestNotificationShouldBeCreated() throws JsonProcessingException {
-        TicketNotification notification = new TicketNotification();
+        RouteNotification notification = new RouteNotification();
         Route route = new Route();
         route.setDepartTicket(departTicket);
         route.setReturnTicket(returnTicket);
@@ -73,13 +73,13 @@ class TicketNotificationTest {
 
     @Test
     void simplestNotificationShouldBeSaved() throws JsonProcessingException {
-        TicketNotification ticketNotification = new TicketNotification();
+        RouteNotification routeNotification = new RouteNotification();
         Subscription subscription = new Subscription();
         subscription.setOrigin("LED");
         subscription.setDestination("MOW");
         subscription = subscriptionRepository.save(subscription);
         log.info("Subscription: {}", subscription);
-        ticketNotification.setSubscription(subscription);
+        routeNotification.setSubscription(subscription);
         Route route = new Route();
         route.setOrigin("LED");
         route.setDestination("MOW");
@@ -87,9 +87,9 @@ class TicketNotificationTest {
         route.setSumValue(1000);
         route = routeRepository.save(route);
         log.info("Route: {}", route);
-        ticketNotification.setRoute(route);
-        TicketNotification saved = ticketNotificationRepository.save(ticketNotification);
-        log.info("TicketNotification: {}", ticketNotification);
+        routeNotification.setRoute(route);
+        RouteNotification saved = routeNotificationRepository.save(routeNotification);
+        log.info("RouteNotification: {}", routeNotification);
         assertNotNull(saved.getId());
         assertNotNull(saved.getCreationTimestamp());
         assertNotNull(saved.getRoute());
