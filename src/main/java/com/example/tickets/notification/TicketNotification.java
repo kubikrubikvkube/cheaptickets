@@ -1,9 +1,12 @@
 package com.example.tickets.notification;
 
 import com.example.tickets.route.Route;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.example.tickets.subscription.Subscription;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -12,16 +15,22 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(indexes = {@Index(name = "idx_ticket_notification", columnList = "id,owner")})
+@Table
 public class TicketNotification {
-    @OneToOne
-    Route route;
     @Id
     @GeneratedValue
     private Long id;
+
     @CreationTimestamp
     private LocalDateTime creationTimestamp;
 
-    @JsonManagedReference
-    private String owner;
+    @OneToOne
+    Route route;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "owner_fk")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Subscription subscription;
 }

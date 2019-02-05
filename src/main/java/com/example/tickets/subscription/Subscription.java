@@ -1,5 +1,6 @@
 package com.example.tickets.subscription;
 
+import com.example.tickets.notification.TicketNotification;
 import com.example.tickets.owner.Owner;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
@@ -7,11 +8,14 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -36,6 +40,7 @@ public class Subscription {
     @JoinColumn(name = "owner_fk")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Owner owner;
     /**
      * IATA отправления
@@ -82,4 +87,8 @@ public class Subscription {
 
     @Enumerated(EnumType.STRING)
     private SubscriptionType subscriptionType;
+
+    @CollectionTable(name = "subscription_sent_notifications")
+    @OneToMany(targetEntity = TicketNotification.class, cascade = CascadeType.ALL)
+    private List<TicketNotification> notifiedRoutes;
 }
