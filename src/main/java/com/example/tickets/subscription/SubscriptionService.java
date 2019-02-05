@@ -18,6 +18,8 @@ public interface SubscriptionService {
 
     Optional<Subscription> find(SubscriptionDTO dto);
 
+    Optional<Subscription> find(Long id);
+
     void delete(String owner, String origin, String destination);
 
     void delete(String owner);

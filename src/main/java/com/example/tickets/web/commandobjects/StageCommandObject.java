@@ -1,4 +1,4 @@
-package com.example.tickets.web.stage;
+package com.example.tickets.web.commandobjects;
 
 import lombok.Data;
 

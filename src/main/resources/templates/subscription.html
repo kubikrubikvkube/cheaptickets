@@ -15,7 +15,7 @@
 <table border="1" style="width:30%" summary="Actions">
     <tr>
         <td>
-            <form method="post" th:action="@{/admin/subscription/add}" th:object="${subscriptionDTO}">
+            <form method="post" th:action="@{/admin/subscription/add}" th:object="${subscriptionCommandObject}">
                 <select th:field="*{owner}">
                     <option value="">-</option>
                     <option th:each="ownerEntry : ${@ownerServiceImpl.findAll()}" th:text="${ownerEntry.email}"
@@ -39,7 +39,7 @@
             </form>
         </td>
         <td>
-            <form method="post" th:action="@{/admin/subscription/delete}" th:object="${subscriptionDTO}">
+            <form method="post" th:action="@{/admin/subscription/delete}" th:object="${subscriptionCommandObject}">
                 <input autocomplete="off" placeholder="Id" th:field="*{id}" type="text"/>
                 <input type="submit" value="Delete"/>
             </form>

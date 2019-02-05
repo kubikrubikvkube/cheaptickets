@@ -1,7 +1,7 @@
 package com.example.tickets.web.controller;
 
 import com.example.tickets.job.stage.Stage;
-import com.example.tickets.web.stage.StageCommandObject;
+import com.example.tickets.web.commandobjects.StageCommandObject;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;

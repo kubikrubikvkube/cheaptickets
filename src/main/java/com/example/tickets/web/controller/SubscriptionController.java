@@ -4,6 +4,7 @@ import com.example.tickets.iata.IATAService;
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionDTO;
 import com.example.tickets.subscription.SubscriptionService;
+import com.example.tickets.web.commandobjects.SubscriptionCommandObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,7 @@ public class SubscriptionController {
 
     @GetMapping("/admin/subscription")
     public String subscriptionPage(Model model) {
-        model.addAttribute("subscriptionDTO", new SubscriptionDTO());
+        model.addAttribute(new SubscriptionCommandObject());
         return SUBSCRIPTION_PAGE;
     }
 
@@ -41,11 +42,10 @@ public class SubscriptionController {
     }
 
     @PostMapping("/admin/subscription/delete")
-    public String subscriptionDelete(@ModelAttribute SubscriptionDTO subscriptionDTO) {
-        Optional<Subscription> subscriptionOptional = subscriptionService.find(subscriptionDTO);
+    public String subscriptionDelete(@ModelAttribute SubscriptionCommandObject subscriptionCommandObject) {
+        Long id = subscriptionCommandObject.getId();
+        Optional<Subscription> subscriptionOptional = subscriptionService.find(id);
         if (subscriptionOptional.isPresent()) {
-            Subscription subscription = subscriptionOptional.get();
-            Long id = subscription.getId();
             subscriptionService.delete(id);
         }
         return SUBSCRIPTION_PAGE;

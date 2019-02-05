@@ -119,6 +119,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    public Optional<Subscription> find(Long id) {
+        return repository.findById(id);
+    }
+
+    @Override
     public List<Subscription> findAll() {
         return Lists.newArrayList(repository.findAll());
     }
