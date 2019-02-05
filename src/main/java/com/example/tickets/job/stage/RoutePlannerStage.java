@@ -2,7 +2,7 @@ package com.example.tickets.job.stage;
 
 import com.example.tickets.route.Route;
 import com.example.tickets.route.RouteDTO;
-import com.example.tickets.route.RoutesService;
+import com.example.tickets.route.RouteService;
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionService;
 import com.google.common.base.Stopwatch;
@@ -18,10 +18,10 @@ import java.util.List;
 @Component
 public class RoutePlannerStage implements Stage {
     private final static Logger log = LoggerFactory.getLogger(RoutePlannerStage.class);
-    private final RoutesService routesService;
+    private final RouteService routesService;
     private final SubscriptionService subscriptionService;
 
-    public RoutePlannerStage(RoutesService routesService, SubscriptionService subscriptionService) {
+    public RoutePlannerStage(RouteService routesService, SubscriptionService subscriptionService) {
         this.routesService = routesService;
         this.subscriptionService = subscriptionService;
     }

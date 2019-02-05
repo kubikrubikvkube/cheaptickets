@@ -15,14 +15,14 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class RoutesServiceImpl implements RoutesService {
-    private final Logger log = LoggerFactory.getLogger(RoutesServiceImpl.class);
+public class RouteServiceImpl implements RouteService {
+    private final Logger log = LoggerFactory.getLogger(RouteServiceImpl.class);
     private final RouteDTOMapper mapper;
     private final RouteRepository repository;
     private final RoutePlanner routePlanner;
     private final ExampleMatcher exampleMatcher;
 
-    public RoutesServiceImpl(RouteDTOMapper mapper, RouteRepository repository, RoutePlanner routePlanner) {
+    public RouteServiceImpl(RouteDTOMapper mapper, RouteRepository repository, RoutePlanner routePlanner) {
         this.mapper = mapper;
         this.repository = repository;
         this.routePlanner = routePlanner;

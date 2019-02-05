@@ -27,10 +27,12 @@ public class TicketServiceImpl implements TicketService {
     private final TicketRepository repository;
     private final ObjectMapper mapper;
     private final ExampleMatcher exampleMatcher;
+    private final TicketDTOMapper dtoMapper;
 
-    public TicketServiceImpl(TicketRepository repository, ObjectMapper mapper) {
+    public TicketServiceImpl(TicketRepository repository, ObjectMapper mapper, TicketDTOMapper dtoMapper) {
         this.repository = repository;
         this.mapper = mapper;
+        this.dtoMapper = dtoMapper;
         exampleMatcher = ExampleMatcher.matchingAll().withIgnorePaths("id", "creationTimestamp", "foundAt").withIncludeNullValues();
     }
 
@@ -147,8 +149,14 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    public Ticket save(TicketDTO ticketDTO) {
+        Ticket ticket = dtoMapper.fromDTO(ticketDTO);
+        return save(ticket);
+    }
+
+    @Override
     public Ticket save(Ticket foundTicket) {
-        return repository.saveAndFlush(foundTicket);
+        return repository.save(foundTicket);
     }
 
 }

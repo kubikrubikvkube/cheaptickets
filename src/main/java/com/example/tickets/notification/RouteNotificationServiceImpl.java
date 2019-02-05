@@ -18,4 +18,9 @@ public class RouteNotificationServiceImpl implements RouteNotificationService {
         RouteNotification routeNotification = notificationDTOMapper.fromDTO(routeNotificationDTO);
         return repository.save(routeNotification);
     }
+
+    @Override
+    public RouteNotification save(RouteNotification routeNotification) {
+        return repository.save(routeNotification);
+    }
 }

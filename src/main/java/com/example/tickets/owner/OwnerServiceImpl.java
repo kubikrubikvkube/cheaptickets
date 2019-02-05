@@ -30,6 +30,11 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
+    public Owner save(Owner owner) {
+        return repository.save(owner);
+    }
+
+    @Override
     public Optional<Owner> find(String email) {
         return repository.findBy(email);
     }

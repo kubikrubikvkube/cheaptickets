@@ -17,18 +17,19 @@ import javax.mail.internet.MimeMessage;
 import java.util.Locale;
 
 @Service
-@PropertySource("classpath:ticket.properties")
+@PropertySource("classpath:mail.properties")
 public class EmailServiceImpl implements EmailService {
     private final Logger log = LoggerFactory.getLogger(EmailServiceImpl.class);
     private final JavaMailSender emailSender;
     private final TemplateEngine templateEngine;
-    private final String username;
+
+    @Value("${spring.mail.from}")
+    private String username;
 
 
-    public EmailServiceImpl(JavaMailSender emailSender, TemplateEngine templateEngine, @Value("spring.mail.username") String username) {
+    public EmailServiceImpl(JavaMailSender emailSender, TemplateEngine templateEngine) {
         this.emailSender = emailSender;
         this.templateEngine = templateEngine;
-        this.username = username;
     }
 
     @Override

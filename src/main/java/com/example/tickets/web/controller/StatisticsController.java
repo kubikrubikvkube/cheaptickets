@@ -1,7 +1,7 @@
 package com.example.tickets.web.controller;
 
 import com.example.tickets.owner.OwnerService;
-import com.example.tickets.route.RoutesService;
+import com.example.tickets.route.RouteService;
 import com.example.tickets.statistics.TicketStatisticsService;
 import com.example.tickets.subscription.SubscriptionService;
 import com.example.tickets.ticket.CheapTicketService;
@@ -21,10 +21,10 @@ public class StatisticsController {
     private final OwnerService ownerService;
     private final CheapTicketService cheapTicketService;
     private final TicketStatisticsService ticketStatisticsService;
-    private final RoutesService routesService;
+    private final RouteService routesService;
 
 
-    public StatisticsController(ObjectMapper mapper, TicketService ticketService, SubscriptionService subscriptionService, OwnerService ownerService, CheapTicketService cheapTicketService, TicketStatisticsService ticketStatisticsService, RoutesService routesService) {
+    public StatisticsController(ObjectMapper mapper, TicketService ticketService, SubscriptionService subscriptionService, OwnerService ownerService, CheapTicketService cheapTicketService, TicketStatisticsService ticketStatisticsService, RouteService routesService) {
         this.ticketService = ticketService;
         this.subscriptionService = subscriptionService;
         this.ownerService = ownerService;

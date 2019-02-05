@@ -4,7 +4,7 @@ import com.example.tickets.subscription.Subscription;
 
 import java.util.List;
 
-public interface RoutesService {
+public interface RouteService {
     Route save(RouteDTO dto);
 
     List<Route> save(List<RouteDTO> routeDTOS);

@@ -66,8 +66,12 @@ public class MainController {
 
     @PostMapping("/main/deleteSubscription")
     public RedirectView deleteSubscription(HttpSession session, @ModelAttribute SubscriptionDTO subscriptionDTO, Model model) {
-        Long subscriptionId = subscriptionDTO.getId();
-        subscriptionService.delete(subscriptionId);
+        Optional<Subscription> subscriptionOptional = subscriptionService.find(subscriptionDTO);
+        if (subscriptionOptional.isPresent()) {
+            Subscription subscription = subscriptionOptional.get();
+            Long subscriptionId = subscription.getId();
+            subscriptionService.delete(subscriptionId);
+        }
         return new RedirectView(MAIN_PAGE);
     }
 

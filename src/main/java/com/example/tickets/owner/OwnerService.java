@@ -7,6 +7,8 @@ public interface OwnerService {
 
     Owner save(OwnerDTO dto);
 
+    Owner save(Owner owner);
+
     Optional<Owner> find(String email);
 
     List<Owner> findAll();

@@ -1,23 +1,17 @@
 package com.example.tickets.subscription;
 
+import com.example.tickets.notification.RouteNotification;
 import com.example.tickets.owner.Owner;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 public class SubscriptionDTO {
-    /**
-     * ID
-     */
-    private Long id;
-
-    private LocalDateTime creationTimestamp;
-
     /**
      * Кто создал подписку
      */
@@ -64,4 +58,6 @@ public class SubscriptionDTO {
     private Integer tripDurationInDaysTo;
 
     private SubscriptionType subscriptionType;
+
+    private List<RouteNotification> routeNotifications;
 }

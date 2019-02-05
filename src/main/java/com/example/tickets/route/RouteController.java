@@ -8,9 +8,9 @@ import java.util.List;
 
 @RestController
 public class RouteController {
-    private final RoutesService routesService;
+    private final RouteService routesService;
 
-    public RouteController(RoutesService routesService) {
+    public RouteController(RouteService routesService) {
         this.routesService = routesService;
     }
 
