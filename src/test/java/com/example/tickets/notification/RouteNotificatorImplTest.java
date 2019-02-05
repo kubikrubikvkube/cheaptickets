@@ -33,25 +33,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 class RouteNotificatorImplTest {
     private final Logger log = LoggerFactory.getLogger(RouteNotificatorImplTest.class);
-
-    @Autowired
-    private RouteNotificator routeNotificator;
-
     @Autowired
     RouteService routesService;
-
     @Autowired
     OwnerService ownerService;
-
     @Autowired
     SubscriptionService subscriptionService;
-
     @Autowired
     TicketService ticketService;
-
     @Autowired
     RouteNotificationService routeNotificationService;
-
+    @Autowired
+    private RouteNotificator routeNotificator;
     private Owner owner;
     private Route route;
     private Subscription subscription;

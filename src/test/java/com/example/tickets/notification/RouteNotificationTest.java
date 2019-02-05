@@ -25,10 +25,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 class RouteNotificationTest {
+    private final Logger log = LoggerFactory.getLogger(RouteNotificationTest.class);
     private Ticket departTicket;
     private Ticket returnTicket;
-
-    private final Logger log = LoggerFactory.getLogger(RouteNotificationTest.class);
     @Autowired
     private RouteNotificationRepository routeNotificationRepository;
     @Autowired
