@@ -2,14 +2,11 @@ package com.example.tickets.iata;
 
 import com.example.tickets.resources.JsonResource;
 import com.example.tickets.resources.ResourceResolver;
-import com.example.tickets.util.ServiceException;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class IATAServiceImpl implements IATAService {
@@ -30,7 +27,7 @@ public class IATAServiceImpl implements IATAService {
 
 
     @Override
-    public Optional<IATA> fromPlaceName(String place) {
+    public IATA fromPlaceName(String place) {
         String normalizedPlace = place.toLowerCase();
         boolean exists = repository.existsByPlace(normalizedPlace);
         if (!exists) {
@@ -42,21 +39,17 @@ public class IATAServiceImpl implements IATAService {
             IATA iata = mapper.fromDTO(dto);
             repository.save(iata);
         }
-        var iataOptional = repository.findByPlace(normalizedPlace);
-        if (iataOptional.isEmpty()) {
-            throw new ServiceException(String.format("IATA code for place is not saved %s", place));
-        }
-        return iataOptional;
+        return repository.findByPlace(normalizedPlace);
     }
 
     @Override
-    public Optional<IATA> fromCode(String code) {
+    public IATA fromCode(String code) {
         String normalizedCode = code.toUpperCase();
         boolean exists = repository.existsByCode(code);
-        IATADTO dto;
+
         if (!exists) {
             JsonNode iataNode = resourceResolver.resolve(JsonResource.CASES);
-            String placeName = iataNode.get("name").textValue();
+            String placeName = iataNode.get(normalizedCode).get("name").textValue();
             IATADTO iatadto = new IATADTO();
             iatadto.setPlace(placeName);
             iatadto.setCode(code);

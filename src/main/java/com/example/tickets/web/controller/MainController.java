@@ -50,16 +50,11 @@ public class MainController {
         if (ownerOptional.isEmpty()) throw new ServiceException("Owner is not found in model");
         Owner owner = ownerOptional.get();
         subscriptionDTO.setOwner(owner);
-//        subscriptionDTO = iataResolver.resolve(subscriptionDTO);
-        Optional<IATA> originIATA = iataService.fromPlaceName(subscriptionDTO.getOriginName());
-        Optional<IATA> destinationIATA = iataService.fromPlaceName(subscriptionDTO.getDestinationName());
+        IATA originIATA = iataService.fromPlaceName(subscriptionDTO.getOriginName());
+        IATA destinationIATA = iataService.fromPlaceName(subscriptionDTO.getDestinationName());
 
-        if (originIATA.isEmpty() || destinationIATA.isEmpty()) {
-            throw new ServiceException("Origin or destination is not found");
-        }
-
-        subscriptionDTO.setOrigin(originIATA.get().getCode());
-        subscriptionDTO.setDestination(destinationIATA.get().getCode());
+        subscriptionDTO.setOrigin(originIATA.getCode());
+        subscriptionDTO.setDestination(destinationIATA.getCode());
         SubscriptionType subscriptionType = typeResolver.resolve(subscriptionDTO);
         subscriptionDTO.setSubscriptionType(subscriptionType);
         Optional<Subscription> foundSubscription = subscriptionService.find(subscriptionDTO);
