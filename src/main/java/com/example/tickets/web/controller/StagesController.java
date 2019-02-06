@@ -61,6 +61,7 @@ public class StagesController {
         return subTypes
                 .stream()
                 .map(Class::getSimpleName)
+                .sorted(String.CASE_INSENSITIVE_ORDER)
                 .collect(Collectors.toList());
 
     }
