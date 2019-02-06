@@ -88,7 +88,7 @@ public class Subscription {
     @JsonBackReference
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @CollectionTable(name = "subscription_sent_notifications")
-    @OneToMany(targetEntity = RouteNotification.class, cascade = CascadeType.ALL)
+    @CollectionTable(name = "subscription_route_notifications")
+    @OneToMany(targetEntity = RouteNotification.class, fetch = FetchType.EAGER)
     private List<RouteNotification> routeNotifications;
 }
