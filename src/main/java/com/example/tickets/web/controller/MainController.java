@@ -1,5 +1,6 @@
 package com.example.tickets.web.controller;
 
+import com.example.tickets.iata.IATA;
 import com.example.tickets.iata.IATAService;
 import com.example.tickets.owner.Owner;
 import com.example.tickets.owner.OwnerService;
@@ -50,10 +51,15 @@ public class MainController {
         Owner owner = ownerOptional.get();
         subscriptionDTO.setOwner(owner);
 //        subscriptionDTO = iataResolver.resolve(subscriptionDTO);
-        var originIATA = iataService.fromPlaceName(subscriptionDTO.getOriginName());
-        var destinationIATA = iataService.fromPlaceName(subscriptionDTO.getDestinationName());
-        subscriptionDTO.setOrigin(originIATA);
-        subscriptionDTO.setDestination(destinationIATA);
+        Optional<IATA> originIATA = iataService.fromPlaceName(subscriptionDTO.getOriginName());
+        Optional<IATA> destinationIATA = iataService.fromPlaceName(subscriptionDTO.getDestinationName());
+
+        if (originIATA.isEmpty() || destinationIATA.isEmpty()) {
+            throw new ServiceException("Origin or destination is not found");
+        }
+
+        subscriptionDTO.setOrigin(originIATA.get().getCode());
+        subscriptionDTO.setDestination(destinationIATA.get().getCode());
         SubscriptionType subscriptionType = typeResolver.resolve(subscriptionDTO);
         subscriptionDTO.setSubscriptionType(subscriptionType);
         Optional<Subscription> foundSubscription = subscriptionService.find(subscriptionDTO);

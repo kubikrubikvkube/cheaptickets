@@ -7,4 +7,5 @@ import lombok.Data;
 public class IATADTO {
     private String code;
     private String place;
+    private boolean isCanonical;
 }

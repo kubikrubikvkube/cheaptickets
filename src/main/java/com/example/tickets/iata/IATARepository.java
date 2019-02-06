@@ -18,9 +18,21 @@ public interface IATARepository extends JpaRepository<IATA, Long> {
     @Query("select i from IATA i where i.place = ?1")
     Optional<IATA> findByPlace(String place);
 
+    @Query("select i from IATA i where i.code = ?1 and i.isCanonical = true")
+    Optional<IATA> findByCodeCanonical(String code);
+
+    @Query("select i from IATA i where i.place = ?1 and i.isCanonical = true")
+    Optional<IATA> findByPlaceCanonical(String place);
+
     boolean existsByPlace(String place);
 
     boolean existsByCode(String code);
+
+    @Query("select count(i)>0 from IATA i where i.code = ?1 and i.isCanonical = true")
+    boolean existsByCodeCanonical(String code);
+
+    @Query("select count(i)>0 from IATA i where i.place = ?1 and i.isCanonical = true")
+    boolean existsByPlaceCanonical(String place);
 
 }
 

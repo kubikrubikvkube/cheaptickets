@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(indexes = {@Index(name = "idx_iata", columnList = "id,place")})
+@Table(name = "iata", indexes = {@Index(name = "idx_iata", columnList = "id,place")})
 public class IATA {
     @Id
     @GeneratedValue
@@ -20,4 +20,5 @@ public class IATA {
     @Column(length = 3)
     private String code;
     private String place;
+    private boolean isCanonical;
 }

@@ -1,8 +1,10 @@
 package com.example.tickets.web.controller;
 
+import com.example.tickets.iata.IATA;
 import com.example.tickets.iata.IATAService;
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionService;
+import com.example.tickets.util.ServiceException;
 import com.example.tickets.web.commandobjects.SubscriptionDTOCO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,10 +34,16 @@ public class SubscriptionController {
 
     @PostMapping("/admin/subscription/add")
     public String subscriptionAdd(@ModelAttribute SubscriptionDTOCO subscriptionDTOCO) {
-        var originIATA = iataService.fromPlaceName(subscriptionDTOCO.getOriginName());
-        var destinationIATA = iataService.fromPlaceName(subscriptionDTOCO.getDestinationName());
-        subscriptionDTOCO.setOrigin(originIATA);
-        subscriptionDTOCO.setDestination(destinationIATA);
+        Optional<IATA> originIATA = iataService.fromPlaceName(subscriptionDTOCO.getOriginName());
+        Optional<IATA> destinationIATA = iataService.fromPlaceName(subscriptionDTOCO.getDestinationName());
+
+
+        if (originIATA.isEmpty() || destinationIATA.isEmpty()) {
+            throw new ServiceException("Origin or destination is not found");
+        }
+
+        subscriptionDTOCO.setOrigin(originIATA.get().getCode());
+        subscriptionDTOCO.setDestination(destinationIATA.get().getCode());
         subscriptionService.save(subscriptionDTOCO);
         return SUBSCRIPTION_PAGE;
     }
