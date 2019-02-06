@@ -8,7 +8,7 @@
   },
   {
     "code": "2B",
-    "name": null,
+    "name": "Ак Барс Аэро",
     "name_translations": {
       "en": "Ak Bars Aero"
     }
@@ -36,7 +36,7 @@
   },
   {
     "code": "2K",
-    "name": null,
+    "name": "Avianca Ecuador",
     "name_translations": {
       "en": "Avianca Ecuador"
     }
@@ -120,7 +120,7 @@
   },
   {
     "code": "3R",
-    "name": null,
+    "name": "Avior Airlines",
     "name_translations": {
       "en": "Avior Airlines"
     }
@@ -148,21 +148,21 @@
   },
   {
     "code": "4G",
-    "name": null,
+    "name": "Газпром авиа",
     "name_translations": {
       "en": "Gazpromavia"
     }
   },
   {
     "code": "4J",
-    "name": null,
+    "name": "FlyDamas",
     "name_translations": {
       "en": "FlyDamas"
     }
   },
   {
     "code": "4M",
-    "name": null,
+    "name": "LATAM Argentina",
     "name_translations": {
       "en": "LATAM Argentina"
     }
@@ -211,28 +211,28 @@
   },
   {
     "code": "5H",
-    "name": null,
+    "name": "Fly540",
     "name_translations": {
       "en": "Fly540"
     }
   },
   {
     "code": "5J",
-    "name": null,
+    "name": "Cebu Pacific",
     "name_translations": {
       "en": "Cebu Pacific"
     }
   },
   {
     "code": "5N",
-    "name": null,
+    "name": "Нордавиа",
     "name_translations": {
       "en": "Nordavia"
     }
   },
   {
     "code": "5O",
-    "name": null,
+    "name": "ASL Airlines France",
     "name_translations": {
       "en": "ASL Airlines France"
     }
@@ -260,14 +260,14 @@
   },
   {
     "code": "6R",
-    "name": null,
+    "name": "Алроса",
     "name_translations": {
       "en": "Alrosa"
     }
   },
   {
     "code": "6W",
-    "name": null,
+    "name": "Саратовские авиалинии",
     "name_translations": {
       "en": "Saratov Airlines"
     }
@@ -288,7 +288,7 @@
   },
   {
     "code": "7D",
-    "name": null,
+    "name": "Maluti Sky",
     "name_translations": {
       "en": "Maluti Sky"
     }
@@ -302,7 +302,7 @@
   },
   {
     "code": "7H",
-    "name": null,
+    "name": "Ravn Alaska",
     "name_translations": {
       "en": "Ravn Alaska"
     }
@@ -316,14 +316,14 @@
   },
   {
     "code": "7J",
-    "name": null,
+    "name": "Tajik Air",
     "name_translations": {
-      "en": "Metrojet"
+      "en": "Tajik Air"
     }
   },
   {
     "code": "7K",
-    "name": null,
+    "name": "Метроджет",
     "name_translations": {
       "en": "MetroJet"
     }
@@ -337,7 +337,7 @@
   },
   {
     "code": "7R",
-    "name": null,
+    "name": "Руслайн",
     "name_translations": {
       "en": "RusLine"
     }
@@ -351,7 +351,7 @@
   },
   {
     "code": "7W",
-    "name": null,
+    "name": "Windrose Airlines",
     "name_translations": {
       "en": "Windrose Airlines"
     }
@@ -372,7 +372,7 @@
   },
   {
     "code": "8M",
-    "name": null,
+    "name": "Myanmar Airways International",
     "name_translations": {
       "en": "Myanmar Airways International"
     }
@@ -428,7 +428,7 @@
   },
   {
     "code": "9H",
-    "name": null,
+    "name": "Chang An Airlines",
     "name_translations": {
       "en": "Chang An Airlines"
     }
@@ -449,7 +449,7 @@
   },
   {
     "code": "9R",
-    "name": null,
+    "name": "Southern Air",
     "name_translations": {
       "en": "Southern Air"
     }
@@ -491,7 +491,7 @@
   },
   {
     "code": "A4",
-    "name": null,
+    "name": "Азимут",
     "name_translations": {
       "en": "Azimut"
     }
@@ -540,7 +540,7 @@
   },
   {
     "code": "AD",
-    "name": null,
+    "name": "Azul Brazilian Airlines",
     "name_translations": {
       "en": "Azul Brazilian Airlines"
     }
@@ -645,7 +645,7 @@
   },
   {
     "code": "B2",
-    "name": null,
+    "name": "Белавиа",
     "name_translations": {
       "en": "Belavia"
     }
@@ -736,7 +736,7 @@
   },
   {
     "code": "BL",
-    "name": null,
+    "name": "Jetstar Pacific Airlines",
     "name_translations": {
       "en": "Jetstar Pacific Airlines"
     }
@@ -764,7 +764,7 @@
   },
   {
     "code": "BT",
-    "name": null,
+    "name": "airBaltic",
     "name_translations": {
       "en": "airBaltic"
     }
@@ -792,7 +792,7 @@
   },
   {
     "code": "C3",
-    "name": null,
+    "name": "Trade Air",
     "name_translations": {
       "en": "Trade Air"
     }
@@ -869,7 +869,7 @@
   },
   {
     "code": "CU",
-    "name": null,
+    "name": "Cubana de Aviación",
     "name_translations": {
       "en": "Cubana de Aviación"
     }
@@ -897,7 +897,7 @@
   },
   {
     "code": "D2",
-    "name": null,
+    "name": "Северсталь",
     "name_translations": {
       "en": "Severstal Air"
     }
@@ -918,7 +918,7 @@
   },
   {
     "code": "D9",
-    "name": null,
+    "name": "Донавиа",
     "name_translations": {
       "en": "Donavia"
     }
@@ -932,7 +932,7 @@
   },
   {
     "code": "DC",
-    "name": null,
+    "name": "Braathens Regional",
     "name_translations": {
       "en": "Braathens Regional"
     }
@@ -953,7 +953,7 @@
   },
   {
     "code": "DJ",
-    "name": null,
+    "name": "AirAsia Japan",
     "name_translations": {
       "en": "AirAsia Japan"
     }
@@ -969,7 +969,7 @@
     "code": "DN",
     "name": null,
     "name_translations": {
-      "en": "Senegal Airlines"
+      "en": "Norwegian Air"
     }
   },
   {
@@ -995,7 +995,7 @@
   },
   {
     "code": "DY",
-    "name": null,
+    "name": "Norwegian Air Shuttle",
     "name_translations": {
       "en": "Norwegian Air Shuttle"
     }
@@ -1037,7 +1037,7 @@
   },
   {
     "code": "EO",
-    "name": null,
+    "name": "Pegas Fly",
     "name_translations": {
       "en": "Pegas Fly"
     }
@@ -1079,7 +1079,7 @@
   },
   {
     "code": "EZ",
-    "name": null,
+    "name": "Sun-Air of Scandinavia",
     "name_translations": {
       "en": "Sun-Air of Scandinavia"
     }
@@ -1088,7 +1088,7 @@
     "code": "F7",
     "name": null,
     "name_translations": {
-      "en": "Darwin Airline"
+      "en": "I Fly"
     }
   },
   {
@@ -1142,7 +1142,7 @@
   },
   {
     "code": "FP",
-    "name": null,
+    "name": "Servicios Aéreos de los Andes",
     "name_translations": {
       "en": "Servicios Aéreos de los Andes"
     }
@@ -1170,7 +1170,7 @@
   },
   {
     "code": "FV",
-    "name": null,
+    "name": "Россия",
     "name_translations": {
       "en": "Rossiya Airlines"
     }
@@ -1191,7 +1191,7 @@
   },
   {
     "code": "G3",
-    "name": null,
+    "name": "Gol Transportes Aéreos",
     "name_translations": {
       "en": "Gol Transportes Aéreos"
     }
@@ -1205,7 +1205,7 @@
   },
   {
     "code": "G8",
-    "name": null,
+    "name": "Go!",
     "name_translations": {
       "en": "Go!"
     }
@@ -1240,7 +1240,7 @@
   },
   {
     "code": "GH",
-    "name": null,
+    "name": "Глобус",
     "name_translations": {
       "en": "Globus Airlines"
     }
@@ -1254,7 +1254,7 @@
   },
   {
     "code": "GR",
-    "name": null,
+    "name": "Aurigny Air Services",
     "name_translations": {
       "en": "Aurigny Air Services"
     }
@@ -1268,7 +1268,7 @@
   },
   {
     "code": "GW",
-    "name": null,
+    "name": "SkyGreece Airlines",
     "name_translations": {
       "en": "SkyGreece Airlines"
     }
@@ -1282,7 +1282,7 @@
   },
   {
     "code": "H9",
-    "name": null,
+    "name": "Himalaya Airlines",
     "name_translations": {
       "en": "Himalaya Airlines"
     }
@@ -1296,7 +1296,7 @@
   },
   {
     "code": "HF",
-    "name": null,
+    "name": "Air Côte d'Ivoire",
     "name_translations": {
       "en": "Air Côte d'Ivoire"
     }
@@ -1331,7 +1331,7 @@
   },
   {
     "code": "HS",
-    "name": null,
+    "name": "Héli Sécurité Hélicopter Airline",
     "name_translations": {
       "en": "Héli Sécurité Hélicopter Airline"
     }
@@ -1345,7 +1345,7 @@
   },
   {
     "code": "HV",
-    "name": null,
+    "name": "Transavia",
     "name_translations": {
       "en": "Transavia"
     }
@@ -1359,14 +1359,14 @@
   },
   {
     "code": "HY",
-    "name": null,
+    "name": "Узбекские авиалинии (Uzbekistan Airways)",
     "name_translations": {
       "en": "Uzbekistan Airways"
     }
   },
   {
     "code": "HZ",
-    "name": null,
+    "name": "Аврора",
     "name_translations": {
       "en": "Aurora"
     }
@@ -1380,21 +1380,21 @@
   },
   {
     "code": "I4",
-    "name": null,
+    "name": "Interstate Airlines",
     "name_translations": {
       "en": "Interstate Airlines"
     }
   },
   {
     "code": "I5",
-    "name": null,
+    "name": "AirAsia India",
     "name_translations": {
       "en": "AirAsia India"
     }
   },
   {
     "code": "I8",
-    "name": null,
+    "name": "Ижавиа",
     "name_translations": {
       "en": "Izhavia"
     }
@@ -1424,12 +1424,12 @@
     "code": "IG",
     "name": null,
     "name_translations": {
-      "en": "Meridiana"
+      "en": "Air Italy"
     }
   },
   {
     "code": "IQ",
-    "name": null,
+    "name": "Qazaq Air",
     "name_translations": {
       "en": "Qazaq Air"
     }
@@ -1457,7 +1457,7 @@
   },
   {
     "code": "IY",
-    "name": null,
+    "name": "Yemenia",
     "name_translations": {
       "en": "Yemenia"
     }
@@ -1478,7 +1478,7 @@
   },
   {
     "code": "J2",
-    "name": null,
+    "name": "Азербайджанские авиалинии (Azal)",
     "name_translations": {
       "en": "Azerbaijan Airlines"
     }
@@ -1492,7 +1492,7 @@
   },
   {
     "code": "J7",
-    "name": null,
+    "name": "Afrijet Business Service",
     "name_translations": {
       "en": "Afrijet Business Service"
     }
@@ -1534,7 +1534,7 @@
   },
   {
     "code": "JJ",
-    "name": null,
+    "name": "LATAM Brasil",
     "name_translations": {
       "en": "LATAM Brasil"
     }
@@ -1548,7 +1548,7 @@
   },
   {
     "code": "JN",
-    "name": null,
+    "name": "Joon",
     "name_translations": {
       "en": "Joon"
     }
@@ -1604,7 +1604,7 @@
   },
   {
     "code": "K5",
-    "name": null,
+    "name": "SeaPort Airlines",
     "name_translations": {
       "en": "SeaPort Airlines"
     }
@@ -1632,7 +1632,7 @@
   },
   {
     "code": "KC",
-    "name": null,
+    "name": "Эйр Астана (Air Astana)",
     "name_translations": {
       "en": "Air Astana"
     }
@@ -1688,7 +1688,7 @@
   },
   {
     "code": "KO",
-    "name": null,
+    "name": "Комиавиатранс",
     "name_translations": {
       "en": "Komiaviatrans"
     }
@@ -1751,7 +1751,7 @@
   },
   {
     "code": "LA",
-    "name": null,
+    "name": "LAN Airlines",
     "name_translations": {
       "en": "LAN Airlines"
     }
@@ -1800,7 +1800,7 @@
   },
   {
     "code": "LR",
-    "name": null,
+    "name": "Avianca Costa Rica",
     "name_translations": {
       "en": "Avianca Costa Rica"
     }
@@ -1900,7 +1900,7 @@
     "code": "MJ",
     "name": null,
     "name_translations": {
-      "en": "Mihin Lanka"
+      "en": "MyWay Airlines"
     }
   },
   {
@@ -1940,7 +1940,7 @@
   },
   {
     "code": "MS",
-    "name": null,
+    "name": "EgyptAir",
     "name_translations": {
       "en": "EgyptAir"
     }
@@ -1975,7 +1975,7 @@
   },
   {
     "code": "N4",
-    "name": null,
+    "name": "Северный Ветер (Nordwind Airlines)",
     "name_translations": {
       "en": "Nordwind Airlines"
     }
@@ -1996,7 +1996,7 @@
   },
   {
     "code": "NG",
-    "name": null,
+    "name": "Aero Contractors",
     "name_translations": {
       "en": "Aero Contractors"
     }
@@ -2010,7 +2010,7 @@
   },
   {
     "code": "NI",
-    "name": null,
+    "name": "Portugália",
     "name_translations": {
       "en": "Portugália"
     }
@@ -2031,7 +2031,7 @@
   },
   {
     "code": "NN",
-    "name": null,
+    "name": "Вим-Авиа",
     "name_translations": {
       "en": "VIM Airlines"
     }
@@ -2087,28 +2087,28 @@
   },
   {
     "code": "OA",
-    "name": null,
+    "name": "Olympic Air",
     "name_translations": {
       "en": "Olympic Air"
     }
   },
   {
     "code": "OG",
-    "name": null,
+    "name": "Air Freight NZ",
     "name_translations": {
       "en": "Air Freight NZ"
     }
   },
   {
     "code": "OK",
-    "name": null,
+    "name": "Czech Airlines",
     "name_translations": {
       "en": "Czech Airlines"
     }
   },
   {
     "code": "OL",
-    "name": null,
+    "name": "Polynesian Airlines",
     "name_translations": {
       "en": "Polynesian Airlines"
     }
@@ -2122,7 +2122,7 @@
   },
   {
     "code": "OR",
-    "name": null,
+    "name": "TUI Airlines Netherlands",
     "name_translations": {
       "en": "TUI Airlines Netherlands"
     }
@@ -2255,7 +2255,7 @@
   },
   {
     "code": "PS",
-    "name": null,
+    "name": "Ukraine International airlines",
     "name_translations": {
       "en": "UIA"
     }
@@ -2283,7 +2283,7 @@
   },
   {
     "code": "PZ",
-    "name": null,
+    "name": "LATAM Airlines",
     "name_translations": {
       "en": "LATAM Airlines"
     }
@@ -2325,7 +2325,7 @@
   },
   {
     "code": "QM",
-    "name": null,
+    "name": "Monacair",
     "name_translations": {
       "en": "Monacair"
     }
@@ -2346,7 +2346,7 @@
   },
   {
     "code": "QU",
-    "name": null,
+    "name": "UTair Украина",
     "name_translations": {
       "en": "UTair Ukraine"
     }
@@ -2374,14 +2374,14 @@
   },
   {
     "code": "R2",
-    "name": null,
+    "name": "Оренбургские авиалинии",
     "name_translations": {
       "en": "Orenair"
     }
   },
   {
     "code": "R3",
-    "name": null,
+    "name": "Якутия",
     "name_translations": {
       "en": "Yakutia Airlines"
     }
@@ -2416,7 +2416,7 @@
   },
   {
     "code": "RE",
-    "name": null,
+    "name": "Stobart Air",
     "name_translations": {
       "en": "Stobart Air"
     }
@@ -2458,7 +2458,7 @@
   },
   {
     "code": "RT",
-    "name": null,
+    "name": "ЮВТ Аэро",
     "name_translations": {
       "en": "UVT Aero"
     }
@@ -2479,7 +2479,7 @@
   },
   {
     "code": "S4",
-    "name": null,
+    "name": "SATA",
     "name_translations": {
       "en": "SATA"
     }
@@ -2493,7 +2493,7 @@
   },
   {
     "code": "S7",
-    "name": null,
+    "name": "S7 Airlines",
     "name_translations": {
       "en": "S7 Airlines"
     }
@@ -2584,7 +2584,7 @@
   },
   {
     "code": "SU",
-    "name": null,
+    "name": "Аэрофлот",
     "name_translations": {
       "en": "Aeroflot"
     }
@@ -2605,7 +2605,7 @@
   },
   {
     "code": "SX",
-    "name": null,
+    "name": "SkyWork Airlines",
     "name_translations": {
       "en": "SkyWork Airlines"
     }
@@ -2626,14 +2626,14 @@
   },
   {
     "code": "T4",
-    "name": null,
+    "name": "TRIP Linhas Aéreas",
     "name_translations": {
       "en": "TRIP Linhas Aéreas"
     }
   },
   {
     "code": "T5",
-    "name": null,
+    "name": "Туркменские авиалинии",
     "name_translations": {
       "en": "Turkmenistan Airlines"
     }
@@ -2661,7 +2661,7 @@
   },
   {
     "code": "TF",
-    "name": null,
+    "name": "BRA",
     "name_translations": {
       "en": "BRA"
     }
@@ -2780,7 +2780,7 @@
   },
   {
     "code": "U6",
-    "name": null,
+    "name": "Уральские авиалинии",
     "name_translations": {
       "en": "Ural Airlines"
     }
@@ -2794,14 +2794,14 @@
   },
   {
     "code": "U8",
-    "name": null,
+    "name": "Tus Airways",
     "name_translations": {
       "en": "Tus Airways"
     }
   },
   {
     "code": "U9",
-    "name": null,
+    "name": "Татарстан",
     "name_translations": {
       "en": "Tatarstan Airlines"
     }
@@ -2843,7 +2843,7 @@
   },
   {
     "code": "UN",
-    "name": null,
+    "name": "Трансаэро",
     "name_translations": {
       "en": "Transaero Airlines"
     }
@@ -2864,7 +2864,7 @@
   },
   {
     "code": "UR",
-    "name": null,
+    "name": "Ютэир-Экспресс",
     "name_translations": {
       "en": "UTair Express"
     }
@@ -2878,7 +2878,7 @@
   },
   {
     "code": "UT",
-    "name": null,
+    "name": "Utair",
     "name_translations": {
       "en": "Utair"
     }
@@ -2927,7 +2927,7 @@
   },
   {
     "code": "V5",
-    "name": null,
+    "name": "Aerovías DAP",
     "name_translations": {
       "en": "Aerovías DAP"
     }
@@ -2948,14 +2948,14 @@
   },
   {
     "code": "VE",
-    "name": null,
+    "name": "C.A.I. Second",
     "name_translations": {
       "en": "C.A.I. Second"
     }
   },
   {
     "code": "VF",
-    "name": null,
+    "name": "Valuair",
     "name_translations": {
       "en": "Valuair"
     }
@@ -3004,7 +3004,7 @@
   },
   {
     "code": "VV",
-    "name": null,
+    "name": "Viva Air",
     "name_translations": {
       "en": "Viva Air"
     }
@@ -3067,7 +3067,7 @@
   },
   {
     "code": "WB",
-    "name": null,
+    "name": "RwandAir",
     "name_translations": {
       "en": "RwandAir"
     }
@@ -3165,7 +3165,7 @@
   },
   {
     "code": "XF",
-    "name": null,
+    "name": "Владивосток Авиа",
     "name_translations": {
       "en": "Vladivostok Air"
     }
@@ -3179,14 +3179,14 @@
   },
   {
     "code": "XL",
-    "name": null,
+    "name": "LATAM Airlines Ecuador",
     "name_translations": {
       "en": "LATAM Airlines Ecuador"
     }
   },
   {
     "code": "XM",
-    "name": null,
+    "name": "C.A.I. First",
     "name_translations": {
       "en": "C.A.I. First"
     }
@@ -3228,14 +3228,14 @@
   },
   {
     "code": "Y7",
-    "name": null,
+    "name": "NordStar",
     "name_translations": {
       "en": "NordStar"
     }
   },
   {
     "code": "YC",
-    "name": null,
+    "name": "Ямал",
     "name_translations": {
       "en": "Yamal Airlines"
     }
@@ -3249,7 +3249,7 @@
   },
   {
     "code": "YK",
-    "name": null,
+    "name": "Avia Traffic Company",
     "name_translations": {
       "en": "Avia Traffic Company"
     }
@@ -3277,14 +3277,14 @@
   },
   {
     "code": "YQ",
-    "name": null,
+    "name": "Полет",
     "name_translations": {
       "en": "Polet Airlines"
     }
   },
   {
     "code": "YS",
-    "name": null,
+    "name": "HOP!",
     "name_translations": {
       "en": "HOP!"
     }
@@ -3305,7 +3305,7 @@
   },
   {
     "code": "Z6",
-    "name": null,
+    "name": "Днеправиа",
     "name_translations": {
       "en": "Dniproavia"
     }
@@ -3368,7 +3368,7 @@
   },
   {
     "code": "ZU",
-    "name": null,
+    "name": "SUN-AIR",
     "name_translations": {
       "en": "SUN-AIR"
     }
@@ -3382,7 +3382,7 @@
   },
   {
     "code": "ZG",
-    "name": null,
+    "name": "Грозный Авиа",
     "name_translations": {
       "en": "Groznyy Avia"
     }
@@ -3403,7 +3403,7 @@
   },
   {
     "code": "Z2",
-    "name": null,
+    "name": "AirAsia Zest",
     "name_translations": {
       "en": "AirAsia Zest"
     }
@@ -3424,14 +3424,14 @@
   },
   {
     "code": "WZ",
-    "name": null,
+    "name": "Ред Вингс",
     "name_translations": {
       "en": "Red Wings Airlines"
     }
   },
   {
     "code": "3G",
-    "name": null,
+    "name": "Gambia Bird Airlines",
     "name_translations": {
       "en": "Gambia Bird Airlines"
     }
@@ -3445,7 +3445,7 @@
   },
   {
     "code": "YX",
-    "name": null,
+    "name": "Republic Airlines",
     "name_translations": {
       "en": "Republic Airlines"
     }
@@ -3466,7 +3466,7 @@
   },
   {
     "code": "HK",
-    "name": null,
+    "name": "Skippers Aviation",
     "name_translations": {
       "en": "Skippers Aviation"
     }
@@ -3480,7 +3480,7 @@
   },
   {
     "code": "LC",
-    "name": null,
+    "name": "Equatorial Congo Airlines",
     "name_translations": {
       "en": "Equatorial Congo Airlines"
     }
@@ -3501,7 +3501,7 @@
   },
   {
     "code": "BY",
-    "name": null,
+    "name": "Thomson Airways",
     "name_translations": {
       "en": "Thomson Airways"
     }
@@ -3515,14 +3515,14 @@
   },
   {
     "code": "GK",
-    "name": null,
+    "name": "Jetstar Japan",
     "name_translations": {
       "en": "Jetstar Japan"
     }
   },
   {
     "code": "GQ",
-    "name": null,
+    "name": "Sky Express (Скай Экспресс)",
     "name_translations": {
       "en": "Sky Express"
     }
@@ -3536,14 +3536,14 @@
   },
   {
     "code": "IW",
-    "name": null,
+    "name": "Wings Air",
     "name_translations": {
       "en": "Wings Air"
     }
   },
   {
     "code": "JC",
-    "name": null,
+    "name": "Japan Air Commuter",
     "name_translations": {
       "en": "Japan Air Commuter"
     }
@@ -3564,7 +3564,7 @@
   },
   {
     "code": "XG",
-    "name": null,
+    "name": "SunExpress Deutschland",
     "name_translations": {
       "en": "SunExpress Deutschland"
     }
@@ -3592,7 +3592,7 @@
   },
   {
     "code": "8I",
-    "name": null,
+    "name": "Insel Air",
     "name_translations": {
       "en": "Insel Air"
     }
@@ -3606,7 +3606,7 @@
   },
   {
     "code": "OX",
-    "name": null,
+    "name": "Orient Thai Airlines",
     "name_translations": {
       "en": "Orient Thai Airlines"
     }
@@ -3634,56 +3634,56 @@
   },
   {
     "code": "DU",
-    "name": null,
+    "name": "Norwegian Long Haul",
     "name_translations": {
       "en": "Norwegian Long Haul"
     }
   },
   {
     "code": "SL",
-    "name": null,
+    "name": "Thai Lion Air",
     "name_translations": {
       "en": "Thai Lion Air"
     }
   },
   {
     "code": "SJ",
-    "name": null,
+    "name": "Sriwijaya Air",
     "name_translations": {
       "en": "Sriwijaya Air"
     }
   },
   {
     "code": "QN",
-    "name": null,
+    "name": "Air Armenia",
     "name_translations": {
       "en": "Air Armenia"
     }
   },
   {
     "code": "GY",
-    "name": null,
+    "name": "Colorful Guizhou Airlines",
     "name_translations": {
       "en": "Colorful Guizhou Airlines"
     }
   },
   {
     "code": "2G",
-    "name": null,
+    "name": "Angara Airlines",
     "name_translations": {
       "en": "Angara Airlines"
     }
   },
   {
     "code": "IK",
-    "name": null,
+    "name": "Air Kiribati Limited",
     "name_translations": {
       "en": "Air Kiribati Limited"
     }
   },
   {
     "code": "QD",
-    "name": null,
+    "name": "Добролет",
     "name_translations": {
       "en": "Dobrolet"
     }
@@ -3704,21 +3704,21 @@
   },
   {
     "code": "DP",
-    "name": null,
+    "name": "Победа",
     "name_translations": {
       "en": "Pobeda"
     }
   },
   {
     "code": "AG",
-    "name": null,
+    "name": "Aruba Airlines",
     "name_translations": {
       "en": "Aruba Airlines"
     }
   },
   {
     "code": "AJ",
-    "name": null,
+    "name": "Aztec Airways",
     "name_translations": {
       "en": "Aztec Airways"
     }
@@ -3732,14 +3732,14 @@
   },
   {
     "code": "AO",
-    "name": null,
+    "name": "Australian Airlines",
     "name_translations": {
       "en": "Australian Airlines"
     }
   },
   {
     "code": "AQ",
-    "name": null,
+    "name": "9 Air",
     "name_translations": {
       "en": "9 Air"
     }
@@ -3753,7 +3753,7 @@
   },
   {
     "code": "AX",
-    "name": null,
+    "name": "Trans States Airlines",
     "name_translations": {
       "en": "Trans States Airlines"
     }
@@ -3774,21 +3774,21 @@
   },
   {
     "code": "BC",
-    "name": null,
+    "name": "Skymark Airlines",
     "name_translations": {
       "en": "Skymark Airlines"
     }
   },
   {
     "code": "BF",
-    "name": null,
+    "name": "French Blue",
     "name_translations": {
       "en": "French Blue"
     }
   },
   {
     "code": "BO",
-    "name": null,
+    "name": "BB Airways",
     "name_translations": {
       "en": "BB Airways"
     }
@@ -3802,35 +3802,35 @@
   },
   {
     "code": "B0",
-    "name": null,
+    "name": "La Compagnie",
     "name_translations": {
       "en": "La Compagnie"
     }
   },
   {
     "code": "B1",
-    "name": null,
+    "name": "TAB - Transportes Aéreos Bolivianos",
     "name_translations": {
       "en": "TAB - Transportes Aéreos Bolivianos"
     }
   },
   {
     "code": "B3",
-    "name": null,
+    "name": "Bhutan Airlines",
     "name_translations": {
       "en": "Bhutan Airlines"
     }
   },
   {
     "code": "B4",
-    "name": null,
+    "name": "ZanAir",
     "name_translations": {
       "en": "ZanAir"
     }
   },
   {
     "code": "B9",
-    "name": null,
+    "name": "Iran Air Tours",
     "name_translations": {
       "en": "Iran Air Tours"
     }
@@ -3844,14 +3844,14 @@
   },
   {
     "code": "CC",
-    "name": null,
+    "name": "CM Airlines",
     "name_translations": {
       "en": "CM Airlines"
     }
   },
   {
     "code": "CD",
-    "name": null,
+    "name": "Corendon Dutch Airlines",
     "name_translations": {
       "en": "Corendon Dutch Airlines"
     }
@@ -3865,35 +3865,35 @@
   },
   {
     "code": "CH",
-    "name": null,
+    "name": "Bemidji Airlines",
     "name_translations": {
       "en": "Bemidji Airlines"
     }
   },
   {
     "code": "CK",
-    "name": null,
+    "name": "China Cargo Airlines",
     "name_translations": {
       "en": "China Cargo Airlines"
     }
   },
   {
     "code": "CP",
-    "name": null,
+    "name": "Compass Airlines",
     "name_translations": {
       "en": "Compass Airlines"
     }
   },
   {
     "code": "CQ",
-    "name": null,
+    "name": "Czech Connect Airlines",
     "name_translations": {
       "en": "Czech Connect Airlines"
     }
   },
   {
     "code": "CR",
-    "name": null,
+    "name": "OAG",
     "name_translations": {
       "en": "OAG"
     }
@@ -3907,126 +3907,126 @@
   },
   {
     "code": "CV",
-    "name": null,
+    "name": "Cargolux",
     "name_translations": {
       "en": "Cargolux"
     }
   },
   {
     "code": "C1",
-    "name": null,
+    "name": "Tectimes Sudamerica",
     "name_translations": {
       "en": "Tectimes Sudamerica"
     }
   },
   {
     "code": "C2",
-    "name": null,
+    "name": "CEIBA Intercontinental",
     "name_translations": {
       "en": "CEIBA Intercontinental"
     }
   },
   {
     "code": "C5",
-    "name": null,
+    "name": "CommutAir",
     "name_translations": {
       "en": "CommutAir"
     }
   },
   {
     "code": "C6",
-    "name": null,
+    "name": "CanJet",
     "name_translations": {
       "en": "CanJet"
     }
   },
   {
     "code": "C7",
-    "name": null,
+    "name": "Cinnamon Air",
     "name_translations": {
       "en": "Cinnamon Air"
     }
   },
   {
     "code": "C8",
-    "name": null,
+    "name": "Cronos Airlines",
     "name_translations": {
       "en": "Cronos Airlines"
     }
   },
   {
     "code": "DF",
-    "name": null,
+    "name": "Condor",
     "name_translations": {
       "en": "Condor"
     }
   },
   {
     "code": "DH",
-    "name": null,
+    "name": "Douniah Airlines",
     "name_translations": {
       "en": "Douniah Airlines"
     }
   },
   {
     "code": "DI",
-    "name": null,
+    "name": "Norwegian Air",
     "name_translations": {
       "en": "Norwegian Air"
     }
   },
   {
     "code": "DK",
-    "name": null,
+    "name": "Thomas Cook Airlines Scandinavia",
     "name_translations": {
       "en": "Thomas Cook Airlines Scandinavia"
     }
   },
   {
     "code": "DM",
-    "name": null,
+    "name": "Asian Air",
     "name_translations": {
       "en": "Asian Air"
     }
   },
   {
     "code": "DO",
-    "name": null,
+    "name": "Discovery Airways",
     "name_translations": {
       "en": "Discovery Airways"
     }
   },
   {
     "code": "DQ",
-    "name": null,
+    "name": "Delta Connection",
     "name_translations": {
       "en": "Delta Connection"
     }
   },
   {
     "code": "DR",
-    "name": null,
+    "name": "Ruili Airlines",
     "name_translations": {
       "en": "Ruili Airlines"
     }
   },
   {
     "code": "DS",
-    "name": null,
+    "name": "easyJet Switzerland",
     "name_translations": {
       "en": "easyJet Switzerland"
     }
   },
   {
     "code": "DW",
-    "name": null,
+    "name": "Aero-Charter Ukraine",
     "name_translations": {
       "en": "Aero-Charter Ukraine"
     }
   },
   {
     "code": "DZ",
-    "name": null,
+    "name": "Donghai Airlines",
     "name_translations": {
       "en": "Donghai Airlines"
     }
@@ -4047,7 +4047,7 @@
   },
   {
     "code": "D4",
-    "name": null,
+    "name": "Alidaunia",
     "name_translations": {
       "en": "Alidaunia"
     }
@@ -4061,56 +4061,56 @@
   },
   {
     "code": "D8",
-    "name": null,
+    "name": "Norwegian Air International",
     "name_translations": {
       "en": "Norwegian Air International"
     }
   },
   {
     "code": "EA",
-    "name": null,
+    "name": "East Horizon Airlines",
     "name_translations": {
       "en": "East Horizon Airlines"
     }
   },
   {
     "code": "EB",
-    "name": null,
+    "name": "Wamos Air",
     "name_translations": {
       "en": "Wamos Air"
     }
   },
   {
     "code": "ED",
-    "name": null,
+    "name": "AirExplore",
     "name_translations": {
       "en": "AirExplore"
     }
   },
   {
     "code": "EF",
-    "name": null,
+    "name": "Fly CamInter",
     "name_translations": {
       "en": "Fly CamInter"
     }
   },
   {
     "code": "EH",
-    "name": null,
+    "name": "ANA Wings",
     "name_translations": {
       "en": "ANA Wings"
     }
   },
   {
     "code": "EJ",
-    "name": null,
+    "name": "New England Airlines",
     "name_translations": {
       "en": "New England Airlines"
     }
   },
   {
     "code": "EL",
-    "name": null,
+    "name": "Ellinair",
     "name_translations": {
       "en": "Ellinair"
     }
@@ -4131,7 +4131,7 @@
   },
   {
     "code": "ER",
-    "name": null,
+    "name": "Air East",
     "name_translations": {
       "en": "Air East"
     }
@@ -4145,7 +4145,7 @@
   },
   {
     "code": "EV",
-    "name": null,
+    "name": "ExpressJet",
     "name_translations": {
       "en": "ExpressJet"
     }
@@ -4159,7 +4159,7 @@
   },
   {
     "code": "E2",
-    "name": null,
+    "name": "Eagle Atlantic Airlines",
     "name_translations": {
       "en": "Eagle Atlantic Airlines"
     }
@@ -4173,7 +4173,7 @@
   },
   {
     "code": "E6",
-    "name": null,
+    "name": "Bringer Air Cargo",
     "name_translations": {
       "en": "Bringer Air Cargo"
     }
@@ -4187,28 +4187,28 @@
   },
   {
     "code": "E8",
-    "name": null,
+    "name": "City Airways",
     "name_translations": {
       "en": "City Airways"
     }
   },
   {
     "code": "E9",
-    "name": null,
+    "name": "Evelop Airlines",
     "name_translations": {
       "en": "Evelop Airlines"
     }
   },
   {
     "code": "FA",
-    "name": null,
+    "name": "Safair",
     "name_translations": {
       "en": "Safair"
     }
   },
   {
     "code": "FE",
-    "name": null,
+    "name": "Far Eastern Air Transport",
     "name_translations": {
       "en": "Far Eastern Air Transport"
     }
@@ -4236,7 +4236,7 @@
   },
   {
     "code": "FN",
-    "name": null,
+    "name": "fastjet",
     "name_translations": {
       "en": "fastjet"
     }
@@ -4250,14 +4250,14 @@
   },
   {
     "code": "FU",
-    "name": null,
+    "name": "Fuzhou Airlines",
     "name_translations": {
       "en": "Fuzhou Airlines"
     }
   },
   {
     "code": "FW",
-    "name": null,
+    "name": "Ibex Airlines",
     "name_translations": {
       "en": "Ibex Airlines"
     }
@@ -4271,28 +4271,28 @@
   },
   {
     "code": "F1",
-    "name": null,
+    "name": "Farelogix Qatar Airways",
     "name_translations": {
       "en": "Farelogix Qatar Airways"
     }
   },
   {
     "code": "F2",
-    "name": null,
+    "name": "Safarilink Aviation",
     "name_translations": {
       "en": "Safarilink Aviation"
     }
   },
   {
     "code": "F3",
-    "name": null,
+    "name": "Songbird Airways",
     "name_translations": {
       "en": "Flyadeal"
     }
   },
   {
     "code": "F4",
-    "name": null,
+    "name": "Air Flamenco",
     "name_translations": {
       "en": "Air Flamenco"
     }
@@ -4313,7 +4313,7 @@
   },
   {
     "code": "GC",
-    "name": null,
+    "name": "Gambia International Airlines",
     "name_translations": {
       "en": "Gambia International Airlines"
     }
@@ -4327,21 +4327,21 @@
   },
   {
     "code": "GI",
-    "name": null,
+    "name": "Itek Air",
     "name_translations": {
       "en": "Itek Air"
     }
   },
   {
     "code": "GJ",
-    "name": null,
+    "name": "Loong Air",
     "name_translations": {
       "en": "Loong Air"
     }
   },
   {
     "code": "GM",
-    "name": null,
+    "name": "Germania Flug",
     "name_translations": {
       "en": "Germania Flug"
     }
@@ -4355,14 +4355,14 @@
   },
   {
     "code": "GT",
-    "name": null,
+    "name": "Vista Georgia",
     "name_translations": {
       "en": "Vista Georgia"
     }
   },
   {
     "code": "GU",
-    "name": null,
+    "name": "Aviateca",
     "name_translations": {
       "en": "Aviateca"
     }
@@ -4383,7 +4383,7 @@
   },
   {
     "code": "G2",
-    "name": null,
+    "name": "Jet Express",
     "name_translations": {
       "en": "Jet Express"
     }
@@ -4404,28 +4404,28 @@
   },
   {
     "code": "G7",
-    "name": null,
+    "name": "GoJet Airlines",
     "name_translations": {
       "en": "GoJet Airlines"
     }
   },
   {
     "code": "HB",
-    "name": null,
+    "name": "Asia Atlantic Airlines",
     "name_translations": {
       "en": "Asia Atlantic Airlines"
     }
   },
   {
     "code": "HD",
-    "name": null,
+    "name": "Air Do",
     "name_translations": {
       "en": "Air Do"
     }
   },
   {
     "code": "HE",
-    "name": null,
+    "name": "LGW Luftfahrtgesellschaft Walter",
     "name_translations": {
       "en": "LGW Luftfahrtgesellschaft Walter"
     }
@@ -4439,21 +4439,21 @@
   },
   {
     "code": "HI",
-    "name": null,
+    "name": "Papillon Airways",
     "name_translations": {
       "en": "Papillon Airways"
     }
   },
   {
     "code": "HJ",
-    "name": null,
+    "name": "Hellas Jet",
     "name_translations": {
       "en": "Hellas Jet"
     }
   },
   {
     "code": "HN",
-    "name": null,
+    "name": "Afghan Jet International",
     "name_translations": {
       "en": "Afghan Jet International"
     }
@@ -4467,14 +4467,14 @@
   },
   {
     "code": "HQ",
-    "name": null,
+    "name": "Thomas Cook Airlines Belgium",
     "name_translations": {
       "en": "Thomas Cook Airlines Belgium"
     }
   },
   {
     "code": "HW",
-    "name": null,
+    "name": "North-Wright Airways",
     "name_translations": {
       "en": "North-Wright Airways"
     }
@@ -4488,21 +4488,21 @@
   },
   {
     "code": "H4",
-    "name": null,
+    "name": "Aero4M",
     "name_translations": {
       "en": "Aero4M"
     }
   },
   {
     "code": "H6",
-    "name": null,
+    "name": "Bulgarian Air Charter",
     "name_translations": {
       "en": "Bulgarian Air Charter"
     }
   },
   {
     "code": "H7",
-    "name": null,
+    "name": "Тарон-Авиа",
     "name_translations": {
       "en": "Taron Avia LLC"
     }
@@ -4516,21 +4516,21 @@
   },
   {
     "code": "IH",
-    "name": null,
+    "name": "Irtysh Air",
     "name_translations": {
       "en": "Irtysh Air"
     }
   },
   {
     "code": "II",
-    "name": null,
+    "name": "IBC Airways",
     "name_translations": {
       "en": "IBC Airways"
     }
   },
   {
     "code": "IJ",
-    "name": null,
+    "name": "Spring Airlines Japan",
     "name_translations": {
       "en": "Spring Airlines Japan"
     }
@@ -4551,7 +4551,7 @@
   },
   {
     "code": "IN",
-    "name": null,
+    "name": "NAM Air",
     "name_translations": {
       "en": "NAM Air"
     }
@@ -4572,35 +4572,35 @@
   },
   {
     "code": "I6",
-    "name": null,
+    "name": "Air Indus",
     "name_translations": {
       "en": "Air Indus"
     }
   },
   {
     "code": "JB",
-    "name": null,
+    "name": "Helijet",
     "name_translations": {
       "en": "Helijet"
     }
   },
   {
     "code": "JF",
-    "name": null,
+    "name": "Jet Asia Airways",
     "name_translations": {
       "en": "Jet Asia Airways"
     }
   },
   {
     "code": "JG",
-    "name": null,
+    "name": "JETGO Australia",
     "name_translations": {
       "en": "JETGO Australia"
     }
   },
   {
     "code": "JH",
-    "name": null,
+    "name": "Fuji Dream Airlines",
     "name_translations": {
       "en": "Fuji Dream Airlines"
     }
@@ -4614,7 +4614,7 @@
   },
   {
     "code": "JO",
-    "name": null,
+    "name": "Jet Time",
     "name_translations": {
       "en": "Jet Time"
     }
@@ -4628,21 +4628,21 @@
   },
   {
     "code": "JW",
-    "name": null,
+    "name": "Vanilla Air",
     "name_translations": {
       "en": "Vanilla Air"
     }
   },
   {
     "code": "JY",
-    "name": null,
+    "name": "InterCaribbean Airways",
     "name_translations": {
       "en": "InterCaribbean Airways"
     }
   },
   {
     "code": "JZ",
-    "name": null,
+    "name": "Jatayu Airlines",
     "name_translations": {
       "en": "Jatayu Airlines"
     }
@@ -4663,7 +4663,7 @@
   },
   {
     "code": "J5",
-    "name": null,
+    "name": "Alaska Seaplane",
     "name_translations": {
       "en": "Alaska Seaplane"
     }
@@ -4684,42 +4684,42 @@
   },
   {
     "code": "KG",
-    "name": null,
+    "name": "Aerogaviota",
     "name_translations": {
       "en": "Aerogaviota"
     }
   },
   {
     "code": "KI",
-    "name": null,
+    "name": "KrasAvia",
     "name_translations": {
       "en": "KrasAvia"
     }
   },
   {
     "code": "KJ",
-    "name": null,
+    "name": "Air Incheon",
     "name_translations": {
       "en": "Air Incheon"
     }
   },
   {
     "code": "KT",
-    "name": null,
+    "name": "SiAvia",
     "name_translations": {
       "en": "SiAvia"
     }
   },
   {
     "code": "KV",
-    "name": null,
+    "name": "Asian Express Airline",
     "name_translations": {
       "en": "Asian Express Airline"
     }
   },
   {
     "code": "KW",
-    "name": null,
+    "name": "Kharkiv Airlines",
     "name_translations": {
       "en": "Kharkiv Airlines"
     }
@@ -4740,7 +4740,7 @@
   },
   {
     "code": "K3",
-    "name": null,
+    "name": "Taquan Air",
     "name_translations": {
       "en": "Taquan Air"
     }
@@ -4754,14 +4754,14 @@
   },
   {
     "code": "K7",
-    "name": null,
+    "name": "Air KBZ",
     "name_translations": {
       "en": "Air KBZ"
     }
   },
   {
     "code": "LB",
-    "name": null,
+    "name": "Bul Air",
     "name_translations": {
       "en": "Bul Air"
     }
@@ -4782,7 +4782,7 @@
   },
   {
     "code": "LK",
-    "name": null,
+    "name": "Lao Skyway",
     "name_translations": {
       "en": "Lao Skyway"
     }
@@ -4796,28 +4796,28 @@
   },
   {
     "code": "LM",
-    "name": null,
+    "name": "Loganair",
     "name_translations": {
       "en": "Loganair"
     }
   },
   {
     "code": "LT",
-    "name": null,
+    "name": "Air Lituanica",
     "name_translations": {
       "en": "Air Lituanica"
     }
   },
   {
     "code": "LU",
-    "name": null,
+    "name": "LAN Express",
     "name_translations": {
       "en": "LAN Express"
     }
   },
   {
     "code": "LV",
-    "name": null,
+    "name": "Mega Maldives",
     "name_translations": {
       "en": "Mega Maldives"
     }
@@ -4838,14 +4838,14 @@
   },
   {
     "code": "L3",
-    "name": null,
+    "name": "Lynx Aviation",
     "name_translations": {
       "en": "Lynx Aviation"
     }
   },
   {
     "code": "L4",
-    "name": null,
+    "name": "Air Service Liege",
     "name_translations": {
       "en": "Air Service Liege"
     }
@@ -4866,7 +4866,7 @@
   },
   {
     "code": "MB",
-    "name": null,
+    "name": "MNG Airlines",
     "name_translations": {
       "en": "MNG Airlines"
     }
@@ -4887,49 +4887,49 @@
   },
   {
     "code": "MP",
-    "name": null,
+    "name": "Martinair",
     "name_translations": {
       "en": "Martinair"
     }
   },
   {
     "code": "MQ",
-    "name": null,
+    "name": "Envoy Air",
     "name_translations": {
       "en": "Envoy Air"
     }
   },
   {
     "code": "MT",
-    "name": null,
+    "name": "Thomas Cook Airlines",
     "name_translations": {
       "en": "Thomas Cook Airlines"
     }
   },
   {
     "code": "MX",
-    "name": null,
+    "name": "Mexicana de Aviación",
     "name_translations": {
       "en": "Mexicana de Aviación"
     }
   },
   {
     "code": "M2",
-    "name": null,
+    "name": "MHS Aviation",
     "name_translations": {
       "en": "MHS Aviation"
     }
   },
   {
     "code": "M3",
-    "name": null,
+    "name": "North Flying",
     "name_translations": {
       "en": "North Flying"
     }
   },
   {
     "code": "M4",
-    "name": null,
+    "name": "Mistral Air",
     "name_translations": {
       "en": "Mistral Air"
     }
@@ -4943,28 +4943,28 @@
   },
   {
     "code": "M8",
-    "name": null,
+    "name": "SkyJet",
     "name_translations": {
       "en": "SkyJet"
     }
   },
   {
     "code": "NA",
-    "name": null,
+    "name": "Nesma Airlines",
     "name_translations": {
       "en": "Nesma Airlines"
     }
   },
   {
     "code": "NB",
-    "name": null,
+    "name": "Skypower Express Airways",
     "name_translations": {
       "en": "Skypower Express Airways"
     }
   },
   {
     "code": "NC",
-    "name": null,
+    "name": "Cobham Aviation Services Australia",
     "name_translations": {
       "en": "Cobham Aviation Services Australia"
     }
@@ -4978,21 +4978,21 @@
   },
   {
     "code": "NJ",
-    "name": null,
+    "name": "Aero VIP",
     "name_translations": {
       "en": "Aero VIP"
     }
   },
   {
     "code": "NL",
-    "name": null,
+    "name": "Shaheen Air",
     "name_translations": {
       "en": "Shaheen Air"
     }
   },
   {
     "code": "NO",
-    "name": null,
+    "name": "Neos",
     "name_translations": {
       "en": "Neos"
     }
@@ -5006,7 +5006,7 @@
   },
   {
     "code": "NY",
-    "name": null,
+    "name": "Air Iceland",
     "name_translations": {
       "en": "Air Iceland"
     }
@@ -5020,14 +5020,14 @@
   },
   {
     "code": "N3",
-    "name": null,
+    "name": "Aerolíneas Mas",
     "name_translations": {
       "en": "Aerolíneas Mas"
     }
   },
   {
     "code": "N5",
-    "name": null,
+    "name": "Nolinor Aviation",
     "name_translations": {
       "en": "Nolinor Aviation"
     }
@@ -5041,35 +5041,35 @@
   },
   {
     "code": "N8",
-    "name": null,
+    "name": "National Airlines",
     "name_translations": {
       "en": "National Airlines"
     }
   },
   {
     "code": "N9",
-    "name": null,
+    "name": "Nova Airways",
     "name_translations": {
       "en": "Nova Airways"
     }
   },
   {
     "code": "OB",
-    "name": null,
+    "name": "Boliviana de Aviación",
     "name_translations": {
       "en": "Boliviana de Aviación"
     }
   },
   {
     "code": "OC",
-    "name": null,
+    "name": "Oriental Air Bridge",
     "name_translations": {
       "en": "Oriental Air Bridge"
     }
   },
   {
     "code": "OD",
-    "name": null,
+    "name": "Malindo Air",
     "name_translations": {
       "en": "Malindo Air"
     }
@@ -5083,7 +5083,7 @@
   },
   {
     "code": "OI",
-    "name": null,
+    "name": "Hinterland Aviation",
     "name_translations": {
       "en": "Hinterland Aviation"
     }
@@ -5097,21 +5097,21 @@
   },
   {
     "code": "ON",
-    "name": null,
+    "name": "Nauru Airline",
     "name_translations": {
       "en": "Nauru Airline"
     }
   },
   {
     "code": "OO",
-    "name": null,
+    "name": "SkyWest Airlines",
     "name_translations": {
       "en": "SkyWest Airlines"
     }
   },
   {
     "code": "OQ",
-    "name": null,
+    "name": "Chongqing Airlines",
     "name_translations": {
       "en": "Chongqing Airlines"
     }
@@ -5125,21 +5125,21 @@
   },
   {
     "code": "O4",
-    "name": null,
+    "name": "Antrak Air",
     "name_translations": {
       "en": "Antrak Air"
     }
   },
   {
     "code": "O6",
-    "name": null,
+    "name": "Avianca Brazil",
     "name_translations": {
       "en": "Avianca Brazil"
     }
   },
   {
     "code": "O8",
-    "name": null,
+    "name": "Siam Air",
     "name_translations": {
       "en": "Siam Air"
     }
@@ -5153,42 +5153,42 @@
   },
   {
     "code": "PA",
-    "name": null,
+    "name": "airblue",
     "name_translations": {
       "en": "airblue"
     }
   },
   {
     "code": "PF",
-    "name": null,
+    "name": "Primera Air",
     "name_translations": {
       "en": "Primera Air"
     }
   },
   {
     "code": "PH",
-    "name": null,
+    "name": "Transavia Denmark",
     "name_translations": {
       "en": "Transavia Denmark"
     }
   },
   {
     "code": "PI",
-    "name": null,
+    "name": "Polar Airlines",
     "name_translations": {
       "en": "Polar Airlines"
     }
   },
   {
     "code": "PL",
-    "name": null,
+    "name": "Southern Air Charter",
     "name_translations": {
       "en": "Southern Air Charter"
     }
   },
   {
     "code": "PM",
-    "name": null,
+    "name": "Canaryfly",
     "name_translations": {
       "en": "Canaryfly"
     }
@@ -5202,63 +5202,63 @@
   },
   {
     "code": "PP",
-    "name": null,
+    "name": "Jet Aviation Business",
     "name_translations": {
       "en": "Jet Aviation Business"
     }
   },
   {
     "code": "PV",
-    "name": null,
+    "name": "St Barth Commuter",
     "name_translations": {
       "en": "St Barth Commuter"
     }
   },
   {
     "code": "P1",
-    "name": null,
+    "name": "Public Charters",
     "name_translations": {
       "en": "Public Charters"
     }
   },
   {
     "code": "P2",
-    "name": null,
+    "name": "Airkenya Express",
     "name_translations": {
       "en": "Airkenya Express"
     }
   },
   {
     "code": "P4",
-    "name": null,
+    "name": "Aerolíneas Sosa",
     "name_translations": {
       "en": "Aerolíneas Sosa"
     }
   },
   {
     "code": "P6",
-    "name": null,
+    "name": "Pascan Aviation",
     "name_translations": {
       "en": "Pascan Aviation"
     }
   },
   {
     "code": "P7",
-    "name": null,
+    "name": "Small Planet Airlines",
     "name_translations": {
       "en": "Small Planet Airlines"
     }
   },
   {
     "code": "P8",
-    "name": null,
+    "name": "Air Mekong",
     "name_translations": {
       "en": "Air Mekong"
     }
   },
   {
     "code": "P9",
-    "name": null,
+    "name": "Peruvian Airlines",
     "name_translations": {
       "en": "Peruvian Airlines"
     }
@@ -5279,14 +5279,14 @@
   },
   {
     "code": "QK",
-    "name": null,
+    "name": "Jazz",
     "name_translations": {
       "en": "Jazz"
     }
   },
   {
     "code": "QL",
-    "name": null,
+    "name": "LASER Airlines",
     "name_translations": {
       "en": "LASER Airlines"
     }
@@ -5300,49 +5300,49 @@
   },
   {
     "code": "QP",
-    "name": null,
+    "name": "Airkenya Express",
     "name_translations": {
       "en": "Airkenya Express"
     }
   },
   {
     "code": "QQ",
-    "name": null,
+    "name": "Alliance Airlines",
     "name_translations": {
       "en": "Alliance Airlines"
     }
   },
   {
     "code": "QT",
-    "name": null,
+    "name": "Avianca Cargo",
     "name_translations": {
       "en": "Avianca Cargo"
     }
   },
   {
     "code": "QW",
-    "name": null,
+    "name": "Qingdao Airlines",
     "name_translations": {
       "en": "Qingdao Airlines"
     }
   },
   {
     "code": "QY",
-    "name": null,
+    "name": "European Air Transport",
     "name_translations": {
       "en": "European Air Transport"
     }
   },
   {
     "code": "Q1",
-    "name": null,
+    "name": "Sqiva Sistem",
     "name_translations": {
       "en": "Sqiva Sistem"
     }
   },
   {
     "code": "Q2",
-    "name": null,
+    "name": "Maldivian",
     "name_translations": {
       "en": "Maldivian"
     }
@@ -5356,21 +5356,21 @@
   },
   {
     "code": "Q4",
-    "name": null,
+    "name": "Starlink Aviation",
     "name_translations": {
       "en": "Starlink Aviation"
     }
   },
   {
     "code": "Q5",
-    "name": null,
+    "name": "40-Mile Air",
     "name_translations": {
       "en": "40-Mile Air"
     }
   },
   {
     "code": "Q6",
-    "name": null,
+    "name": "Skytrans Airlines",
     "name_translations": {
       "en": "Skytrans Airlines"
     }
@@ -5384,21 +5384,21 @@
   },
   {
     "code": "Q9",
-    "name": null,
+    "name": "Air Liaison",
     "name_translations": {
       "en": "Air Liaison"
     }
   },
   {
     "code": "RD",
-    "name": null,
+    "name": "French Armed Forces",
     "name_translations": {
       "en": "French Armed Forces"
     }
   },
   {
     "code": "RF",
-    "name": null,
+    "name": "Connellan air disaster",
     "name_translations": {
       "en": "Connellan air disaster"
     }
@@ -5419,7 +5419,7 @@
   },
   {
     "code": "RP",
-    "name": null,
+    "name": "Chautauqua Airlines",
     "name_translations": {
       "en": "Chautauqua Airlines"
     }
@@ -5440,14 +5440,14 @@
   },
   {
     "code": "RS",
-    "name": null,
+    "name": "Sky Regional Airlines",
     "name_translations": {
       "en": "Sky Regional Airlines"
     }
   },
   {
     "code": "RU",
-    "name": null,
+    "name": "AirBridgeCargo",
     "name_translations": {
       "en": "AirBridgeCargo"
     }
@@ -5461,21 +5461,21 @@
   },
   {
     "code": "RX",
-    "name": null,
+    "name": "Regent Airways",
     "name_translations": {
       "en": "Regent Airways"
     }
   },
   {
     "code": "RY",
-    "name": null,
+    "name": "Jiangxi Air",
     "name_translations": {
       "en": "Jiangxi Air"
     }
   },
   {
     "code": "RZ",
-    "name": null,
+    "name": "Sansa Airlines",
     "name_translations": {
       "en": "Sansa Airlines"
     }
@@ -5489,7 +5489,7 @@
   },
   {
     "code": "R4",
-    "name": null,
+    "name": "RUS Aviation",
     "name_translations": {
       "en": "RUS Aviation"
     }
@@ -5503,7 +5503,7 @@
   },
   {
     "code": "R6",
-    "name": null,
+    "name": "DOT LT",
     "name_translations": {
       "en": "DOT LT"
     }
@@ -5517,7 +5517,7 @@
   },
   {
     "code": "SH",
-    "name": null,
+    "name": "Sharp Airlines",
     "name_translations": {
       "en": "Sharp Airlines"
     }
@@ -5531,42 +5531,42 @@
   },
   {
     "code": "S1",
-    "name": null,
+    "name": "Lufthansa Systems",
     "name_translations": {
       "en": "Lufthansa Systems"
     }
   },
   {
     "code": "S6",
-    "name": null,
+    "name": "Sunrise Airways",
     "name_translations": {
       "en": "Sunrise Airways"
     }
   },
   {
     "code": "S9",
-    "name": null,
+    "name": "Starbow",
     "name_translations": {
       "en": "Starbow"
     }
   },
   {
     "code": "TB",
-    "name": null,
+    "name": "Jetairfly",
     "name_translations": {
       "en": "Jetairfly"
     }
   },
   {
     "code": "TC",
-    "name": null,
+    "name": "Air Tanzania",
     "name_translations": {
       "en": "Air Tanzania"
     }
   },
   {
     "code": "TE",
-    "name": null,
+    "name": "Sky-Taxi",
     "name_translations": {
       "en": "Sky-Taxi"
     }
@@ -5580,21 +5580,21 @@
   },
   {
     "code": "TI",
-    "name": null,
+    "name": "Tailwind Airlines",
     "name_translations": {
       "en": "Tailwind Airlines"
     }
   },
   {
     "code": "TQ",
-    "name": null,
+    "name": "Tandem Aero",
     "name_translations": {
       "en": "Tandem Aero"
     }
   },
   {
     "code": "TW",
-    "name": null,
+    "name": "T'way Airlines",
     "name_translations": {
       "en": "T'way Airlines"
     }
@@ -5608,21 +5608,21 @@
   },
   {
     "code": "T0",
-    "name": null,
+    "name": "TACA Peru",
     "name_translations": {
       "en": "TACA Peru"
     }
   },
   {
     "code": "T1",
-    "name": null,
+    "name": "TIK Systems",
     "name_translations": {
       "en": "TIK Systems"
     }
   },
   {
     "code": "T2",
-    "name": null,
+    "name": "Nakina Air Service",
     "name_translations": {
       "en": "Nakina Air Service"
     }
@@ -5636,35 +5636,35 @@
   },
   {
     "code": "UB",
-    "name": null,
+    "name": "Myanmar National Airlines",
     "name_translations": {
       "en": "Myanmar National Airlines"
     }
   },
   {
     "code": "UC",
-    "name": null,
+    "name": "LAN Chile Cargo",
     "name_translations": {
       "en": "LAN Chile Cargo"
     }
   },
   {
     "code": "UE",
-    "name": null,
+    "name": "Ultimate Jetcharters",
     "name_translations": {
       "en": "Ultimate Jetcharters"
     }
   },
   {
     "code": "UF",
-    "name": null,
+    "name": "UM Airlines",
     "name_translations": {
       "en": "UM Airlines"
     }
   },
   {
     "code": "UH",
-    "name": null,
+    "name": "Atlasjet Ukraine",
     "name_translations": {
       "en": "Atlasjet Ukraine"
     }
@@ -5685,14 +5685,14 @@
   },
   {
     "code": "UQ",
-    "name": null,
+    "name": "Urumqi Air",
     "name_translations": {
       "en": "Urumqi Air"
     }
   },
   {
     "code": "UV",
-    "name": null,
+    "name": "Helicópteros del Sureste",
     "name_translations": {
       "en": "Helicópteros del Sureste"
     }
@@ -5755,14 +5755,14 @@
   },
   {
     "code": "VH",
-    "name": null,
+    "name": "Aeropostal Alas de Venezuela",
     "name_translations": {
       "en": "Aeropostal Alas de Venezuela"
     }
   },
   {
     "code": "VI",
-    "name": null,
+    "name": "Волга-Днепр",
     "name_translations": {
       "en": "Volga-Dnepr Airlines"
     }
@@ -5790,7 +5790,7 @@
   },
   {
     "code": "VQ",
-    "name": null,
+    "name": "Novoair",
     "name_translations": {
       "en": "Novoair"
     }
@@ -5993,7 +5993,7 @@
   },
   {
     "code": "XW",
-    "name": null,
+    "name": "NokScoot",
     "name_translations": {
       "en": "NokScoot"
     }
@@ -6105,7 +6105,7 @@
   },
   {
     "code": "Y8",
-    "name": null,
+    "name": "Yangtze River Express",
     "name_translations": {
       "en": "Yangtze River Express"
     }
@@ -6126,14 +6126,14 @@
   },
   {
     "code": "ZF",
-    "name": null,
+    "name": "Azur Air",
     "name_translations": {
       "en": "Azur Air"
     }
   },
   {
     "code": "ZJ",
-    "name": null,
+    "name": "Zambezi Airlines",
     "name_translations": {
       "en": "Zambezi Airlines"
     }
@@ -6497,7 +6497,7 @@
   },
   {
     "code": "3D",
-    "name": null,
+    "name": "DoKaSch",
     "name_translations": {
       "en": "DoKaSch"
     }
@@ -6532,7 +6532,7 @@
   },
   {
     "code": "3V",
-    "name": null,
+    "name": "TNT Airways",
     "name_translations": {
       "en": "TNT Airways"
     }
@@ -6553,7 +6553,7 @@
   },
   {
     "code": "3Y",
-    "name": null,
+    "name": "Kartika Airlines",
     "name_translations": {
       "en": "Kartika Airlines"
     }
@@ -6728,7 +6728,7 @@
   },
   {
     "code": "5K",
-    "name": null,
+    "name": "Hi Fly",
     "name_translations": {
       "en": "Hi Fly"
     }
@@ -6756,21 +6756,21 @@
   },
   {
     "code": "5U",
-    "name": null,
+    "name": "Transportes Aéreos Regionales",
     "name_translations": {
       "en": "Transportes Aéreos Regionales"
     }
   },
   {
     "code": "5V",
-    "name": null,
+    "name": "Everts Air Cargo",
     "name_translations": {
       "en": "Everts Air Cargo"
     }
   },
   {
     "code": "5W",
-    "name": null,
+    "name": "5W-Rail&Shuttle",
     "name_translations": {
       "en": "5W-Rail&Shuttle"
     }
@@ -6784,77 +6784,77 @@
   },
   {
     "code": "5Y",
-    "name": null,
+    "name": "Atlas Air",
     "name_translations": {
       "en": "Atlas Air"
     }
   },
   {
     "code": "5Z",
-    "name": null,
+    "name": "CemAir",
     "name_translations": {
       "en": "CemAir"
     }
   },
   {
     "code": "6A",
-    "name": null,
+    "name": "Armenia Airways",
     "name_translations": {
       "en": "Armenia Airways"
     }
   },
   {
     "code": "6B",
-    "name": null,
+    "name": "TUIfly Nordic",
     "name_translations": {
       "en": "TUIfly Nordic"
     }
   },
   {
     "code": "6C",
-    "name": null,
+    "name": "Air Timor",
     "name_translations": {
       "en": "Air Timor"
     }
   },
   {
     "code": "6D",
-    "name": null,
+    "name": "Travel Service Slovensko",
     "name_translations": {
       "en": "Travel Service Slovensko"
     }
   },
   {
     "code": "6G",
-    "name": null,
+    "name": "Sun Air Express",
     "name_translations": {
       "en": "Sun Air Express"
     }
   },
   {
     "code": "6I",
-    "name": null,
+    "name": "Air Alsie",
     "name_translations": {
       "en": "Air Alsie"
     }
   },
   {
     "code": "6J",
-    "name": null,
+    "name": "Solaseed Air",
     "name_translations": {
       "en": "Solaseed Air"
     }
   },
   {
     "code": "6K",
-    "name": null,
+    "name": "Kyrgyz Trans Avia",
     "name_translations": {
       "en": "Kyrgyz Trans Avia"
     }
   },
   {
     "code": "6L",
-    "name": null,
+    "name": "Aklak Air",
     "name_translations": {
       "en": "Aklak Air"
     }
@@ -6868,42 +6868,42 @@
   },
   {
     "code": "6N",
-    "name": null,
+    "name": "Niger Airlines",
     "name_translations": {
       "en": "Niger Airlines"
     }
   },
   {
     "code": "6O",
-    "name": null,
+    "name": "Orbest",
     "name_translations": {
       "en": "Orbest"
     }
   },
   {
     "code": "6T",
-    "name": null,
+    "name": "Air Mandalay",
     "name_translations": {
       "en": "Air Mandalay"
     }
   },
   {
     "code": "6U",
-    "name": null,
+    "name": "Air Cargo Germany",
     "name_translations": {
       "en": "Air Cargo Germany"
     }
   },
   {
     "code": "6V",
-    "name": null,
+    "name": "AVANZA",
     "name_translations": {
       "en": "AVANZA"
     }
   },
   {
     "code": "6Z",
-    "name": null,
+    "name": "Euro-Asia Air",
     "name_translations": {
       "en": "Euro-Asia Air"
     }
@@ -6917,77 +6917,77 @@
   },
   {
     "code": "7G",
-    "name": null,
+    "name": "StarFlyer",
     "name_translations": {
       "en": "StarFlyer"
     }
   },
   {
     "code": "7M",
-    "name": null,
+    "name": "MAYAir",
     "name_translations": {
       "en": "MAYAir"
     }
   },
   {
     "code": "7N",
-    "name": null,
+    "name": "Pan American World Airways",
     "name_translations": {
       "en": "Pan American World Airways"
     }
   },
   {
     "code": "7O",
-    "name": null,
+    "name": "Travel Service",
     "name_translations": {
       "en": "Travel Service"
     }
   },
   {
     "code": "7P",
-    "name": null,
+    "name": "Air Panama",
     "name_translations": {
       "en": "Air Panama"
     }
   },
   {
     "code": "7Q",
-    "name": null,
+    "name": "Elite Airways",
     "name_translations": {
       "en": "Elite Airways"
     }
   },
   {
     "code": "7S",
-    "name": null,
+    "name": "Ryan Air Service",
     "name_translations": {
       "en": "Ryan Air Service"
     }
   },
   {
     "code": "7T",
-    "name": null,
+    "name": "Trenitalia",
     "name_translations": {
       "en": "Trenitalia"
     }
   },
   {
     "code": "7U",
-    "name": null,
+    "name": "Alpha Air Transport",
     "name_translations": {
       "en": "Alpha Air Transport"
     }
   },
   {
     "code": "7Y",
-    "name": null,
+    "name": "Mann Yadanarpon Airlines",
     "name_translations": {
       "en": "Mann Yadanarpon Airlines"
     }
   },
   {
     "code": "7Z",
-    "name": null,
+    "name": "Halcyonair",
     "name_translations": {
       "en": "Halcyonair"
     }
@@ -7022,28 +7022,28 @@
   },
   {
     "code": "8F",
-    "name": null,
+    "name": "STP Airways",
     "name_translations": {
       "en": "STP Airways"
     }
   },
   {
     "code": "8G",
-    "name": null,
+    "name": "Mid Africa Aviation",
     "name_translations": {
       "en": "Mid Africa Aviation"
     }
   },
   {
     "code": "8H",
-    "name": null,
+    "name": "BH Air",
     "name_translations": {
       "en": "BH Air"
     }
   },
   {
     "code": "8J",
-    "name": null,
+    "name": "EcoJet",
     "name_translations": {
       "en": "EcoJet"
     }
@@ -7057,28 +7057,28 @@
   },
   {
     "code": "8N",
-    "name": null,
+    "name": "Regional Air Services",
     "name_translations": {
       "en": "Regional Air Services"
     }
   },
   {
     "code": "8S",
-    "name": null,
+    "name": "TurboJET",
     "name_translations": {
       "en": "TurboJET"
     }
   },
   {
     "code": "8T",
-    "name": null,
+    "name": "Air Tindi",
     "name_translations": {
       "en": "Air Tindi"
     }
   },
   {
     "code": "8W",
-    "name": null,
+    "name": "Private Wings",
     "name_translations": {
       "en": "Private Wings"
     }
@@ -7092,7 +7092,7 @@
   },
   {
     "code": "9C",
-    "name": null,
+    "name": "Spring Airlines",
     "name_translations": {
       "en": "Spring Airlines"
     }
@@ -7106,14 +7106,14 @@
   },
   {
     "code": "9G",
-    "name": null,
+    "name": "9G Rail",
     "name_translations": {
       "en": "9G Rail"
     }
   },
   {
     "code": "9I",
-    "name": null,
+    "name": "Alliance Air",
     "name_translations": {
       "en": "Alliance Air"
     }
@@ -7127,7 +7127,7 @@
   },
   {
     "code": "9L",
-    "name": null,
+    "name": "West Link Airlines",
     "name_translations": {
       "en": "West Link Airlines"
     }
@@ -7141,7 +7141,7 @@
   },
   {
     "code": "9P",
-    "name": null,
+    "name": "Air Arabia Jordan",
     "name_translations": {
       "en": "Air Arabia Jordan"
     }
@@ -7218,7 +7218,7 @@
   },
   {
     "code": "FC",
-    "name": null,
+    "name": "FlyCorporate",
     "name_translations": {
       "en": "FlyCorporate"
     }
@@ -7253,7 +7253,7 @@
   },
   {
     "code": "R0",
-    "name": null,
+    "name": "РЖД",
     "name_translations": {
       "en": "Russian Railways"
     }
@@ -7270,6 +7270,34 @@
     "name": "Regional Jet OÜ",
     "name_translations": {
       "en": "Regional Jet OÜ"
+    }
+  },
+  {
+    "code": "I3",
+    "name": null,
+    "name_translations": {
+      "en": "ATA Airlines"
+    }
+  },
+  {
+    "code": "86",
+    "name": "Up Israel",
+    "name_translations": {
+      "en": "Up Israel"
+    }
+  },
+  {
+    "code": "XX",
+    "name": null,
+    "name_translations": {
+      "en": "Major Airline"
+    }
+  },
+  {
+    "code": "YY",
+    "name": null,
+    "name_translations": {
+      "en": "Major Airline"
     }
   }
 ]
