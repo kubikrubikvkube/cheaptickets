@@ -27,14 +27,14 @@ class EmailServiceImplTest {
         owner.setEmail("v.raskulin@gmail.com");
 
         Ticket departTicket = new Ticket();
-        departTicket.setOrigin("LED");
-        departTicket.setDestination("MOW");
+        departTicket.setOrigin("IEV");
+        departTicket.setDestination("OVB");
         departTicket.setDepartDate(LocalDate.now());
         departTicket.setNumberOfChanges(1);
 
         Ticket returnTicket = new Ticket();
-        returnTicket.setOrigin("MOW");
-        returnTicket.setDestination("LED");
+        returnTicket.setOrigin("OVB");
+        returnTicket.setDestination("IEV");
         returnTicket.setDepartDate(LocalDate.now().plusDays(2));
         returnTicket.setNumberOfChanges(0);
 
@@ -42,10 +42,9 @@ class EmailServiceImplTest {
         route.setDepartTicket(departTicket);
         route.setReturnTicket(returnTicket);
         route.setTripDurationInDays(2);
-        route.setOrigin("MOW");
-        route.setDestination("LED");
+        route.setOrigin("IEV");
+        route.setDestination("OVB");
         route.setSumValue(123);
-
 
         emailService.sendNotification(owner, route);
     }
