@@ -68,10 +68,9 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public List<Route> findBy(String origin, String destination, String limit) {
-        int limitInt = Integer.parseInt(limit);
+    public List<Route> findBy(String origin, String destination, Integer limit) {
         List<Route> routes = this.findBy(origin, destination);
-        return routes.stream().limit(limitInt).collect(Collectors.toList());
+        return routes.stream().limit(limit).collect(Collectors.toList());
     }
 
     @Override

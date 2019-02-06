@@ -22,6 +22,6 @@ public class RouteController {
 
     @RequestMapping(value = "/route/get", params = {"origin", "destination", "limit"})
     public List<Route> get(@RequestParam String origin, @RequestParam String destination, @RequestParam String limit) {
-        return routesService.findBy(origin, destination, limit);
+        return routesService.findBy(origin, destination, Integer.valueOf(limit));
     }
 }

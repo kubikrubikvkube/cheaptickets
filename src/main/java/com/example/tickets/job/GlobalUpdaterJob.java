@@ -19,8 +19,9 @@ public class GlobalUpdaterJob implements Job {
     private final TicketStatisticsUpdaterStage ticketStatisticsUpdaterStage;
     private final SubscriptionTypeResolverStage subscriptionTypeResolverStage;
     private final RoutePlannerStage routePlannerStage;
+    private final RouteNotificationStage routeNotificationStage;
 
-    public GlobalUpdaterJob(TicketInvalidationStage ticketInvalidationStage, LatestTicketsTravelPayoutsPopulationStage latestTicketsTravelPayoutsPopulationStage, OnewayTicketsForAYearAviasalesStage onewayTicketsForAYearAviasalesStage, CheapTicketFinderStage cheapTicketFinderStage, TicketStatisticsUpdaterStage ticketStatisticsUpdaterStage, SubscriptionTypeResolverStage subscriptionTypeResolverStage, RoutePlannerStage routePlannerStage) {
+    public GlobalUpdaterJob(TicketInvalidationStage ticketInvalidationStage, LatestTicketsTravelPayoutsPopulationStage latestTicketsTravelPayoutsPopulationStage, OnewayTicketsForAYearAviasalesStage onewayTicketsForAYearAviasalesStage, CheapTicketFinderStage cheapTicketFinderStage, TicketStatisticsUpdaterStage ticketStatisticsUpdaterStage, SubscriptionTypeResolverStage subscriptionTypeResolverStage, RoutePlannerStage routePlannerStage, RouteNotificationStage routeNotificationStage) {
         this.ticketInvalidationStage = ticketInvalidationStage;
         this.latestTicketsTravelPayoutsPopulationStage = latestTicketsTravelPayoutsPopulationStage;
         this.onewayTicketsForAYearAviasalesStage = onewayTicketsForAYearAviasalesStage;
@@ -28,6 +29,7 @@ public class GlobalUpdaterJob implements Job {
         this.ticketStatisticsUpdaterStage = ticketStatisticsUpdaterStage;
         this.subscriptionTypeResolverStage = subscriptionTypeResolverStage;
         this.routePlannerStage = routePlannerStage;
+        this.routeNotificationStage = routeNotificationStage;
     }
 
     @Override
@@ -94,5 +96,12 @@ public class GlobalUpdaterJob implements Job {
         log.info("Starting stage 7 - RoutePlannerStage");
         StageResult routePlannerStageResult = routePlannerStage.call();
         log.info("{}", routePlannerStageResult);
+
+        /*
+         * Стадия необходима для планирования маршрутов, на основании требований, заданных в подписке
+         */
+        log.info("Starting stage 8 - RouteNotificationStage");
+        StageResult routeNotificationStageResult = routeNotificationStage.call();
+        log.info("{}", routeNotificationStageResult);
     }
 }
