@@ -55,7 +55,7 @@ public class RouteNotificationStage implements Stage {
                 }
                 subscriptionRouteNotifications.forEach(srn -> ownerRouteNotifications.put(subscription, srn));
             }
-            log.info("Notifying owner {} about new cheap tickets");
+            log.info("Notifying owner {} about new cheap tickets", owner);
             emailService.sendNotifications(owner, ownerRouteNotifications.values());
         }
         return null;

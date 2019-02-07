@@ -23,6 +23,7 @@ public class RouteNotification {
     @CreationTimestamp
     private LocalDateTime creationTimestamp;
     @JsonManagedReference
+
     @ManyToOne
     @JoinColumn(name = "subscription_fk", nullable = false)
     private Subscription subscription;
