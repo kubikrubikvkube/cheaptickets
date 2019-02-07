@@ -3,10 +3,13 @@ package com.example.tickets.route;
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.ticket.CheapTicket;
 import com.example.tickets.ticket.CheapTicketService;
+import com.example.tickets.travelpayouts.AffilateLinkGenerator;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
@@ -17,6 +20,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+@SpringBootTest
 @ExtendWith(SpringExtension.class)
 class RoutePlannerImplTest {
     private final String origin = "LED";
@@ -25,6 +29,9 @@ class RoutePlannerImplTest {
     private final Integer tripDuration = 3;
     private final LocalDate departDate = LocalDate.now();
     private final LocalDate returnDate = LocalDate.now().plusDays(tripDuration);
+
+    @Autowired
+    private AffilateLinkGenerator affilateLinkGenerator;
 
     @Test
     @Disabled
@@ -57,7 +64,7 @@ class RoutePlannerImplTest {
         when(cheapTicketService.findByOriginAndDestination(origin, destination)).thenReturn(List.of(departTicket));
         when(cheapTicketService.findByOriginAndDestinationAndDepartDate(origin, destination, returnDate)).thenReturn(List.of(cheapReturnTicket, expensiveReturnTicket));
 
-        RoutePlanner routePlanner = new RoutePlannerImpl(cheapTicketService);
+        RoutePlanner routePlanner = new RoutePlannerImpl(cheapTicketService, affilateLinkGenerator);
         List<RouteDto> routesList = routePlanner.plan(subscription);
         assertThat(routesList, hasSize(1));
         RouteDto routeDto = routesList.get(0);
@@ -87,7 +94,7 @@ class RoutePlannerImplTest {
         CheapTicketService cheapTicketService = Mockito.mock(CheapTicketService.class);
         when(cheapTicketService.findByOriginAndDestination(origin, destination)).thenReturn(List.of(departTicket));
 
-        RoutePlanner routePlanner = new RoutePlannerImpl(cheapTicketService);
+        RoutePlanner routePlanner = new RoutePlannerImpl(cheapTicketService, affilateLinkGenerator);
         List<RouteDto> routesList = routePlanner.plan(subscription);
         assertThat(routesList, hasSize(1));
         RouteDto routeDto = routesList.get(0);
@@ -120,7 +127,7 @@ class RoutePlannerImplTest {
         CheapTicketService cheapTicketService = Mockito.mock(CheapTicketService.class);
         when(cheapTicketService.findByOriginAndDestination(origin, destination)).thenReturn(List.of(cheapDepartTicket, expensiveDepartTicket));
 
-        RoutePlanner routePlanner = new RoutePlannerImpl(cheapTicketService);
+        RoutePlanner routePlanner = new RoutePlannerImpl(cheapTicketService, affilateLinkGenerator);
         List<RouteDto> routesList = routePlanner.plan(subscription);
         assertThat(routesList, hasSize(2));
         RouteDto cheapRouteDto = routesList.get(0);
@@ -173,7 +180,7 @@ class RoutePlannerImplTest {
         when(cheapTicketService.findByOriginAndDestinationAndDepartDate(origin, destination, departDate)).thenReturn(List.of(cheapDepartTicket, expensiveDepartTicket));
         when(cheapTicketService.findByOriginAndDestinationAndDepartDate(destination, origin, returnDate)).thenReturn(List.of(cheapReturnTicket, expensiveReturnTicket));
 
-        RoutePlanner routePlanner = new RoutePlannerImpl(cheapTicketService);
+        RoutePlanner routePlanner = new RoutePlannerImpl(cheapTicketService, affilateLinkGenerator);
         List<RouteDto> routesList = routePlanner.plan(subscription);
         assertThat(routesList, hasSize(4));
         RouteDto cheapestRouteDto = routesList.get(0);

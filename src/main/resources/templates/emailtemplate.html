@@ -21,18 +21,20 @@
             <th>Пересадок туда</th>
             <th>Пересадок обратно</th>
             <th>Общая стоимость поездки</th>
+            <th>Действие</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="route : ${routes}">
-            <td><span th:text="${route.departTicket.originName}">?</span></td>
-            <td><span th:text="${route.departTicket.destinationName}"> ? </span></td>
-            <td><span th:text="${route.tripDurationInDays}"> ? </span></td>
-            <td><span th:text="${route.departTicket.departDate}"> ? </span></td>
-            <td><span th:text="${route.returnTicket.departDate}"> ? </span></td>
-            <td><span th:text="${route.departTicket.numberOfChanges}"> ? </span></td>
-            <td><span th:text="${route.returnTicket.numberOfChanges}"> ? </span></td>
-            <td><span th:text="${route.sumValue}"> ? </span></td>
+            <td><span th:text="${route.departTicket.originName}">Москва</span></td>
+            <td><span th:text="${route.departTicket.destinationName}"> Санкт-Петербург </span></td>
+            <td><span th:text="${route.tripDurationInDays}"> 2 </span></td>
+            <td><span th:text="${route.departTicket.departDate}"> 2019-02-02 </span></td>
+            <td><span th:text="${route.returnTicket.departDate}"> 2019-02-04 </span></td>
+            <td><span th:text="${route.departTicket.numberOfChanges}"> 0 </span></td>
+            <td><span th:text="${route.returnTicket.numberOfChanges}"> 1 </span></td>
+            <td><span th:text="${route.sumValue}"> 1300 </span></td>
+            <td><a th:href="${route.affilateLink}">Купить билет</a></td>
         </tr>
         </tbody>
     </table>

@@ -14,6 +14,7 @@ public class RouteDto {
     private Ticket returnTicket;
     private Integer sumValue;
     private Integer tripDurationInDays;
+    private String affilateLink;
 
     public RouteDto(String origin, String destination) {
         this.origin = origin;

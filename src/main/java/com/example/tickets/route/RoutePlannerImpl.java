@@ -5,6 +5,7 @@ import com.example.tickets.subscription.SubscriptionType;
 import com.example.tickets.ticket.CheapTicket;
 import com.example.tickets.ticket.CheapTicketService;
 import com.example.tickets.ticket.Ticket;
+import com.example.tickets.travelpayouts.AffilateLinkGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -18,9 +19,11 @@ public class RoutePlannerImpl implements RoutePlanner {
     private final CheapTicketService cheapTicketService;
     private final Logger log = LoggerFactory.getLogger(RoutePlannerImpl.class);
     private final Integer MAXIMUM_REASONABLE_TRIP_TIME = 30;
+    private final AffilateLinkGenerator affilateLinkGenerator;
 
-    public RoutePlannerImpl(CheapTicketService cheapTicketService) {
+    public RoutePlannerImpl(CheapTicketService cheapTicketService, AffilateLinkGenerator affilateLinkGenerator) {
         this.cheapTicketService = cheapTicketService;
+        this.affilateLinkGenerator = affilateLinkGenerator;
     }
 
     @Override
@@ -165,6 +168,8 @@ public class RoutePlannerImpl implements RoutePlanner {
                     routeDto.setReturnTicket(returnTicket);
                     routeDto.setTripDurationInDays(tripDurationInDays);
                     routeDto.setSumValue(departTicket.getValue() + returnTicket.getValue());
+                    var affilateLink = affilateLinkGenerator.generate(routeDto);
+                    routeDto.setAffilateLink(affilateLink);
                     availableRoutes.add(routeDto);
                 }
             }

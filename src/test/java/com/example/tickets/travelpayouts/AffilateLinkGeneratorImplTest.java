@@ -39,7 +39,7 @@ class AffilateLinkGeneratorImplTest {
         routeDto.setDepartTicket(departTicket);
         routeDto.setReturnTicket(returnTicket);
 
-        var expectedString = "https://www.aviasales.ru/search?origin_iata=LED&destination_iata=MOW&departDate=2019-01-01&returnDate=2019-01-01&with_request=true&marker=12345";
+        var expectedString = "https://www.aviasales.ru/search?origin_iata=LED&destination_iata=MOW&depart_date=2019-01-01&return_date=2019-01-01&with_request=true&marker=12345";
         String generatedString = linkGenerator.generate(routeDto);
         assertEquals(expectedString, generatedString);
     }

@@ -47,6 +47,7 @@ public class Route {
      */
     private Integer sumValue;
 
+    private String affilateLink;
     /**
      * Время поездки в днях
      */
