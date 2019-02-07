@@ -1,6 +1,5 @@
 package com.example.tickets.util;
 
-import com.example.tickets.iata.IATA;
 import com.example.tickets.iata.IATAService;
 import com.example.tickets.owner.Owner;
 import com.example.tickets.route.Route;
@@ -16,6 +15,7 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.Collection;
 import java.util.Locale;
 
 @Service
@@ -37,29 +37,16 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendNotification(Owner owner, Route route) {
-        var departTicket = route.getDepartTicket();
-        var returnTicket = route.getReturnTicket();
-
+    public void sendNotifications(Owner owner, Collection<Route> routes) {
         Context ctx = new Context(Locale.ENGLISH);
-        ctx.setVariable("originName", departTicket.getOrigin());
-        ctx.setVariable("destinationName", departTicket.getDestination());
-        ctx.setVariable("tripDuration", route.getTripDurationInDays());
-        ctx.setVariable("departureDate", departTicket.getDepartDate());
-        ctx.setVariable("returnDate", returnTicket.getDepartDate());
-        ctx.setVariable("numberOfChangesDepartTicket", departTicket.getNumberOfChanges());
-        ctx.setVariable("numberOfChangesReturnTicket", returnTicket.getNumberOfChanges());
-        ctx.setVariable("sumValue", route.getSumValue());
+        ctx.setVariable("routes", routes);
 
         MimeMessage mimeMessage;
         try {
             mimeMessage = emailSender.createMimeMessage();
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-            IATA origin = iataService.fromCode(departTicket.getOrigin());
-            IATA destination = iataService.fromCode(departTicket.getDestination());
 
-            String subject = String.format("%s -> %s за %d рублей!", origin.getPlace(), destination.getPlace(), route.getSumValue());
-            message.setSubject(subject);
+            message.setSubject("Новые билеты");
             message.setFrom(username);
             message.setTo(owner.getEmail());
             String htmlContent = this.templateEngine.process("emailtemplate.html", ctx);

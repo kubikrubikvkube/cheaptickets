@@ -3,6 +3,8 @@ package com.example.tickets.util;
 import com.example.tickets.owner.Owner;
 import com.example.tickets.route.Route;
 
+import java.util.Collection;
+
 public interface EmailService {
-    void sendNotification(Owner owner, Route route);
+    void sendNotifications(Owner owner, Collection<Route> routes);
 }

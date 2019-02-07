@@ -8,35 +8,34 @@
 <body>
 <p>Мы нашли для Вас дешёвые билеты!</p>
 <p>
-<div>Город отправления:</div>
-<b id="originName" th:text="${originName}">Москва</b>
-</p>
-<p>
-<div>Город назначения:</div>
-<b id="destinationName" th:text="${destinationName}">Санкт-Петербург</b>
-</p>
-<p>
-<div>Продолжительность поездки в днях:</div>
-<b id="tripDuration" th:text="${tripDuration}">2</b>
-</p>
-<p>
-<div>Дата отправления:</div>
-<b id="departureDate" th:text="${departureDate}">2019-01-02</b>
-</p>
-<p>
-<div>Дата возвращения:</div>
-<b id="returnDate" th:text="${returnDate}">2019-01-04</b>
-</p>
-<p>
-<div>Пересадок туда:</div>
-<b id="numberOfChangesDepartTicket" th:text="${numberOfChangesDepartTicket}">1</b>
-</p>
-<p>
-<div>Пересадок обратно:</div>
-<b id="numberOfChangesReturnTicket" th:text="${numberOfChangesReturnTicket}">0</b>
-</p>
-<div>Общая стоимость поездки:</div>
-<b id="sumValue" th:text="${sumValue}">2199</b>
-</p>
+
+<div id="routes">
+    <table border="1" style="width:80%">
+        <thead>
+        <tr>
+            <th>Город отправления</th>
+            <th>Город прибытия</th>
+            <th>Продолжительность поездки в днях</th>
+            <th>Дата отправления</th>
+            <th>Дата возвращения</th>
+            <th>Пересадок туда</th>
+            <th>Пересадок обратно</th>
+            <th>Общая стоимость поездки</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="route : ${routes}">
+            <td><span th:text="${route.departTicket.origin}">?</span></td>
+            <td><span th:text="${route.departTicket.destination}"> ? </span></td>
+            <td><span th:text="${route.tripDurationInDays}"> ? </span></td>
+            <td><span th:text="${route.departTicket.departDate}"> ? </span></td>
+            <td><span th:text="${route.returnTicket.departDate}"> ? </span></td>
+            <td><span th:text="${route.departTicket.numberOfChanges}"> ? </span></td>
+            <td><span th:text="${route.returnTicket.numberOfChanges}"> ? </span></td>
+            <td><span th:text="${route.sumValue}"> ? </span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
