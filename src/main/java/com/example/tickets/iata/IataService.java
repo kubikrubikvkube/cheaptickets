@@ -1,6 +1,6 @@
 package com.example.tickets.iata;
 
-public interface IATAService {
+public interface IataService {
     IATA fromPlaceName(String placeName);
 
     IATA fromCode(String code);

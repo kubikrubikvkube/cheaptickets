@@ -11,10 +11,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-class IATAServiceImplTest {
+class IataServiceImplTest {
 
     @Autowired
-    private IATAService service;
+    private IataService service;
 
     @Test
     void fromCode() {

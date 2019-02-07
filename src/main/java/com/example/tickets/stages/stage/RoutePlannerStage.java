@@ -1,4 +1,4 @@
-package com.example.tickets.job.stage;
+package com.example.tickets.stages.stage;
 
 import com.example.tickets.route.Route;
 import com.example.tickets.route.RouteDTO;

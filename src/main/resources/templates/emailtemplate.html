@@ -25,8 +25,8 @@
         </thead>
         <tbody>
         <tr th:each="route : ${routes}">
-            <td><span th:text="${route.departTicket.origin}">?</span></td>
-            <td><span th:text="${route.departTicket.destination}"> ? </span></td>
+            <td><span th:text="${route.departTicket.originName}">?</span></td>
+            <td><span th:text="${route.departTicket.destinationName}"> ? </span></td>
             <td><span th:text="${route.tripDurationInDays}"> ? </span></td>
             <td><span th:text="${route.departTicket.departDate}"> ? </span></td>
             <td><span th:text="${route.returnTicket.departDate}"> ? </span></td>

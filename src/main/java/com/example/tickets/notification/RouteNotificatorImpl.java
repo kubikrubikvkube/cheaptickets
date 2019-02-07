@@ -37,9 +37,9 @@ public class RouteNotificatorImpl implements RouteNotificator {
         RouteNotificationDTO routeNotificationDTO = new RouteNotificationDTO();
         routeNotificationDTO.setSubscription(subscription);
         routeNotificationDTO.setRoute(route);
-        emailService.sendNotifications(subscription.getOwner(), List.of(route));
-        log.info("Owner {} notified about route {}", subscription, route);
         RouteNotification saved = routeNotificationService.save(routeNotificationDTO);
+        emailService.sendNotifications(subscription.getOwner(), List.of(saved));
+        log.info("Owner {} notified about route {}", subscription, route);
         return Optional.ofNullable(saved);
     }
 

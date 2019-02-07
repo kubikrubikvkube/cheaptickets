@@ -9,15 +9,15 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 @Service
-public class IATAServiceImpl implements IATAService {
-    private final Logger log = LoggerFactory.getLogger(IATAServiceImpl.class);
+public class IataServiceImpl implements IataService {
+    private final Logger log = LoggerFactory.getLogger(IataServiceImpl.class);
     private final IATARepository repository;
     private final ExampleMatcher exampleMatcher;
     private final IATAResolver resolver;
     private final IATADTOMapper mapper;
     private final ResourceResolver resourceResolver;
 
-    public IATAServiceImpl(IATARepository repository, IATAResolver resolver, IATADTOMapper mapper, ResourceResolver resourceResolver) {
+    public IataServiceImpl(IATARepository repository, IATAResolver resolver, IATADTOMapper mapper, ResourceResolver resourceResolver) {
         this.repository = repository;
         this.resolver = resolver;
         this.mapper = mapper;
@@ -45,7 +45,7 @@ public class IATAServiceImpl implements IATAService {
     @Override
     public IATA fromCode(String code) {
         String normalizedCode = code.toUpperCase();
-        boolean exists = repository.existsByCode(code);
+        boolean exists = repository.existsByCodeCanonical(code);
 
         if (!exists) {
             JsonNode iataNode = resourceResolver.resolve(JsonResource.CASES);

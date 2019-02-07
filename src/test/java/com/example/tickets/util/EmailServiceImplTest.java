@@ -1,6 +1,7 @@
 package com.example.tickets.util;
 
 import com.example.tickets.iata.IATARepository;
+import com.example.tickets.notification.RouteNotification;
 import com.example.tickets.owner.Owner;
 import com.example.tickets.route.Route;
 import com.example.tickets.ticket.Ticket;
@@ -47,7 +48,10 @@ class EmailServiceImplTest {
         route.setDestination("OVB");
         route.setSumValue(123);
 
+        RouteNotification routeNotification = new RouteNotification();
+        routeNotification.setRoute(route);
 
-        emailService.sendNotifications(owner, List.of(route));
+
+        emailService.sendNotifications(owner, List.of(routeNotification));
     }
 }

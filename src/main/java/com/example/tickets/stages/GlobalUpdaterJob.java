@@ -1,6 +1,6 @@
-package com.example.tickets.job;
+package com.example.tickets.stages;
 
-import com.example.tickets.job.stage.*;
+import com.example.tickets.stages.stage.*;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;

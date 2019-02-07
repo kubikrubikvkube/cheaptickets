@@ -1,4 +1,4 @@
-package com.example.tickets.job.stage;
+package com.example.tickets.stages.stage;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

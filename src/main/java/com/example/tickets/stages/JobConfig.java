@@ -1,4 +1,4 @@
-package com.example.tickets.job;
+package com.example.tickets.stages;
 
 import org.quartz.*;
 import org.springframework.context.annotation.Bean;

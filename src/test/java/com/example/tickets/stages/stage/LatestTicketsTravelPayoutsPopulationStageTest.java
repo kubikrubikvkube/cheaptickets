@@ -1,4 +1,4 @@
-package com.example.tickets.job.stage;
+package com.example.tickets.stages.stage;
 
 import com.example.tickets.subscription.SubscriptionService;
 import com.example.tickets.ticket.Ticket;

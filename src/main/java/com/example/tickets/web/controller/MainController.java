@@ -1,7 +1,7 @@
 package com.example.tickets.web.controller;
 
 import com.example.tickets.iata.IATA;
-import com.example.tickets.iata.IATAService;
+import com.example.tickets.iata.IataService;
 import com.example.tickets.owner.Owner;
 import com.example.tickets.owner.OwnerService;
 import com.example.tickets.subscription.*;
@@ -26,9 +26,9 @@ public class MainController {
     private final SubscriptionDTOMapper mapper;
     private final SubscriptionTypeResolver typeResolver;
     private final OwnerService ownerService;
-    private final IATAService iataService;
+    private final IataService iataService;
 
-    public MainController(SubscriptionService subscriptionService, SubscriptionDTOMapper mapper, SubscriptionTypeResolver typeResolver, OwnerService ownerService, IATAService iataService) {
+    public MainController(SubscriptionService subscriptionService, SubscriptionDTOMapper mapper, SubscriptionTypeResolver typeResolver, OwnerService ownerService, IataService iataService) {
         this.subscriptionService = subscriptionService;
         this.mapper = mapper;
         this.typeResolver = typeResolver;

@@ -1,6 +1,6 @@
 package com.example.tickets.web.controller;
 
-import com.example.tickets.job.stage.Stage;
+import com.example.tickets.stages.stage.Stage;
 import com.example.tickets.web.commandobjects.StageCO;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobKey;
@@ -23,7 +23,7 @@ public class StagesController {
     private static final String STAGES_PAGE = "stages";
     private final Scheduler scheduler;
     private final Reflections stageReflections;
-    private final String stagePackage = "com.example.tickets.job.stage";
+    private final String stagePackage = "com.example.tickets.stages.stage";
     private final ApplicationContext appContext;
 
 
