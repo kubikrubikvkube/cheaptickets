@@ -5,8 +5,10 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
-public interface CheapTicketMapper {
+import static org.mapstruct.ReportingPolicy.IGNORE;
+
+@Mapper(componentModel = "spring", unmappedTargetPolicy = IGNORE)
+public interface CheapTicketDTOMapper {
     TicketDTOMapper INSTANCE = Mappers.getMapper(TicketDTOMapper.class);
 
     Ticket toTicket(CheapTicket cheapTicket);

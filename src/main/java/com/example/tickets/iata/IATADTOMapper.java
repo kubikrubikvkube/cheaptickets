@@ -5,7 +5,9 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+import static org.mapstruct.ReportingPolicy.IGNORE;
+
+@Mapper(componentModel = "spring", unmappedTargetPolicy = IGNORE)
 public interface IATADTOMapper {
     IATADTOMapper INSTANCE = Mappers.getMapper(IATADTOMapper.class);
 

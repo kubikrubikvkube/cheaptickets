@@ -18,7 +18,9 @@ public class TicketStatisticsByMonth {
 
     private Month month;
 
-    private int ticketsCount;
+    private Integer year;
+
+    private Integer ticketsCount;
 
     private Double minTicketPrice;
 

@@ -18,13 +18,13 @@ public class CheapTicketFinderStage implements Stage {
     private final Logger log = LoggerFactory.getLogger(CheapTicketFinderStage.class);
     private final TicketStatisticsService ticketStatisticsService;
     private final TicketService ticketService;
-    private final CheapTicketMapper cheapTicketMapper;
+    private final CheapTicketDTOMapper cheapTicketDTOMapper;
     private final CheapTicketService cheapTicketService;
 
-    public CheapTicketFinderStage(TicketStatisticsService ticketStatisticsService, TicketService ticketService, CheapTicketMapper cheapTicketMapper, CheapTicketService cheapTicketService) {
+    public CheapTicketFinderStage(TicketStatisticsService ticketStatisticsService, TicketService ticketService, CheapTicketDTOMapper cheapTicketDTOMapper, CheapTicketService cheapTicketService) {
         this.ticketStatisticsService = ticketStatisticsService;
         this.ticketService = ticketService;
-        this.cheapTicketMapper = cheapTicketMapper;
+        this.cheapTicketDTOMapper = cheapTicketDTOMapper;
         this.cheapTicketService = cheapTicketService;
     }
 
@@ -52,7 +52,7 @@ public class CheapTicketFinderStage implements Stage {
                 if (statisticsByMonthOpt.isPresent()) {
                     var statisticsByMonth = statisticsByMonthOpt.get();
                     if (ticket.getValue() <= statisticsByMonth.getPercentile10()) {
-                        CheapTicket cheapTicket = cheapTicketMapper.toCheapTicket(ticket);
+                        CheapTicket cheapTicket = cheapTicketDTOMapper.toCheapTicket(ticket);
                         cheapestTickets.add(cheapTicket);
                     }
                 } else {

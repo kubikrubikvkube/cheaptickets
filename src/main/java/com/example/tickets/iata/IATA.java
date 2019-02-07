@@ -19,6 +19,8 @@ public class IATA {
 
     @Column(length = 3)
     private String code;
+
     private String place;
+
     private boolean isCanonical;
 }

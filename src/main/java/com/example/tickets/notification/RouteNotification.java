@@ -15,15 +15,17 @@ import java.time.LocalDateTime;
 @Entity
 @Table
 public class RouteNotification {
-    @OneToOne
-    Route route;
     @Id
     @GeneratedValue
     private Long id;
+
+    @OneToOne
+    Route route;
+
     @CreationTimestamp
     private LocalDateTime creationTimestamp;
-    @JsonManagedReference
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "subscription_fk", nullable = false)
     private Subscription subscription;

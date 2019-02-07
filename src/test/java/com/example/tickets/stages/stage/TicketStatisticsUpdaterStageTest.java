@@ -89,7 +89,10 @@ class TicketStatisticsUpdaterStageTest {
         TicketStatisticsByMonth ticketStatisticsByMonth = ticketStatisticsByMonthOptional.get();
         assertNotNull(ticketStatisticsByMonth.getId());
         assertNotNull(ticketStatisticsByMonth.getMonth());
-        assertEquals(1, ticketStatisticsByMonth.getTicketsCount());
+
+        var ticketCount = ticketStatisticsByMonth.getTicketsCount();
+        assertNotNull(ticketCount);
+        assertEquals(Integer.valueOf(1), ticketCount);
         assertEquals(Double.valueOf(1000), ticketStatisticsByMonth.getMinTicketPrice());
         assertEquals(Double.valueOf(1000), ticketStatisticsByMonth.getAvgTicketPrice());
         assertEquals(Double.valueOf(1000), ticketStatisticsByMonth.getPercentile10());
@@ -120,7 +123,8 @@ class TicketStatisticsUpdaterStageTest {
         TicketStatisticsByMonth ticketStatisticsByMonth = ticketStatisticsByMonthOptional.get();
         assertNotNull(ticketStatisticsByMonth.getId());
         assertNotNull(ticketStatisticsByMonth.getMonth());
-        assertEquals(2, ticketStatisticsByMonth.getTicketsCount());
+        var ticketCount = ticketStatisticsByMonth.getTicketsCount();
+        assertEquals(Integer.valueOf(2), ticketCount);
         assertEquals(Double.valueOf(1000), ticketStatisticsByMonth.getMinTicketPrice());
         assertEquals(Double.valueOf(2000), ticketStatisticsByMonth.getAvgTicketPrice());
         assertEquals(Double.valueOf(1000), ticketStatisticsByMonth.getPercentile10());

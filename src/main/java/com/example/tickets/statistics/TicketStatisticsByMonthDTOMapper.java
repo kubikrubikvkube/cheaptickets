@@ -3,7 +3,9 @@ package com.example.tickets.statistics;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring")
+import static org.mapstruct.ReportingPolicy.IGNORE;
+
+@Mapper(componentModel = "spring", unmappedTargetPolicy = IGNORE)
 public interface TicketStatisticsByMonthDTOMapper {
     TicketStatisticsByMonthDTOMapper INSTANCE = Mappers.getMapper(TicketStatisticsByMonthDTOMapper.class);
 
