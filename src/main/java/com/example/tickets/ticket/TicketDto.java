@@ -32,12 +32,12 @@ public class TicketDto {
      * Дата отправления.
      */
 
-    @JsonProperty("depart_date")
+    @JsonProperty("departDate")
     private LocalDate departDate;
     /**
      * Дата возвращения.
      */
-    @JsonProperty("return_date")
+    @JsonProperty("returnDate")
     private LocalDate returnDate;
     /**
      * Количество пересадок.

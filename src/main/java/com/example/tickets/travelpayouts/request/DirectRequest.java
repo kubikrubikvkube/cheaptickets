@@ -1,7 +1,9 @@
 package com.example.tickets.travelpayouts.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Value;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
 
@@ -14,7 +16,6 @@ import java.time.LocalDate;
 @Value
 @Builder
 public class DirectRequest {
-    public static final String BASE_URL = "http://api.travelpayouts.com/v1/prices/direct";
     /**
      * Валюта цен на билеты. Значение по умолчанию — rub.
      */
@@ -31,23 +32,28 @@ public class DirectRequest {
     /**
      * Месяц вылета (YYYY-MM) или день вылета (YYYY-MM-DD)
      */
-    private LocalDate depart_date;
+    @JsonProperty("departDate")
+    private LocalDate departDate;
 
     /**
      * Месяц возвращения (YYYY-MM) или день возвращения (YYYY-MM-DD)
      */
-    private LocalDate return_date;
+    @JsonProperty("returnDate")
+    private LocalDate returnDate;
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(BASE_URL).append("?");
-        if (currency != null) sb.append("currency=").append(currency).append("&");
-        if (origin != null) sb.append("origin=").append(origin).append("&");
-        if (destination != null) sb.append("destination=").append(destination).append("&");
-        if (depart_date != null) sb.append("departDate=").append(depart_date).append("&");
-        if (return_date != null) sb.append("returnDate=").append(return_date).append("&");
-        sb.deleteCharAt(sb.lastIndexOf("&"));
-        return sb.toString();
+        UriComponentsBuilder queryBuilder = UriComponentsBuilder.newInstance()
+                .scheme("http")
+                .host("api.travelpayouts.com")
+                .path("/v1/prices/direct");
+
+        if (currency != null) queryBuilder.queryParam(currency);
+        if (origin != null) queryBuilder.queryParam(origin);
+        if (destination != null) queryBuilder.queryParam(destination);
+        if (departDate != null) queryBuilder.queryParam(departDate.toString());
+        if (returnDate != null) queryBuilder.queryParam(returnDate.toString());
+
+        return queryBuilder.build(true).toUriString();
     }
 }

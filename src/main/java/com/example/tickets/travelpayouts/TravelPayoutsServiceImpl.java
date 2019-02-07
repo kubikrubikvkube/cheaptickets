@@ -102,8 +102,8 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
                 String expiresAt = rawTicket.get("expires_at").textValue().replaceAll("\"", "");
                 ticketDto.setOrigin(request.getOrigin());
                 ticketDto.setDestination(request.getDestination());
-                ticketDto.setDepartDate(request.getDepart_date());
-                ticketDto.setReturnDate(request.getReturn_date());
+                ticketDto.setDepartDate(request.getDepartDate());
+                ticketDto.setReturnDate(request.getReturnDate());
                 ticketDto.setValue(Integer.valueOf(price));
                 ticketDto.setAirline(airLine);
                 ticketDto.setFlightNumber(flightNumber);
