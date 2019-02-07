@@ -6,6 +6,7 @@ import com.example.tickets.owner.Owner;
 import com.example.tickets.owner.OwnerService;
 import com.example.tickets.subscription.*;
 import com.example.tickets.util.ServiceException;
+import com.example.tickets.web.commandobjects.SubscriptionDtoCommandObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +41,7 @@ public class MainController {
     @GetMapping("/main")
     public String main(HttpSession httpSession, Model model) {
         model.addAttribute("lastSavedSubscription", null);
-        model.addAttribute("subscriptionDto", new SubscriptionDto());
+        model.addAttribute("subscriptionDto", new SubscriptionDtoCommandObject());
         return MAIN_PAGE;
     }
 
@@ -66,8 +67,8 @@ public class MainController {
     }
 
     @PostMapping("/main/deleteSubscription")
-    public RedirectView deleteSubscription(HttpSession session, @ModelAttribute SubscriptionDto subscriptionDto, Model model) {
-        Optional<Subscription> subscriptionOptional = subscriptionService.find(subscriptionDto);
+    public RedirectView deleteSubscription(HttpSession session, @ModelAttribute SubscriptionDtoCommandObject subscriptionDto, Model model) {
+        Optional<Subscription> subscriptionOptional = subscriptionService.find(subscriptionDto.getId());
         if (subscriptionOptional.isPresent()) {
             Subscription subscription = subscriptionOptional.get();
             Long subscriptionId = subscription.getId();
