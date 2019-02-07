@@ -56,7 +56,7 @@ public class AviasalesServiceImpl implements AviasalesService {
         tickerPrices.forEach(rawTicket -> {
             rawTicket.setOrigin(originIAT);
             rawTicket.setDestination(destinationIAT);
-            rawTicket.setDepart_date(date);
+            rawTicket.setDepartDate(date);
 
         });
         return tickerPrices

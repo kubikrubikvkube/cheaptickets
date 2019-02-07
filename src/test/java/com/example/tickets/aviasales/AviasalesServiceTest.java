@@ -32,14 +32,14 @@ public class AviasalesServiceTest {
                 "   \"ttl\":1547130970,\n" +
                 "   \"trip_class\":0,\n" +
                 "   \"show_to_affiliates\":false,\n" +
-                "   \"return_date\":\"2019-05-19\",\n" +
+                "   \"returnDate\":\"2019-05-19\",\n" +
                 "   \"origin\":\"LED\",\n" +
                 "   \"number_of_changes\":1,\n" +
                 "   \"gate\":\"Trip.ru\",\n" +
                 "   \"found_at\":\"2019-01-08T14:36:10\",\n" +
                 "   \"distance\":0,\n" +
                 "   \"destination\":\"SYZ\",\n" +
-                "   \"depart_date\":\"2019-05-17\",\n" +
+                "   \"departDate\":\"2019-05-17\",\n" +
                 "   \"created_at\":1546958170,\n" +
                 "   \"actual\":true\n" +
                 "}", ObjectNode.class);

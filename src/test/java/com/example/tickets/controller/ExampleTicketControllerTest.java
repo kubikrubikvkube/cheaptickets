@@ -48,8 +48,8 @@ public class ExampleTicketControllerTest {
         TicketDTO dto = new TicketDTO();
         dto.setOrigin("LED");
         dto.setDestination("MOW");
-        dto.setDepart_date(date);
-        dto.setDepart_time(time);
+        dto.setDepartDate(date);
+        dto.setDepartTime(time);
         dto.setValue(value);
         t = mapper.fromDTO(dto);
         ticketRepository.save(t);

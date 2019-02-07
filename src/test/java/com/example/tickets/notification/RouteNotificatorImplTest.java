@@ -62,8 +62,8 @@ class RouteNotificatorImplTest {
         route = routesService.save(routeDTO);
 
         TicketDTO departTicketDTO = new TicketDTO();
-        departTicketDTO.setDepart_date(LocalDate.now());
-        departTicketDTO.setNumber_of_changes(0);
+        departTicketDTO.setDepartDate(LocalDate.now());
+        departTicketDTO.setNumberOfChanges(0);
         departTicketDTO.setOrigin("LED");
         departTicketDTO.setDestination("MOW");
         departTicketDTO.setValue(999);
@@ -73,8 +73,8 @@ class RouteNotificatorImplTest {
         TicketDTO returnTicketDTO = new TicketDTO();
         returnTicketDTO.setOrigin("MOW");
         returnTicketDTO.setDestination("LED");
-        returnTicketDTO.setDepart_date(LocalDate.now().plusDays(2));
-        returnTicketDTO.setNumber_of_changes(0);
+        returnTicketDTO.setDepartDate(LocalDate.now().plusDays(2));
+        returnTicketDTO.setNumberOfChanges(0);
         returnTicketDTO.setValue(1000);
         Ticket savedReturnTicket = ticketService.save(returnTicketDTO);
         route.setReturnTicket(savedReturnTicket);

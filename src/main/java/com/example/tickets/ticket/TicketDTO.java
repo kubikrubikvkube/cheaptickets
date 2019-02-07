@@ -1,5 +1,6 @@
 package com.example.tickets.ticket;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -30,15 +31,19 @@ public class TicketDTO {
     /**
      * Дата отправления.
      */
-    private LocalDate depart_date;
+
+    @JsonProperty("depart_date")
+    private LocalDate departDate;
     /**
      * Дата возвращения.
      */
-    private LocalDate return_date;
+    @JsonProperty("return_date")
+    private LocalDate returnDate;
     /**
      * Количество пересадок.
      */
-    private Integer number_of_changes;
+    @JsonProperty("number_of_changes")
+    private Integer numberOfChanges;
     /**
      * Стоимость перелета, в указанной валюте.
      */
@@ -46,7 +51,8 @@ public class TicketDTO {
     /**
      * Время и дата, когда был найден билет.
      */
-    private LocalDateTime found_at;
+    @JsonProperty("found_at")
+    private LocalDateTime foundAt;
     /**
      * Расстояние между пунктом вылета и назначения.
      */
@@ -71,12 +77,14 @@ public class TicketDTO {
     /**
      * Время отправления.
      */
-    private LocalTime depart_time;
+    @JsonProperty("depart_time")
+    private LocalTime departTime;
 
     /**
      * Номер рейса
      */
-    private String flight_number;
+    @JsonProperty("flight_number")
+    private String flightNumber;
 
     /**
      * TimeToLive in milliseconds
@@ -87,15 +95,18 @@ public class TicketDTO {
     /**
      * Время истекания срока действия билета
      */
-    private LocalDateTime expires_at;
+    @JsonProperty("expires_at")
+    private LocalDateTime expiresAt;
 
     /**
      * Время, когда билет был отдан пользователю через API (?)
      */
-    private Long created_at;
+    @JsonProperty("created_at")
+    private Long createdAt;
 
     /**
      * Помечен ли билет как expires
      */
-    private Boolean is_expired;
+    @JsonProperty("is_expired")
+    private Boolean isExpired;
 }

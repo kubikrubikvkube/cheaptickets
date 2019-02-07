@@ -45,8 +45,8 @@ public class DirectRequest {
         if (currency != null) sb.append("currency=").append(currency).append("&");
         if (origin != null) sb.append("origin=").append(origin).append("&");
         if (destination != null) sb.append("destination=").append(destination).append("&");
-        if (depart_date != null) sb.append("depart_date=").append(depart_date).append("&");
-        if (return_date != null) sb.append("return_date=").append(return_date).append("&");
+        if (depart_date != null) sb.append("departDate=").append(depart_date).append("&");
+        if (return_date != null) sb.append("returnDate=").append(return_date).append("&");
         sb.deleteCharAt(sb.lastIndexOf("&"));
         return sb.toString();
     }
