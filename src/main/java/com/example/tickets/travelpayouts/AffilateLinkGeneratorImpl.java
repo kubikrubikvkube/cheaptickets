@@ -38,8 +38,8 @@ public class AffilateLinkGeneratorImpl implements AffilateLinkGenerator {
 
         queryBuilder.queryParam("origin_iata", route.getOrigin());
         queryBuilder.queryParam("destination_iata", route.getDestination());
-        queryBuilder.queryParam("departDate", route.getDepartTicket().getDepartDate());
-        queryBuilder.queryParam("returnDate", route.getReturnTicket().getDepartDate());
+        queryBuilder.queryParam("depart_date", route.getDepartTicket().getDepartDate());
+        queryBuilder.queryParam("return_date", route.getReturnTicket().getDepartDate());
         queryBuilder.queryParam("with_request", true);
         queryBuilder.queryParam("marker", marker);
 

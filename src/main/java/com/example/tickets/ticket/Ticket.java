@@ -1,5 +1,6 @@
 package com.example.tickets.ticket;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -53,6 +54,7 @@ public class Ticket {
     /**
      * Дата отправления.
      */
+    @JsonProperty("depart_date")
     private LocalDate departDate;
     /**
      * Время отправления.

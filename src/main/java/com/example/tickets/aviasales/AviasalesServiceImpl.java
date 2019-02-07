@@ -8,6 +8,7 @@ import com.example.tickets.util.DefaultHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -33,14 +34,19 @@ public class AviasalesServiceImpl implements AviasalesService {
 
     @Override
     public List<Ticket> getOneWayTicket(String originIAT, String destinationIAT, LocalDate date, int range) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("https://lyssa.aviasales.ru/price_matrix?");
-        sb.append("origin_iata=").append(originIAT).append("&");
-        sb.append("destination_iata=").append(destinationIAT).append("&");
-        sb.append("depart_start=").append(date).append("&");
-        sb.append("depart_range=").append(range).append("&");
-        sb.append("affiliate=true");
-        var request = sb.toString();
+        UriComponentsBuilder queryBuilder = UriComponentsBuilder.newInstance()
+                .scheme("https")
+                .host("lyssa.aviasales.ru")
+                .path("/price_matrix");
+
+        queryBuilder.queryParam("origin_iata", originIAT);
+        queryBuilder.queryParam("destination_iata", destinationIAT);
+        queryBuilder.queryParam("depart_start", date);
+        queryBuilder.queryParam("depart_range", range);
+        queryBuilder.queryParam("affiliate", true);
+
+        var request = queryBuilder.build(true).toUriString();
+
         log.trace("Aviasales one-way ticket request: {}", request);
         AviasalesResponse response;
         try {

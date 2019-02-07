@@ -32,13 +32,13 @@ public class DirectRequest {
     /**
      * Месяц вылета (YYYY-MM) или день вылета (YYYY-MM-DD)
      */
-    @JsonProperty("departDate")
+    @JsonProperty("depart_date")
     private LocalDate departDate;
 
     /**
      * Месяц возвращения (YYYY-MM) или день возвращения (YYYY-MM-DD)
      */
-    @JsonProperty("returnDate")
+    @JsonProperty("return_date")
     private LocalDate returnDate;
 
     @Override
