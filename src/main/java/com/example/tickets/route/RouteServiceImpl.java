@@ -17,12 +17,12 @@ import java.util.stream.Collectors;
 @Transactional
 public class RouteServiceImpl implements RouteService {
     private final Logger log = LoggerFactory.getLogger(RouteServiceImpl.class);
-    private final RouteDTOMapper mapper;
+    private final RouteDtoMapper mapper;
     private final RouteRepository repository;
     private final RoutePlanner routePlanner;
     private final ExampleMatcher exampleMatcher;
 
-    public RouteServiceImpl(RouteDTOMapper mapper, RouteRepository repository, RoutePlanner routePlanner) {
+    public RouteServiceImpl(RouteDtoMapper mapper, RouteRepository repository, RoutePlanner routePlanner) {
         this.mapper = mapper;
         this.repository = repository;
         this.routePlanner = routePlanner;
@@ -30,21 +30,21 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public Route save(RouteDTO dto) {
-        Route route = mapper.fromDTO(dto);
+    public Route save(RouteDto dto) {
+        Route route = mapper.fromDto(dto);
         return repository.save(route);
     }
 
     @Override
-    public List<Route> save(List<RouteDTO> routeDTOS) {
-        List<Route> routes = mapper.fromDTO(routeDTOS);
+    public List<Route> save(List<RouteDto> routeDtos) {
+        List<Route> routes = mapper.fromDto(routeDtos);
         Iterable<Route> savedRoutes = repository.saveAll(routes);
         return Lists.newArrayList(savedRoutes);
     }
 
     @Override
-    public List<Route> saveIfNotExist(List<RouteDTO> routeDTOS) {
-        List<Route> routes = mapper.fromDTO(routeDTOS);
+    public List<Route> saveIfNotExist(List<RouteDto> routeDtos) {
+        List<Route> routes = mapper.fromDto(routeDtos);
         List<Route> savedRoutes = new ArrayList<>();
         for (Route route : routes) {
             var example = Example.of(route, exampleMatcher);
@@ -63,7 +63,7 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public List<RouteDTO> plan(Subscription subscription) {
+    public List<RouteDto> plan(Subscription subscription) {
         return routePlanner.plan(subscription);
     }
 

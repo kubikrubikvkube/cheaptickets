@@ -16,7 +16,7 @@ public interface SubscriptionService {
 
     List<Subscription> get(String ownerEmail);
 
-    Optional<Subscription> find(SubscriptionDTO dto);
+    Optional<Subscription> find(SubscriptionDto dto);
 
     Optional<Subscription> find(Long id);
 
@@ -32,7 +32,7 @@ public interface SubscriptionService {
 
     long count();
 
-    Subscription save(SubscriptionDTO subscriptionDTO);
+    Subscription save(SubscriptionDto subscriptionDto);
 
-    Subscription save(Subscription subscriptionDTO);
+    Subscription save(Subscription subscriptionDto);
 }

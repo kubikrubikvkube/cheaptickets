@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Data
-public class TicketDTO {
+public class TicketDto {
     /**
      * Класс перелёта (только 0 — Эконом);
      */
@@ -66,7 +66,7 @@ public class TicketDTO {
      */
     private String gate;
     /**
-     * IATA код авиакомпании, выполняющей перелет.
+     * Iata код авиакомпании, выполняющей перелет.
      */
     private String airline;
     /**

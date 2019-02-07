@@ -8,8 +8,8 @@ import java.util.List;
 import static org.mapstruct.ReportingPolicy.IGNORE;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = IGNORE)
-public interface CheapTicketDTOMapper {
-    TicketDTOMapper INSTANCE = Mappers.getMapper(TicketDTOMapper.class);
+public interface CheapTicketDtoMapper {
+    TicketDtoMapper INSTANCE = Mappers.getMapper(TicketDtoMapper.class);
 
     Ticket toTicket(CheapTicket cheapTicket);
 

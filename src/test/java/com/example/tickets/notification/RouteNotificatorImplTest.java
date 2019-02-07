@@ -1,17 +1,17 @@
 package com.example.tickets.notification;
 
 import com.example.tickets.owner.Owner;
-import com.example.tickets.owner.OwnerDTO;
+import com.example.tickets.owner.OwnerDto;
 import com.example.tickets.owner.OwnerService;
 import com.example.tickets.route.Route;
-import com.example.tickets.route.RouteDTO;
+import com.example.tickets.route.RouteDto;
 import com.example.tickets.route.RouteService;
 import com.example.tickets.subscription.Subscription;
-import com.example.tickets.subscription.SubscriptionDTO;
+import com.example.tickets.subscription.SubscriptionDto;
 import com.example.tickets.subscription.SubscriptionService;
 import com.example.tickets.subscription.SubscriptionType;
 import com.example.tickets.ticket.Ticket;
-import com.example.tickets.ticket.TicketDTO;
+import com.example.tickets.ticket.TicketDto;
 import com.example.tickets.ticket.TicketService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,50 +52,50 @@ class RouteNotificatorImplTest {
 
     @BeforeEach
     void setUp() {
-        OwnerDTO ownerDTO = new OwnerDTO();
-        ownerDTO.setEmail("v.raskulin@gmail.com");
-        owner = ownerService.save(ownerDTO);
+        OwnerDto ownerDto = new OwnerDto();
+        ownerDto.setEmail("v.raskulin@gmail.com");
+        owner = ownerService.save(ownerDto);
 
-        RouteDTO routeDTO = new RouteDTO();
-        routeDTO.setOrigin("LED");
-        routeDTO.setDestination("MOW");
-        route = routesService.save(routeDTO);
+        RouteDto routeDto = new RouteDto();
+        routeDto.setOrigin("LED");
+        routeDto.setDestination("MOW");
+        route = routesService.save(routeDto);
 
-        TicketDTO departTicketDTO = new TicketDTO();
-        departTicketDTO.setDepartDate(LocalDate.now());
-        departTicketDTO.setNumberOfChanges(0);
-        departTicketDTO.setOrigin("LED");
-        departTicketDTO.setDestination("MOW");
-        departTicketDTO.setValue(999);
-        Ticket savedDepartTicket = ticketService.save(departTicketDTO);
+        TicketDto departTicketDto = new TicketDto();
+        departTicketDto.setDepartDate(LocalDate.now());
+        departTicketDto.setNumberOfChanges(0);
+        departTicketDto.setOrigin("LED");
+        departTicketDto.setDestination("MOW");
+        departTicketDto.setValue(999);
+        Ticket savedDepartTicket = ticketService.save(departTicketDto);
         route.setDepartTicket(savedDepartTicket);
 
-        TicketDTO returnTicketDTO = new TicketDTO();
-        returnTicketDTO.setOrigin("MOW");
-        returnTicketDTO.setDestination("LED");
-        returnTicketDTO.setDepartDate(LocalDate.now().plusDays(2));
-        returnTicketDTO.setNumberOfChanges(0);
-        returnTicketDTO.setValue(1000);
-        Ticket savedReturnTicket = ticketService.save(returnTicketDTO);
+        TicketDto returnTicketDto = new TicketDto();
+        returnTicketDto.setOrigin("MOW");
+        returnTicketDto.setDestination("LED");
+        returnTicketDto.setDepartDate(LocalDate.now().plusDays(2));
+        returnTicketDto.setNumberOfChanges(0);
+        returnTicketDto.setValue(1000);
+        Ticket savedReturnTicket = ticketService.save(returnTicketDto);
         route.setReturnTicket(savedReturnTicket);
 
         route.setTripDurationInDays(2);
         route.setSumValue(1999);
 
-        RouteNotificationDTO routeNotificationDTO = new RouteNotificationDTO();
-        routeNotification = routeNotificationService.save(routeNotificationDTO);
+        RouteNotificationDto routeNotificationDto = new RouteNotificationDto();
+        routeNotification = routeNotificationService.save(routeNotificationDto);
         routeNotification.setRoute(route);
 
-        SubscriptionDTO subscriptionDTO = new SubscriptionDTO();
-        subscriptionDTO.setOrigin("LED");
-        subscriptionDTO.setDestination("MOW");
-        subscriptionDTO.setSubscriptionType(SubscriptionType.DESTINATION_TRIP_DURATION_FROM_TRIP_DURATION_TO);
-        subscriptionDTO.setTripDurationInDaysFrom(1);
-        subscriptionDTO.setTripDurationInDaysTo(2);
-        subscriptionDTO.setOwner(owner);
-//        subscriptionDTO.setRouteNotifications(Collections.singletonList(routeNotification));
+        SubscriptionDto subscriptionDto = new SubscriptionDto();
+        subscriptionDto.setOrigin("LED");
+        subscriptionDto.setDestination("MOW");
+        subscriptionDto.setSubscriptionType(SubscriptionType.DESTINATION_TRIP_DURATION_FROM_TRIP_DURATION_TO);
+        subscriptionDto.setTripDurationInDaysFrom(1);
+        subscriptionDto.setTripDurationInDaysTo(2);
+        subscriptionDto.setOwner(owner);
+//        subscriptionDto.setRouteNotifications(Collections.singletonList(routeNotification));
 
-        subscription = subscriptionService.save(subscriptionDTO);
+        subscription = subscriptionService.save(subscriptionDto);
         routeNotification.setSubscription(subscription);
         routeNotificationService.save(routeNotification);
 

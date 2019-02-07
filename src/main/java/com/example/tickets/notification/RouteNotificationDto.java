@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class RouteNotificationDTO {
+public class RouteNotificationDto {
     Route route;
     private Subscription subscription;
 }

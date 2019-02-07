@@ -1,10 +1,10 @@
 package com.example.tickets.web.controller;
 
-import com.example.tickets.iata.IATA;
+import com.example.tickets.iata.Iata;
 import com.example.tickets.iata.IataService;
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionService;
-import com.example.tickets.web.commandobjects.SubscriptionDTOCO;
+import com.example.tickets.web.commandobjects.SubscriptionDtoCommandObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,24 +27,24 @@ public class SubscriptionController {
 
     @GetMapping("/admin/subscription")
     public String subscriptionPage(Model model) {
-        model.addAttribute(new SubscriptionDTOCO());
+        model.addAttribute(new SubscriptionDtoCommandObject());
         return SUBSCRIPTION_PAGE;
     }
 
     @PostMapping("/admin/subscription/add")
-    public String subscriptionAdd(@ModelAttribute SubscriptionDTOCO subscriptionDTOCO) {
-        IATA originIATA = iataService.fromPlaceName(subscriptionDTOCO.getOriginName());
-        IATA destinationIATA = iataService.fromPlaceName(subscriptionDTOCO.getDestinationName());
+    public String subscriptionAdd(@ModelAttribute SubscriptionDtoCommandObject subscriptionDtoCommandObject) {
+        Iata originIata = iataService.fromPlaceName(subscriptionDtoCommandObject.getOriginName());
+        Iata destinationIata = iataService.fromPlaceName(subscriptionDtoCommandObject.getDestinationName());
 
-        subscriptionDTOCO.setOrigin(originIATA.getCode());
-        subscriptionDTOCO.setDestination(destinationIATA.getCode());
-        subscriptionService.save(subscriptionDTOCO);
+        subscriptionDtoCommandObject.setOrigin(originIata.getCode());
+        subscriptionDtoCommandObject.setDestination(destinationIata.getCode());
+        subscriptionService.save(subscriptionDtoCommandObject);
         return SUBSCRIPTION_PAGE;
     }
 
     @PostMapping("/admin/subscription/delete")
-    public String subscriptionDelete(@ModelAttribute SubscriptionDTOCO subscriptionDTOCO) {
-        Long id = subscriptionDTOCO.getId();
+    public String subscriptionDelete(@ModelAttribute SubscriptionDtoCommandObject subscriptionDtoCommandObject) {
+        Long id = subscriptionDtoCommandObject.getId();
         Optional<Subscription> subscriptionOptional = subscriptionService.find(id);
         if (subscriptionOptional.isPresent()) {
             subscriptionService.delete(id);

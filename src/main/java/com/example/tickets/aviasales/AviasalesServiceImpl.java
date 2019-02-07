@@ -2,8 +2,8 @@ package com.example.tickets.aviasales;
 
 
 import com.example.tickets.ticket.Ticket;
-import com.example.tickets.ticket.TicketDTO;
-import com.example.tickets.ticket.TicketDTOMapper;
+import com.example.tickets.ticket.TicketDto;
+import com.example.tickets.ticket.TicketDtoMapper;
 import com.example.tickets.util.DefaultHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,10 +23,10 @@ import java.util.stream.Collectors;
 public class AviasalesServiceImpl implements AviasalesService {
     private final Logger log = LoggerFactory.getLogger(AviasalesServiceImpl.class);
     private final DefaultHttpClient<AviasalesResponse> defaultHttpClient;
-    private final TicketDTOMapper mapper;
+    private final TicketDtoMapper mapper;
     private final int WAIT_TIMEOUTS = 5;
 
-    public AviasalesServiceImpl(DefaultHttpClient<AviasalesResponse> defaultHttpClient, TicketDTOMapper mapper) {
+    public AviasalesServiceImpl(DefaultHttpClient<AviasalesResponse> defaultHttpClient, TicketDtoMapper mapper) {
         this.defaultHttpClient = defaultHttpClient;
         this.mapper = mapper;
     }
@@ -51,7 +51,7 @@ public class AviasalesServiceImpl implements AviasalesService {
             return Collections.emptyList();
         }
         log.trace("Aviasales one-way ticket response: {}", response);
-        List<TicketDTO> tickerPrices = response.getPrices();
+        List<TicketDto> tickerPrices = response.getPrices();
         log.trace("Aviasales one-way ticket response size: {}", tickerPrices.size());
         tickerPrices.forEach(rawTicket -> {
             rawTicket.setOrigin(originIAT);
@@ -61,7 +61,7 @@ public class AviasalesServiceImpl implements AviasalesService {
         });
         return tickerPrices
                 .stream()
-                .map(mapper::fromDTO)
+                .map(mapper::fromDto)
                 .collect(Collectors.toList());
 
 

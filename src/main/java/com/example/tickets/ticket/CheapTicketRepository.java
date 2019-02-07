@@ -1,7 +1,7 @@
 package com.example.tickets.ticket;
 
 import com.example.tickets.subscription.Subscription;
-import com.example.tickets.subscription.SubscriptionDTO;
+import com.example.tickets.subscription.SubscriptionDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -24,8 +24,8 @@ public interface CheapTicketRepository extends JpaRepository<CheapTicket, Long> 
     @Query("select t from CheapTicket t where t.isExpired is null")
     List<CheapTicket> findTicketsWithUnknownExpirationStatus();
 
-    @Query("select t from CheapTicket t where t.origin = :#{#subscriptionDTO.origin} and t.destination = :#{#subscriptionDTO.destination}")
-    List<CheapTicket> findBySubscription(SubscriptionDTO subscriptionDTO);
+    @Query("select t from CheapTicket t where t.origin = :#{#subscriptionDto.origin} and t.destination = :#{#subscriptionDto.destination}")
+    List<CheapTicket> findBySubscription(SubscriptionDto subscriptionDto);
 
     @Query("select t from CheapTicket t where t.origin = :#{#subscription.origin} and t.destination = :#{#subscription.destination}")
     List<CheapTicket> findBySubscription(Subscription subscription);

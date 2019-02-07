@@ -1,7 +1,7 @@
 package com.example.tickets.ticket;
 
 import com.example.tickets.subscription.Subscription;
-import com.example.tickets.subscription.SubscriptionDTO;
+import com.example.tickets.subscription.SubscriptionDto;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
@@ -78,11 +78,11 @@ public class CheapTicketServiceImpl implements CheapTicketService {
     }
 
     @Override
-    public List<CheapTicket> findBySubscription(SubscriptionDTO subscriptionDTO) {
-        if (subscriptionDTO == null) {
+    public List<CheapTicket> findBySubscription(SubscriptionDto subscriptionDto) {
+        if (subscriptionDto == null) {
             return Collections.emptyList();
         }
-        return repository.findBySubscription(subscriptionDTO);
+        return repository.findBySubscription(subscriptionDto);
     }
 
     @Override

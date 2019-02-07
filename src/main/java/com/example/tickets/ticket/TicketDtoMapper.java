@@ -6,11 +6,11 @@ import org.mapstruct.factory.Mappers;
 import static org.mapstruct.ReportingPolicy.IGNORE;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = IGNORE)
-public interface TicketDTOMapper {
+public interface TicketDtoMapper {
 
-    TicketDTOMapper INSTANCE = Mappers.getMapper(TicketDTOMapper.class);
+    TicketDtoMapper INSTANCE = Mappers.getMapper(TicketDtoMapper.class);
 
-    TicketDTO toDTO(Ticket source);
+    TicketDto toDto(Ticket source);
 
-    Ticket fromDTO(TicketDTO destination);
+    Ticket fromDto(TicketDto destination);
 }

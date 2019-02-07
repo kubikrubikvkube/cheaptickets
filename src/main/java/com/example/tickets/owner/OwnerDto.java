@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class OwnerDTO {
+public class OwnerDto {
     private String email;
     private List<Subscription> subscriptions;
 }

@@ -3,7 +3,7 @@ package com.example.tickets.stages.stage;
 import com.example.tickets.owner.Owner;
 import com.example.tickets.statistics.TicketStatistics;
 import com.example.tickets.statistics.TicketStatisticsByMonth;
-import com.example.tickets.statistics.TicketStatisticsByMonthDTOMapper;
+import com.example.tickets.statistics.TicketStatisticsByMonthDtoMapper;
 import com.example.tickets.statistics.TicketStatisticsService;
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionService;
@@ -40,7 +40,7 @@ class TicketStatisticsUpdaterStageTest {
     @SpyBean
     private SubscriptionService subscriptionService;
     @SpyBean
-    private TicketStatisticsByMonthDTOMapper dtoMapper;
+    private TicketStatisticsByMonthDtoMapper dtoMapper;
 
     @BeforeAll
     static void setUp() {

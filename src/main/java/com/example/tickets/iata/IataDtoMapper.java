@@ -8,14 +8,14 @@ import java.util.List;
 import static org.mapstruct.ReportingPolicy.IGNORE;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = IGNORE)
-public interface IATADTOMapper {
-    IATADTOMapper INSTANCE = Mappers.getMapper(IATADTOMapper.class);
+public interface IataDtoMapper {
+    IataDtoMapper INSTANCE = Mappers.getMapper(IataDtoMapper.class);
 
-    IATADTO toDTO(IATA route);
+    IataDto toDto(Iata route);
 
-    IATA fromDTO(IATADTO dto);
+    Iata fromDto(IataDto dto);
 
-    List<IATADTO> toDTO(List<IATA> iata);
+    List<IataDto> toDto(List<Iata> iata);
 
-    List<IATA> fromDTO(List<IATADTO> dto);
+    List<Iata> fromDto(List<IataDto> dto);
 }

@@ -1,6 +1,6 @@
 package com.example.tickets.util;
 
-import com.example.tickets.iata.IATARepository;
+import com.example.tickets.iata.IataRepository;
 import com.example.tickets.notification.RouteNotification;
 import com.example.tickets.owner.Owner;
 import com.example.tickets.route.Route;
@@ -18,7 +18,7 @@ import java.util.List;
 @SpringBootTest
 class EmailServiceImplTest {
     @Autowired
-    IATARepository iataRepository;
+    IataRepository iataRepository;
 
     @Autowired
     EmailService emailService;

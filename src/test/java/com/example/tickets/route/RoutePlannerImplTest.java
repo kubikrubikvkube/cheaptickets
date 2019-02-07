@@ -58,16 +58,16 @@ class RoutePlannerImplTest {
         when(cheapTicketService.findByOriginAndDestinationAndDepartDate(origin, destination, returnDate)).thenReturn(List.of(cheapReturnTicket, expensiveReturnTicket));
 
         RoutePlanner routePlanner = new RoutePlannerImpl(cheapTicketService);
-        List<RouteDTO> routesList = routePlanner.plan(subscription);
+        List<RouteDto> routesList = routePlanner.plan(subscription);
         assertThat(routesList, hasSize(1));
-        RouteDTO routeDTO = routesList.get(0);
-        assertEquals(origin, routeDTO.getOrigin());
-        assertEquals(destination, routeDTO.getDestination());
-        assertEquals(departTicket, routeDTO.getDepartTicket());
-        assertEquals(cheapReturnTicket, routeDTO.getReturnTicket());
+        RouteDto routeDto = routesList.get(0);
+        assertEquals(origin, routeDto.getOrigin());
+        assertEquals(destination, routeDto.getDestination());
+        assertEquals(departTicket, routeDto.getDepartTicket());
+        assertEquals(cheapReturnTicket, routeDto.getReturnTicket());
         Integer expectedSum = departTicket.getValue() + cheapReturnTicket.getValue();
-        assertEquals(expectedSum, routeDTO.getSumValue());
-        assertEquals(tripDuration, routeDTO.getTripDurationInDays());
+        assertEquals(expectedSum, routeDto.getSumValue());
+        assertEquals(tripDuration, routeDto.getTripDurationInDays());
     }
 
     @Test
@@ -88,13 +88,13 @@ class RoutePlannerImplTest {
         when(cheapTicketService.findByOriginAndDestination(origin, destination)).thenReturn(List.of(departTicket));
 
         RoutePlanner routePlanner = new RoutePlannerImpl(cheapTicketService);
-        List<RouteDTO> routesList = routePlanner.plan(subscription);
+        List<RouteDto> routesList = routePlanner.plan(subscription);
         assertThat(routesList, hasSize(1));
-        RouteDTO routeDTO = routesList.get(0);
-        assertEquals(origin, routeDTO.getOrigin());
-        assertEquals(destination, routeDTO.getDestination());
-        assertEquals(departTicket, routeDTO.getDepartTicket());
-        assertEquals(ticketValue, routeDTO.getSumValue());
+        RouteDto routeDto = routesList.get(0);
+        assertEquals(origin, routeDto.getOrigin());
+        assertEquals(destination, routeDto.getDestination());
+        assertEquals(departTicket, routeDto.getDepartTicket());
+        assertEquals(ticketValue, routeDto.getSumValue());
     }
 
     @Test
@@ -121,16 +121,16 @@ class RoutePlannerImplTest {
         when(cheapTicketService.findByOriginAndDestination(origin, destination)).thenReturn(List.of(cheapDepartTicket, expensiveDepartTicket));
 
         RoutePlanner routePlanner = new RoutePlannerImpl(cheapTicketService);
-        List<RouteDTO> routesList = routePlanner.plan(subscription);
+        List<RouteDto> routesList = routePlanner.plan(subscription);
         assertThat(routesList, hasSize(2));
-        RouteDTO cheapRouteDTO = routesList.get(0);
-        RouteDTO expensiveRouteDTO = routesList.get(1);
-        assertEquals(origin, cheapRouteDTO.getOrigin());
-        assertEquals(destination, cheapRouteDTO.getDestination());
-        assertEquals(origin, expensiveRouteDTO.getOrigin());
-        assertEquals(destination, expensiveRouteDTO.getDestination());
-        assertEquals(cheapDepartTicket, cheapRouteDTO.getDepartTicket());
-        assertEquals(expensiveDepartTicket, expensiveRouteDTO.getDepartTicket());
+        RouteDto cheapRouteDto = routesList.get(0);
+        RouteDto expensiveRouteDto = routesList.get(1);
+        assertEquals(origin, cheapRouteDto.getOrigin());
+        assertEquals(destination, cheapRouteDto.getDestination());
+        assertEquals(origin, expensiveRouteDto.getOrigin());
+        assertEquals(destination, expensiveRouteDto.getDestination());
+        assertEquals(cheapDepartTicket, cheapRouteDto.getDepartTicket());
+        assertEquals(expensiveDepartTicket, expensiveRouteDto.getDepartTicket());
         assertEquals(ticketValue, cheapDepartTicket.getValue());
         assertEquals(expensiveTicketValue, expensiveDepartTicket.getValue());
     }
@@ -174,16 +174,16 @@ class RoutePlannerImplTest {
         when(cheapTicketService.findByOriginAndDestinationAndDepartDate(destination, origin, returnDate)).thenReturn(List.of(cheapReturnTicket, expensiveReturnTicket));
 
         RoutePlanner routePlanner = new RoutePlannerImpl(cheapTicketService);
-        List<RouteDTO> routesList = routePlanner.plan(subscription);
+        List<RouteDto> routesList = routePlanner.plan(subscription);
         assertThat(routesList, hasSize(4));
-        RouteDTO cheapestRouteDTO = routesList.get(0);
-        assertEquals(origin, cheapestRouteDTO.getOrigin());
-        assertEquals(destination, cheapestRouteDTO.getDestination());
-        assertEquals(cheapDepartTicket, cheapestRouteDTO.getDepartTicket());
-        assertEquals(cheapReturnTicket, cheapestRouteDTO.getReturnTicket());
-        assertEquals(Integer.valueOf(ticketValue + ticketValue), cheapestRouteDTO.getSumValue());
+        RouteDto cheapestRouteDto = routesList.get(0);
+        assertEquals(origin, cheapestRouteDto.getOrigin());
+        assertEquals(destination, cheapestRouteDto.getDestination());
+        assertEquals(cheapDepartTicket, cheapestRouteDto.getDepartTicket());
+        assertEquals(cheapReturnTicket, cheapestRouteDto.getReturnTicket());
+        assertEquals(Integer.valueOf(ticketValue + ticketValue), cheapestRouteDto.getSumValue());
         var expectedTripDuration = Integer.valueOf(departDate.until(returnDate).getDays());
-        assertEquals(expectedTripDuration, cheapestRouteDTO.getTripDurationInDays());
+        assertEquals(expectedTripDuration, cheapestRouteDto.getTripDurationInDays());
 
     }
 }

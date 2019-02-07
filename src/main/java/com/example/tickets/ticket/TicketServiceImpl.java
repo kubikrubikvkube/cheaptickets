@@ -27,9 +27,9 @@ public class TicketServiceImpl implements TicketService {
     private final TicketRepository repository;
     private final ObjectMapper mapper;
     private final ExampleMatcher exampleMatcher;
-    private final TicketDTOMapper dtoMapper;
+    private final TicketDtoMapper dtoMapper;
 
-    public TicketServiceImpl(TicketRepository repository, ObjectMapper mapper, TicketDTOMapper dtoMapper) {
+    public TicketServiceImpl(TicketRepository repository, ObjectMapper mapper, TicketDtoMapper dtoMapper) {
         this.repository = repository;
         this.mapper = mapper;
         this.dtoMapper = dtoMapper;
@@ -149,8 +149,8 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Ticket save(TicketDTO ticketDTO) {
-        Ticket ticket = dtoMapper.fromDTO(ticketDTO);
+    public Ticket save(TicketDto ticketDto) {
+        Ticket ticket = dtoMapper.fromDto(ticketDto);
         return save(ticket);
     }
 

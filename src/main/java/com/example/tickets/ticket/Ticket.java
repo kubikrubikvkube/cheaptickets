@@ -83,7 +83,7 @@ public class Ticket {
      */
     private String gate;
     /**
-     * IATA код авиакомпании, выполняющей перелет.
+     * Iata код авиакомпании, выполняющей перелет.
      */
     private String airline;
     /**

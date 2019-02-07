@@ -1,6 +1,6 @@
 package com.example.tickets.web.controller;
 
-import com.example.tickets.iata.IATA;
+import com.example.tickets.iata.Iata;
 import com.example.tickets.iata.IataService;
 import com.example.tickets.owner.Owner;
 import com.example.tickets.owner.OwnerService;
@@ -23,12 +23,12 @@ public class MainController {
     private final String LOGIN_PAGE = "login";
 
     private final SubscriptionService subscriptionService;
-    private final SubscriptionDTOMapper mapper;
+    private final SubscriptionDtoMapper mapper;
     private final SubscriptionTypeResolver typeResolver;
     private final OwnerService ownerService;
     private final IataService iataService;
 
-    public MainController(SubscriptionService subscriptionService, SubscriptionDTOMapper mapper, SubscriptionTypeResolver typeResolver, OwnerService ownerService, IataService iataService) {
+    public MainController(SubscriptionService subscriptionService, SubscriptionDtoMapper mapper, SubscriptionTypeResolver typeResolver, OwnerService ownerService, IataService iataService) {
         this.subscriptionService = subscriptionService;
         this.mapper = mapper;
         this.typeResolver = typeResolver;
@@ -40,34 +40,34 @@ public class MainController {
     @GetMapping("/main")
     public String main(HttpSession httpSession, Model model) {
         model.addAttribute("lastSavedSubscription", null);
-        model.addAttribute("subscriptionDTO", new SubscriptionDTO());
+        model.addAttribute("subscriptionDto", new SubscriptionDto());
         return MAIN_PAGE;
     }
 
     @PostMapping("/main/saveSubscription")
-    public RedirectView saveSubscription(HttpSession session, @ModelAttribute SubscriptionDTO subscriptionDTO, Model model) {
-        Optional<Owner> ownerOptional = (Optional<Owner>) session.getAttribute("ownerDTO");
+    public RedirectView saveSubscription(HttpSession session, @ModelAttribute SubscriptionDto subscriptionDto, Model model) {
+        Optional<Owner> ownerOptional = (Optional<Owner>) session.getAttribute("ownerDto");
         if (ownerOptional.isEmpty()) throw new ServiceException("Owner is not found in model");
         Owner owner = ownerOptional.get();
-        subscriptionDTO.setOwner(owner);
-        IATA originIATA = iataService.fromPlaceName(subscriptionDTO.getOriginName());
-        IATA destinationIATA = iataService.fromPlaceName(subscriptionDTO.getDestinationName());
+        subscriptionDto.setOwner(owner);
+        Iata originIata = iataService.fromPlaceName(subscriptionDto.getOriginName());
+        Iata destinationIata = iataService.fromPlaceName(subscriptionDto.getDestinationName());
 
-        subscriptionDTO.setOrigin(originIATA.getCode());
-        subscriptionDTO.setDestination(destinationIATA.getCode());
-        SubscriptionType subscriptionType = typeResolver.resolve(subscriptionDTO);
-        subscriptionDTO.setSubscriptionType(subscriptionType);
-        Optional<Subscription> foundSubscription = subscriptionService.find(subscriptionDTO);
+        subscriptionDto.setOrigin(originIata.getCode());
+        subscriptionDto.setDestination(destinationIata.getCode());
+        SubscriptionType subscriptionType = typeResolver.resolve(subscriptionDto);
+        subscriptionDto.setSubscriptionType(subscriptionType);
+        Optional<Subscription> foundSubscription = subscriptionService.find(subscriptionDto);
         if (foundSubscription.isEmpty()) {
-            Subscription savedSubscription = subscriptionService.save(subscriptionDTO);
+            Subscription savedSubscription = subscriptionService.save(subscriptionDto);
             model.addAttribute("lastSavedSubscription", savedSubscription);
         }
         return new RedirectView(MAIN_PAGE);
     }
 
     @PostMapping("/main/deleteSubscription")
-    public RedirectView deleteSubscription(HttpSession session, @ModelAttribute SubscriptionDTO subscriptionDTO, Model model) {
-        Optional<Subscription> subscriptionOptional = subscriptionService.find(subscriptionDTO);
+    public RedirectView deleteSubscription(HttpSession session, @ModelAttribute SubscriptionDto subscriptionDto, Model model) {
+        Optional<Subscription> subscriptionOptional = subscriptionService.find(subscriptionDto);
         if (subscriptionOptional.isPresent()) {
             Subscription subscription = subscriptionOptional.get();
             Long subscriptionId = subscription.getId();
@@ -78,7 +78,7 @@ public class MainController {
 
     @ModelAttribute("ownerSubscriptions")
     public List<Subscription> ownerSubscriptions(HttpSession httpSession) {
-        Optional<Owner> ownerOptional = (Optional<Owner>) httpSession.getAttribute("ownerDTO");
+        Optional<Owner> ownerOptional = (Optional<Owner>) httpSession.getAttribute("ownerDto");
         if (ownerOptional.isEmpty()) throw new ServiceException("Owner is not found in model");
         Owner owner = ownerOptional.get();
         return subscriptionService.get(owner.getEmail());

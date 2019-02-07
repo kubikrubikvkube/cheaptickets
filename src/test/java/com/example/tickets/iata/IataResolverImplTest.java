@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-class IATAResolverImplTest {
+class IataResolverImplTest {
 
 
     @Test
@@ -27,7 +27,7 @@ class IATAResolverImplTest {
         when(mock.getJsonResponseWithoutHeaders(request)).thenReturn(CompletableFuture.completedFuture(jsonNode));
 
         var expectedResponse = "MOW";
-        IATAResolver iataResolver = new IATAResolverImpl(mock);
+        IataResolver iataResolver = new IataResolverImpl(mock);
         String result = iataResolver.resolve("масква");
         assertEquals(expectedResponse, result);
     }

@@ -1,8 +1,8 @@
 package com.example.tickets.controller;
 
 import com.example.tickets.ticket.Ticket;
-import com.example.tickets.ticket.TicketDTO;
-import com.example.tickets.ticket.TicketDTOMapper;
+import com.example.tickets.ticket.TicketDto;
+import com.example.tickets.ticket.TicketDtoMapper;
 import com.example.tickets.ticket.TicketRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,19 +39,19 @@ public class ExampleTicketControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private TicketDTOMapper mapper;
+    private TicketDtoMapper mapper;
 
     private Ticket t;
 
     @BeforeEach
     public void setUp() {
-        TicketDTO dto = new TicketDTO();
+        TicketDto dto = new TicketDto();
         dto.setOrigin("LED");
         dto.setDestination("MOW");
         dto.setDepartDate(date);
         dto.setDepartTime(time);
         dto.setValue(value);
-        t = mapper.fromDTO(dto);
+        t = mapper.fromDto(dto);
         ticketRepository.save(t);
     }
 

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "iata", indexes = {@Index(name = "idx_iata", columnList = "id,place")})
-public class IATA {
+public class Iata {
     @Id
     @GeneratedValue
     private Long id;

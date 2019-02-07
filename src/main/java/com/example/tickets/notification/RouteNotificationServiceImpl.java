@@ -5,17 +5,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class RouteNotificationServiceImpl implements RouteNotificationService {
     private final RouteNotificationRepository repository;
-    private final RouteNotificationDTOMapper notificationDTOMapper;
+    private final RouteNotificationDtoMapper notificationDtoMapper;
 
 
-    public RouteNotificationServiceImpl(RouteNotificationRepository repository, RouteNotificationDTOMapper notificationDTOMapper) {
+    public RouteNotificationServiceImpl(RouteNotificationRepository repository, RouteNotificationDtoMapper notificationDtoMapper) {
         this.repository = repository;
-        this.notificationDTOMapper = notificationDTOMapper;
+        this.notificationDtoMapper = notificationDtoMapper;
     }
 
     @Override
-    public RouteNotification save(RouteNotificationDTO routeNotificationDTO) {
-        RouteNotification routeNotification = notificationDTOMapper.fromDTO(routeNotificationDTO);
+    public RouteNotification save(RouteNotificationDto routeNotificationDto) {
+        RouteNotification routeNotification = notificationDtoMapper.fromDto(routeNotificationDto);
         return repository.save(routeNotification);
     }
 

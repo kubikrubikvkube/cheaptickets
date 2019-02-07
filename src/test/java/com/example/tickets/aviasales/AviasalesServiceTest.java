@@ -1,7 +1,7 @@
 package com.example.tickets.aviasales;
 
 
-import com.example.tickets.ticket.TicketDTOMapper;
+import com.example.tickets.ticket.TicketDtoMapper;
 import com.example.tickets.util.DefaultHttpClient;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +25,7 @@ public class AviasalesServiceTest {
     @BeforeAll
     static void setup() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        TicketDTOMapper mapper = TicketDTOMapper.INSTANCE;
+        TicketDtoMapper mapper = TicketDtoMapper.INSTANCE;
         ArrayNode root = objectMapper.createArrayNode();
         ObjectNode tickets = objectMapper.readValue("{\n" +
                 "   \"value\":28912.0,\n" +

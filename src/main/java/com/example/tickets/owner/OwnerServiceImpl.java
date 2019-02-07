@@ -16,16 +16,16 @@ public class OwnerServiceImpl implements OwnerService {
     private final Logger log = LoggerFactory.getLogger(OwnerServiceImpl.class);
 
     private final OwnerRepository repository;
-    private final OwnerDTOMapper mapper;
+    private final OwnerDtoMapper mapper;
 
-    public OwnerServiceImpl(OwnerRepository repository, OwnerDTOMapper mapper) {
+    public OwnerServiceImpl(OwnerRepository repository, OwnerDtoMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
 
     @Override
-    public Owner save(OwnerDTO dto) {
-        Owner owner = mapper.fromDTO(dto);
+    public Owner save(OwnerDto dto) {
+        Owner owner = mapper.fromDto(dto);
         return repository.save(owner);
     }
 

@@ -1,6 +1,6 @@
 package com.example.tickets.util;
 
-import com.example.tickets.iata.IATA;
+import com.example.tickets.iata.Iata;
 import com.example.tickets.iata.IataService;
 import com.example.tickets.notification.RouteNotification;
 import com.example.tickets.owner.Owner;
@@ -72,22 +72,22 @@ public class EmailServiceImpl implements EmailService {
             var returnTicket = route.getReturnTicket();
 
             if (departTicket.getOriginName() == null) {
-                IATA iata = iataService.fromCode(departTicket.getOrigin());
+                Iata iata = iataService.fromCode(departTicket.getOrigin());
                 departTicket.setOriginName(iata.getPlace());
             }
 
             if (departTicket.getDestinationName() == null) {
-                IATA iata = iataService.fromCode(departTicket.getDestination());
+                Iata iata = iataService.fromCode(departTicket.getDestination());
                 departTicket.setDestinationName(iata.getPlace());
             }
 
             if (returnTicket.getOriginName() == null) {
-                IATA iata = iataService.fromCode(returnTicket.getOrigin());
+                Iata iata = iataService.fromCode(returnTicket.getOrigin());
                 returnTicket.setOriginName(iata.getPlace());
             }
 
             if (returnTicket.getDestinationName() == null) {
-                IATA iata = iataService.fromCode(returnTicket.getDestination());
+                Iata iata = iataService.fromCode(returnTicket.getDestination());
                 returnTicket.setDestinationName(iata.getPlace());
             }
         }

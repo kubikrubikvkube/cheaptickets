@@ -23,11 +23,11 @@ import java.util.Optional;
 public class SubscriptionServiceImpl implements SubscriptionService {
     private final Logger log = LoggerFactory.getLogger(SubscriptionServiceImpl.class);
     private final SubscriptionRepository repository;
-    private final SubscriptionDTOMapper mapper;
+    private final SubscriptionDtoMapper mapper;
     private final OwnerRepository ownerRepository;
     private final ExampleMatcher exampleMatcher;
 
-    public SubscriptionServiceImpl(SubscriptionRepository subscriptionRepository, OwnerRepository ownerRepository, SubscriptionDTOMapper mapper) {
+    public SubscriptionServiceImpl(SubscriptionRepository subscriptionRepository, OwnerRepository ownerRepository, SubscriptionDtoMapper mapper) {
         this.repository = subscriptionRepository;
         this.ownerRepository = ownerRepository;
         this.mapper = mapper;
@@ -42,11 +42,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             Optional<Owner> ownerOpt = ownerRepository.findBy(ownerName);
             if (ownerOpt.isPresent()) {
                 Owner owner = ownerOpt.get();
-                SubscriptionDTO dto = new SubscriptionDTO();
+                SubscriptionDto dto = new SubscriptionDto();
                 dto.setOwner(owner);
                 dto.setOrigin(origin);
                 dto.setDestination(destination);
-                Subscription createdSubscription = mapper.fromDTO(dto);
+                Subscription createdSubscription = mapper.fromDto(dto);
                 log.debug("Saving subscription '{}'", createdSubscription);
                 repository.save(createdSubscription);
             } else {
@@ -69,7 +69,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             if (ownerOpt.isPresent()) {
                 var tripDuration = localDepartDate.until(localReturnDate).getDays();
                 Owner owner = ownerOpt.get();
-                SubscriptionDTO dto = new SubscriptionDTO();
+                SubscriptionDto dto = new SubscriptionDto();
                 dto.setOwner(owner);
                 dto.setOrigin(origin);
                 dto.setDestination(destination);
@@ -77,7 +77,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
                 dto.setReturnDate(localReturnDate);
                 dto.setTripDurationInDaysFrom(tripDuration);
                 dto.setTripDurationInDaysTo(tripDuration);
-                Subscription createdSubscription = mapper.fromDTO(dto);
+                Subscription createdSubscription = mapper.fromDto(dto);
                 log.info("Saving subscription '{}'", createdSubscription);
                 repository.save(createdSubscription);
             } else {
@@ -109,8 +109,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public Optional<Subscription> find(SubscriptionDTO dto) {
-        Subscription subscription = mapper.fromDTO(dto);
+    public Optional<Subscription> find(SubscriptionDto dto) {
+        Subscription subscription = mapper.fromDto(dto);
         Example<Subscription> probe = Example.of(subscription, exampleMatcher);
         if (repository.exists(probe)) {
             return repository.findOne(probe);
@@ -156,13 +156,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 //            Optional<Owner> ownerOpt = ownerRepository.findBy(ownerName);
 //            if (ownerOpt.isPresent()) {
 //                Owner owner = ownerOpt.get();
-//                SubscriptionDTO dto = new SubscriptionDTO();
+//                SubscriptionDto dto = new SubscriptionDto();
 //                dto.setOwner(owner);
 //                dto.setOrigin(origin);
 //                dto.setDestination(destination);
 //                dto.setTripDurationInDaysFrom(tripDuration);
 //                dto.setTripDurationInDaysTo(tripDuration);
-//                Subscription createdSubscription = mapper.fromDTO(dto);
+//                Subscription createdSubscription = mapper.fromDto(dto);
 //                log.debug("Saving subscription '{}'", createdSubscription);
 //                repository.save(createdSubscription);
 //            } else {
@@ -192,8 +192,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public Subscription save(SubscriptionDTO subscriptionDTO) {
-        Subscription subscription = mapper.fromDTO(subscriptionDTO);
+    public Subscription save(SubscriptionDto subscriptionDto) {
+        Subscription subscription = mapper.fromDto(subscriptionDto);
         return repository.save(subscription);
     }
 

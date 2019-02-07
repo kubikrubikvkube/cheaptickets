@@ -1,8 +1,8 @@
 package com.example.tickets.travelpayouts;
 
 import com.example.tickets.ticket.Ticket;
-import com.example.tickets.ticket.TicketDTO;
-import com.example.tickets.ticket.TicketDTOMapper;
+import com.example.tickets.ticket.TicketDto;
+import com.example.tickets.ticket.TicketDtoMapper;
 import com.example.tickets.travelpayouts.request.*;
 import com.example.tickets.travelpayouts.response.LatestResponse;
 import com.example.tickets.util.DefaultHttpClient;
@@ -30,10 +30,10 @@ import java.util.stream.Collectors;
 public class TravelPayoutsServiceImpl implements TravelPayoutsService {
     private final Logger log = LoggerFactory.getLogger(TravelPayoutsServiceImpl.class);
     private final DefaultHttpClient<LatestResponse> httpClient;
-    private final TicketDTOMapper mapper;
+    private final TicketDtoMapper mapper;
     private final int WAIT_TIMEOUT = 5;
 
-    public TravelPayoutsServiceImpl(DefaultHttpClient<LatestResponse> httpClient, TicketDTOMapper mapper) {
+    public TravelPayoutsServiceImpl(DefaultHttpClient<LatestResponse> httpClient, TicketDtoMapper mapper) {
         this.httpClient = httpClient;
         this.mapper = mapper;
     }
@@ -51,10 +51,10 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
         }
         log.trace("Got response: {}", response);
 
-        List<TicketDTO> ticketDTOS = response.getData();
-        return ticketDTOS
+        List<TicketDto> ticketDtos = response.getData();
+        return ticketDtos
                 .stream()
-                .map(mapper::fromDTO)
+                .map(mapper::fromDto)
                 .collect(Collectors.toList());
 
 
@@ -93,27 +93,27 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
         List<Ticket> tickets = new ArrayList<>();
         values.forEach(rootNode -> {
             for (JsonNode rawTicket : rootNode) {
-                TicketDTO ticketDTO = new TicketDTO();
+                TicketDto ticketDto = new TicketDto();
                 String price = rawTicket.get("price").toString();
                 String airLine = rawTicket.get("airline").toString();
                 String flightNumber = rawTicket.get("flight_number").toString();
                 String departureAt = rawTicket.get("departure_at").toString().replaceAll("\"", "");
                 String returnAt = rawTicket.get("return_at").toString().replaceAll("\"", "");
                 String expiresAt = rawTicket.get("expires_at").textValue().replaceAll("\"", "");
-                ticketDTO.setOrigin(request.getOrigin());
-                ticketDTO.setDestination(request.getDestination());
-                ticketDTO.setDepartDate(request.getDepart_date());
-                ticketDTO.setReturnDate(request.getReturn_date());
-                ticketDTO.setValue(Integer.valueOf(price));
-                ticketDTO.setAirline(airLine);
-                ticketDTO.setFlightNumber(flightNumber);
+                ticketDto.setOrigin(request.getOrigin());
+                ticketDto.setDestination(request.getDestination());
+                ticketDto.setDepartDate(request.getDepart_date());
+                ticketDto.setReturnDate(request.getReturn_date());
+                ticketDto.setValue(Integer.valueOf(price));
+                ticketDto.setAirline(airLine);
+                ticketDto.setFlightNumber(flightNumber);
                 var departureDateTime = LocalDate.from(Instant.parse(departureAt).atZone(ZoneId.systemDefault()));
                 var returnDateTime = LocalDate.from(Instant.parse(returnAt).atZone(ZoneId.systemDefault()));
                 var expiresDateTime = LocalDateTime.from(Instant.parse(expiresAt).atZone(ZoneId.systemDefault()));
-                ticketDTO.setDepartDate(departureDateTime);
-                ticketDTO.setReturnDate(returnDateTime);
-                ticketDTO.setExpiresAt(expiresDateTime);
-                Ticket ticket = mapper.fromDTO(ticketDTO);
+                ticketDto.setDepartDate(departureDateTime);
+                ticketDto.setReturnDate(returnDateTime);
+                ticketDto.setExpiresAt(expiresDateTime);
+                Ticket ticket = mapper.fromDto(ticketDto);
                 tickets.add(ticket);
             }
 

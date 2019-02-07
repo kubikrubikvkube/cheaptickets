@@ -7,7 +7,7 @@ import java.time.Month;
 
 @Data
 @NoArgsConstructor
-public class TicketStatisticsByMonthDTO {
+public class TicketStatisticsByMonthDto {
     private Month month;
 
     private Integer year;

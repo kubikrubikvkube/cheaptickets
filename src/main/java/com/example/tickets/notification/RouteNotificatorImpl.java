@@ -20,24 +20,24 @@ public class RouteNotificatorImpl implements RouteNotificator {
     private final SubscriptionService subscriptionService;
     private final JavaMailSender javaMailSender;
     private final EmailService emailService;
-    private final RouteNotificationDTOMapper notificationDTOMapper;
+    private final RouteNotificationDtoMapper notificationDtoMapper;
     private final Logger log = LoggerFactory.getLogger(RouteNotificatorImpl.class);
 
-    public RouteNotificatorImpl(OwnerService ownerService, RouteNotificationService routeNotificationService, SubscriptionService subscriptionService, JavaMailSender javaMailSender, EmailService emailService, RouteNotificationDTOMapper notificationDTOMapper) {
+    public RouteNotificatorImpl(OwnerService ownerService, RouteNotificationService routeNotificationService, SubscriptionService subscriptionService, JavaMailSender javaMailSender, EmailService emailService, RouteNotificationDtoMapper notificationDtoMapper) {
         this.ownerService = ownerService;
         this.routeNotificationService = routeNotificationService;
         this.subscriptionService = subscriptionService;
         this.javaMailSender = javaMailSender;
         this.emailService = emailService;
-        this.notificationDTOMapper = notificationDTOMapper;
+        this.notificationDtoMapper = notificationDtoMapper;
     }
 
     @Override
     public Optional<RouteNotification> notify(Subscription subscription, Route route) {
-        RouteNotificationDTO routeNotificationDTO = new RouteNotificationDTO();
-        routeNotificationDTO.setSubscription(subscription);
-        routeNotificationDTO.setRoute(route);
-        RouteNotification saved = routeNotificationService.save(routeNotificationDTO);
+        RouteNotificationDto routeNotificationDto = new RouteNotificationDto();
+        routeNotificationDto.setSubscription(subscription);
+        routeNotificationDto.setRoute(route);
+        RouteNotification saved = routeNotificationService.save(routeNotificationDto);
         emailService.sendNotifications(subscription.getOwner(), List.of(saved));
         log.info("Owner {} notified about route {}", subscription, route);
         return Optional.ofNullable(saved);

@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface OwnerService {
 
-    Owner save(OwnerDTO dto);
+    Owner save(OwnerDto dto);
 
     Owner save(Owner owner);
 

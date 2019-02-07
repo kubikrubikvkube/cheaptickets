@@ -35,7 +35,7 @@ public interface TicketService {
 
     List<Ticket> findBySubscription(Subscription subscription);
 
-    Ticket save(TicketDTO ticketDTO);
+    Ticket save(TicketDto ticketDto);
 
     Ticket save(Ticket foundTicket);
 }

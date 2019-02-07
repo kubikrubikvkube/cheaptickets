@@ -1,7 +1,7 @@
 package com.example.tickets.ticket;
 
 import com.example.tickets.subscription.Subscription;
-import com.example.tickets.subscription.SubscriptionDTO;
+import com.example.tickets.subscription.SubscriptionDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -23,8 +23,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     List<Ticket> findByOriginAndDestination(String origin, String destination);
 
-    @Query("select t from Ticket t where t.origin = :#{#subscriptionDTO.origin} and t.destination = :#{#subscriptionDTO.destination}")
-    List<Ticket> findBySubscription(SubscriptionDTO subscriptionDTO);
+    @Query("select t from Ticket t where t.origin = :#{#subscriptionDto.origin} and t.destination = :#{#subscriptionDto.destination}")
+    List<Ticket> findBySubscription(SubscriptionDto subscriptionDto);
 
     @Query("select t from Ticket t where t.origin = :#{#subscription.origin} and t.destination = :#{#subscription.destination}")
     List<Ticket> findBySubscription(Subscription subscription);

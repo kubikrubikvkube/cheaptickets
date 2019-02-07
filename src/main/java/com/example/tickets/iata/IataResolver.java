@@ -1,13 +1,13 @@
 package com.example.tickets.iata;
 
 import com.example.tickets.subscription.Subscription;
-import com.example.tickets.subscription.SubscriptionDTO;
+import com.example.tickets.subscription.SubscriptionDto;
 
-public interface IATAResolver {
+public interface IataResolver {
 
     String resolve(String place);
 
-    SubscriptionDTO resolve(SubscriptionDTO dto);
+    SubscriptionDto resolve(SubscriptionDto dto);
 
     Subscription resolve(Subscription s);
 }

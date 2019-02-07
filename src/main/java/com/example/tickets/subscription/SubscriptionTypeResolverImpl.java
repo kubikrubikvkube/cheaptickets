@@ -12,21 +12,21 @@ import static com.example.tickets.subscription.SubscriptionType.*;
 @Component
 public class SubscriptionTypeResolverImpl implements SubscriptionTypeResolver {
     private final Logger log = LoggerFactory.getLogger(SubscriptionTypeResolverImpl.class);
-    private final SubscriptionDTOMapper mapper;
+    private final SubscriptionDtoMapper mapper;
 
-    public SubscriptionTypeResolverImpl(SubscriptionDTOMapper mapper) {
+    public SubscriptionTypeResolverImpl(SubscriptionDtoMapper mapper) {
         this.mapper = mapper;
     }
 
     @Override
     public SubscriptionType resolve(Subscription subscription) {
         if (subscription.getSubscriptionType() != null) return subscription.getSubscriptionType();
-        SubscriptionDTO dto = mapper.toDTO(subscription);
+        SubscriptionDto dto = mapper.toDto(subscription);
         return resolve(dto);
     }
 
     @Override
-    public SubscriptionType resolve(SubscriptionDTO dto) {
+    public SubscriptionType resolve(SubscriptionDto dto) {
         if (dto.getSubscriptionType() != null) return dto.getSubscriptionType();
         var owner = dto.getOwner();
         var origin = dto.getOrigin();

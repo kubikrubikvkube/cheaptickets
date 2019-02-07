@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class RouteDTO {
+public class RouteDto {
 
     private String origin;
     private String destination;
@@ -15,7 +15,7 @@ public class RouteDTO {
     private Integer sumValue;
     private Integer tripDurationInDays;
 
-    public RouteDTO(String origin, String destination) {
+    public RouteDto(String origin, String destination) {
         this.origin = origin;
         this.destination = destination;
     }

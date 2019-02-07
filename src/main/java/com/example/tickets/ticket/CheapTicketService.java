@@ -1,7 +1,7 @@
 package com.example.tickets.ticket;
 
 import com.example.tickets.subscription.Subscription;
-import com.example.tickets.subscription.SubscriptionDTO;
+import com.example.tickets.subscription.SubscriptionDto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -25,7 +25,7 @@ public interface CheapTicketService {
 
     List<CheapTicket> findTicketsWithUnknownExpirationStatus();
 
-    List<CheapTicket> findBySubscription(SubscriptionDTO subscriptionDTO);
+    List<CheapTicket> findBySubscription(SubscriptionDto subscriptionDto);
 
     List<CheapTicket> findBySubscription(Subscription subscription);
 

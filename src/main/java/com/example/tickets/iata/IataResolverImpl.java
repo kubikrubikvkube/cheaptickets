@@ -1,7 +1,7 @@
 package com.example.tickets.iata;
 
 import com.example.tickets.subscription.Subscription;
-import com.example.tickets.subscription.SubscriptionDTO;
+import com.example.tickets.subscription.SubscriptionDto;
 import com.example.tickets.util.DefaultHttpClient;
 import com.example.tickets.util.ServiceException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -13,11 +13,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 @Service
-public class IATAResolverImpl implements IATAResolver {
+public class IataResolverImpl implements IataResolver {
     private final DefaultHttpClient defaultHttpClient;
     private final int WAIT_TIMEOUTS = 5;
 
-    public IATAResolverImpl(DefaultHttpClient defaultHttpClient) {
+    public IataResolverImpl(DefaultHttpClient defaultHttpClient) {
         this.defaultHttpClient = defaultHttpClient;
     }
 
@@ -48,7 +48,7 @@ public class IATAResolverImpl implements IATAResolver {
     }
 
     @Override
-    public SubscriptionDTO resolve(SubscriptionDTO dto) {
+    public SubscriptionDto resolve(SubscriptionDto dto) {
         var origin = resolve(dto.getOriginName());
         var destination = resolve(dto.getDestinationName());
         dto.setOrigin(origin);

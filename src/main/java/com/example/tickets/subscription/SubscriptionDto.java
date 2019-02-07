@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class SubscriptionDTO {
+public class SubscriptionDto {
     /**
      * Кто создал подписку
      */

@@ -1,9 +1,9 @@
 package com.example.tickets.web.controller;
 
 import com.example.tickets.owner.Owner;
-import com.example.tickets.owner.OwnerDTO;
+import com.example.tickets.owner.OwnerDto;
 import com.example.tickets.owner.OwnerService;
-import com.example.tickets.subscription.SubscriptionDTO;
+import com.example.tickets.subscription.SubscriptionDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,23 +41,23 @@ public class LoginController {
 
     @GetMapping("/")
     public String login(Model model) {
-        model.addAttribute("ownerDTO", new OwnerDTO());
+        model.addAttribute("ownerDto", new OwnerDto());
         return LOGIN_PAGE;
     }
 
     @PostMapping("/login")
-    public View loginPage(@ModelAttribute OwnerDTO ownerDTO, HttpSession session, Model model) {
-        var userEmail = ownerDTO.getEmail();
+    public View loginPage(@ModelAttribute OwnerDto ownerDto, HttpSession session, Model model) {
+        var userEmail = ownerDto.getEmail();
         if (!isValidEmailAddress(userEmail)) return new RedirectView(LOGIN_PAGE);
 
         Optional<Owner> ownerOptional = ownerService.find(userEmail);
         if (ownerOptional.isEmpty()) {
-            ownerDTO.setEmail(userEmail);
-            ownerService.save(ownerDTO);
+            ownerDto.setEmail(userEmail);
+            ownerService.save(ownerDto);
         }
 
-        session.setAttribute("ownerDTO", ownerService.find(userEmail));
-        model.addAttribute("subscriptionDTO", new SubscriptionDTO());
+        session.setAttribute("ownerDto", ownerService.find(userEmail));
+        model.addAttribute("subscriptionDto", new SubscriptionDto());
         return new RedirectView(MAIN_PAGE);
     }
 }

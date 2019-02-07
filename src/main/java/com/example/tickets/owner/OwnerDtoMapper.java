@@ -6,10 +6,10 @@ import org.mapstruct.factory.Mappers;
 import static org.mapstruct.ReportingPolicy.IGNORE;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = IGNORE)
-public interface OwnerDTOMapper {
-    OwnerDTOMapper INSTANCE = Mappers.getMapper(OwnerDTOMapper.class);
+public interface OwnerDtoMapper {
+    OwnerDtoMapper INSTANCE = Mappers.getMapper(OwnerDtoMapper.class);
 
-    OwnerDTO toDTO(Owner subscription);
+    OwnerDto toDto(Owner subscription);
 
-    Owner fromDTO(OwnerDTO dto);
+    Owner fromDto(OwnerDto dto);
 }

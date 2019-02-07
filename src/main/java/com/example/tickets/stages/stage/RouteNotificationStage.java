@@ -1,8 +1,8 @@
 package com.example.tickets.stages.stage;
 
 import com.example.tickets.notification.RouteNotification;
-import com.example.tickets.notification.RouteNotificationDTO;
-import com.example.tickets.notification.RouteNotificationDTOMapper;
+import com.example.tickets.notification.RouteNotificationDto;
+import com.example.tickets.notification.RouteNotificationDtoMapper;
 import com.example.tickets.notification.RouteNotificationService;
 import com.example.tickets.owner.Owner;
 import com.example.tickets.owner.OwnerService;
@@ -23,15 +23,15 @@ import java.util.List;
 public class RouteNotificationStage implements Stage {
     private final OwnerService ownerService;
     private final RouteService routeService;
-    private final RouteNotificationDTOMapper routeDTOMapper;
+    private final RouteNotificationDtoMapper routeDtoMapper;
     private final EmailService emailService;
     private final RouteNotificationService routeNotificationService;
     private final Logger log = LoggerFactory.getLogger(RouteNotificationStage.class);
 
-    public RouteNotificationStage(OwnerService ownerService, RouteService routeService, RouteNotificationDTOMapper routeDTOMapper, EmailService emailService, RouteNotificationService routeNotificationService) {
+    public RouteNotificationStage(OwnerService ownerService, RouteService routeService, RouteNotificationDtoMapper routeDtoMapper, EmailService emailService, RouteNotificationService routeNotificationService) {
         this.ownerService = ownerService;
         this.routeService = routeService;
-        this.routeDTOMapper = routeDTOMapper;
+        this.routeDtoMapper = routeDtoMapper;
         this.emailService = emailService;
         this.routeNotificationService = routeNotificationService;
     }
@@ -47,10 +47,10 @@ public class RouteNotificationStage implements Stage {
                 List<Route> subscriptionRoutes = routeService.findBy(subscription.getOrigin(), subscription.getDestination(), 3);
                 List<RouteNotification> subscriptionRouteNotifications = new ArrayList<>();
                 for (Route route : subscriptionRoutes) {
-                    RouteNotificationDTO routeNotificationDTO = new RouteNotificationDTO();
-                    routeNotificationDTO.setRoute(route);
-                    routeNotificationDTO.setSubscription(subscription);
-                    RouteNotification saved = routeNotificationService.save(routeNotificationDTO);
+                    RouteNotificationDto routeNotificationDto = new RouteNotificationDto();
+                    routeNotificationDto.setRoute(route);
+                    routeNotificationDto.setSubscription(subscription);
+                    RouteNotification saved = routeNotificationService.save(routeNotificationDto);
                     subscriptionRouteNotifications.add(saved);
                 }
                 subscriptionRouteNotifications.forEach(srn -> ownerRouteNotifications.put(subscription, srn));

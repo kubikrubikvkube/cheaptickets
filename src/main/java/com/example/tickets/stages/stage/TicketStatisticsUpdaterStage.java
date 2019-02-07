@@ -23,14 +23,14 @@ public class TicketStatisticsUpdaterStage implements Stage {
     private final TicketStatisticsService ticketStatisticsService;
     private final TicketService ticketService;
     private final SubscriptionService subscriptionService;
-    private final TicketStatisticsByMonthDTOMapper ticketStatisticsByMonthDTOMapper;
+    private final TicketStatisticsByMonthDtoMapper ticketStatisticsByMonthDtoMapper;
 
 
-    public TicketStatisticsUpdaterStage(TicketStatisticsService ticketStatisticsService, TicketService ticketService, SubscriptionService subscriptionService, TicketStatisticsByMonthDTOMapper ticketStatisticsByMonthDTOMapper) {
+    public TicketStatisticsUpdaterStage(TicketStatisticsService ticketStatisticsService, TicketService ticketService, SubscriptionService subscriptionService, TicketStatisticsByMonthDtoMapper ticketStatisticsByMonthDtoMapper) {
         this.ticketStatisticsService = ticketStatisticsService;
         this.ticketService = ticketService;
         this.subscriptionService = subscriptionService;
-        this.ticketStatisticsByMonthDTOMapper = ticketStatisticsByMonthDTOMapper;
+        this.ticketStatisticsByMonthDtoMapper = ticketStatisticsByMonthDtoMapper;
 
     }
 
@@ -74,7 +74,7 @@ public class TicketStatisticsUpdaterStage implements Stage {
             ticketsAsMultimap.put(month, ticket);
         }
 
-        List<TicketStatisticsByMonthDTO> statisticsListDTO = new ArrayList<>();
+        List<TicketStatisticsByMonthDto> statisticsListDto = new ArrayList<>();
         Map<Month, Collection<Ticket>> monthTicketCollection = ticketsAsMultimap.asMap();
         monthTicketCollection.forEach((Month month, Collection<Ticket> tickets) -> {
             DescriptiveStatistics ds = new DescriptiveStatistics();
@@ -86,16 +86,16 @@ public class TicketStatisticsUpdaterStage implements Stage {
                 }
             });
 
-            TicketStatisticsByMonthDTO stat = new TicketStatisticsByMonthDTO();
+            TicketStatisticsByMonthDto stat = new TicketStatisticsByMonthDto();
             stat.setMonth(month);
             stat.setTicketsCount(tickets.size());
             stat.setAvgTicketPrice(ds.getMean());
             stat.setMinTicketPrice(ds.getMin());
             stat.setPercentile10(ds.getPercentile(10));
-            statisticsListDTO.add(stat);
+            statisticsListDto.add(stat);
         });
         List<TicketStatisticsByMonth> statisticsList = new ArrayList<>();
-        statisticsListDTO.forEach(dto -> statisticsList.add(ticketStatisticsByMonthDTOMapper.fromDTO(dto)));
+        statisticsListDto.forEach(dto -> statisticsList.add(ticketStatisticsByMonthDtoMapper.fromDto(dto)));
 
         return statisticsList;
     }

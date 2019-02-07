@@ -1,12 +1,12 @@
 package com.example.tickets.aviasales;
 
-import com.example.tickets.ticket.TicketDTO;
+import com.example.tickets.ticket.TicketDto;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
 class AviasalesResponse {
-    List<TicketDTO> prices;
+    List<TicketDto> prices;
     private String error;
 }

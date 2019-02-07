@@ -18,7 +18,7 @@ class IataServiceImplTest {
 
     @Test
     void fromCode() {
-        IATA iata = service.fromCode("BER");
+        Iata iata = service.fromCode("BER");
         assertNotNull(iata);
         assertEquals("Берлин", iata.getPlace());
         assertEquals("BER", iata.getCode());

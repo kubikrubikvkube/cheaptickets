@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class IataServiceImpl implements IataService {
     private final Logger log = LoggerFactory.getLogger(IataServiceImpl.class);
-    private final IATARepository repository;
+    private final IataRepository repository;
     private final ExampleMatcher exampleMatcher;
-    private final IATAResolver resolver;
-    private final IATADTOMapper mapper;
+    private final IataResolver resolver;
+    private final IataDtoMapper mapper;
     private final ResourceResolver resourceResolver;
 
-    public IataServiceImpl(IATARepository repository, IATAResolver resolver, IATADTOMapper mapper, ResourceResolver resourceResolver) {
+    public IataServiceImpl(IataRepository repository, IataResolver resolver, IataDtoMapper mapper, ResourceResolver resourceResolver) {
         this.repository = repository;
         this.resolver = resolver;
         this.mapper = mapper;
@@ -27,34 +27,34 @@ public class IataServiceImpl implements IataService {
 
 
     @Override
-    public IATA fromPlaceName(String place) {
+    public Iata fromPlaceName(String place) {
         String normalizedPlace = place.toLowerCase();
         boolean exists = repository.existsByPlace(normalizedPlace);
         if (!exists) {
             String code = resolver.resolve(normalizedPlace);
-            IATADTO dto = new IATADTO();
+            IataDto dto = new IataDto();
             dto.setCode(code);
             dto.setPlace(normalizedPlace);
             dto.setCanonical(false);
-            IATA iata = mapper.fromDTO(dto);
+            Iata iata = mapper.fromDto(dto);
             repository.save(iata);
         }
         return repository.findByPlace(normalizedPlace);
     }
 
     @Override
-    public IATA fromCode(String code) {
+    public Iata fromCode(String code) {
         String normalizedCode = code.toUpperCase();
         boolean exists = repository.existsByCodeCanonical(code);
 
         if (!exists) {
             JsonNode iataNode = resourceResolver.resolve(JsonResource.CASES);
             String placeName = iataNode.get(normalizedCode).get("name").textValue();
-            IATADTO iatadto = new IATADTO();
+            IataDto iatadto = new IataDto();
             iatadto.setPlace(placeName);
             iatadto.setCode(code);
             iatadto.setCanonical(true);
-            IATA iata = mapper.fromDTO(iatadto);
+            Iata iata = mapper.fromDto(iatadto);
             repository.save(iata);
         }
         return repository.findByCodeCanonical(normalizedCode);
@@ -62,8 +62,8 @@ public class IataServiceImpl implements IataService {
 
 
     @Override
-    public IATA save(IATADTO dto) {
-        IATA iata = mapper.fromDTO(dto);
+    public Iata save(IataDto dto) {
+        Iata iata = mapper.fromDto(dto);
         return repository.save(iata);
     }
 }

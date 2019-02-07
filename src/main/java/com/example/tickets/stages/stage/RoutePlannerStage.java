@@ -1,7 +1,7 @@
 package com.example.tickets.stages.stage;
 
 import com.example.tickets.route.Route;
-import com.example.tickets.route.RouteDTO;
+import com.example.tickets.route.RouteDto;
 import com.example.tickets.route.RouteService;
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionService;
@@ -33,16 +33,16 @@ public class RoutePlannerStage implements Stage {
 
         Iterable<Subscription> subscriptions = subscriptionService.findAll();
 
-        Multimap<Subscription, RouteDTO> all = ArrayListMultimap.create();
+        Multimap<Subscription, RouteDto> all = ArrayListMultimap.create();
 
         for (Subscription subscription : subscriptions) {
             log.info("Calculating routes for {}", subscription);
-            List<RouteDTO> routes = routesService.plan(subscription);
+            List<RouteDto> routes = routesService.plan(subscription);
             log.info("Found {} routes for subscription {}", routes.size(), subscription);
             all.putAll(subscription, routes);
         }
-        List<RouteDTO> routeDTOs = new ArrayList<>(all.values());
-        List<Route> savedRoutes = routesService.saveIfNotExist(routeDTOs);
+        List<RouteDto> routeDtos = new ArrayList<>(all.values());
+        List<Route> savedRoutes = routesService.saveIfNotExist(routeDtos);
 
         log.info("RoutePlannerStage finished in {}", timer.stop());
         return new StageResult("RoutePlannerStage", savedRoutes.size(), 0, 0);
