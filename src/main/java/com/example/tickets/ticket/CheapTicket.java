@@ -19,6 +19,6 @@ import java.util.List;
 public class CheapTicket extends Ticket {
 
     @CollectionTable(name = "ticket_cheap_sent_notifications")
-    @OneToMany(targetEntity = RouteNotification.class, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = RouteNotification.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<RouteNotification> sentNotifications;
 }

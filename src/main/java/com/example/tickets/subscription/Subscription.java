@@ -35,7 +35,7 @@ public class Subscription {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "owner_fk")
+    @JoinColumn(name = "owner_fk", nullable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Owner owner;
