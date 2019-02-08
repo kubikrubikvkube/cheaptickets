@@ -27,6 +27,6 @@ public class RouteNotification {
 
     @JsonManagedReference
     @ManyToOne
-    @JoinColumn(name = "subscription_fk", nullable = false)
+    @JoinColumn(name = "subscription_fk")
     private Subscription subscription;
 }
