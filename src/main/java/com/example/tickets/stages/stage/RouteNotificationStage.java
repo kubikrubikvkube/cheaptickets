@@ -10,6 +10,7 @@ import com.example.tickets.route.Route;
 import com.example.tickets.route.RouteService;
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.util.EmailService;
+import com.example.tickets.util.RouteComparator;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class RouteNotificationStage implements Stage {
@@ -44,7 +46,9 @@ public class RouteNotificationStage implements Stage {
             Multimap<Subscription, RouteNotification> ownerRouteNotifications = ArrayListMultimap.create();
             List<Subscription> ownerSubscriptions = owner.getSubscriptions();
             for (Subscription subscription : ownerSubscriptions) {
-                List<Route> subscriptionRoutes = routeService.findBy(subscription.getOrigin(), subscription.getDestination(), 3);
+                List<Route> subscriptionRoutes = routeService.findBy(subscription.getOrigin(), subscription.getDestination());
+                RouteComparator routeComparator = new RouteComparator();
+                subscriptionRoutes = subscriptionRoutes.stream().sorted(routeComparator.weighted()).limit(3).collect(Collectors.toList());
                 List<RouteNotification> subscriptionRouteNotifications = new ArrayList<>();
                 for (Route route : subscriptionRoutes) {
                     RouteNotificationDto routeNotificationDto = new RouteNotificationDto();
