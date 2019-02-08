@@ -127,7 +127,6 @@ public class RoutePlannerImpl implements RoutePlanner {
         return availableRoutes
                 .stream()
                 .sorted(Comparator.comparingInt(RouteDto::getSumValue))
-                .limit(100)
                 .collect(Collectors.toList());
     }
 
@@ -141,7 +140,6 @@ public class RoutePlannerImpl implements RoutePlanner {
         return availableRoutes
                 .stream()
                 .sorted(Comparator.comparingInt(RouteDto::getSumValue))
-                .limit(100)
                 .collect(Collectors.toList());
     }
 
