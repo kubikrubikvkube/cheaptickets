@@ -89,6 +89,6 @@ public class Subscription {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @CollectionTable(name = "subscription_route_notifications")
-    @OneToMany(targetEntity = RouteNotification.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = RouteNotification.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RouteNotification> routeNotifications;
 }
