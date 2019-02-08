@@ -25,7 +25,7 @@ public class AviasalesServiceImpl implements AviasalesService {
     private final Logger log = LoggerFactory.getLogger(AviasalesServiceImpl.class);
     private final DefaultHttpClient<AviasalesResponse> defaultHttpClient;
     private final TicketDtoMapper mapper;
-    private final int WAIT_TIMEOUTS = 5;
+    private final static int WAIT_TIMEOUTS = 5;
 
     public AviasalesServiceImpl(DefaultHttpClient<AviasalesResponse> defaultHttpClient, TicketDtoMapper mapper) {
         this.defaultHttpClient = defaultHttpClient;

@@ -19,18 +19,23 @@ public class AffilateLinkGeneratorImpl implements AffilateLinkGenerator {
 
 
     public AffilateLinkGeneratorImpl(@Value("${travelpayouts.marker}") String marker, RouteDtoMapper routeDtoMapper) {
+        log.debug("Marker: {}", marker);
+        log.debug("RouteDtoMapper: {}", routeDtoMapper);
+
         this.routeDtoMapper = routeDtoMapper;
         this.marker = marker;
     }
 
     @Override
     public String generate(Route route) {
+        log.debug("Generate: {}", route);
         RouteDto dto = routeDtoMapper.toDto(route);
         return generate(dto);
     }
 
     @Override
     public String generate(RouteDto route) {
+        log.debug("Generate: {}", route);
         UriComponentsBuilder queryBuilder = UriComponentsBuilder.newInstance()
                 .scheme("https")
                 .host("www.aviasales.ru")

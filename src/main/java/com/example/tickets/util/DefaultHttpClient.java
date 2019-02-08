@@ -43,12 +43,12 @@ public class DefaultHttpClient<T> {
         headers.add("Accept-Encoding", "gzip, deflate");
         headers.add("X-Access-Token", token);
         HttpEntity<String> httpEntity = new HttpEntity<>("parameters", headers);
-        log.trace("Send request: " + getRequest);
+        log.trace("Send request: {}", getRequest);
         ResponseEntity<T> exchange = restTemplate.exchange(getRequest, HttpMethod.GET, httpEntity, clazz);
         if (!exchange.getStatusCode().is2xxSuccessful()) {
-            log.error(String.format("Request failed. Error code %s : %s", exchange.getStatusCode(), getRequest));
+            log.error(String.format("Request failed. Error code {} : {}", exchange.getStatusCode(), getRequest));
         }
-        log.trace("Got response: " + exchange);
+        log.trace("Got response: {}", exchange);
         T responseBody = exchange.getBody();
         return CompletableFuture.completedFuture(responseBody);
     }
@@ -61,12 +61,12 @@ public class DefaultHttpClient<T> {
                 .build();
         HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(client);
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
-        log.trace("Send request: " + getRequest);
+        log.trace("Send request: {}", getRequest);
         ResponseEntity<T> exchange = restTemplate.exchange(getRequest, HttpMethod.GET, null, clazz);
         if (!exchange.getStatusCode().is2xxSuccessful()) {
-            log.error(String.format("Request failed. Error code %s : %s", exchange.getStatusCode(), getRequest));
+            log.error(String.format("Request failed. Error code{} : {}", exchange.getStatusCode(), getRequest));
         }
-        log.trace("Got response: " + exchange);
+        log.trace("Got response: {}", exchange);
         T responseBody = exchange.getBody();
         return CompletableFuture.completedFuture(responseBody);
     }
@@ -79,9 +79,9 @@ public class DefaultHttpClient<T> {
                 .build();
         HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(client);
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
-        log.trace("Send request: " + getRequest);
+        log.trace("Send request: {}", getRequest);
         JsonNode node = restTemplate.getForObject(getRequest, JsonNode.class);
-        log.trace("Got response: " + node);
+        log.trace("Got response: {}", node);
         return CompletableFuture.completedFuture(node);
     }
 
@@ -97,14 +97,14 @@ public class DefaultHttpClient<T> {
         headers.add("Accept-Encoding", "gzip, deflate");
         headers.add("X-Access-Token", token);
         HttpEntity<String> httpEntity = new HttpEntity<>("parameters", headers);
-        log.trace("Send request: " + getRequest);
+        log.trace("Send request: {}", getRequest);
         ResponseEntity<JsonNode> exchange = restTemplate.exchange(getRequest, HttpMethod.GET, httpEntity, JsonNode.class);
         if (!exchange.getStatusCode().is2xxSuccessful()) {
             var errMsg = String.format("Request failed. Error code %s : %s", exchange.getStatusCode(), getRequest);
             var serviceException = new ServiceException(errMsg);
             return CompletableFuture.failedFuture(serviceException);
         }
-        log.trace("Got response: " + exchange);
+        log.trace("Got response: {}", exchange);
         JsonNode responseBody = exchange.getBody();
         return CompletableFuture.completedFuture(responseBody);
     }
