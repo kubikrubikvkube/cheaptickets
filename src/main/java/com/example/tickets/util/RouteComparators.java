@@ -27,7 +27,7 @@ public class RouteComparators {
     private static int numberOfChangesWeight(Route route) {
         var departTicket = route.getDepartTicket();
         var returnTicket = route.getReturnTicket();
-        return (NUMBER_OF_CHANGES_WEIGHT * departTicket.getValue()) + (NUMBER_OF_CHANGES_WEIGHT * returnTicket.getValue());
+        return (NUMBER_OF_CHANGES_WEIGHT * departTicket.getNumberOfChanges()) + (NUMBER_OF_CHANGES_WEIGHT * returnTicket.getNumberOfChanges());
     }
 
 }
