@@ -27,10 +27,9 @@ public class TripDurationToCriteria extends RouteFilteringCriteria {
             log.debug("Route is {}", route);
             ensureTicketFieldsAreNonNull(route);
 
-            var departTicket = route.getDepartTicket();
-            var returnTicket = route.getReturnTicket();
-            var departDate = departTicket.getDepartDate();
-            var returnDate = returnTicket.getDepartDate();
+            var departDate = route.getDepartTicket().getDepartDate();
+            var returnDate = route.getReturnTicket().getDepartDate();
+
             return departDate.until(returnDate).getDays() <= tripDurationTo;
         };
     }
