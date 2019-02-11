@@ -2,6 +2,7 @@ package com.example.tickets.subscription;
 
 import com.example.tickets.notification.RouteNotification;
 import com.example.tickets.owner.Owner;
+import com.example.tickets.route.filteringcriteria.RouteFilteringCriteria;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,6 +15,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -85,10 +87,14 @@ public class Subscription {
     @Enumerated(EnumType.STRING)
     private SubscriptionType subscriptionType;
 
+    @CollectionTable(name = "subscription_route_filtering_criteria_set")
+    @OneToMany(targetEntity = RouteFilteringCriteria.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<RouteFilteringCriteria> filteringCriteriaSet;
+
     @JsonBackReference
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @CollectionTable(name = "subscription_route_notifications")
-    @OneToMany(targetEntity = RouteNotification.class, fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(targetEntity = RouteNotification.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<RouteNotification> routeNotifications;
 }
