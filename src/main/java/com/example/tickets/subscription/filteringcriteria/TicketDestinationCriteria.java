@@ -23,7 +23,7 @@ public class TicketDestinationCriteria extends TicketFilteringCriteria {
 
 
     @Override
-    Predicate<Ticket> getPredicate() {
+    public Predicate<Ticket> getPredicate() {
         return ticket -> ticket.getDestination().equalsIgnoreCase(destination);
     }
 }

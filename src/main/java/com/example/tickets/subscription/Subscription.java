@@ -3,6 +3,7 @@ package com.example.tickets.subscription;
 import com.example.tickets.notification.RouteNotification;
 import com.example.tickets.owner.Owner;
 import com.example.tickets.subscription.filteringcriteria.RouteFilteringCriteria;
+import com.example.tickets.subscription.filteringcriteria.TicketFilteringCriteria;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -89,7 +90,11 @@ public class Subscription {
 
     @CollectionTable(name = "subscription_route_filtering_criteria_set")
     @OneToMany(targetEntity = RouteFilteringCriteria.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<RouteFilteringCriteria> filteringCriteriaSet;
+    private Set<RouteFilteringCriteria> routeFilteringCriteriaSet;
+
+    @CollectionTable(name = "subscription_ticket_filtering_criteria_set")
+    @OneToMany(targetEntity = TicketFilteringCriteria.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<TicketFilteringCriteria> ticketFilteringCriteriaSet;
 
     @JsonBackReference
     @EqualsAndHashCode.Exclude

@@ -21,5 +21,5 @@ public abstract class TicketFilteringCriteria {
     @CreationTimestamp
     private LocalDateTime creationTimestamp;
 
-    abstract Predicate<Ticket> getPredicate();
+    public abstract Predicate<Ticket> getPredicate();
 }

@@ -2,6 +2,7 @@ package com.example.tickets.route;
 
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionType;
+import com.example.tickets.subscription.filteringcriteria.TicketFilteringCriteria;
 import com.example.tickets.ticket.CheapTicket;
 import com.example.tickets.ticket.CheapTicketService;
 import com.example.tickets.ticket.Ticket;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Component
@@ -30,6 +32,16 @@ public class RoutePlannerImpl implements RoutePlanner {
     public List<RouteDto> plan(Subscription subscription) {
         List<CheapTicket> all = cheapTicketService.findAll();
 
+        Predicate<Ticket> aggregatedTicketPredicate = subscription
+                .getTicketFilteringCriteriaSet()
+                .stream()
+                .map(TicketFilteringCriteria::getPredicate)
+                .reduce(x -> true, Predicate::and);
+
+        List<CheapTicket> filteredTickets = all
+                .stream()
+                .filter(aggregatedTicketPredicate)
+                .collect(Collectors.toList());
         //
         var subscriptionType = subscription.getSubscriptionType();
         if (subscriptionType == null || subscriptionType == SubscriptionType.INVALID) {

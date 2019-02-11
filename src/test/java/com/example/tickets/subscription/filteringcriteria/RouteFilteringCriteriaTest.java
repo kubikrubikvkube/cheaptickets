@@ -25,8 +25,8 @@ class RouteFilteringCriteriaTest {
         RouteFilteringCriteria to = new TripDurationToCriteria(10);
         routeFilteringCriteriaSet.add(from);
         routeFilteringCriteriaSet.add(to);
-        s.setFilteringCriteriaSet(routeFilteringCriteriaSet);
-        assertNotNull(s.getFilteringCriteriaSet());
-        assertThat(s.getFilteringCriteriaSet(), hasSize(2));
+        s.setRouteFilteringCriteriaSet(routeFilteringCriteriaSet);
+        assertNotNull(s.getRouteFilteringCriteriaSet());
+        assertThat(s.getRouteFilteringCriteriaSet(), hasSize(2));
     }
 }
