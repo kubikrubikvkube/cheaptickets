@@ -15,16 +15,15 @@ import java.util.function.Predicate;
 @AllArgsConstructor
 @Entity
 @EqualsAndHashCode(callSuper = true)
-public class TripDurationFromCriteria extends RouteFilteringCriteria {
+public class TripDurationToCriteria extends RouteFilteringCriteria {
     @Transient
-    private final Logger log = LoggerFactory.getLogger(TripDurationFromCriteria.class);
-    private final Integer tripDurationFrom;
-
+    private final Logger log = LoggerFactory.getLogger(TripDurationToCriteria.class);
+    private final Integer tripDurationTo;
 
     @Override
     Predicate<Route> getPredicate() {
         return route -> {
-            log.debug("TripDurationFrom is {}", tripDurationFrom);
+            log.debug("TripDurationTo is {}", tripDurationTo);
             log.debug("Route is {}", route);
             ensureTicketFieldsAreNonNull(route);
 
@@ -32,7 +31,7 @@ public class TripDurationFromCriteria extends RouteFilteringCriteria {
             var returnTicket = route.getReturnTicket();
             var departDate = departTicket.getDepartDate();
             var returnDate = returnTicket.getDepartDate();
-            return departDate.until(returnDate).getDays() >= tripDurationFrom;
+            return departDate.until(returnDate).getDays() <= tripDurationTo;
         };
     }
 }
