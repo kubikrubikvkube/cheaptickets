@@ -4,6 +4,7 @@ import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionDto;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -55,6 +56,16 @@ public class CheapTicketServiceImpl implements CheapTicketService {
     @Override
     public void saveIfNotExist(Iterable<CheapTicket> cheapTickets) {
         saveIfNotExist(cheapTickets, false);
+    }
+
+    @Override
+    public List<CheapTicket> findAll() {
+        return repository.findAll();
+    }
+
+    @Override
+    public List<CheapTicket> findAll(Sort sort) {
+        return repository.findAll(sort);
     }
 
     @Override

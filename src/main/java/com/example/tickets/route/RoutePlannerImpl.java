@@ -28,6 +28,9 @@ public class RoutePlannerImpl implements RoutePlanner {
 
     @Override
     public List<RouteDto> plan(Subscription subscription) {
+        List<CheapTicket> all = cheapTicketService.findAll();
+
+        //
         var subscriptionType = subscription.getSubscriptionType();
         if (subscriptionType == null || subscriptionType == SubscriptionType.INVALID) {
             log.debug("SubscriptionType for {} is invalid {}. Skipping subscription", subscription, subscriptionType);

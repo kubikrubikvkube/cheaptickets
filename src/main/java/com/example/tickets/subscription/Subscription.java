@@ -2,7 +2,7 @@ package com.example.tickets.subscription;
 
 import com.example.tickets.notification.RouteNotification;
 import com.example.tickets.owner.Owner;
-import com.example.tickets.route.filteringcriteria.RouteFilteringCriteria;
+import com.example.tickets.subscription.filteringcriteria.RouteFilteringCriteria;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

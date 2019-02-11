@@ -1,4 +1,4 @@
-package com.example.tickets.route.filteringcriteria;
+package com.example.tickets.subscription.filteringcriteria;
 
 import com.example.tickets.subscription.Subscription;
 import org.junit.jupiter.api.Disabled;

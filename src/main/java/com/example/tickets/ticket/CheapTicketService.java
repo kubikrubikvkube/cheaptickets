@@ -2,6 +2,7 @@ package com.example.tickets.ticket;
 
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionDto;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,6 +17,10 @@ public interface CheapTicketService {
     void saveIfNotExist(Iterable<CheapTicket> cheapTickets, boolean isParallel);
 
     void saveIfNotExist(Iterable<CheapTicket> cheapTickets);
+
+    List<CheapTicket> findAll(Sort sort);
+
+    List<CheapTicket> findAll();
 
     long count();
 
