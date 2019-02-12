@@ -79,8 +79,10 @@ public class MainController {
 
     @ModelAttribute("ownerSubscriptions")
     public List<Subscription> ownerSubscriptions(HttpSession httpSession) {
-        Optional<Owner> ownerOptional = (Optional<Owner>) httpSession.getAttribute("ownerDto");
-        if (ownerOptional.isEmpty()) throw new ServiceException("Owner is not found in model");
+        Object ownerAttribute = httpSession.getAttribute("ownerDto");
+        if (ownerAttribute == null) throw new ServiceException("Owner is not found in model");
+        Optional<Owner> ownerOptional = (Optional<Owner>) ownerAttribute;
+        if (ownerOptional.isEmpty()) throw new ServiceException("Owner is found but optional is empty");
         Owner owner = ownerOptional.get();
         return subscriptionService.get(owner.getEmail());
     }

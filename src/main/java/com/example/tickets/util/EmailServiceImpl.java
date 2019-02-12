@@ -24,7 +24,7 @@ import java.util.Locale;
 @Service
 @PropertySource("classpath:mail.properties")
 public class EmailServiceImpl implements EmailService {
-    private final Logger log = LoggerFactory.getLogger(EmailServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(EmailServiceImpl.class);
     private final JavaMailSender emailSender;
     private final TemplateEngine templateEngine;
     private final IataService iataService;

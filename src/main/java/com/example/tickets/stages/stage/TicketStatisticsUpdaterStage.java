@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Component
 public class TicketStatisticsUpdaterStage implements Stage {
-    private final Logger log = LoggerFactory.getLogger(TicketStatisticsUpdaterStage.class);
+    private static final Logger log = LoggerFactory.getLogger(TicketStatisticsUpdaterStage.class);
     private final TicketStatisticsService ticketStatisticsService;
     private final TicketService ticketService;
     private final SubscriptionService subscriptionService;

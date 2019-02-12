@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 class JavaMailSenderTest {
-    private final Logger log = LoggerFactory.getLogger(JavaMailSenderTest.class);
+    private static final Logger log = LoggerFactory.getLogger(JavaMailSenderTest.class);
 
 
     @Autowired

@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 public class SubscriptionRestController {
-    private final Logger log = LoggerFactory.getLogger(SubscriptionRestController.class);
+    private static final Logger log = LoggerFactory.getLogger(SubscriptionRestController.class);
     private final SubscriptionService service;
 
     public SubscriptionRestController(SubscriptionService service) {

@@ -15,7 +15,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @Component
 public class CheapTicketFinderStage implements Stage {
-    private final Logger log = LoggerFactory.getLogger(CheapTicketFinderStage.class);
+    private static final Logger log = LoggerFactory.getLogger(CheapTicketFinderStage.class);
     private final TicketStatisticsService ticketStatisticsService;
     private final TicketService ticketService;
     private final CheapTicketDtoMapper cheapTicketDtoMapper;

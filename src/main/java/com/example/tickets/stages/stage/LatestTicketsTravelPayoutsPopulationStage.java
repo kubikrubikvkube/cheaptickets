@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class LatestTicketsTravelPayoutsPopulationStage implements Stage {
-    private final Logger log = LoggerFactory.getLogger(LatestTicketsTravelPayoutsPopulationStage.class);
+    private static final Logger log = LoggerFactory.getLogger(LatestTicketsTravelPayoutsPopulationStage.class);
     private final TravelPayoutsService travelPayoutsService;
     private final SubscriptionService subscriptionService;
     private final TicketService ticketService;

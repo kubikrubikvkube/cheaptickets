@@ -15,13 +15,13 @@ import java.util.Optional;
 
 @Component
 public class RouteNotificatorImpl implements RouteNotificator {
+    private static final Logger log = LoggerFactory.getLogger(RouteNotificatorImpl.class);
     private final OwnerService ownerService;
     private final RouteNotificationService routeNotificationService;
     private final SubscriptionService subscriptionService;
     private final JavaMailSender javaMailSender;
     private final EmailService emailService;
     private final RouteNotificationDtoMapper notificationDtoMapper;
-    private final Logger log = LoggerFactory.getLogger(RouteNotificatorImpl.class);
 
     public RouteNotificatorImpl(OwnerService ownerService, RouteNotificationService routeNotificationService, SubscriptionService subscriptionService, JavaMailSender javaMailSender, EmailService emailService, RouteNotificationDtoMapper notificationDtoMapper) {
         this.ownerService = ownerService;

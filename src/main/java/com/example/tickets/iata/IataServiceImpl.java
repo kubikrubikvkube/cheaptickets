@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class IataServiceImpl implements IataService {
-    private final Logger log = LoggerFactory.getLogger(IataServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(IataServiceImpl.class);
     private final IataRepository repository;
     private final ExampleMatcher exampleMatcher;
     private final IataResolver resolver;

@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 @PersistJobDataAfterExecution
 @DisallowConcurrentExecution
 public class GlobalUpdaterJob implements Job {
-    private final Logger log = LoggerFactory.getLogger(GlobalUpdaterJob.class);
+    private static final Logger log = LoggerFactory.getLogger(GlobalUpdaterJob.class);
     private final TicketInvalidationStage ticketInvalidationStage;
     private final LatestTicketsTravelPayoutsPopulationStage latestTicketsTravelPayoutsPopulationStage;
     private final OnewayTicketsForAYearAviasalesStage onewayTicketsForAYearAviasalesStage;

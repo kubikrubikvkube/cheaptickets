@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class RouteServiceImpl implements RouteService {
-    private final Logger log = LoggerFactory.getLogger(RouteServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(RouteServiceImpl.class);
     private final RouteDtoMapper mapper;
     private final RouteRepository repository;
     private final RoutePlanner routePlanner;

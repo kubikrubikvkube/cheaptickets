@@ -11,7 +11,7 @@ import static com.example.tickets.subscription.SubscriptionType.*;
 
 @Component
 public class SubscriptionTypeResolverImpl implements SubscriptionTypeResolver {
-    private final Logger log = LoggerFactory.getLogger(SubscriptionTypeResolverImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(SubscriptionTypeResolverImpl.class);
     private final SubscriptionDtoMapper mapper;
 
     public SubscriptionTypeResolverImpl(SubscriptionDtoMapper mapper) {

@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 class RouteNotificatorImplTest {
-    private final Logger log = LoggerFactory.getLogger(RouteNotificatorImplTest.class);
+    private static final Logger log = LoggerFactory.getLogger(RouteNotificatorImplTest.class);
     @Autowired
     RouteService routesService;
     @Autowired

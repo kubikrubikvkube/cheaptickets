@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class OwnerServiceImpl implements OwnerService {
-    private final Logger log = LoggerFactory.getLogger(OwnerServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(OwnerServiceImpl.class);
 
     private final OwnerRepository repository;
     private final OwnerDtoMapper mapper;

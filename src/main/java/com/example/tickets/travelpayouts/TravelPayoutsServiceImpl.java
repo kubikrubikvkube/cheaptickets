@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class TravelPayoutsServiceImpl implements TravelPayoutsService {
-    private final Logger log = LoggerFactory.getLogger(TravelPayoutsServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(TravelPayoutsServiceImpl.class);
     private final DefaultHttpClient<LatestResponse> httpClient;
     private final TicketDtoMapper mapper;
     private final int WAIT_TIMEOUT = 5;

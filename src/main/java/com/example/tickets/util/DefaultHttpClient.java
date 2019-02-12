@@ -22,7 +22,7 @@ import java.util.concurrent.CompletableFuture;
 @Configuration
 @PropertySource("classpath:ticket.properties")
 public class DefaultHttpClient<T> {
-    private final Logger log = LoggerFactory.getLogger(DefaultHttpClient.class);
+    private static final Logger log = LoggerFactory.getLogger(DefaultHttpClient.class);
     private final String token;
     private final PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
 

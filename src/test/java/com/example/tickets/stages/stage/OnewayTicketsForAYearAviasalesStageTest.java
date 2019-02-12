@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 class OnewayTicketsForAYearAviasalesStageTest {
-    private final Logger log = LoggerFactory.getLogger(OnewayTicketsForAYearAviasalesStageTest.class);
+    private static final Logger log = LoggerFactory.getLogger(OnewayTicketsForAYearAviasalesStageTest.class);
     @Mock
     private AviasalesService aviasalesService;
 

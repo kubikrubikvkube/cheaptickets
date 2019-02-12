@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,18 +17,17 @@ import java.time.LocalDateTime;
 @Entity
 @Table
 public class RouteNotification {
+    @OneToOne
+    Route route;
     @Id
     @GeneratedValue
     private Long id;
-
-    @OneToOne
-    Route route;
-
     @CreationTimestamp
     private LocalDateTime creationTimestamp;
 
     @JsonManagedReference
     @ManyToOne
-    @JoinColumn(name = "subscription_fk")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn
     private Subscription subscription;
 }

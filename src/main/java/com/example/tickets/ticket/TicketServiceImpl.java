@@ -23,7 +23,7 @@ import static java.util.Comparator.comparing;
 @Service
 @Transactional
 public class TicketServiceImpl implements TicketService {
-    private final Logger log = LoggerFactory.getLogger(TicketServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(TicketServiceImpl.class);
     private final TicketRepository repository;
     private final ObjectMapper mapper;
     private final ExampleMatcher exampleMatcher;

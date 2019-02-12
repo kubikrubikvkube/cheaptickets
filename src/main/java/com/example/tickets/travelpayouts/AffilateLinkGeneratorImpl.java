@@ -13,7 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Component
 @PropertySource("classpath:ticket.properties")
 public class AffilateLinkGeneratorImpl implements AffilateLinkGenerator {
-    private final Logger log = LoggerFactory.getLogger(AffilateLinkGeneratorImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(AffilateLinkGeneratorImpl.class);
     private final RouteDtoMapper routeDtoMapper;
     private final String marker;
 

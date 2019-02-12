@@ -25,12 +25,12 @@ import static com.example.tickets.util.RouteComparators.WEIGHTED_SUM_MODEL;
 
 @Component
 public class RouteNotificationStage implements Stage {
+    private static final Logger log = LoggerFactory.getLogger(RouteNotificationStage.class);
     private final OwnerService ownerService;
     private final RouteService routeService;
     private final RouteDtoMapper routeDtoMapper;
     private final EmailService emailService;
     private final RouteNotificationService routeNotificationService;
-    private final Logger log = LoggerFactory.getLogger(RouteNotificationStage.class);
     private final RoutePlanner routePlanner;
 
     public RouteNotificationStage(OwnerService ownerService, RouteService routeService, RouteDtoMapper routeDtoMapper, EmailService emailService, RouteNotificationService routeNotificationService, RoutePlanner routePlanner) {

@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class RoutePlannerImpl implements RoutePlanner {
+    private static final Logger log = LoggerFactory.getLogger(RoutePlannerImpl.class);
     private final CheapTicketService cheapTicketService;
-    private final Logger log = LoggerFactory.getLogger(RoutePlannerImpl.class);
     private final Integer MAXIMUM_REASONABLE_TRIP_TIME = 30;
     private final AffilateLinkGenerator affilateLinkGenerator;
 

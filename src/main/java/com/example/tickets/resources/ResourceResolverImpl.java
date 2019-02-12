@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @Component
 public class ResourceResolverImpl implements ResourceResolver {
-    private final Logger log = LoggerFactory.getLogger(ResourceResolverImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(ResourceResolverImpl.class);
     private final ObjectMapper objectMapper;
 
     public ResourceResolverImpl(ObjectMapper objectMapper) {

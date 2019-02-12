@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 class LatestTicketsTravelPayoutsPopulationStageTest {
-    private final Logger log = LoggerFactory.getLogger(LatestTicketsTravelPayoutsPopulationStageTest.class);
+    private static final Logger log = LoggerFactory.getLogger(LatestTicketsTravelPayoutsPopulationStageTest.class);
     @SpyBean
     private TravelPayoutsService travelPayoutsService;
 

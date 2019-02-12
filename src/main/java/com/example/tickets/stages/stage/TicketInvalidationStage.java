@@ -12,7 +12,7 @@ import java.util.List;
 
 @Component
 public class TicketInvalidationStage implements Stage {
-    private final Logger log = LoggerFactory.getLogger(TicketInvalidationStage.class);
+    private static final Logger log = LoggerFactory.getLogger(TicketInvalidationStage.class);
 
     private final TicketRepository ticketRepository;
 

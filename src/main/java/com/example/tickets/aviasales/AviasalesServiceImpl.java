@@ -22,10 +22,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class AviasalesServiceImpl implements AviasalesService {
-    private final Logger log = LoggerFactory.getLogger(AviasalesServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(AviasalesServiceImpl.class);
+    private final static int WAIT_TIMEOUTS = 5;
     private final DefaultHttpClient<AviasalesResponse> defaultHttpClient;
     private final TicketDtoMapper mapper;
-    private final static int WAIT_TIMEOUTS = 5;
 
     public AviasalesServiceImpl(DefaultHttpClient<AviasalesResponse> defaultHttpClient, TicketDtoMapper mapper) {
         this.defaultHttpClient = defaultHttpClient;

@@ -10,6 +10,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -89,17 +91,19 @@ public class Subscription {
     private SubscriptionType subscriptionType;
 
     @CollectionTable(name = "subscription_route_filtering_criteria_set")
-    @OneToMany(targetEntity = RouteFilteringCriteria.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = RouteFilteringCriteria.class, fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<RouteFilteringCriteria> routeFilteringCriteriaSet;
 
     @CollectionTable(name = "subscription_ticket_filtering_criteria_set")
-    @OneToMany(targetEntity = TicketFilteringCriteria.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = TicketFilteringCriteria.class, fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<TicketFilteringCriteria> ticketFilteringCriteriaSet;
 
     @JsonBackReference
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @CollectionTable(name = "subscription_route_notifications")
-    @OneToMany(targetEntity = RouteNotification.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn
+    @OneToMany
     private List<RouteNotification> routeNotifications;
 }

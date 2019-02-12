@@ -4,25 +4,29 @@ import com.example.tickets.route.Route;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 @Data
 @AllArgsConstructor
 @Entity
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class TripDurationFromCriteria extends RouteFilteringCriteria {
     @Transient
-    private final Logger log = LoggerFactory.getLogger(TripDurationFromCriteria.class);
-    private final Integer tripDurationFrom;
+    private static final Logger log = LoggerFactory.getLogger(TripDurationFromCriteria.class);
+    private Integer tripDurationFrom;
 
 
     @Override
     Predicate<Route> getPredicate() {
+        Objects.requireNonNull(tripDurationFrom);
         return route -> {
             log.debug("TripDurationFrom is {}", tripDurationFrom);
             log.debug("Route is {}", route);
