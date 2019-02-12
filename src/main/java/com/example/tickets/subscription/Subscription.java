@@ -90,15 +90,12 @@ public class Subscription {
     @Enumerated(EnumType.STRING)
     private SubscriptionType subscriptionType;
 
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn
-    @OneToMany
+    @CollectionTable(name = "subscription_route_filtering_criteria_set")
+    @OneToMany(targetEntity = RouteFilteringCriteria.class, fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<RouteFilteringCriteria> routeFilteringCriteriaSet;
 
-
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn
-    @OneToMany
+    @CollectionTable(name = "subscription_ticket_filtering_criteria_set")
+    @OneToMany(targetEntity = TicketFilteringCriteria.class, fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<TicketFilteringCriteria> ticketFilteringCriteriaSet;
 
     @JsonBackReference
