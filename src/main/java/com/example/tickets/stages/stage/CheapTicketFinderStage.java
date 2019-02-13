@@ -32,7 +32,7 @@ public class CheapTicketFinderStage implements Stage {
     public StageResult call() {
         Stopwatch timer = Stopwatch.createStarted();
         log.info("CheapTicketFinderStage started");
-//TODO  тут не обрабатываются обратные билеты
+
         List<Ticket> allTickets = ticketService.findAll();
         log.info("Found {} tickets total", allTickets.size());
 

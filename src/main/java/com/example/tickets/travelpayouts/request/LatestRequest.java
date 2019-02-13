@@ -2,7 +2,6 @@ package com.example.tickets.travelpayouts.request;
 
 import lombok.Builder;
 import lombok.Value;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
 
@@ -74,22 +73,20 @@ public class LatestRequest {
 
     @Override
     public String toString() {
-        UriComponentsBuilder queryBuilder = UriComponentsBuilder.newInstance()
-                .scheme("http")
-                .host("api.travelpayouts.com")
-                .path("/v2/prices/latest");
-
-        if (currency != null) queryBuilder.queryParam(currency);
-        if (origin != null) queryBuilder.queryParam(origin);
-        if (destination != null) queryBuilder.queryParam(destination);
-        if (beginning_of_period != null) queryBuilder.queryParam(String.valueOf(beginning_of_period));
-        if (period_type != null) queryBuilder.queryParam(period_type);
-        if (one_way != null) queryBuilder.queryParam(String.valueOf(one_way));
-        if (page != null) queryBuilder.queryParam(String.valueOf(page));
-        if (limit != null) queryBuilder.queryParam(String.valueOf(limit));
-        if (show_to_affiliates != null) queryBuilder.queryParam(String.valueOf(show_to_affiliates));
-        if (sorting != null) queryBuilder.queryParam(String.valueOf(sorting));
-        if (trip_duration != null) queryBuilder.queryParam(String.valueOf(trip_duration));
-        return queryBuilder.build(true).toUriString();
+        StringBuilder sb = new StringBuilder();
+        sb.append(BASE_URL).append("?");
+        if (currency != null) sb.append("currency=").append(currency).append("&");
+        if (origin != null) sb.append("origin=").append(origin).append("&");
+        if (destination != null) sb.append("destination=").append(destination).append("&");
+        if (beginning_of_period != null) sb.append("beginning_of_period=").append(beginning_of_period).append("&");
+        if (period_type != null) sb.append("period_type=").append(period_type).append("&");
+        if (one_way != null) sb.append("one_way=").append(one_way).append("&");
+        if (page != null) sb.append("page=").append(page).append("&");
+        if (limit != null) sb.append("limit=").append(limit).append("&");
+        if (show_to_affiliates != null) sb.append("show_to_affiliates=").append(show_to_affiliates).append("&");
+        if (sorting != null) sb.append("sorting=").append(sorting).append("&");
+        if (trip_duration != null) sb.append("trip_duration=").append(trip_duration).append("&");
+        sb.deleteCharAt(sb.lastIndexOf("&"));
+        return sb.toString();
     }
 }

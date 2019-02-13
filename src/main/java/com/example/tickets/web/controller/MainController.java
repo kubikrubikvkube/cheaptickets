@@ -7,7 +7,6 @@ import com.example.tickets.owner.OwnerService;
 import com.example.tickets.subscription.*;
 import com.example.tickets.subscription.filteringcriteria.MaxPriceFilteringCriteria;
 import com.example.tickets.subscription.filteringcriteria.RouteFilteringCriteria;
-import com.example.tickets.subscription.filteringcriteria.TripDurationFromCriteria;
 import com.example.tickets.util.ServiceException;
 import com.example.tickets.web.commandobjects.SubscriptionCommandObject;
 import org.springframework.stereotype.Controller;
@@ -65,12 +64,11 @@ public class MainController {
         dto.setDestination(destinationIata.getCode());
         dto.setDestinationName(destinationIata.getPlace());
 
-
-        RouteFilteringCriteria tripDurationFromCriteria = new TripDurationFromCriteria(commandObject.getTripDurationInDaysFrom());
-        RouteFilteringCriteria tripDurationToCriteria = new TripDurationFromCriteria(commandObject.getTripDurationInDaysTo());
+        dto.setTripDurationInDaysFrom(commandObject.getTripDurationInDaysFrom());
+        dto.setTripDurationInDaysTo(commandObject.getTripDurationInDaysTo());
         RouteFilteringCriteria maxPriceFilteringCriteria = new MaxPriceFilteringCriteria(commandObject.getMaxPrice());
 
-        dto.setRouteFilteringCriteriaSet(Set.of(tripDurationFromCriteria, tripDurationToCriteria, maxPriceFilteringCriteria));
+        dto.setRouteFilteringCriteriaSet(Set.of(maxPriceFilteringCriteria));
 
         Optional<Subscription> foundSubscription = subscriptionService.find(dto);
         if (foundSubscription.isEmpty()) {
