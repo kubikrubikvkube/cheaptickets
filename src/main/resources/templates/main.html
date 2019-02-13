@@ -10,17 +10,26 @@
 <body>
 <form method="post" th:action="@{/main/saveSubscription}" th:object="${subscriptionCommandObject}">
     <div class="form-group">
-        <div class="form-row col-auto">
-            <label for="originName">Откуда</label>
-            <input autocomplete="off" class="form-control" id="originName" th:field="*{originName}" th:required="true"
-                   type="text"/>
-        </div>
-        <div class="form-row col-auto">
-            <label for="originName">Куда</label>
-            <input autocomplete="off" class="form-control" id="destinationName" th:field="*{destinationName}"
-                   th:required="true" type="text"/>
-        </div>
+        <a aria-controls="tripDestination" aria-expanded="true" class="btn btn-primary" data-toggle="collapse"
+           href="#tripDestination" role="button">
+            Настроить направление поездки
+        </a>
 
+        <div class="collapse" id="tripDestination">
+            <div class="card card-body">
+                <div class="form-row col-auto">
+                    <label for="originName">Откуда</label>
+                    <input autocomplete="off" class="form-control" id="originName" th:field="*{originName}"
+                           th:required="true"
+                           type="text"/>
+                </div>
+                <div class="form-row col-auto">
+                    <label for="originName">Куда</label>
+                    <input autocomplete="off" class="form-control" id="destinationName" th:field="*{destinationName}"
+                           th:required="true" type="text"/>
+                </div>
+            </div>
+        </div>
 
         <a aria-controls="tripDuration" aria-expanded="false" class="btn btn-primary" data-toggle="collapse"
            href="#tripDuration" role="button">
@@ -41,7 +50,7 @@
                            th:required="true" type="text"/>
                 </div>
             </div>
-    </div>
+        </div>
         <a aria-controls="price" aria-expanded="false" class="btn btn-primary" data-toggle="collapse" href="#price"
            role="button">
             Настроить цену
@@ -56,7 +65,7 @@
                 </div>
             </div>
         </div>
-    <button class="btn btn-primary" type="submit">Создать подписку</button>
+        <button class="btn btn-primary" type="submit">Создать подписку</button>
 </form>
 
 <span>Ваши подписки:</span>
