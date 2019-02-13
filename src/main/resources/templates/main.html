@@ -20,22 +20,42 @@
             <input autocomplete="off" class="form-control" id="destinationName" th:field="*{destinationName}"
                    th:required="true" type="text"/>
         </div>
-        <div class="form-row col-auto">
-            <label for="originName">Пребывание в днях (от)</label>
-            <input autocomplete="off" class="form-control" id="tripDurationInDaysFrom"
-                   th:field="*{tripDurationInDaysFrom}" th:required="true" type="text"/>
-        </div>
-        <div class="form-row col-auto">
-            <label for="originName">Пребывание в днях (до)</label>
-            <input autocomplete="off" class="form-control" id="tripDurationInDaysTo" th:field="*{tripDurationInDaysTo}"
-                   th:required="true" type="text"/>
-        </div>
-        <div class="form-row col-auto">
-            <label for="originName">Цена (не дороже)</label>
-            <input autocomplete="off" class="form-control" id="maxPrice" th:field="*{maxPrice}"
-                   th:required="true" type="text"/>
-        </div>
+
+
+        <a aria-controls="tripDuration" aria-expanded="false" class="btn btn-primary" data-toggle="collapse"
+           href="#tripDuration" role="button">
+            Настроить длительность поездки
+        </a>
+
+        <div class="collapse" id="tripDuration">
+            <div class="card card-body">
+                <div class="form-row col-auto">
+                    <label for="originName">Пребывание в днях (от)</label>
+                    <input autocomplete="off" class="form-control" id="tripDurationInDaysFrom"
+                           th:field="*{tripDurationInDaysFrom}" th:required="true" type="text"/>
+                </div>
+                <div class="form-row col-auto">
+                    <label for="originName">Пребывание в днях (до)</label>
+                    <input autocomplete="off" class="form-control" id="tripDurationInDaysTo"
+                           th:field="*{tripDurationInDaysTo}"
+                           th:required="true" type="text"/>
+                </div>
+            </div>
     </div>
+        <a aria-controls="price" aria-expanded="false" class="btn btn-primary" data-toggle="collapse" href="#price"
+           role="button">
+            Настроить цену
+        </a>
+
+        <div class="collapse" id="price">
+            <div class="card card-body">
+                <div class="form-row col-auto">
+                    <label for="originName">Цена (не дороже)</label>
+                    <input autocomplete="off" class="form-control" id="maxPrice" th:field="*{maxPrice}"
+                           th:required="true" type="text"/>
+                </div>
+            </div>
+        </div>
     <button class="btn btn-primary" type="submit">Создать подписку</button>
 </form>
 
