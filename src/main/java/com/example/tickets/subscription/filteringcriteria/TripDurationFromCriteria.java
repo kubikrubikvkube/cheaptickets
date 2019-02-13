@@ -1,6 +1,6 @@
 package com.example.tickets.subscription.filteringcriteria;
 
-import com.example.tickets.route.Route;
+import com.example.tickets.route.RouteDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,7 +25,7 @@ public class TripDurationFromCriteria extends RouteFilteringCriteria {
 
 
     @Override
-    Predicate<Route> getPredicate() {
+    public Predicate<RouteDto> getPredicate() {
         Objects.requireNonNull(tripDurationFrom);
         return route -> {
             log.debug("TripDurationFrom is {}", tripDurationFrom);

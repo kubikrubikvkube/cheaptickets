@@ -21,6 +21,12 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     List<Ticket> findByOriginAndDestinationAndDepartDate(String origin, String destination, LocalDate departDate);
 
+    @Query("select DISTINCT(t.origin) from Ticket t")
+    List<String> findDistinctOrigins();
+
+    @Query("select DISTINCT(t.destination) from Ticket t")
+    List<String> findDistinctDestinations();
+
     List<Ticket> findByOriginAndDestination(String origin, String destination);
 
     @Query("select t from Ticket t where t.origin = :#{#subscriptionDto.origin} and t.destination = :#{#subscriptionDto.destination}")

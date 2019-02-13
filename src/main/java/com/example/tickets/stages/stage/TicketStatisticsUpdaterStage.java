@@ -40,32 +40,37 @@ public class TicketStatisticsUpdaterStage implements Stage {
         Stopwatch timer = Stopwatch.createStarted();
         log.info("TicketStatisticsUpdaterStage started");
         ticketStatisticsService.deleteAll();//TODO опять не работает апдейт. Но работает добавление в БД если она пустая
-
         AtomicLong updatedCounter = new AtomicLong();
+
+        Multimap<String, String> distinctOriginAndDestination = ticketService.findDistinctOriginAndDestination();
+
         List<Subscription> allSubscriptions = subscriptionService.findAll();
         log.info("Found {} subscriptions", allSubscriptions.size());
         log.info("Starting subscription processing");
-        for (Subscription subscription : allSubscriptions) {
-            log.debug("Processing subscription {}", subscription);
-            var origin = subscription.getOrigin();
-            var destination = subscription.getDestination();
+        distinctOriginAndDestination.forEach((origin, destination) -> {
+            log.debug("Processing {} {}", origin, destination);
             Optional<TicketStatistics> subscriptionStatisticsOpt = ticketStatisticsService.findByOriginAndDestination(origin, destination);
             TicketStatistics statistics = subscriptionStatisticsOpt.orElseGet(TicketStatistics::new);
             statistics.setOrigin(origin);
             statistics.setDestination(destination);
-            statistics.setTicketStatisticsByMonth(byMonth(subscription));
+            statistics.setTicketStatisticsByMonth(byMonth(origin, destination));
             log.debug("Ticket statistics generated {}", statistics);
             TicketStatistics savedTicketStatistics = ticketStatisticsService.save(statistics);
             log.debug("Ticket statistics saved {}", savedTicketStatistics);
             updatedCounter.incrementAndGet();
-        }
+        });
+
+        
+
+            
+        
 
         log.info("TicketStatisticsUpdaterStage finished in {}", timer.stop());
         return new StageResult("TicketStatisticsUpdaterStage", 0, updatedCounter.get(), 0);
     }
 
-    private List<TicketStatisticsByMonth> byMonth(Subscription s) {
-        List<Ticket> subscriptionTickets = ticketService.findBySubscription(s);
+    private List<TicketStatisticsByMonth> byMonth(String origin, String destination) {
+        List<Ticket> subscriptionTickets = ticketService.findBy(origin, destination);
         subscriptionTickets.sort(Comparator.comparing(Ticket::getDepartDate));
 
         Multimap<Month, Ticket> ticketsAsMultimap = ArrayListMultimap.create();
@@ -99,4 +104,6 @@ public class TicketStatisticsUpdaterStage implements Stage {
 
         return statisticsList;
     }
+
+
 }

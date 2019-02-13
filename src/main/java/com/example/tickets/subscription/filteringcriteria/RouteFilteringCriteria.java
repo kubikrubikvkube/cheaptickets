@@ -1,6 +1,6 @@
 package com.example.tickets.subscription.filteringcriteria;
 
-import com.example.tickets.route.Route;
+import com.example.tickets.route.RouteDto;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,9 +18,9 @@ public abstract class RouteFilteringCriteria {
     @GeneratedValue
     private Long id;
 
-    abstract Predicate<Route> getPredicate();
+    public abstract Predicate<RouteDto> getPredicate();
 
-    void ensureTicketFieldsAreNonNull(Route route) {
+    void ensureTicketFieldsAreNonNull(RouteDto route) {
         var departTicket = route.getDepartTicket();
         requireNonNull(departTicket, "Depart ticket shouldn't be null");
 

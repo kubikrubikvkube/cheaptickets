@@ -1,6 +1,6 @@
 package com.example.tickets.subscription.filteringcriteria;
 
-import com.example.tickets.route.Route;
+import com.example.tickets.route.RouteDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,7 +24,7 @@ public class MaxPriceFilteringCriteria extends RouteFilteringCriteria {
 
 
     @Override
-    Predicate<Route> getPredicate() {
+    public Predicate<RouteDto> getPredicate() {
         return route -> route.getSumValue() <= maxPrice;
     }
 }

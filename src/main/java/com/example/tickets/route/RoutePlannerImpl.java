@@ -1,8 +1,7 @@
 package com.example.tickets.route;
 
 import com.example.tickets.subscription.Subscription;
-import com.example.tickets.subscription.SubscriptionType;
-import com.example.tickets.subscription.filteringcriteria.TicketFilteringCriteria;
+import com.example.tickets.subscription.filteringcriteria.RouteFilteringCriteria;
 import com.example.tickets.ticket.CheapTicket;
 import com.example.tickets.ticket.CheapTicketService;
 import com.example.tickets.ticket.Ticket;
@@ -32,80 +31,31 @@ public class RoutePlannerImpl implements RoutePlanner {
 
     @Override
     public List<RouteDto> plan(Subscription subscription) {
-        requireNonNull(subscription.getOrigin(), "Subscription origin shouldn't be null");
-        requireNonNull(subscription.getDestination(), "Subscription destination shouldn't be null");
-        List<CheapTicket> departTickets = cheapTicketService.findByOriginAndDestination(subscription.getOrigin(), subscription.getDestination());
-        List<CheapTicket> returnTickets = cheapTicketService.findByOriginAndDestination(subscription.getDestination(), subscription.getOrigin());
-        List<CheapTicket> all = cheapTicketService.findAll();
+        requireNonNull(subscription, "Subscription shouldn't be null");
+        var origin = subscription.getOrigin();
+        requireNonNull(origin, "Subscription origin shouldn't be null");
+        var destination = subscription.getDestination();
+        requireNonNull(destination, "Subscription destination shouldn't be null");
+        var tripDurationInDaysFrom = subscription.getTripDurationInDaysFrom();
+        requireNonNull(tripDurationInDaysFrom, "Subscription TripDurationInDaysFrom shouldn't be null");
+        var tripDurationInDaysTo = subscription.getTripDurationInDaysTo();
+        requireNonNull(tripDurationInDaysTo, "Subscription TripDurationInDaysTo shouldn't be null");
 
+        List<RouteDto> routeDtos = planReturnTripWithTripDurationFromTo(origin, destination, tripDurationInDaysFrom, tripDurationInDaysTo);
 
-        Predicate<Ticket> aggregatedTicketPredicate = subscription
-                .getTicketFilteringCriteriaSet()
+        Predicate<RouteDto> aggregatedRoutePredicate = subscription
+                .getRouteFilteringCriteriaSet()
                 .stream()
-                .map(TicketFilteringCriteria::getPredicate)
+                .map(RouteFilteringCriteria::getPredicate)
                 .reduce(x -> true, Predicate::and);
 
-        List<CheapTicket> filteredTickets = all
+        List<RouteDto> bestRoutes = routeDtos
                 .stream()
-                .filter(aggregatedTicketPredicate)
+                .filter(aggregatedRoutePredicate)
+                .sorted(Comparator.comparingInt(RouteDto::getSumValue))
                 .collect(Collectors.toList());
-        //
-        var subscriptionType = subscription.getSubscriptionType();
-        if (subscriptionType == null || subscriptionType == SubscriptionType.INVALID) {
-            log.debug("SubscriptionType for {} is invalid {}. Skipping subscription", subscription, subscriptionType);
-            return Collections.emptyList();
-        }
-        var origin = subscription.getOrigin();
-        var destination = subscription.getDestination();
-        var departDate = subscription.getDepartDate();
-        var returnDate = subscription.getReturnDate();
-        var tripDurationInDaysFrom = subscription.getTripDurationInDaysFrom();
-        var tripDurationInDaysTo = subscription.getTripDurationInDaysTo();
 
-        List<RouteDto> routes = new ArrayList<>();
-        switch (subscriptionType) {
-            case DESTINATION_TRIP_DURATION_FROM_TRIP_DURATION_TO: {
-                routes = planReturnTripWithTripDurationFromTo(origin, destination, tripDurationInDaysFrom, tripDurationInDaysTo);
-                break;
-            }
-
-            case TRIP_DURATION_FROM_TRIP_DURATION_TO:
-                routes = planReturnTripAnywhereWithDepartReturnDate(origin, departDate, returnDate);
-                break;
-
-            case DESTINATION:
-                routes = planOneWayTrip(origin, destination);
-                break;
-
-            case DESTINATION_DEPART_DATE:
-                routes = planOneWayTripWithDepartDate(origin, destination, departDate);
-                break;
-
-            case DEPART_DATE_AND_RETURN_DATE:
-                routes = planReturnTripWithDepartAndReturnDates(departDate, returnDate);
-                break;
-
-            case DESTINATION_DEPART_DATE_RETURN_DATE:
-                routes = planReturnTripWithDepartAndReturnDates(origin, destination, departDate, returnDate);
-                break;
-
-            case DESTINATION_DEPART_DATE_TRIP_DURATION_FROM:
-                routes = planReturnTripAnywhereWithDepartDateForSpecificNumberOfDays(origin, destination, departDate, tripDurationInDaysFrom);
-                break;
-
-            case DESTINATION_TRIP_DURATION_FROM: {
-                routes = planReturnTripWithTripDurationFromTo(origin, destination, tripDurationInDaysFrom, MAXIMUM_REASONABLE_TRIP_TIME);
-                break;
-            }
-            case DESTINATION_TRIP_DURATION_TO:
-                routes = planReturnTripWithTripDurationFromTo(origin, destination, 1, tripDurationInDaysTo);
-                break;
-            case INVALID:
-                routes = Collections.emptyList();
-                break;
-        }
-
-        return routes;
+        return bestRoutes;
     }
 
     private List<RouteDto> planReturnTripWithDepartAndReturnDates(String origin, String destination, LocalDate departDate, LocalDate returnDate) {

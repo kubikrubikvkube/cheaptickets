@@ -3,7 +3,9 @@ package com.example.tickets.ticket;
 import com.example.tickets.subscription.Subscription;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Example;
@@ -81,6 +83,19 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public List<Ticket> findBy(String origin, String destination) {
         return repository.findByOriginAndDestination(origin, destination);
+    }
+
+    @Override
+    public Multimap<String, String> findDistinctOriginAndDestination() {
+        Multimap<String, String> map = ArrayListMultimap.create();
+        repository.findAll().forEach(ticket -> {
+            var origin = ticket.getOrigin();
+            var destination = ticket.getDestination();
+            if (!map.containsEntry(origin, destination)) {
+                map.put(ticket.getOrigin(), ticket.getDestination());
+            }
+        });
+        return map;
     }
 
     @Override
