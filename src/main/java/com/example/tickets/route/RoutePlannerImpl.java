@@ -16,6 +16,8 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.requireNonNull;
+
 @Component
 public class RoutePlannerImpl implements RoutePlanner {
     private static final Logger log = LoggerFactory.getLogger(RoutePlannerImpl.class);
@@ -30,7 +32,12 @@ public class RoutePlannerImpl implements RoutePlanner {
 
     @Override
     public List<RouteDto> plan(Subscription subscription) {
+        requireNonNull(subscription.getOrigin(), "Subscription origin shouldn't be null");
+        requireNonNull(subscription.getDestination(), "Subscription destination shouldn't be null");
+        List<CheapTicket> departTickets = cheapTicketService.findByOriginAndDestination(subscription.getOrigin(), subscription.getDestination());
+        List<CheapTicket> returnTickets = cheapTicketService.findByOriginAndDestination(subscription.getDestination(), subscription.getOrigin());
         List<CheapTicket> all = cheapTicketService.findAll();
+
 
         Predicate<Ticket> aggregatedTicketPredicate = subscription
                 .getTicketFilteringCriteriaSet()

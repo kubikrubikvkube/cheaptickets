@@ -56,10 +56,13 @@ public class OnewayTicketsForAYearAviasalesStage implements Stage {
                         destinations
                                 .forEach(destination -> {
                                     log.debug("Processing request {} {} {}", origin, destination, date);
-                                    List<Ticket> dateDestinationTickets = aviasalesService.getOneWayTicket(origin, destination, date, 1);
-                                    foundTickets.addAll(dateDestinationTickets);
+                                    List<Ticket> destinationTickets = aviasalesService.getOneWayTicket(origin, destination, date, 1);
+                                    foundTickets.addAll(destinationTickets);
+                                    List<Ticket> returnTickets = aviasalesService.getOneWayTicket(destination, origin, date, 1);
+                                    foundTickets.addAll(returnTickets);
                                 });
                     });
+            //TODO считать depart ticket и return ticket отдельно
             foundTicketsCount.addAndGet(foundTickets.size());
             long savedTickets = ticketService.saveAllIfNotExist(foundTickets, true);
             savedTicketsCount.addAndGet(savedTickets);

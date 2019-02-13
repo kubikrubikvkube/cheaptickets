@@ -104,6 +104,6 @@ public class Subscription {
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<RouteNotification> routeNotifications;
 }

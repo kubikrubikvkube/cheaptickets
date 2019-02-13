@@ -45,14 +45,23 @@ public class LatestTicketsTravelPayoutsPopulationStage implements Stage {
             Collection<String> destinations = entry.getValue();
             for (String destination : destinations) {
                 log.debug("Processing subscription from {} to {}", origin, destination);
-                LatestRequest latestRequest = LatestRequest.builder()
+                LatestRequest departLatestRequest = LatestRequest.builder()
                         .origin(origin)
                         .destination(destination)
                         .limit(1000)
                         .show_to_affiliates(true)
                         .one_way(true)
                         .build();
-                subscriptionRequests.add(latestRequest);
+                subscriptionRequests.add(departLatestRequest);
+
+                LatestRequest returnLatestRequest = LatestRequest.builder()
+                        .origin(destination)
+                        .destination(origin)
+                        .limit(1000)
+                        .show_to_affiliates(true)
+                        .one_way(true)
+                        .build();
+                subscriptionRequests.add(returnLatestRequest);
             }
         }
         log.info("Generated {} subscription requests", subscriptionRequests.size());
