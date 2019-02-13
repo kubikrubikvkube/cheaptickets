@@ -2,12 +2,15 @@ package com.example.tickets.subscription;
 
 import com.example.tickets.notification.RouteNotification;
 import com.example.tickets.owner.Owner;
+import com.example.tickets.subscription.filteringcriteria.RouteFilteringCriteria;
+import com.example.tickets.subscription.filteringcriteria.TicketFilteringCriteria;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -60,4 +63,8 @@ public class SubscriptionDto {
     private SubscriptionType subscriptionType;
 
     private List<RouteNotification> routeNotifications;
+
+    private Set<RouteFilteringCriteria> routeFilteringCriteriaSet;
+
+    private Set<TicketFilteringCriteria> ticketFilteringCriteriaSet;
 }

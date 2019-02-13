@@ -8,7 +8,7 @@
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
 </head>
 <body>
-<form method="post" th:action="@{/main/saveSubscription}" th:object="${subscriptionDto}">
+<form method="post" th:action="@{/main/saveSubscription}" th:object="${subscriptionCommandObject}">
     <div class="form-group">
         <div class="form-row col-auto">
             <label for="originName">Откуда</label>
@@ -28,6 +28,11 @@
         <div class="form-row col-auto">
             <label for="originName">Пребывание в днях (до)</label>
             <input autocomplete="off" class="form-control" id="tripDurationInDaysTo" th:field="*{tripDurationInDaysTo}"
+                   th:required="true" type="text"/>
+        </div>
+        <div class="form-row col-auto">
+            <label for="originName">Цена (не дороже)</label>
+            <input autocomplete="off" class="form-control" id="maxPrice" th:field="*{maxPrice}"
                    th:required="true" type="text"/>
         </div>
     </div>
@@ -52,7 +57,7 @@
         <td><span th:text="${subscription.tripDurationInDaysFrom}">tripDurationInDaysFrom</span></td>
         <td><span th:text="${subscription.tripDurationInDaysTo}">tripDurationInDaysTo</span></td>
         <td>
-            <form method="post" th:action="@{/main/deleteSubscription}" th:object="${subscriptionDtoCommandObject}">
+            <form method="post" th:action="@{/main/deleteSubscription}" th:object="${subscriptionCommandObject}">
                 <input id="id" name="id" th:value="${iterStat.current.id}" type="hidden"/>
                 <button class="btn btn-outline-info" type="submit">Удалить подписку</button>
             </form>

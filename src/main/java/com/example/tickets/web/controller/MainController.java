@@ -5,8 +5,9 @@ import com.example.tickets.iata.IataService;
 import com.example.tickets.owner.Owner;
 import com.example.tickets.owner.OwnerService;
 import com.example.tickets.subscription.*;
+import com.example.tickets.subscription.filteringcriteria.*;
 import com.example.tickets.util.ServiceException;
-import com.example.tickets.web.commandobjects.SubscriptionDtoCommandObject;
+import com.example.tickets.web.commandobjects.SubscriptionCommandObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Controller
 public class MainController {
@@ -41,33 +43,44 @@ public class MainController {
     @GetMapping("/main")
     public String main(HttpSession httpSession, Model model) {
         model.addAttribute("lastSavedSubscription", null);
-        model.addAttribute("subscriptionDto", new SubscriptionDtoCommandObject());
+        model.addAttribute("subscriptionCommandObject", new SubscriptionCommandObject());
         return MAIN_PAGE;
     }
 
     @PostMapping("/main/saveSubscription")
-    public RedirectView saveSubscription(HttpSession session, @ModelAttribute SubscriptionDto subscriptionDto, Model model) {
+    public RedirectView saveSubscription(HttpSession session, @ModelAttribute SubscriptionCommandObject commandObject, Model model) {
         Optional<Owner> ownerOptional = (Optional<Owner>) session.getAttribute("ownerDto");
         if (ownerOptional.isEmpty()) throw new ServiceException("Owner is not found in model");
         Owner owner = ownerOptional.get();
-        subscriptionDto.setOwner(owner);
-        Iata originIata = iataService.fromPlaceName(subscriptionDto.getOriginName());
-        Iata destinationIata = iataService.fromPlaceName(subscriptionDto.getDestinationName());
+        SubscriptionDto dto = new SubscriptionDto();
+        dto.setOwner(owner);
 
-        subscriptionDto.setOrigin(originIata.getCode());
-        subscriptionDto.setDestination(destinationIata.getCode());
-        SubscriptionType subscriptionType = typeResolver.resolve(subscriptionDto);
-        subscriptionDto.setSubscriptionType(subscriptionType);
-        Optional<Subscription> foundSubscription = subscriptionService.find(subscriptionDto);
+        Iata originIata = iataService.fromPlaceName(commandObject.getOriginName());
+        dto.setOrigin(originIata.getCode());
+        dto.setOriginName(originIata.getPlace());
+
+        Iata destinationIata = iataService.fromPlaceName(commandObject.getDestinationName());
+        dto.setDestination(destinationIata.getCode());
+        dto.setDestinationName(destinationIata.getPlace());
+
+        TicketFilteringCriteria destinationCriteria = new TicketDestinationCriteria(destinationIata.getCode());
+        RouteFilteringCriteria tripDurationFromCriteria = new TripDurationFromCriteria(commandObject.getTripDurationInDaysFrom());
+        RouteFilteringCriteria tripDurationToCriteria = new TripDurationFromCriteria(commandObject.getTripDurationInDaysTo());
+        RouteFilteringCriteria maxPriceFilteringCriteria = new MaxPriceFilteringCriteria(commandObject.getMaxPrice());
+
+        dto.setTicketFilteringCriteriaSet(Set.of(destinationCriteria));
+        dto.setRouteFilteringCriteriaSet(Set.of(tripDurationFromCriteria, tripDurationToCriteria, maxPriceFilteringCriteria));
+
+        Optional<Subscription> foundSubscription = subscriptionService.find(dto);
         if (foundSubscription.isEmpty()) {
-            Subscription savedSubscription = subscriptionService.save(subscriptionDto);
+            Subscription savedSubscription = subscriptionService.save(dto);
             model.addAttribute("lastSavedSubscription", savedSubscription);
         }
         return new RedirectView(MAIN_PAGE);
     }
 
     @PostMapping("/main/deleteSubscription")
-    public RedirectView deleteSubscription(HttpSession session, @ModelAttribute SubscriptionDtoCommandObject subscriptionDto, Model model) {
+    public RedirectView deleteSubscription(HttpSession session, @ModelAttribute SubscriptionCommandObject subscriptionDto, Model model) {
         Optional<Subscription> subscriptionOptional = subscriptionService.find(subscriptionDto.getId());
         if (subscriptionOptional.isPresent()) {
             Subscription subscription = subscriptionOptional.get();

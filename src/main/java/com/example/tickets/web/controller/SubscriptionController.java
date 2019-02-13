@@ -3,8 +3,9 @@ package com.example.tickets.web.controller;
 import com.example.tickets.iata.Iata;
 import com.example.tickets.iata.IataService;
 import com.example.tickets.subscription.Subscription;
+import com.example.tickets.subscription.SubscriptionDto;
 import com.example.tickets.subscription.SubscriptionService;
-import com.example.tickets.web.commandobjects.SubscriptionDtoCommandObject;
+import com.example.tickets.web.commandobjects.SubscriptionCommandObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,24 +28,26 @@ public class SubscriptionController {
 
     @GetMapping("/admin/subscription")
     public String subscriptionPage(Model model) {
-        model.addAttribute(new SubscriptionDtoCommandObject());
+        model.addAttribute(new SubscriptionCommandObject());
         return SUBSCRIPTION_PAGE;
     }
 
     @PostMapping("/admin/subscription/add")
-    public String subscriptionAdd(@ModelAttribute SubscriptionDtoCommandObject subscriptionDtoCommandObject) {
-        Iata originIata = iataService.fromPlaceName(subscriptionDtoCommandObject.getOriginName());
-        Iata destinationIata = iataService.fromPlaceName(subscriptionDtoCommandObject.getDestinationName());
+    public String subscriptionAdd(@ModelAttribute SubscriptionCommandObject subscriptionCommandObject) {
+        SubscriptionDto dto = new SubscriptionDto();
 
-        subscriptionDtoCommandObject.setOrigin(originIata.getCode());
-        subscriptionDtoCommandObject.setDestination(destinationIata.getCode());
-        subscriptionService.save(subscriptionDtoCommandObject);
+        Iata originIata = iataService.fromPlaceName(subscriptionCommandObject.getOriginName());
+        Iata destinationIata = iataService.fromPlaceName(subscriptionCommandObject.getDestinationName());
+
+        dto.setOrigin(originIata.getCode());
+        dto.setDestination(destinationIata.getCode());
+        subscriptionService.save(dto);
         return SUBSCRIPTION_PAGE;
     }
 
     @PostMapping("/admin/subscription/delete")
-    public String subscriptionDelete(@ModelAttribute SubscriptionDtoCommandObject subscriptionDtoCommandObject) {
-        Long id = subscriptionDtoCommandObject.getId();
+    public String subscriptionDelete(@ModelAttribute SubscriptionCommandObject subscriptionCommandObject) {
+        Long id = subscriptionCommandObject.getId();
         Optional<Subscription> subscriptionOptional = subscriptionService.find(id);
         if (subscriptionOptional.isPresent()) {
             subscriptionService.delete(id);

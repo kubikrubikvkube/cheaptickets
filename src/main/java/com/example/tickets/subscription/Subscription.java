@@ -91,11 +91,11 @@ public class Subscription {
     private SubscriptionType subscriptionType;
 
     @CollectionTable(name = "subscription_route_filtering_criteria_set")
-    @OneToMany(targetEntity = RouteFilteringCriteria.class, fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(targetEntity = RouteFilteringCriteria.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<RouteFilteringCriteria> routeFilteringCriteriaSet;
 
     @CollectionTable(name = "subscription_ticket_filtering_criteria_set")
-    @OneToMany(targetEntity = TicketFilteringCriteria.class, fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(targetEntity = TicketFilteringCriteria.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TicketFilteringCriteria> ticketFilteringCriteriaSet;
 
     @JsonBackReference

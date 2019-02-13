@@ -2,10 +2,8 @@ package com.example.tickets.subscription.filteringcriteria;
 
 import com.example.tickets.route.Route;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.function.Predicate;
 
 import static java.util.Objects.requireNonNull;
@@ -19,9 +17,6 @@ public abstract class RouteFilteringCriteria {
     @Id
     @GeneratedValue
     private Long id;
-
-    @CreationTimestamp
-    private LocalDateTime creationTimestamp;
 
     abstract Predicate<Route> getPredicate();
 
