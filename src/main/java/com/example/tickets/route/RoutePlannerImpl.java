@@ -58,50 +58,6 @@ public class RoutePlannerImpl implements RoutePlanner {
         return bestRoutes;
     }
 
-    private List<RouteDto> planReturnTripWithDepartAndReturnDates(String origin, String destination, LocalDate departDate, LocalDate returnDate) {
-        List<CheapTicket> departTickets = cheapTicketService.findByOriginAndDestinationAndDepartDate(origin, destination, departDate);
-        List<CheapTicket> returnTickets = cheapTicketService.findByOriginAndDestinationAndDepartDate(destination, origin, returnDate);
-        List<CheapTicket> departTicketsMutable = new ArrayList<>(departTickets);
-        List<CheapTicket> returnTicketsMutable = new ArrayList<>(returnTickets);
-        departTicketsMutable.sort(Comparator.comparingInt(Ticket::getValue));
-        returnTicketsMutable.sort(Comparator.comparingInt(Ticket::getValue));
-
-        List<RouteDto> availableRoutes = new ArrayList<>();
-        for (CheapTicket departTicket : departTicketsMutable) {
-            for (CheapTicket returnTicket : returnTicketsMutable) {
-                RouteDto routeDto = new RouteDto();
-                routeDto.setOrigin(origin);
-                routeDto.setDestination(destination);
-                routeDto.setDepartTicket(departTicket);
-                routeDto.setReturnTicket(returnTicket);
-                routeDto.setSumValue(departTicket.getValue() + returnTicket.getValue());
-                routeDto.setTripDurationInDays(departDate.until(returnDate).getDays());
-                availableRoutes.add(routeDto);
-            }
-        }
-        availableRoutes.sort(Comparator.comparingInt(RouteDto::getSumValue));
-        return availableRoutes.subList(0, 100);
-    }
-
-    private List<RouteDto> planOneWayTrip(String origin, String destination) {
-        List<CheapTicket> departTickets = cheapTicketService.findByOriginAndDestination(origin, destination);
-        List<RouteDto> availableRoutes = new ArrayList<>();
-
-        for (CheapTicket ticket : departTickets) {
-            RouteDto routeDto = new RouteDto();
-            routeDto.setOrigin(origin);
-            routeDto.setDestination(destination);
-            routeDto.setDepartTicket(ticket);
-            routeDto.setSumValue(ticket.getValue());
-            availableRoutes.add(routeDto);
-        }
-
-        return availableRoutes
-                .stream()
-                .sorted(Comparator.comparingInt(RouteDto::getSumValue))
-                .collect(Collectors.toList());
-    }
-
     private List<RouteDto> planReturnTripWithTripDurationFromTo(String origin, String destination, int from, int to) {
         List<RouteDto> availableRoutes = new ArrayList<>();
         for (int i = from; i <= to; i++) {
@@ -146,26 +102,5 @@ public class RoutePlannerImpl implements RoutePlanner {
         }
 
         return availableRoutes;
-    }
-
-    private List<RouteDto> planReturnTripWithDepartAndReturnDates(LocalDate departDate, LocalDate returnDate) {
-        //TODO
-        return Collections.emptyList();
-
-    }
-
-    private List<RouteDto> planOneWayTripWithDepartDate(String origin, String destination, LocalDate departDate) {
-        //TODO
-        return Collections.emptyList();
-    }
-
-    private List<RouteDto> planReturnTripAnywhereWithDepartReturnDate(String origin, LocalDate departDate, LocalDate returnDate) {
-        //TODO
-        return Collections.emptyList();
-    }
-
-    private List<RouteDto> planReturnTripAnywhereWithDepartDateForSpecificNumberOfDays(String origin, String destionation, LocalDate departDate, int from) {
-        //TODO
-        return Collections.emptyList();
     }
 }
