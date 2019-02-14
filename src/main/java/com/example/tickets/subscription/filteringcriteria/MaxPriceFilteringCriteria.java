@@ -25,6 +25,7 @@ public class MaxPriceFilteringCriteria extends RouteFilteringCriteria {
 
     @Override
     public Predicate<RouteDto> getPredicate() {
+        if (maxPrice == null) return routeDto -> true;
         return route -> route.getSumValue() <= maxPrice;
     }
 }
