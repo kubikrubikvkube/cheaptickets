@@ -1,5 +1,6 @@
 package com.example.tickets.subscription;
 
+import com.example.tickets.notification.RouteNotification;
 import com.example.tickets.owner.Owner;
 import com.example.tickets.owner.OwnerRepository;
 import com.example.tickets.util.ServiceException;
@@ -195,6 +196,19 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public Subscription save(SubscriptionDto subscriptionDto) {
         Subscription subscription = mapper.fromDto(subscriptionDto);
         return repository.save(subscription);
+    }
+
+    @Override
+    public Subscription addRouteNotification(RouteNotification routeNotification, Subscription subscription) {
+        log.debug("Adding route notification {} to {}", routeNotification, subscription);
+        List<RouteNotification> currentRouteNotifications = subscription.getRouteNotifications();
+        if (!currentRouteNotifications.contains(routeNotification)) {
+            currentRouteNotifications.add(routeNotification);
+            subscription.setRouteNotifications(currentRouteNotifications);
+            Subscription saved = this.save(subscription);
+            return saved;
+        }
+        return subscription;
     }
 
     @Override

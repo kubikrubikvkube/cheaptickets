@@ -11,6 +11,8 @@ public interface RouteService {
 
     List<Route> saveIfNotExist(List<RouteDto> routeDtos);
 
+    Route saveIfNotExist(RouteDto routeDto);
+
     List<Route> findBy(String origin, String destination);
 
     List<RouteDto> plan(Subscription subscription);

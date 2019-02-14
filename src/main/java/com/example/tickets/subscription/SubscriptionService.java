@@ -1,5 +1,6 @@
 package com.example.tickets.subscription;
 
+import com.example.tickets.notification.RouteNotification;
 import com.google.common.collect.Multimap;
 
 import java.util.List;
@@ -33,6 +34,8 @@ public interface SubscriptionService {
     long count();
 
     Subscription save(SubscriptionDto subscriptionDto);
+
+    Subscription addRouteNotification(RouteNotification routeNotification, Subscription subscription);
 
     Subscription save(Subscription subscriptionDto);
 }
