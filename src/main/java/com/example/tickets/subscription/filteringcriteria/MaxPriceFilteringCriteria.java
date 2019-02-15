@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.Transient;
 import java.util.function.Predicate;
 
+import static java.util.Objects.requireNonNull;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,7 +26,7 @@ public class MaxPriceFilteringCriteria extends RouteFilteringCriteria {
 
     @Override
     public Predicate<RouteDto> getPredicate() {
-        if (maxPrice == null) return routeDto -> true;
+        requireNonNull(maxPrice, "Max price shouldn't be null");
         return route -> route.getSumValue() <= maxPrice;
     }
 

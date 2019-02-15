@@ -33,6 +33,8 @@ public class MainController {
     private final SubscriptionTypeResolver typeResolver;
     private final OwnerService ownerService;
     private final IataService iataService;
+    private final static int DEFAULT_TRIP_DURATION_FROM = 2;
+    private final static int DEFAULT_TRIP_DURATION_TO = 15;
 
     public MainController(SubscriptionService subscriptionService, SubscriptionDtoMapper mapper, SubscriptionTypeResolver typeResolver, OwnerService ownerService, IataService iataService) {
         this.subscriptionService = subscriptionService;
@@ -69,13 +71,15 @@ public class MainController {
         dto.setDestinationName(destinationIata.getPlace());
 
         var tripDurationFrom = commandObject.getTripDurationInDaysFrom();
-        dto.setTripDurationInDaysFrom(tripDurationFrom);
+        dto.setTripDurationInDaysFrom(tripDurationFrom == null ? DEFAULT_TRIP_DURATION_FROM : tripDurationFrom);
 
         var tripDurationTo = commandObject.getTripDurationInDaysTo();
-        dto.setTripDurationInDaysTo(tripDurationTo);
-        RouteFilteringCriteria maxPriceFilteringCriteria = new MaxPriceFilteringCriteria(commandObject.getMaxPrice());
-
-        dto.setRouteFilteringCriteriaSet(Set.of(maxPriceFilteringCriteria));
+        dto.setTripDurationInDaysTo(tripDurationTo == null ? DEFAULT_TRIP_DURATION_TO : tripDurationTo);
+        var maxPrice = commandObject.getMaxPrice();
+        if (maxPrice != null) {
+            RouteFilteringCriteria maxPriceFilteringCriteria = new MaxPriceFilteringCriteria(maxPrice);
+            dto.setRouteFilteringCriteriaSet(Set.of(maxPriceFilteringCriteria));
+        }
 
         Optional<Subscription> foundSubscription = subscriptionService.find(dto);
         if (foundSubscription.isEmpty()) {

@@ -17,17 +17,15 @@ public class GlobalUpdaterJob implements Job {
     private final OnewayTicketsForAYearAviasalesStage onewayTicketsForAYearAviasalesStage;
     private final CheapTicketFinderStage cheapTicketFinderStage;
     private final TicketStatisticsUpdaterStage ticketStatisticsUpdaterStage;
-    private final SubscriptionTypeResolverStage subscriptionTypeResolverStage;
     private final RoutePlannerStage routePlannerStage;
     private final RouteNotificationStage routeNotificationStage;
 
-    public GlobalUpdaterJob(TicketInvalidationStage ticketInvalidationStage, LatestTicketsTravelPayoutsPopulationStage latestTicketsTravelPayoutsPopulationStage, OnewayTicketsForAYearAviasalesStage onewayTicketsForAYearAviasalesStage, CheapTicketFinderStage cheapTicketFinderStage, TicketStatisticsUpdaterStage ticketStatisticsUpdaterStage, SubscriptionTypeResolverStage subscriptionTypeResolverStage, RoutePlannerStage routePlannerStage, RouteNotificationStage routeNotificationStage) {
+    public GlobalUpdaterJob(TicketInvalidationStage ticketInvalidationStage, LatestTicketsTravelPayoutsPopulationStage latestTicketsTravelPayoutsPopulationStage, OnewayTicketsForAYearAviasalesStage onewayTicketsForAYearAviasalesStage, CheapTicketFinderStage cheapTicketFinderStage, TicketStatisticsUpdaterStage ticketStatisticsUpdaterStage, RoutePlannerStage routePlannerStage, RouteNotificationStage routeNotificationStage) {
         this.ticketInvalidationStage = ticketInvalidationStage;
         this.latestTicketsTravelPayoutsPopulationStage = latestTicketsTravelPayoutsPopulationStage;
         this.onewayTicketsForAYearAviasalesStage = onewayTicketsForAYearAviasalesStage;
         this.cheapTicketFinderStage = cheapTicketFinderStage;
         this.ticketStatisticsUpdaterStage = ticketStatisticsUpdaterStage;
-        this.subscriptionTypeResolverStage = subscriptionTypeResolverStage;
         this.routePlannerStage = routePlannerStage;
         this.routeNotificationStage = routeNotificationStage;
     }
@@ -35,17 +33,7 @@ public class GlobalUpdaterJob implements Job {
     @Override
     public void execute(JobExecutionContext context) {
         log.info("GlobalUpdaterJob started");
-
-        log.info("Starting stage 1 - SubscriptionTypeResolverStage");
-        /*
-        Эта стадия используется для обновления SubscriptionType всех подписок, что были созданы и по каким-то причинам не имели
-        указанного типа при сохранении в базу. Этот тип необходим для выбора корректного алгоритма планирования маршрута. В зависимости
-        от соотношения указанных переменных в подписке мы ждём что будет выбран разный маршрут.
-         */
-        StageResult subscriptionTypeResolverStageResult = subscriptionTypeResolverStage.call();
-        log.info("{}", subscriptionTypeResolverStageResult);
-
-        log.info("Starting stage 2 - TicketInvalidation");
+        log.info("Starting stage 1 - TicketInvalidation");
         /*
         Эта стадия используется для инвалидации тех билетов, чья дата вылета в прошедшем времени.
         Предполагается, что максимальная польза от этой стадии будет после полуночи, когда сутки сменились и билеты за "сегодняшнее"
@@ -59,7 +47,7 @@ public class GlobalUpdaterJob implements Job {
          * Эта стадия полезна при ежечасном обновлении, так как позволяет не пропустить билеты, добавленные в кэш реальными пользователями
          * за последний час. Это обеспечивает более быстрое пополнение нашей базы актуальными билетами, а значит более быстрое оповещение подписчиков.
          */
-        log.info("Starting stage 3 - LatestTicketsTravelPayoutsPopulationStage");
+        log.info("Starting stage 2 - LatestTicketsTravelPayoutsPopulationStage");
         StageResult travelPayoutsLatestTicketsStageResult = latestTicketsTravelPayoutsPopulationStage.call();
         log.info("{}", travelPayoutsLatestTicketsStageResult);
 
@@ -69,7 +57,7 @@ public class GlobalUpdaterJob implements Job {
          * заданным направлениям на каждую из дат на ближайший год. Найденные билеты сохраняются к нам в базу. Это обеспечивает пополнение базы
          * кэшированными билетами на все доступные даты на ближайшее время, которые будут провалидированы позже.
          */
-        log.info("Starting stage 4 - OnewayTicketsForAYearAviasalesStage");
+        log.info("Starting stage 3 - OnewayTicketsForAYearAviasalesStage");
         StageResult onewayTicketsForAYearAviasalesStageResult = onewayTicketsForAYearAviasalesStage.call();
         log.info("{}", onewayTicketsForAYearAviasalesStageResult);
 
@@ -77,7 +65,7 @@ public class GlobalUpdaterJob implements Job {
         /*
          * Эта стадия необходима для получения пересчёта статистики по билетам, которые у нас уже имеются.
          */
-        log.info("Starting stage 5 - TicketStatisticsUpdaterStage");
+        log.info("Starting stage 4 - TicketStatisticsUpdaterStage");
         StageResult ticketStatisticsUpdaterStageResult = ticketStatisticsUpdaterStage.call();
         log.info("{}", ticketStatisticsUpdaterStageResult);
 
@@ -86,21 +74,21 @@ public class GlobalUpdaterJob implements Job {
          * которые считаем дешёвыми, и кладём их в отдельную таблицу. После этого мы будем работать уже непосредственно с этой
          * таблицей, фильтруя их и подбирая лучшие рейсы.
          */
-        log.info("Starting stage 6 - CheapTicketFinderStage");
+        log.info("Starting stage 5 - CheapTicketFinderStage");
         StageResult cheapTicketFinderStageResult = cheapTicketFinderStage.call();
         log.info("{}", cheapTicketFinderStageResult);
 
         /*
          * Стадия необходима для планирования маршрутов, на основании требований, заданных в подписке
          */
-        log.info("Starting stage 7 - RoutePlannerStage");
+        log.info("Starting stage 6 - RoutePlannerStage");
         StageResult routePlannerStageResult = routePlannerStage.call();
         log.info("{}", routePlannerStageResult);
 
         /*
          * Стадия необходима для планирования маршрутов, на основании требований, заданных в подписке
          */
-        log.info("Starting stage 8 - RouteNotificationStage");
+        log.info("Starting stage 7 - RouteNotificationStage");
         StageResult routeNotificationStageResult = routeNotificationStage.call();
         log.info("{}", routeNotificationStageResult);
     }
