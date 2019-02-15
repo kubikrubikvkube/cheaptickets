@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface RouteNotificator {
     Optional<RouteNotification> notify(Subscription subscription, Route route);
+
     List<RouteNotification> notify(Subscription subscription, List<Route> routes);
 }

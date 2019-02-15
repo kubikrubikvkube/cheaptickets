@@ -9,104 +9,104 @@
 </head>
 <body>
 <div class="container">
-<form method="post" th:action="@{/main/saveSubscription}" th:object="${subscriptionCommandObject}">
-    <div class="form-group">
-        <div id="accordion">
-            <div class="card">
-                <div class="card-body">
-                    <div class="form-row col-auto">
-                        <label for="originName">Откуда</label>
-                        <input autocomplete="off" class="form-control" id="originName" th:field="*{originName}"
-                               th:required="true" type="text"/>
-                    </div>
-                    <div class="form-row col-auto">
-                        <label for="originName">Куда</label>
-                        <input autocomplete="off" class="form-control" id="destinationName"
-                               th:field="*{destinationName}"
-                               th:required="true"
-                               type="text"/>
-                    </div>
-                </div>
+    <form method="post" th:action="@{/main/saveSubscription}" th:object="${subscriptionCommandObject}">
+        <div class="form-group">
+            <div id="accordion">
                 <div class="card">
-                    <div class="card-header" id="tripDurationHeader">
-                        <h5 class="mb-0">
-                            <a aria-controls="tripDuration" aria-expanded="false" class="btn btn-light collapsed"
-                               data-target="#tripDuration"
-                               data-toggle="collapse" type="button">
-                                Длительность поездки
-                            </a>
-                        </h5>
+                    <div class="card-body">
+                        <div class="form-row col-auto">
+                            <label for="originName">Откуда</label>
+                            <input autocomplete="off" class="form-control" id="originName" th:field="*{originName}"
+                                   th:required="true" type="text"/>
+                        </div>
+                        <div class="form-row col-auto">
+                            <label for="originName">Куда</label>
+                            <input autocomplete="off" class="form-control" id="destinationName"
+                                   th:field="*{destinationName}"
+                                   th:required="true"
+                                   type="text"/>
+                        </div>
                     </div>
-                    <div aria-labelledby="tripDurationHeader" class="collapse" data-parent="#accordion"
-                         id="tripDuration">
-                        <div class="card-body">
-                            <div class="form-row col-auto">
-                                <label for="originName">Пребывание в днях (от)</label>
-                                <input autocomplete="off" class="form-control" id="tripDurationInDaysFrom"
-                                       th:field="*{tripDurationInDaysFrom}" type="text"/>
-                            </div>
-                            <div class="form-row col-auto">
-                                <label for="originName">Пребывание в днях (до)</label>
-                                <input autocomplete="off" class="form-control" id="tripDurationInDaysTo"
-                                       th:field="*{tripDurationInDaysTo}" type="text"/>
+                    <div class="card">
+                        <div class="card-header" id="tripDurationHeader">
+                            <h5 class="mb-0">
+                                <a aria-controls="tripDuration" aria-expanded="false" class="btn btn-light collapsed"
+                                   data-target="#tripDuration"
+                                   data-toggle="collapse" type="button">
+                                    Длительность поездки
+                                </a>
+                            </h5>
+                        </div>
+                        <div aria-labelledby="tripDurationHeader" class="collapse" data-parent="#accordion"
+                             id="tripDuration">
+                            <div class="card-body">
+                                <div class="form-row col-auto">
+                                    <label for="originName">Пребывание в днях (от)</label>
+                                    <input autocomplete="off" class="form-control" id="tripDurationInDaysFrom"
+                                           th:field="*{tripDurationInDaysFrom}" type="text"/>
+                                </div>
+                                <div class="form-row col-auto">
+                                    <label for="originName">Пребывание в днях (до)</label>
+                                    <input autocomplete="off" class="form-control" id="tripDurationInDaysTo"
+                                           th:field="*{tripDurationInDaysTo}" type="text"/>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" id="priceHeading">
-                        <h5 class="mb-0">
-                            <a aria-controls="price" aria-expanded="false" class="btn btn-light collapsed"
-                               data-target="#price"
-                               data-toggle="collapse" type="button">
-                                Настроить цену
-                            </a>
-                        </h5>
-                    </div>
-                    <div aria-labelledby="priceHeading" class="collapse" data-parent="#accordion" id="price">
-                        <div class="card-body">
-                            <div class="form-row col-auto">
-                                <label for="originName">Цена (не дороже)</label>
-                                <input autocomplete="off" class="form-control" id="maxPrice" th:field="*{maxPrice}"
-                                       type="text"/>
+                    <div class="card">
+                        <div class="card-header" id="priceHeading">
+                            <h5 class="mb-0">
+                                <a aria-controls="price" aria-expanded="false" class="btn btn-light collapsed"
+                                   data-target="#price"
+                                   data-toggle="collapse" type="button">
+                                    Настроить цену
+                                </a>
+                            </h5>
+                        </div>
+                        <div aria-labelledby="priceHeading" class="collapse" data-parent="#accordion" id="price">
+                            <div class="card-body">
+                                <div class="form-row col-auto">
+                                    <label for="originName">Цена (не дороже)</label>
+                                    <input autocomplete="off" class="form-control" id="maxPrice" th:field="*{maxPrice}"
+                                           type="text"/>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <button aria-pressed="true" class="btn btn-primary active" type="submit">Создать подписку</button>
                 </div>
-                <button aria-pressed="true" class="btn btn-primary active" type="submit">Создать подписку</button>
             </div>
-        </div>
-</form>
+    </form>
 </div>
 <div class="container">
-<span>Ваши подписки:</span>
+    <span>Ваши подписки:</span>
     <table class="table">
-    <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">Откуда</th>
-        <th scope="col">Куда</th>
-        <th scope="col">Время пребывания в днях (от)</th>
-        <th scope="col">Время пребывания в днях (до)</th>
-        <th scope="col">Действие</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="subscription,iterStat : ${ownerSubscriptions}">
-        <th scope="row" th:text="${iterStat.index}">1</th>
-        <td><span th:text="${subscription.originName}">originName</span></td>
-        <td><span th:text="${subscription.destinationName}">destinationName</span></td>
-        <td><span th:text="${subscription.tripDurationInDaysFrom}">tripDurationInDaysFrom</span></td>
-        <td><span th:text="${subscription.tripDurationInDaysTo}">tripDurationInDaysTo</span></td>
-        <td>
-            <form method="post" th:action="@{/main/deleteSubscription}" th:object="${subscriptionCommandObject}">
-                <input id="id" name="id" th:value="${iterStat.current.id}" type="hidden"/>
-                <button class="btn btn-outline-info" type="submit">Удалить подписку</button>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Откуда</th>
+            <th scope="col">Куда</th>
+            <th scope="col">Время пребывания в днях (от)</th>
+            <th scope="col">Время пребывания в днях (до)</th>
+            <th scope="col">Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="subscription,iterStat : ${ownerSubscriptions}">
+            <th scope="row" th:text="${iterStat.index}">1</th>
+            <td><span th:text="${subscription.originName}">originName</span></td>
+            <td><span th:text="${subscription.destinationName}">destinationName</span></td>
+            <td><span th:text="${subscription.tripDurationInDaysFrom}">tripDurationInDaysFrom</span></td>
+            <td><span th:text="${subscription.tripDurationInDaysTo}">tripDurationInDaysTo</span></td>
+            <td>
+                <form method="post" th:action="@{/main/deleteSubscription}" th:object="${subscriptionCommandObject}">
+                    <input id="id" name="id" th:value="${iterStat.current.id}" type="hidden"/>
+                    <button class="btn btn-outline-info" type="submit">Удалить подписку</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 <script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

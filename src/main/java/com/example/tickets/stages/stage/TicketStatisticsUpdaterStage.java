@@ -60,10 +60,6 @@ public class TicketStatisticsUpdaterStage implements Stage {
             updatedCounter.incrementAndGet();
         });
 
-        
-
-            
-        
 
         log.info("TicketStatisticsUpdaterStage finished in {}", timer.stop());
         return new StageResult("TicketStatisticsUpdaterStage", 0, updatedCounter.get(), 0);
