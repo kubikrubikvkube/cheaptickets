@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static java.util.Objects.requireNonNull;
+
 @Controller
 public class MainController {
     private final String MAIN_PAGE = "/main";
@@ -56,16 +58,21 @@ public class MainController {
         SubscriptionDto dto = new SubscriptionDto();
         dto.setOwner(owner);
 
-        Iata originIata = iataService.fromPlaceName(commandObject.getOriginName());
+        var placeName = requireNonNull(commandObject.getOriginName(), "Origin placeName shouldn't be null");
+        Iata originIata = iataService.fromPlaceName(placeName);
         dto.setOrigin(originIata.getCode());
         dto.setOriginName(originIata.getPlace());
 
-        Iata destinationIata = iataService.fromPlaceName(commandObject.getDestinationName());
+        var destinationPlaceName = requireNonNull(commandObject.getDestinationName(), "Destination originName shouldn't be null");
+        Iata destinationIata = iataService.fromPlaceName(destinationPlaceName);
         dto.setDestination(destinationIata.getCode());
         dto.setDestinationName(destinationIata.getPlace());
 
-        dto.setTripDurationInDaysFrom(commandObject.getTripDurationInDaysFrom());
-        dto.setTripDurationInDaysTo(commandObject.getTripDurationInDaysTo());
+        var tripDurationFrom = commandObject.getTripDurationInDaysFrom();
+        dto.setTripDurationInDaysFrom(tripDurationFrom);
+
+        var tripDurationTo = commandObject.getTripDurationInDaysTo();
+        dto.setTripDurationInDaysTo(tripDurationTo);
         RouteFilteringCriteria maxPriceFilteringCriteria = new MaxPriceFilteringCriteria(commandObject.getMaxPrice());
 
         dto.setRouteFilteringCriteriaSet(Set.of(maxPriceFilteringCriteria));
