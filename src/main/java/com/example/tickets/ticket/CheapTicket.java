@@ -2,7 +2,6 @@ package com.example.tickets.ticket;
 
 import com.example.tickets.notification.RouteNotification;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -12,7 +11,6 @@ import java.util.List;
 
 @Data
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @NoArgsConstructor
 @Table(name = "ticket_cheap", indexes = {@Index(name = "idx_cheap_ticket", columnList = "id,origin,destination,departDate,numberOfChanges,value,actual,isExpired")})

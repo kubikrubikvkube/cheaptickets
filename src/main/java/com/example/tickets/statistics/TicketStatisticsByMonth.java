@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -34,4 +35,16 @@ public class TicketStatisticsByMonth {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TicketStatisticsByMonth)) return false;
+        TicketStatisticsByMonth byMonth = (TicketStatisticsByMonth) o;
+        return Objects.equals(id, byMonth.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

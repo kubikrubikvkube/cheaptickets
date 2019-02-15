@@ -8,9 +8,10 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Objects;
 
-@Data
 @Entity
+@Data
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Table(indexes = {@Index(name = "idx_ticket", columnList = "id,origin,destination,departDate,numberOfChanges,value,actual,isExpired")})
 public class Ticket {
@@ -120,4 +121,16 @@ public class Ticket {
 
     private Boolean isExpired;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ticket)) return false;
+        Ticket ticket = (Ticket) o;
+        return Objects.equals(id, ticket.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

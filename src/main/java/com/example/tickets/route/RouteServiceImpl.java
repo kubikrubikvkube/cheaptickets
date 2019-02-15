@@ -1,7 +1,6 @@
 package com.example.tickets.route;
 
 import com.example.tickets.subscription.Subscription;
-import com.example.tickets.util.ServiceException;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,15 +62,19 @@ public class RouteServiceImpl implements RouteService {
     public Route saveIfNotExist(RouteDto routeDto) {
         Route route = mapper.fromDto(routeDto);
         var example = Example.of(route, exampleMatcher);
-        var exists = repository.exists(example);
-        if (!exists) {
+        Optional<Route> found = repository.findOne(example);
+        if (found.isEmpty()) {
             return repository.save(route);
         }
-        Optional<Route> fromRepository = repository.findOne(example);
-        if (fromRepository.isEmpty()) {
-            throw new ServiceException("Saved but not found???");
-        }
-        return fromRepository.get();
+        return found.get();
+
+    }
+
+    @Override
+    public boolean exist(RouteDto routeDto) {
+        Route route = mapper.fromDto(routeDto);
+        var example = Example.of(route, exampleMatcher);
+        return repository.exists(example);
     }
 
     @Override

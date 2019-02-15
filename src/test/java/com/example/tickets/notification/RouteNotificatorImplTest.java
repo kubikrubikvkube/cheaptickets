@@ -96,7 +96,6 @@ class RouteNotificatorImplTest {
 //        subscriptionDto.setRouteNotifications(Collections.singletonList(routeNotification));
 
         subscription = subscriptionService.save(subscriptionDto);
-        routeNotification.setSubscription(subscription);
         routeNotificationService.save(routeNotification);
 
         owner.setSubscriptions(Collections.singletonList(subscription));

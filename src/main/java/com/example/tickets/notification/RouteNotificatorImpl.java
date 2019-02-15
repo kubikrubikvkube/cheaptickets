@@ -35,7 +35,6 @@ public class RouteNotificatorImpl implements RouteNotificator {
     @Override
     public Optional<RouteNotification> notify(Subscription subscription, Route route) {
         RouteNotificationDto routeNotificationDto = new RouteNotificationDto();
-        routeNotificationDto.setSubscription(subscription);
         routeNotificationDto.setRoute(route);
         RouteNotification saved = routeNotificationService.save(routeNotificationDto);
         emailService.sendNotifications(subscription.getOwner(), List.of(saved));

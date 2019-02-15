@@ -4,6 +4,7 @@ import com.example.tickets.route.RouteDto;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import static java.util.Objects.requireNonNull;
@@ -32,5 +33,18 @@ public abstract class RouteFilteringCriteria {
 
         var returnDate = returnTicket.getDepartDate();
         requireNonNull(returnDate, "Return date shouldn't be null");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RouteFilteringCriteria)) return false;
+        RouteFilteringCriteria that = (RouteFilteringCriteria) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

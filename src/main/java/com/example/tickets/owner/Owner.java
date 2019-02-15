@@ -11,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @NoArgsConstructor
 @Data
@@ -31,4 +32,17 @@ public class Owner {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<Subscription> subscriptions;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Owner)) return false;
+        Owner owner = (Owner) o;
+        return Objects.equals(id, owner.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

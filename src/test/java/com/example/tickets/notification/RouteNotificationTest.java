@@ -78,7 +78,6 @@ class RouteNotificationTest {
         subscription.setDestination("MOW");
         subscription = subscriptionRepository.save(subscription);
         log.info("Subscription: {}", subscription);
-        routeNotification.setSubscription(subscription);
         Route route = new Route();
         route.setOrigin("LED");
         route.setDestination("MOW");
@@ -92,7 +91,6 @@ class RouteNotificationTest {
         assertNotNull(saved.getId());
         assertNotNull(saved.getCreationTimestamp());
         assertNotNull(saved.getRoute());
-        assertNotNull(saved.getSubscription());
     }
 
 }

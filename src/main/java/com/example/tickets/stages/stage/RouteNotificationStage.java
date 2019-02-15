@@ -6,10 +6,7 @@ import com.example.tickets.notification.RouteNotificationDtoMapper;
 import com.example.tickets.notification.RouteNotificationService;
 import com.example.tickets.owner.Owner;
 import com.example.tickets.owner.OwnerService;
-import com.example.tickets.route.RouteDto;
-import com.example.tickets.route.RouteDtoMapper;
-import com.example.tickets.route.RoutePlanner;
-import com.example.tickets.route.RouteService;
+import com.example.tickets.route.*;
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionService;
 import com.example.tickets.util.EmailService;
@@ -65,24 +62,26 @@ public class RouteNotificationStage implements Stage {
                 routeService.saveIfNotExist(routeDtos);
 
                 Iterable<RouteDto> topThreeRoutes = Iterables.limit(routeDtos, 3);
-                List<RouteNotificationDto> currentRouteNotificationDtos = subscription
-                        .getRouteNotifications()
-                        .stream()
-                        .map(notificationDtoMapper::toDto)
-                        .collect(Collectors.toList());
+
 
                 for (RouteDto routeDto : topThreeRoutes) {
                     log.debug("Processing one of top 3 routes {}", routeDto);
                     RouteNotificationDto routeNotificationDto = new RouteNotificationDto();
-                    routeNotificationDto.setRoute(routeService.saveIfNotExist(routeDto));
-                    routeNotificationDto.setSubscription(subscription);
+                    Route route = routeService.saveIfNotExist(routeDto);
+                    routeNotificationDto.setRoute(route);
+
+                    List<RouteNotificationDto> currentRouteNotificationDtos = subscription
+                            .getRouteNotifications()
+                            .stream()
+                            .map(notificationDtoMapper::toDto)
+                            .collect(Collectors.toList());
+
                     if (!currentRouteNotificationDtos.contains(routeNotificationDto)) {
                         RouteNotification saved = routeNotificationService.save(routeNotificationDto);
                         subscriptionService.addRouteNotification(saved, subscription);
                         ownerRouteNotifications.put(subscription, saved);
                     }
                 }
-
             }
 
 

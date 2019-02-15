@@ -1,14 +1,15 @@
 package com.example.tickets.route;
 
 import com.example.tickets.ticket.Ticket;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @Table(indexes = {@Index(name = "idx_route", columnList = "id,origin,destination,sumValue,tripDurationInDays")})
@@ -17,9 +18,6 @@ public class Route {
     @Id
     @GeneratedValue
     private Long id;
-
-    @CreationTimestamp
-    private LocalDateTime creationTimestamp;
 
     /**
      * Место отправления
@@ -52,4 +50,17 @@ public class Route {
      * Время поездки в днях
      */
     private Integer tripDurationInDays;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Route)) return false;
+        Route route = (Route) o;
+        return Objects.equals(id, route.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
