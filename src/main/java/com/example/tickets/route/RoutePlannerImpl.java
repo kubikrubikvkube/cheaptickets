@@ -22,6 +22,7 @@ public class RoutePlannerImpl implements RoutePlanner {
     private static final Logger log = LoggerFactory.getLogger(RoutePlannerImpl.class);
     private final CheapTicketService cheapTicketService;
     private final Integer MAXIMUM_REASONABLE_TRIP_TIME = 30;
+    private final int MAX_ROUTES_TO_RETURN = 500;
     private final AffilateLinkGenerator affilateLinkGenerator;
 
     public RoutePlannerImpl(CheapTicketService cheapTicketService, AffilateLinkGenerator affilateLinkGenerator) {
@@ -53,6 +54,7 @@ public class RoutePlannerImpl implements RoutePlanner {
                 .stream()
                 .filter(aggregatedRoutePredicate)
                 .sorted(Comparator.comparingInt(RouteDto::getSumValue))
+                .limit(MAX_ROUTES_TO_RETURN)
                 .collect(Collectors.toList());
 
         return bestRoutes;

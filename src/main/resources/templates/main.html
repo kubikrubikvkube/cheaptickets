@@ -16,12 +16,13 @@
 </head>
 <body>
 <div class="container">
-    <p class="lead" th:text="${owner}">someone@yandex.ru</p>
+
     <form method="post" th:action="@{/main/saveSubscription}" th:object="${subscriptionCommandObject}">
         <div class="form-group">
             <div id="accordion">
                 <div class="card">
                     <div class="card-body">
+                        <p class="lead" th:text="${owner}">someone@yandex.ru</p>
                         <div class="form-row col-auto">
                             <label for="originName">Откуда</label>
                             <input autocomplete="off" class="form-control" id="originName" th:field="*{originName}"
