@@ -106,4 +106,9 @@ public class MainController {
         return subscriptionService.get(owner);
     }
 
+    @ModelAttribute("owner")
+    public String owner(@CookieValue String owner) {
+        return owner;
+    }
+
 }
