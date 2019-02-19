@@ -19,8 +19,9 @@ public class GlobalUpdaterJob implements Job {
     private final TicketStatisticsUpdaterStage ticketStatisticsUpdaterStage;
     private final RoutePlannerStage routePlannerStage;
     private final RouteNotificationStage routeNotificationStage;
+    private final GarbageCollectionStage garbageCollectionStage;
 
-    public GlobalUpdaterJob(TicketInvalidationStage ticketInvalidationStage, LatestTicketsTravelPayoutsPopulationStage latestTicketsTravelPayoutsPopulationStage, OnewayTicketsForAYearAviasalesStage onewayTicketsForAYearAviasalesStage, CheapTicketFinderStage cheapTicketFinderStage, TicketStatisticsUpdaterStage ticketStatisticsUpdaterStage, RoutePlannerStage routePlannerStage, RouteNotificationStage routeNotificationStage) {
+    public GlobalUpdaterJob(TicketInvalidationStage ticketInvalidationStage, LatestTicketsTravelPayoutsPopulationStage latestTicketsTravelPayoutsPopulationStage, OnewayTicketsForAYearAviasalesStage onewayTicketsForAYearAviasalesStage, CheapTicketFinderStage cheapTicketFinderStage, TicketStatisticsUpdaterStage ticketStatisticsUpdaterStage, RoutePlannerStage routePlannerStage, RouteNotificationStage routeNotificationStage, GarbageCollectionStage garbageCollectionStage) {
         this.ticketInvalidationStage = ticketInvalidationStage;
         this.latestTicketsTravelPayoutsPopulationStage = latestTicketsTravelPayoutsPopulationStage;
         this.onewayTicketsForAYearAviasalesStage = onewayTicketsForAYearAviasalesStage;
@@ -28,6 +29,7 @@ public class GlobalUpdaterJob implements Job {
         this.ticketStatisticsUpdaterStage = ticketStatisticsUpdaterStage;
         this.routePlannerStage = routePlannerStage;
         this.routeNotificationStage = routeNotificationStage;
+        this.garbageCollectionStage = garbageCollectionStage;
     }
 
     @Override
@@ -91,5 +93,13 @@ public class GlobalUpdaterJob implements Job {
         log.info("Starting stage 7 - RouteNotificationStage");
         StageResult routeNotificationStageResult = routeNotificationStage.call();
         log.info("{}", routeNotificationStageResult);
+
+        /*
+         * Здесь мы вручную вызываем Garbage Collector для того чтобы сразу же уменьшить размер хипа, что позволит
+         * снизить время расходования ресурсов в jelastic и следовательно уменьшить стоимость поддержки сайта
+         */
+        log.info("Starting stage 8 - GarbageCollectionStage");
+        StageResult garbageCollectionStageResult = garbageCollectionStage.call();
+        log.info("{}", garbageCollectionStageResult);
     }
 }
