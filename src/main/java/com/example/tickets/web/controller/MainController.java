@@ -11,6 +11,7 @@ import com.example.tickets.util.ServiceException;
 import com.example.tickets.web.commandobjects.SubscriptionCommandObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -101,13 +102,8 @@ public class MainController {
     }
 
     @ModelAttribute("ownerSubscriptions")
-    public List<Subscription> ownerSubscriptions(HttpSession httpSession) {
-        Object ownerAttribute = httpSession.getAttribute("ownerDto");
-        if (ownerAttribute == null) throw new ServiceException("Owner is not found in model");
-        Optional<Owner> ownerOptional = (Optional<Owner>) ownerAttribute;
-        if (ownerOptional.isEmpty()) throw new ServiceException("Owner is found but optional is empty");
-        Owner owner = ownerOptional.get();
-        return subscriptionService.get(owner.getEmail());
+    public List<Subscription> ownerSubscriptions(@CookieValue String owner) {
+        return subscriptionService.get(owner);
     }
 
 }

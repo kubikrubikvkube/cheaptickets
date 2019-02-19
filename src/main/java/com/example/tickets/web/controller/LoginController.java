@@ -14,6 +14,8 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
@@ -46,9 +48,11 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public View loginPage(@ModelAttribute OwnerDto ownerDto, HttpSession session, Model model) {
+    public View loginPage(@ModelAttribute OwnerDto ownerDto, HttpSession session, Model model, HttpServletResponse response) {
         var userEmail = ownerDto.getEmail();
-        if (!isValidEmailAddress(userEmail)) return new RedirectView(LOGIN_PAGE);
+        if (!isValidEmailAddress(userEmail)) {
+            return new RedirectView(LOGIN_PAGE);
+        }
 
         Optional<Owner> ownerOptional = ownerService.find(userEmail);
         if (ownerOptional.isEmpty()) {
@@ -56,6 +60,7 @@ public class LoginController {
             ownerService.save(ownerDto);
         }
 
+        response.addCookie(new Cookie("owner", userEmail));
         session.setAttribute("ownerDto", ownerService.find(userEmail));
         model.addAttribute("subscriptionDto", new SubscriptionDto());
         return new RedirectView(MAIN_PAGE);
