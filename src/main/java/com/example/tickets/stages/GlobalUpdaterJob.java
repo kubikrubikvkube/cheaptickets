@@ -93,13 +93,5 @@ public class GlobalUpdaterJob implements Job {
         log.info("Starting stage 7 - RouteNotificationStage");
         StageResult routeNotificationStageResult = routeNotificationStage.call();
         log.info("{}", routeNotificationStageResult);
-
-        /*
-         * Здесь мы вручную вызываем Garbage Collector для того чтобы сразу же уменьшить размер хипа, что позволит
-         * снизить время расходования ресурсов в jelastic и следовательно уменьшить стоимость поддержки сайта
-         */
-        log.info("Starting stage 8 - GarbageCollectionStage");
-        StageResult garbageCollectionStageResult = garbageCollectionStage.call();
-        log.info("{}", garbageCollectionStageResult);
     }
 }
