@@ -1,10 +1,8 @@
 package com.example.tickets.iata;
 
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Data
@@ -15,10 +13,6 @@ public class Iata {
     @GeneratedValue
     private Long id;
 
-    @CreationTimestamp
-    private LocalDateTime creationTimestamp;
-
-    @Column(length = 3)
     private String code;
 
     private String place;
