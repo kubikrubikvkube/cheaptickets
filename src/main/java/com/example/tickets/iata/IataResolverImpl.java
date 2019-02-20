@@ -25,7 +25,7 @@ public class IataResolverImpl implements IataResolver {
     public String resolve(String place) {
 
         StringBuilder sb = new StringBuilder();
-        sb.append("https://places.aviasales.ru/v2/places.json?")
+        sb.append("http://places.aviasales.ru/v2/places.json?")
                 .append("locale=ru&")
                 .append("max=1&")
                 .append("term=").append(place).append("&")
