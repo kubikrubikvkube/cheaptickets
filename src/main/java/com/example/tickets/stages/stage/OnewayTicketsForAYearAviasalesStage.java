@@ -3,6 +3,7 @@ package com.example.tickets.stages.stage;
 import com.example.tickets.aviasales.AviasalesService;
 import com.example.tickets.subscription.SubscriptionService;
 import com.example.tickets.ticket.Ticket;
+import com.example.tickets.ticket.TicketDto;
 import com.example.tickets.ticket.TicketService;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Multimap;
@@ -46,7 +47,7 @@ public class OnewayTicketsForAYearAviasalesStage implements Stage {
         AtomicLong savedTicketsCount = new AtomicLong();
         for (Map.Entry<String, Collection<String>> entry : subscriptionsMap.entrySet()) {
             log.info("Processing subscriptions {}", entry);
-            List<Ticket> foundTickets = new CopyOnWriteArrayList<>();
+            List<TicketDto> foundTickets = new CopyOnWriteArrayList<>();
             String origin = entry.getKey();
             Collection<String> destinations = entry.getValue();
             Stream<LocalDate> dateStream = LocalDate.now().datesUntil(LocalDate.now().plusMonths(12));
@@ -56,16 +57,16 @@ public class OnewayTicketsForAYearAviasalesStage implements Stage {
                         destinations
                                 .forEach(destination -> {
                                     log.debug("Processing request {} {} {}", origin, destination, date);
-                                    List<Ticket> destinationTickets = aviasalesService.getOneWayTicket(origin, destination, date, 1);
+                                    List<TicketDto> destinationTickets = aviasalesService.getOneWayTicket(origin, destination, date, 1);
                                     foundTickets.addAll(destinationTickets);
-                                    List<Ticket> returnTickets = aviasalesService.getOneWayTicket(destination, origin, date, 1);
+                                    List<TicketDto> returnTickets = aviasalesService.getOneWayTicket(destination, origin, date, 1);
                                     foundTickets.addAll(returnTickets);
                                 });
                     });
             //TODO считать depart ticket и return ticket отдельно
             foundTicketsCount.addAndGet(foundTickets.size());
-            long savedTickets = ticketService.saveAllIfNotExist(foundTickets, true);
-            savedTicketsCount.addAndGet(savedTickets);
+            List<Ticket> savedTickets = ticketService.saveAllIfNotExist(foundTickets, true);
+            savedTicketsCount.addAndGet(savedTickets.size());
             log.info("For subscriptions {} found {} ticket and saved {} tickets", entry, foundTickets.size(), savedTickets);
         }
         log.info("Overall found {} tickets and saved {} tickets", foundTicketsCount.get(), savedTicketsCount.get());

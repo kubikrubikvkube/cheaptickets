@@ -1,6 +1,6 @@
 package com.example.tickets.aviasales;
 
-import com.example.tickets.ticket.Ticket;
+import com.example.tickets.ticket.TicketDto;
 import com.example.tickets.util.ServiceException;
 
 import java.time.LocalDate;
@@ -20,5 +20,5 @@ public interface AviasalesService {
      * @return список найденных билетов
      * @throws ServiceException исключение во время выполнения
      */
-    List<Ticket> getOneWayTicket(String originIAT, String destinationIAT, LocalDate date, int range);
+    List<TicketDto> getOneWayTicket(String originIAT, String destinationIAT, LocalDate date, Integer range);
 }

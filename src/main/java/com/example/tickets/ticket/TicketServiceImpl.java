@@ -2,20 +2,20 @@ package com.example.tickets.ticket;
 
 import com.example.tickets.subscription.Subscription;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -35,7 +35,7 @@ public class TicketServiceImpl implements TicketService {
         this.repository = repository;
         this.mapper = mapper;
         this.dtoMapper = dtoMapper;
-        exampleMatcher = ExampleMatcher.matchingAll().withIgnorePaths("id", "creationTimestamp", "foundAt").withIncludeNullValues();
+        this.exampleMatcher = ExampleMatcher.matchingAll().withIgnorePaths("id", "creationTimestamp", "foundAt").withIncludeNullValues();
     }
 
     @Override
@@ -44,30 +44,7 @@ public class TicketServiceImpl implements TicketService {
 
         return foundTickets
                 .stream()
-                .filter(ticket -> ticket.getValue() != null)
                 .min(comparing(Ticket::getValue));
-    }
-
-    @Override
-    public Optional<ObjectNode> prices(String origin, String destination, LocalDate departureDate) {
-        List<Ticket> tickets = repository.findByOriginAndDestinationAndDepartDate(origin, destination, departureDate);
-        ObjectNode node = mapper.createObjectNode();
-        tickets.forEach(ticket -> node.put(ticket.getDepartDate().toString(), ticket.getValue()));
-        if (!node.isEmpty(null)) {
-            return Optional.of(node);
-        }
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<ObjectNode> prices(String origin, String destination) {
-        List<Ticket> tickets = repository.findByOriginAndDestination(origin, destination);
-        ObjectNode node = mapper.createObjectNode();
-        tickets.forEach(ticket -> node.put(ticket.getDepartDate().toString(), ticket.getValue()));
-        if (!node.isEmpty(null)) {
-            return Optional.of(node);
-        }
-        return Optional.empty();
     }
 
     @Override
@@ -76,7 +53,6 @@ public class TicketServiceImpl implements TicketService {
 
         return foundTickets
                 .stream()
-                .filter(ticket -> ticket.getValue() != null)
                 .min(comparing(Ticket::getValue));
     }
 
@@ -99,8 +75,23 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    public List<Ticket> saveAll(List<TicketDto> tickets) {
+        List<Ticket> ticketPatterns = tickets
+                .stream()
+                .map(dtoMapper::fromDto)
+                .collect(Collectors.toList());
+
+        return repository.saveAll(ticketPatterns);
+    }
+
+    @Override
     public List<Ticket> findAll() {
-        return Lists.newArrayList(repository.findAll());
+        return repository.findAll();
+    }
+
+    @Override
+    public List<Ticket> findAll(Sort sort) {
+        return repository.findAll(sort);
     }
 
     @Override
@@ -114,36 +105,43 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public void saveAll(List<Ticket> tickets) {
-        repository.saveAll(tickets);
+    public List<Ticket> findAll(int limit, Sort sort) {
+        List<Ticket> allTickets = this.findAll(sort);
+
+        return allTickets
+                .stream()
+                .limit(limit)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public long saveAllIfNotExist(List<Ticket> tickets) {
+    public List<Ticket> saveAllIfNotExist(List<TicketDto> tickets) {
         return saveAllIfNotExist(tickets, false);
     }
 
     @Override
-    public long saveAllIfNotExist(List<Ticket> tickets, boolean isParallel) {
-        Stream<Ticket> ticketStream;
+    public List<Ticket> saveAllIfNotExist(List<TicketDto> tickets, boolean isParallel) {
+        Stream<TicketDto> ticketStream;
         if (isParallel) {
             ticketStream = tickets.parallelStream();
         } else {
             ticketStream = tickets.stream();
         }
         AtomicLong counter = new AtomicLong();
+        List<Ticket> savedTickets = new CopyOnWriteArrayList<>();
         ticketStream
-                .forEach(foundTicket -> {
-                    log.debug("Processing {}", foundTicket);
-                    boolean alreadyStored = this.exist(foundTicket);
-                    log.debug("Is ticket already stored {}", alreadyStored);
+                .forEach(ticketDto -> {
+                    log.debug("Processing {}", ticketDto);
+                    boolean alreadyStored = this.exist(ticketDto);
+                    log.debug("Is ticketDto already stored {}", alreadyStored);
                     if (!alreadyStored) {
-                        log.debug("Not stored. Saving {}", foundTicket);
-                        this.save(foundTicket);
+                        log.debug("Not stored. Saving {}", ticketDto);
+                        Ticket saved = this.save(ticketDto);
+                        savedTickets.add(saved);
                         counter.addAndGet(1);
                     }
                 });
-        return counter.get();
+        return savedTickets;
     }
 
     @Override
@@ -153,8 +151,8 @@ public class TicketServiceImpl implements TicketService {
 
 
     @Override
-    public boolean exist(Ticket ticket) {
-        Example<Ticket> probe = Example.of(ticket, exampleMatcher);
+    public boolean exist(TicketDto ticketDto) {
+        Example<Ticket> probe = Example.of(dtoMapper.fromDto(ticketDto), exampleMatcher);
         return repository.exists(probe);
     }
 
@@ -166,12 +164,8 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public Ticket save(TicketDto ticketDto) {
         Ticket ticket = dtoMapper.fromDto(ticketDto);
-        return save(ticket);
+        return repository.save(ticket);
     }
 
-    @Override
-    public Ticket save(Ticket foundTicket) {
-        return repository.save(foundTicket);
-    }
 
 }

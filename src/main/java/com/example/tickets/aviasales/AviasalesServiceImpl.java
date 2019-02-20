@@ -1,10 +1,10 @@
 package com.example.tickets.aviasales;
 
 
-import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketDto;
 import com.example.tickets.ticket.TicketDtoMapper;
 import com.example.tickets.util.DefaultHttpClient;
+import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,13 +17,12 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.stream.Collectors;
 
 
 @Service
 public class AviasalesServiceImpl implements AviasalesService {
     private static final Logger log = LoggerFactory.getLogger(AviasalesServiceImpl.class);
-    private final static int WAIT_TIMEOUTS = 5;
+    private static final int WAIT_TIMEOUT_IN_SECONDS = 5;
     private final DefaultHttpClient<AviasalesResponse> defaultHttpClient;
     private final TicketDtoMapper mapper;
 
@@ -33,7 +32,7 @@ public class AviasalesServiceImpl implements AviasalesService {
     }
 
     @Override
-    public List<Ticket> getOneWayTicket(String originIAT, String destinationIAT, LocalDate date, int range) {
+    public List<TicketDto> getOneWayTicket(@NonNull String originIAT, @NonNull String destinationIAT, @NonNull LocalDate date, @NonNull Integer range) {
         UriComponentsBuilder queryBuilder = UriComponentsBuilder.newInstance()
                 .scheme("https")
                 .host("lyssa.aviasales.ru")
@@ -51,7 +50,7 @@ public class AviasalesServiceImpl implements AviasalesService {
         AviasalesResponse response;
         try {
             CompletableFuture<AviasalesResponse> responseFuture = defaultHttpClient.getWithoutHeaders(request, AviasalesResponse.class);
-            response = responseFuture.get(WAIT_TIMEOUTS, TimeUnit.SECONDS);
+            response = responseFuture.get(WAIT_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             log.debug(e.toString());
             return Collections.emptyList();
@@ -59,17 +58,12 @@ public class AviasalesServiceImpl implements AviasalesService {
         log.trace("Aviasales one-way ticket response: {}", response);
         List<TicketDto> tickerPrices = response.getPrices();
         log.trace("Aviasales one-way ticket response size: {}", tickerPrices.size());
-        tickerPrices.forEach(rawTicket -> {
-            rawTicket.setOrigin(originIAT);
-            rawTicket.setDestination(destinationIAT);
-            rawTicket.setDepartDate(date);
+        tickerPrices.forEach(ticketDto -> {
+            ticketDto.setOrigin(originIAT);
+            ticketDto.setDestination(destinationIAT);
+            ticketDto.setDepartDate(date);
 
         });
-        return tickerPrices
-                .stream()
-                .map(mapper::fromDto)
-                .collect(Collectors.toList());
-
-
+        return tickerPrices;
     }
 }

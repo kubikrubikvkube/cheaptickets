@@ -1,7 +1,7 @@
 package com.example.tickets.stages.stage;
 
 import com.example.tickets.subscription.SubscriptionService;
-import com.example.tickets.ticket.Ticket;
+import com.example.tickets.ticket.TicketDto;
 import com.example.tickets.ticket.TicketService;
 import com.example.tickets.travelpayouts.TravelPayoutsService;
 import com.example.tickets.travelpayouts.request.LatestRequest;
@@ -52,8 +52,8 @@ class LatestTicketsTravelPayoutsPopulationStageTest {
     @Test
     @Disabled
     void if_ticket_not_exist_ticket_should_be_saved() {
-        Ticket ticket = new Ticket();
-        List<Ticket> ticketList = List.of(ticket);
+        TicketDto ticket = new TicketDto();
+        List<TicketDto> ticketList = List.of(ticket);
         when(travelPayoutsService.getLatest(fromAToBLatestRequest)).thenReturn(ticketList);
 
         Multimap<String, String> subscriptionDestinations = ArrayListMultimap.create(1, 1);
@@ -71,8 +71,8 @@ class LatestTicketsTravelPayoutsPopulationStageTest {
     @Test
     @Disabled
     void if_ticket_not_exist_ticket_should_not_be_saved() {
-        Ticket ticket = new Ticket();
-        List<Ticket> ticketList = List.of(ticket);
+        TicketDto ticket = new TicketDto();
+        List<TicketDto> ticketList = List.of(ticket);
         when(travelPayoutsService.getLatest(fromAToBLatestRequest)).thenReturn(ticketList);
 
 
@@ -91,7 +91,7 @@ class LatestTicketsTravelPayoutsPopulationStageTest {
     @Test
     @Disabled
     void exist_method_should_compare_saved_tickets_as_expected() {
-        Ticket complexTicket = new Ticket();
+        TicketDto complexTicket = new TicketDto();
         complexTicket.setOrigin("A");
         complexTicket.setDestination("B");
         complexTicket.setValue(1234567);
@@ -100,7 +100,7 @@ class LatestTicketsTravelPayoutsPopulationStageTest {
         complexTicket.setDepartTime(LocalTime.now());
         ticketService.save(complexTicket);
 
-        List<Ticket> ticketList = List.of(complexTicket);
+        List<TicketDto> ticketList = List.of(complexTicket);
         when(travelPayoutsService.getLatest(fromAToBLatestRequest)).thenReturn(ticketList);
         Multimap<String, String> subscriptionDestinations = ArrayListMultimap.create(1, 1);
         subscriptionDestinations.put("A", "B");

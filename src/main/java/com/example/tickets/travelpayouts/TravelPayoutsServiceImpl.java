@@ -1,6 +1,5 @@
 package com.example.tickets.travelpayouts;
 
-import com.example.tickets.ticket.Ticket;
 import com.example.tickets.ticket.TicketDto;
 import com.example.tickets.ticket.TicketDtoMapper;
 import com.example.tickets.travelpayouts.request.*;
@@ -23,7 +22,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -39,7 +37,7 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
     }
 
     @Override
-    public List<Ticket> getLatest(LatestRequest request) {
+    public List<TicketDto> getLatest(LatestRequest request) {
         String stringRequest = request.toString();
         log.trace("Sent request: {}", stringRequest);
         LatestResponse response;
@@ -51,32 +49,28 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
         }
         log.trace("Got response: {}", response);
 
-        List<TicketDto> ticketDtos = response.getData();
-        return ticketDtos
-                .stream()
-                .map(mapper::fromDto)
-                .collect(Collectors.toList());
+        return response.getData();
 
 
     }
 
     @Override
-    public List<Ticket> getMonthMatrix(MonthMatrixRequest request) {
+    public List<TicketDto> getMonthMatrix(MonthMatrixRequest request) {
         return Collections.emptyList();
     }
 
     @Override
-    public List<Ticket> getNearestPlacesMatrix(NearestPlacesMatrixRequest request) {
+    public List<TicketDto> getNearestPlacesMatrix(NearestPlacesMatrixRequest request) {
         return Collections.emptyList();
     }
 
     @Override
-    public List<Ticket> getCheap(CheapRequest request) {
+    public List<TicketDto> getCheap(CheapRequest request) {
         return Collections.emptyList();
     }
 
     @Override
-    public List<Ticket> getDirect(DirectRequest request) {
+    public List<TicketDto> getDirect(DirectRequest request) {
 
         String stringRequest = request.toString();
         log.trace("Sent request: {}", stringRequest);
@@ -90,7 +84,7 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
         }
 
         List<JsonNode> values = response.findValues(request.getDestination());
-        List<Ticket> tickets = new ArrayList<>();
+        List<TicketDto> tickets = new ArrayList<>();
         values.forEach(rootNode -> {
             for (JsonNode rawTicket : rootNode) {
                 TicketDto ticketDto = new TicketDto();
@@ -113,8 +107,7 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
                 ticketDto.setDepartDate(departureDateTime);
                 ticketDto.setReturnDate(returnDateTime);
                 ticketDto.setExpiresAt(expiresDateTime);
-                Ticket ticket = mapper.fromDto(ticketDto);
-                tickets.add(ticket);
+                tickets.add(ticketDto);
             }
 
         });
@@ -122,12 +115,12 @@ public class TravelPayoutsServiceImpl implements TravelPayoutsService {
     }
 
     @Override
-    public List<Ticket> getCalendar(CalendarRequest request) {
+    public List<TicketDto> getCalendar(CalendarRequest request) {
         return Collections.emptyList();
     }
 
     @Override
-    public List<Ticket> getWeekMatrix(WeekMatrixRequest request) {
+    public List<TicketDto> getWeekMatrix(WeekMatrixRequest request) {
         return Collections.emptyList();
     }
 }

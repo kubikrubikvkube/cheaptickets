@@ -2,7 +2,7 @@ package com.example.tickets.stages.stage;
 
 import com.example.tickets.aviasales.AviasalesService;
 import com.example.tickets.subscription.SubscriptionService;
-import com.example.tickets.ticket.Ticket;
+import com.example.tickets.ticket.TicketDto;
 import com.example.tickets.ticket.TicketService;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
@@ -39,7 +39,7 @@ class OnewayTicketsForAYearAviasalesStageTest {
         Multimap<String, String> multimap = ArrayListMultimap.create(1, 1);
         multimap.put("a", "b");
         when(subscriptionService.findDistinctOriginAndDestination()).thenReturn(multimap);
-        Ticket ticket = new Ticket();
+        TicketDto ticket = new TicketDto();
         when(aviasalesService.getOneWayTicket("a", "b", LocalDate.now(), 1)).thenReturn(List.of(ticket));
 
         OnewayTicketsForAYearAviasalesStage stage = new OnewayTicketsForAYearAviasalesStage(ticketService, subscriptionService, aviasalesService);
@@ -52,7 +52,7 @@ class OnewayTicketsForAYearAviasalesStageTest {
         Multimap<String, String> multimap = ArrayListMultimap.create(1, 1);
         multimap.put("a", "b");
         when(subscriptionService.findDistinctOriginAndDestination()).thenReturn(multimap);
-        Ticket ticket = new Ticket();
+        TicketDto ticket = new TicketDto();
         ticket.setOrigin("a");
         ticket.setDestination("b");
         ticket.setValue(1);

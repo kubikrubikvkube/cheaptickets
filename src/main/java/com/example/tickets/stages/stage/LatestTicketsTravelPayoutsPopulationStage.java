@@ -2,6 +2,7 @@ package com.example.tickets.stages.stage;
 
 import com.example.tickets.subscription.SubscriptionService;
 import com.example.tickets.ticket.Ticket;
+import com.example.tickets.ticket.TicketDto;
 import com.example.tickets.ticket.TicketService;
 import com.example.tickets.travelpayouts.TravelPayoutsService;
 import com.example.tickets.travelpayouts.request.LatestRequest;
@@ -65,7 +66,7 @@ public class LatestTicketsTravelPayoutsPopulationStage implements Stage {
             }
         }
         log.info("Generated {} subscription requests", subscriptionRequests.size());
-        List<Ticket> foundTickets = subscriptionRequests
+        List<TicketDto> foundTickets = subscriptionRequests
                 .parallelStream()
                 .map(travelPayoutsService::getLatest)
                 .flatMap(Collection::stream)
@@ -73,9 +74,10 @@ public class LatestTicketsTravelPayoutsPopulationStage implements Stage {
         log.info("Subscription requests processed");
         log.info("Got {} tickets from TravelPayouts", foundTickets.size());
         log.info("Ticket saving started");
-        long savedTickets = ticketService.saveAllIfNotExist(foundTickets, true);
+        List<Ticket> savedTickets = ticketService.saveAllIfNotExist(foundTickets, true);
+
         log.info("LatestTicketsTravelPayoutsPopulationStage finished in {}", timer.stop());
-        return new StageResult("LatestTicketsTravelPayoutsPopulationStage", savedTickets, 0, 0);
+        return new StageResult("LatestTicketsTravelPayoutsPopulationStage", savedTickets.size(), 0, 0);
     }
 
 
