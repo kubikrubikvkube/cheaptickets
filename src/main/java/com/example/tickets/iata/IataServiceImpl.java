@@ -7,6 +7,7 @@ import com.example.tickets.util.ServiceException;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,7 @@ public class IataServiceImpl implements IataService {
     }
 
     @Override
+    @Cacheable("iataServiceImpl_resolve")
     public String resolve(String place) {
 
         StringBuilder sb = new StringBuilder();
@@ -60,6 +62,7 @@ public class IataServiceImpl implements IataService {
     }
 
     @Override
+    @Cacheable("iataServiceImpl_fromPlaceName")
     public Iata fromPlaceName(String place) {
         String normalizedPlace = place.toLowerCase();
         boolean exists = repository.existsByPlace(normalizedPlace);
@@ -76,6 +79,7 @@ public class IataServiceImpl implements IataService {
     }
 
     @Override
+    @Cacheable("iataServiceImpl_fromCode")
     public Iata fromCode(String code) {
         String normalizedCode = code.toUpperCase();
         boolean exists = repository.existsByCodeCanonical(code);
