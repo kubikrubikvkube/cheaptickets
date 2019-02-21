@@ -42,7 +42,7 @@ class IataServiceImplTest {
         when(mock.getJsonResponseWithoutHeaders(request)).thenReturn(CompletableFuture.completedFuture(jsonNode));
 
         var expectedResponse = "MOW";
-        String result = service.resolve("масква");
-        assertEquals(expectedResponse, result);
+        Iata result = service.resolve("масква");
+        assertEquals(expectedResponse, result.getCode());
     }
 }

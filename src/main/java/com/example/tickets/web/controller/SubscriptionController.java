@@ -36,8 +36,8 @@ public class SubscriptionController {
     public String subscriptionAdd(@ModelAttribute SubscriptionCommandObject subscriptionCommandObject) {
         SubscriptionDto dto = new SubscriptionDto();
 
-        Iata originIata = iataService.fromPlaceName(subscriptionCommandObject.getOriginName());
-        Iata destinationIata = iataService.fromPlaceName(subscriptionCommandObject.getDestinationName());
+        Iata originIata = iataService.resolve(subscriptionCommandObject.getOriginName());
+        Iata destinationIata = iataService.resolve(subscriptionCommandObject.getDestinationName());
 
         dto.setOrigin(originIata.getCode());
         dto.setDestination(destinationIata.getCode());

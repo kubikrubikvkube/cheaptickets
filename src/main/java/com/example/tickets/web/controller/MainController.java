@@ -62,12 +62,12 @@ public class MainController {
         dto.setOwner(owner);
 
         var placeName = requireNonNull(commandObject.getOriginName(), "Origin placeName shouldn't be null");
-        Iata originIata = iataService.fromPlaceName(placeName);
+        Iata originIata = iataService.resolve(placeName);
         dto.setOrigin(originIata.getCode());
         dto.setOriginName(originIata.getPlace());
 
         var destinationPlaceName = requireNonNull(commandObject.getDestinationName(), "Destination originName shouldn't be null");
-        Iata destinationIata = iataService.fromPlaceName(destinationPlaceName);
+        Iata destinationIata = iataService.resolve(destinationPlaceName);
         dto.setDestination(destinationIata.getCode());
         dto.setDestinationName(destinationIata.getPlace());
 

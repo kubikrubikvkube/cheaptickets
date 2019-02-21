@@ -21,4 +21,6 @@ public interface AviasalesService {
      * @throws ServiceException исключение во время выполнения
      */
     List<TicketDto> getOneWayTicket(String originIAT, String destinationIAT, LocalDate date, Integer range);
+
+    String resolveIataCode(String place);
 }
