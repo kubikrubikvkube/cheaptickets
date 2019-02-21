@@ -21,7 +21,6 @@ import static java.util.Objects.requireNonNull;
 public class RoutePlannerImpl implements RoutePlanner {
     private static final Logger log = LoggerFactory.getLogger(RoutePlannerImpl.class);
     private final CheapTicketService cheapTicketService;
-    private final Integer MAXIMUM_REASONABLE_TRIP_TIME = 30;
     private final int MAX_ROUTES_TO_RETURN = 500;
     private final AffilateLinkGenerator affilateLinkGenerator;
 
@@ -50,14 +49,12 @@ public class RoutePlannerImpl implements RoutePlanner {
                 .map(RouteFilteringCriteria::getPredicate)
                 .reduce(x -> true, Predicate::and);
 
-        List<RouteDto> bestRoutes = routeDtos
+        return routeDtos
                 .stream()
                 .filter(aggregatedRoutePredicate)
                 .sorted(Comparator.comparingInt(RouteDto::getSumValue))
                 .limit(MAX_ROUTES_TO_RETURN)
                 .collect(Collectors.toList());
-
-        return bestRoutes;
     }
 
     private List<RouteDto> planReturnTripWithTripDurationFromTo(String origin, String destination, int from, int to) {
@@ -74,10 +71,15 @@ public class RoutePlannerImpl implements RoutePlanner {
     }
 
     private List<RouteDto> internal_planReturnTripForSpecificNumberOfDays(String origin, String destination, Integer tripDurationInDays) {
-        List<CheapTicket> departTickets = cheapTicketService.findByOriginAndDestination(origin, destination);
+        List<Long> departTicketIds = cheapTicketService
+                .findByOriginAndDestination(origin, destination)
+                .stream()
+                .map(Ticket::getId)
+                .collect(Collectors.toList());
 
         List<RouteDto> availableRoutes = new ArrayList<>();
-        for (CheapTicket departTicket : departTickets) {
+        for (Long departTicketId : departTicketIds) {
+            CheapTicket departTicket = cheapTicketService.findById(departTicketId).orElseThrow();
             LocalDate departDate = departTicket.getDepartDate();
             LocalDate returnDate = departDate.plusDays(tripDurationInDays);
             List<CheapTicket> returnTickets = cheapTicketService.findByOriginAndDestinationAndDepartDate(origin, destination, returnDate);

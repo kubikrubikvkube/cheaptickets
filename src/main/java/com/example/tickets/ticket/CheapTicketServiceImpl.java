@@ -2,6 +2,7 @@ package com.example.tickets.ticket;
 
 import com.example.tickets.subscription.Subscription;
 import com.example.tickets.subscription.SubscriptionDto;
+import lombok.NonNull;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Sort;
@@ -11,6 +12,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -86,6 +88,11 @@ public class CheapTicketServiceImpl implements CheapTicketService {
     @Override
     public List<CheapTicket> findTicketsWithUnknownExpirationStatus() {
         return repository.findTicketsWithUnknownExpirationStatus();
+    }
+
+    @Override
+    public Optional<CheapTicket> findById(@NonNull Long id) {
+        return repository.findById(id);
     }
 
     @Override

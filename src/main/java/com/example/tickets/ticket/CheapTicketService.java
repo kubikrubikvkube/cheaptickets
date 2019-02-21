@@ -6,6 +6,7 @@ import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface CheapTicketService {
     void save(CheapTicket cheapTicket);
@@ -29,6 +30,8 @@ public interface CheapTicketService {
     List<CheapTicket> findExpiredTickets(LocalDate departDate, boolean markedAsExpired);
 
     List<CheapTicket> findTicketsWithUnknownExpirationStatus();
+
+    Optional<CheapTicket> findById(Long id);
 
     List<CheapTicket> findBySubscription(SubscriptionDto subscriptionDto);
 
