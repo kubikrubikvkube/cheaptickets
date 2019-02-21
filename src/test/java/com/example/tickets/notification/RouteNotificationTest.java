@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -60,7 +59,6 @@ class RouteNotificationTest {
         owner.setId(1L);
         owner.setEmail("localhost@mail.ru");
         owner.setSubscriptions(Collections.emptyList());
-        owner.setCreationTimestamp(LocalDateTime.now());
         notification.setRoute(route);
         ObjectMapper mapper = new ObjectMapper();
         String notificationJSON = mapper.writeValueAsString(notification);

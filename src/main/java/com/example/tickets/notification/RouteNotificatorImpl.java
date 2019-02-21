@@ -11,7 +11,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class RouteNotificatorImpl implements RouteNotificator {
@@ -33,17 +32,13 @@ public class RouteNotificatorImpl implements RouteNotificator {
     }
 
     @Override
-    public Optional<RouteNotification> notify(Subscription subscription, Route route) {
+    public RouteNotification notify(Subscription subscription, Route route) {
         RouteNotificationDto routeNotificationDto = new RouteNotificationDto();
         routeNotificationDto.setRoute(route);
         RouteNotification saved = routeNotificationService.save(routeNotificationDto);
         emailService.sendNotifications(subscription.getOwner(), List.of(saved));
         log.info("Owner {} notified about route {}", subscription, route);
-        return Optional.ofNullable(saved);
+        return saved;
     }
 
-    @Override
-    public List<RouteNotification> notify(Subscription subscription, List<Route> routes) {
-        return null;
-    }
 }

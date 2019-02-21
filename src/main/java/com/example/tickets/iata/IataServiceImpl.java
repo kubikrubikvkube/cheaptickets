@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
+//TODO нужно убрать флажок isCanonical и отрефакторить так, чтобы они лежали в разных(?) таблицах
 @Service
 public class IataServiceImpl implements IataService {
     private static final Logger log = LoggerFactory.getLogger(IataServiceImpl.class);

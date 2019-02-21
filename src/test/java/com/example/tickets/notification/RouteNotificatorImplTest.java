@@ -25,9 +25,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -108,8 +107,8 @@ class RouteNotificatorImplTest {
 
     @Test
     void notifyOwnerAndRoute() {
-        Optional<RouteNotification> notifyOptional = routeNotificator.notify(subscription, route);
-        assertTrue(notifyOptional.isPresent());
+        RouteNotification notify = routeNotificator.notify(subscription, route);
+        assertNotNull(notify);
     }
 
 
