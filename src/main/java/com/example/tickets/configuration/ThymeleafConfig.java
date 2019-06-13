@@ -24,7 +24,7 @@ public class ThymeleafConfig {
 
 
     private ITemplateResolver htmlTemplateResolver() {
-        final ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
         templateResolver.setOrder(1);
         templateResolver.setResolvablePatterns(Collections.singleton("html/*"));
         templateResolver.setSuffix(".html");

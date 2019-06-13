@@ -74,7 +74,7 @@ public class SubscriptionTypeResolverImpl implements SubscriptionTypeResolver {
 
         if (subscriptionType == null) {
             subscriptionType = INVALID;
-            log.error("SubscriptionType resolve error {} for {}", subscriptionType, dto);
+            log.error("SubscriptionType resolveFromRemoteService error {} for {}", subscriptionType, dto);
             return subscriptionType;
         }
 

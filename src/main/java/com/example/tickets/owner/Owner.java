@@ -6,10 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,9 +19,6 @@ public class Owner {
     @Id
     @GeneratedValue
     private Long id;
-
-    @CreationTimestamp
-    private LocalDateTime creationTimestamp;
 
     private String email;
 

@@ -4,6 +4,8 @@ package com.example.tickets.aviasales;
 import com.example.tickets.ticket.TicketDto;
 import com.example.tickets.ticket.TicketDtoMapper;
 import com.example.tickets.util.DefaultHttpClient;
+import com.example.tickets.util.ServiceException;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +59,7 @@ public class AviasalesServiceImpl implements AviasalesService {
         }
         log.trace("Aviasales one-way ticket response: {}", response);
         List<TicketDto> tickerPrices = response.getPrices();
+
         log.trace("Aviasales one-way ticket response size: {}", tickerPrices.size());
         tickerPrices.forEach(ticketDto -> {
             ticketDto.setOrigin(originIAT);
@@ -65,5 +68,30 @@ public class AviasalesServiceImpl implements AviasalesService {
 
         });
         return tickerPrices;
+    }
+
+    @Override
+    public String resolveIataCode(String place) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("http://places.aviasales.ru/v2/places.json?")
+                .append("locale=ru&")
+                .append("max=1&")
+                .append("term=").append(place).append("&")
+                .append("types[]=city&")
+                .append("types[]=airport&")
+                .append("types[]=country");
+        var request = sb.toString();
+
+        JsonNode response;
+        try {
+            CompletableFuture responseFuture = defaultHttpClient.getJsonResponseWithoutHeaders(request);
+            response = (JsonNode) responseFuture.get(WAIT_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
+
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            throw new ServiceException(e);
+        }
+        JsonNode cityNode = response.get(0);
+        JsonNode cityCode = cityNode.get("code");
+        return cityCode.textValue();
     }
 }

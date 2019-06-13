@@ -1,37 +1,41 @@
 package com.example.tickets.iata;
 
+import com.example.tickets.aviasales.AviasalesService;
 import com.example.tickets.resources.JsonResource;
 import com.example.tickets.resources.ResourceResolver;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
+//TODO нужно убрать флажок isCanonical и отрефакторить так, чтобы они лежали в разных(?) таблицах
 @Service
 public class IataServiceImpl implements IataService {
     private static final Logger log = LoggerFactory.getLogger(IataServiceImpl.class);
     private final IataRepository repository;
     private final ExampleMatcher exampleMatcher;
-    private final IataResolver resolver;
     private final IataDtoMapper mapper;
+    private final AviasalesService aviasalesService;
     private final ResourceResolver resourceResolver;
 
-    public IataServiceImpl(IataRepository repository, IataResolver resolver, IataDtoMapper mapper, ResourceResolver resourceResolver) {
+    public IataServiceImpl(IataRepository repository, IataDtoMapper mapper, AviasalesService aviasalesService, ResourceResolver resourceResolver) {
         this.repository = repository;
-        this.resolver = resolver;
         this.mapper = mapper;
+        this.aviasalesService = aviasalesService;
         this.resourceResolver = resourceResolver;
         this.exampleMatcher = ExampleMatcher.matchingAll().withIgnorePaths("id", "creationTimestamp").withIncludeNullValues();
     }
 
 
     @Override
-    public Iata fromPlaceName(String place) {
+    @Cacheable("iata")
+    public Iata resolve(String place) {
         String normalizedPlace = place.toLowerCase();
         boolean exists = repository.existsByPlace(normalizedPlace);
         if (!exists) {
-            String code = resolver.resolve(normalizedPlace);
+            String code = aviasalesService.resolveIataCode(normalizedPlace);
             IataDto dto = new IataDto();
             dto.setCode(code);
             dto.setPlace(normalizedPlace);
@@ -43,6 +47,7 @@ public class IataServiceImpl implements IataService {
     }
 
     @Override
+    @Cacheable("iata")
     public Iata fromCode(String code) {
         String normalizedCode = code.toUpperCase();
         boolean exists = repository.existsByCodeCanonical(code);
