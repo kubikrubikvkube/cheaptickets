@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.util.List;
 
+
 @Data
 class AviasalesResponse {
     List<TicketDto> prices;
