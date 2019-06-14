@@ -1,5 +1,8 @@
 package com.example.tickets.resources;
 
+/**
+ * Хранит список констант сервиса Travelpayouts, представленных в JSON формате
+ */
 public enum JsonResource {
     AIRLINES("travelpayouts/airlines.json"),
     ALLIANCES("travelpayouts/alliances.json"),
