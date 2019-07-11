@@ -12,11 +12,11 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public class ResourceResolverImpl implements ResourceResolver {
-    private static final Logger log = LoggerFactory.getLogger(ResourceResolverImpl.class);
+public class JsonResourceResolverImpl implements JsonResourceResolver {
+    private static final Logger log = LoggerFactory.getLogger(JsonResourceResolverImpl.class);
     private final ObjectMapper objectMapper;
 
-    public ResourceResolverImpl(ObjectMapper objectMapper) {
+    public JsonResourceResolverImpl(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 

@@ -2,7 +2,7 @@ package com.example.tickets.iata;
 
 import com.example.tickets.aviasales.AviasalesService;
 import com.example.tickets.resources.JsonResource;
-import com.example.tickets.resources.ResourceResolver;
+import com.example.tickets.resources.JsonResourceResolver;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +18,9 @@ public class IataServiceImpl implements IataService {
     private final ExampleMatcher exampleMatcher;
     private final IataDtoMapper mapper;
     private final AviasalesService aviasalesService;
-    private final ResourceResolver resourceResolver;
+    private final JsonResourceResolver resourceResolver;
 
-    public IataServiceImpl(IataRepository repository, IataDtoMapper mapper, AviasalesService aviasalesService, ResourceResolver resourceResolver) {
+    public IataServiceImpl(IataRepository repository, IataDtoMapper mapper, AviasalesService aviasalesService, JsonResourceResolver resourceResolver) {
         this.repository = repository;
         this.mapper = mapper;
         this.aviasalesService = aviasalesService;
